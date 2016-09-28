@@ -1,0 +1,43 @@
+{% extends 'commons/_proto.html' %}
+{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
+
+{% block body %}
+    <div id="navbar">
+    	{{ macro_body_navbar() }}
+    </div>
+    <div id="all_backgroud" style="height:auto; background:#FFF">
+        <div style="padding-top:100px; text-align:center; height:100px; background:white ">
+            <input type="text" id="search_input" placeholder=""  style="width:300px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+            <button id="community_search" onclick=community_search()>进入社区</button>
+        </div>
+        <div id="community_recommend" style="height:1100px; background:#FFF">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+         function post(URL, PARAMS) {        
+             var temp = document.createElement("form");        
+             temp.action = URL;        
+             temp.method = "post";        
+             temp.style.display = "none";        
+             for (var x in PARAMS) {        
+                 var opt = document.createElement("textarea");        
+                 opt.name = x;        
+                 opt.value = PARAMS[x];        
+                 temp.appendChild(opt);        
+             }     
+             document.body.appendChild(temp);        
+             temp.submit();        
+             return temp;        
+         }     
+         function community_search() {
+             post("/community_search",{"type":"query","name":document.getElementById("search_input").value});
+         }
+        // function pre_page(page_no) {
+        //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
+        // }
+        // function next_page(page_no) {
+        //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
+        // }
+    </script>
+{% endblock %}

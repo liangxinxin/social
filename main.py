@@ -4,9 +4,10 @@ from flask import redirect, url_for
 import os
 import os.path
 
-from modules import mod_search
+from modules import mod_community
 from modules import mod_login
 from modules import mod_logout
+from modules import mod_post
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -40,11 +41,52 @@ def page_not_found(e):
 '''  BUSSINESS FUNCTIONS BEGIN  '''
 
 
-@app.route('/search', methods=['GET', 'POST'])
+
+@app.route('/community_index', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
-def search():
-  model,query,recommend_keyword = mod_search.service(request)
-  return render_template('search_result.html', model=model,query=query,recommend_keyword=recommend_keyword)
+def community_index():
+  return render_template('community_index.html')
+
+@app.route('/community_search', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def community_search():
+  model,search_name = mod_community.service(request)
+  if model != None:
+    print 'data list len:',len(model.items)
+    return render_template('community_search_result.html',paginate=model,object_list=model.items,num=len(model.items),name=search_name)
+  else:
+    return render_template('community_search_result.html',paginate=model,object_list=None,num=0,name=search_name)
+
+@app.route('/community_new', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def community_new():
+  return render_template('community_new.html', name=request.args.get('name'))
+
+@app.route('/community_create', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def community_create():
+  model,community_id = mod_community.service(request)
+  print model,community_id
+  if model != None and len(model.items) > 0:
+    return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+  else:
+    return render_template('community.html',community_id=community_id)
+
+@app.route('/community', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def community():
+  model,community_id = mod_post.service(request)
+  print community_id
+  if model != None:
+    return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+  else:
+    return render_template('community.html', community_id=community_id)
+@app.route('/post_publish', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def post_publish():
+  model,community_id = mod_post.service(request)
+  print model
+  return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
