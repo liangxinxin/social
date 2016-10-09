@@ -16,7 +16,7 @@
                 {% if object_list %}
                     {%for post in object_list%}
                         <div>
-                           <font size=4 color=blue> <a style="color:inherit;" href="http://127.0.0.1:5100/community">{{post.title|safe}}</a> </font>
+                           <font size=4 color=blue> <a style="color:inherit;" href="http://127.0.0.1:5100/post?post_id={{post.id}}">{{post.title|safe}}</a> </font>
                         </div>
                         <div style="height:40px;width:600px;overflow:hidden;text-overflow:ellipsis">
                             <a style="color:inherit" href="http://www.baidu.com"><p>{{post.content|safe}}</p></a>
@@ -41,26 +41,6 @@
         </div>
     </div>
 
-    {%if recommend_content %}
-         <p>推荐阅读</p>
-         <div id="search_result" style="width:50%; margin-left: auto; margin-right: auto;text-align:left;">
-             {% for row in recommend_content%}
-                  <div>
-                     <font size=3 color=blue> <a style="color:inherit;text-decoration:underline" href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a> </font>
-                  </div>
-                  <div style="height:40px;overflow:hidden;text-overflow:ellipsis">
-                      <a style="color:inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
-                  </div>
-                  <div>
-                  <p>             </p>
-                  </div>
-                  <div>
-                  <p>             </p>
-                  </div>
-             {%endfor%}
-         </div>
-    {%endif %}
-
     <script type="text/javascript">
          //var obj=document.getElementById("button_publish_post");
          //obj.onclick=function() {
@@ -72,7 +52,6 @@
            //get content
            var content=document.getElementById("input_publish_post_content").value;
            var id=document.getElementById("community_id").value;
-           alert(id);
            //post request for save post
            post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":1,"community_id":id});
          }

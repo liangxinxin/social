@@ -7,15 +7,15 @@
     </div>
     <div id="all_backgroud" style="height:auto; background:#FFF">
         <div style="padding-top:100px; text-align:center; height:100px; background:white ">
-            <input type="text" id="search_input" placeholder=""  style="width:300px" onkeypress="if(event.keyCode==13) {community_search()}"> 
-            <button id="community_search" onclick=community_search()>进入社区</button>
+            <input type="text" id="search_input" placeholder=""  value={{name}} style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+            <button id="community_search" onclick=community_search() >进入社区</button>
         </div>
-        <div id="community_wrap" style="width:600px;height:1100px; background:#FFF">
-            <div id="community_list" style="text-align:left; height:auto; background:#FFF">
+        <div id="community_wrap" style="height:1100px; background:#FFF; text-align:center">
+            <div id="community_list" style="width:50%;height:auto;margin:0 auto; text-align:left; background:#FFF">
                 {% if object_list %}
                     {%for community in object_list%}
                         <div>
-                           <font size=4 color=blue> <a style="color:inherit;" href="http://127.0.0.1:5100/community?id={{community.id}}">{{community.name|safe}}</a> </font>
+                           <font size=4 color=blue> <a style="color:inherit;" href="http://127.0.0.1:5100/community?community_id={{community.id}}">{{community.name|safe}}</a> </font>
                         </div>
                         <div>
                         <p>             </p>
@@ -24,9 +24,27 @@
                 {% endif %}
                 {% if num == 0 %}
                     <div>
-                    <p>创建 <a href='http://127.0.0.1:5100/community_new?name={{name}}岛'> {{name}}岛</a> </p>
+                    <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p> 
                     </div>
                 {% endif %}
+                <div id="div_create_social_info" style="display:none">
+                    <p id="community_name" style="display:none">{{name}}</p>
+                    <div id="create_social_name" >
+                        <p >名字： {{name}}</p>
+                    </div>
+                    
+                    <div id="create_social_describe" >
+                        <p >简介： </p> <input type="text" id="social_describe" placeholder="输入200字以内的简介" style="width:500px;height:30px;"/>
+                    </div>
+
+                    <div id="create_social_img" >
+                        <p >标志图： </p>
+                    </div>
+
+                    <div id="community_create" >
+                        <button onclick="create_community()">创建</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -50,6 +68,23 @@
          function community_search() {
              post("/community_search",{"type":"query","name":document.getElementById("search_input").value});
          }
+         function create_community() {
+             alert('now begin create new communiyt!');
+             var name= {{name}};
+             post("/community_create",{"type":"publish","name":name,"create_user_id":1,"describe":document.getElementById("social_describe").value});
+         }
+         function click_new_social_name(){
+             if (document.getElementById("div_create_social_info").style.display == "none") {
+                 document.getElementById("div_create_social_info").style.display = "block";
+             } else {
+                 document.getElementById("div_create_social_info").style.display = "none";
+             }
+        }
+        window.onload=click_new_social_name;
+        function create_community() {
+            alert(document.getElementById("community_name").innerHTML);
+            post("/community_create",{"type":"publish","name":document.getElementById("community_name").innerHTML,"create_user_id":1});
+        }
         // function pre_page(page_no) {
         //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
         // }

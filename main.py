@@ -8,6 +8,7 @@ from modules import mod_community
 from modules import mod_login
 from modules import mod_logout
 from modules import mod_post
+from modules import mod_reply
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -81,12 +82,29 @@ def community():
     return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
   else:
     return render_template('community.html', community_id=community_id)
+
 @app.route('/post_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post_publish():
   model,community_id = mod_post.service(request)
   print model
   return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+
+@app.route('/post', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def post():
+  post_data,reply_data = mod_post.post_info(request)
+#  print model
+  if reply_data != None:
+    return render_template('post.html',post_data=post_data)
+  else:
+    return render_template('post.html',post_data=post_data,reply_list=reply_data.items)
+
+@app.route('/reply_publish', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def reply_publish():
+  post_data,reply_data = mod_reply.service(request)
+  return render_template('post.html',post_data=post_data,reply_list=reply_data.items)
 
 @app.route('/login',methods=['GET','POST'])
 def login():

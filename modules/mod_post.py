@@ -7,6 +7,7 @@ import urllib2
 import httplib 
 import time 
 from db_interface import db_model_post
+from db_interface import db_model_reply
 
 default_page_no = 1
 default_num_perpage = 20
@@ -20,7 +21,12 @@ def service(request):
     else:
       print "error request:",request
   elif request.method == 'GET':
-    return query_post_in_community(request)
+    communit_id=request.args.get("community_id",0)
+    post_id=request.args.get("post_id",0)
+    if communit_id != 0:
+      return query_post_in_community(request)
+    if post_id != 0:
+      return post_info(request)
 
 def publish_post(request):
   print "now publish post request"
@@ -44,7 +50,7 @@ def publish_post(request):
   return paginate,community_id 
 
 def query_post_in_community(request):
-  community_id = request.args.get("id",default_community_id)
+  community_id = request.args.get("community_id",default_community_id)
   print " now query post in communit id:",community_id
   page_no = request.args.get("page_no",default_page_no)
   num_perpage = request.args.get("num_perpage",default_num_perpage)
@@ -54,3 +60,16 @@ def query_post_in_community(request):
 
   #return select value
   return paginate,community_id
+
+def post_info(request):
+  post_id = request.args.get("post_id",default_community_id)
+  print " now query reply in post id:",post_id
+  page_no = int(request.args.get("page_no",default_page_no))
+  num_perpage = int(request.args.get("num_perpage",default_num_perpage))
+  #select db
+  post_data=db_model_post.select_by_id(post_id)
+  reply_data=db_model_reply.select_paging_by_post_id(page_no,num_perpage,post_id)
+  print "now data:",post_data
+
+  #return select value
+  return post_data,reply_data

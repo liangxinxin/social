@@ -51,6 +51,17 @@ def update(id,title,content,create_user_id,community_id,floor_num,create_time,la
     row.last_update_time = last_update_time
     db.session.commit()
 
+def update(post):
+    row = Post.query.get(post.id)
+    row.title = post.title
+    row.content = post.content
+    row.create_user_id = post.create_user_id 
+    row.community_id = post.community_id
+    row.floor_num = post.floor_num
+    row.create_time = post.create_time
+    row.last_update_time = post.last_update_time
+    db.session.commit()
+
 def delete(id):
     data=Post.query.get(id)
     db.session.delete(data) 

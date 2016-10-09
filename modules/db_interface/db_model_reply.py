@@ -11,10 +11,9 @@ class Reply(db.Model):
     create_user_id = db.Column(db.Integer, unique=False)
     post_id = db.Column(db.Integer, unique=False)
     floor = db.Column(db.Integer, unique=False)
-    create_time = db.Column(db.Datetime, unique=False)
+    create_time = db.Column(db.DateTime, unique=False)
   
-    def __init__(self, id,content,create_user_id,post_id,floor,create_time):
-        self.id = id 
+    def __init__(self,content,create_user_id,post_id,floor,create_time):
         self.content= content
         self.create_user_id = create_user_id
         self.post_id = post_id 
@@ -52,6 +51,12 @@ def delete(id):
     db.session.commit() 
     return data
 
+def select_paging_by_post_id(page_no,num_per_page,post_id):
+    print 'no:',page_no,'num:',num_per_page,'post id:',post_id
+    if page_no < 1:
+        page_no = 1
+    paginate = Reply.query.filter(Reply.post_id==post_id).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
+    return paginate
 
 # return paginate
 def select_all_paging(page_no,num_per_page):
