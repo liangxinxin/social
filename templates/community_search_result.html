@@ -1,6 +1,10 @@
 {% extends 'commons/_proto.html' %}
 {% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="stylesheets/community/community_10.css">
+{% endblock %}
+
 {% block body %}
     <div id="navbar">
     	{{ macro_body_navbar() }}
@@ -14,11 +18,23 @@
             <div id="community_list" style="width:50%;height:auto;margin:0 auto; text-align:left; background:#FFF">
                 {% if object_list %}
                     {%for community in object_list%}
-                        <div>
-                           <font size=4 color=blue> <a style="color:inherit;" href="http://127.0.0.1:5100/community?community_id={{community.id}}">{{community.name|safe}}</a> </font>
-                        </div>
-                        <div>
-                        <p>             </p>
+                        <div class="result">
+                           <div class="pic">
+                              <a class="nbg" href="http://127.0.0.1:5100/community?community_id={{community.id}}"  title="{{community.name|safe}}">
+                                 <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
+                              </a>
+                           </div>
+                           <div class="community_content">
+                               <div class="title">
+                                     <a class href="http://127.0.0.1:5100/community?community_id={{community.id}}" >{{community.name|safe}}</a>
+                               </div>
+                               <div class="info"> 成员：{{community.user_num|safe}}</div>
+                               <div class="describe">
+                                  <p class>
+                                      {{community.describe|safe}}
+                                  </p>
+                               </div>
+                           </div>
                         </div>
                     {%endfor%}
                 {% endif %}
