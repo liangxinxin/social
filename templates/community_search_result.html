@@ -2,7 +2,7 @@
 {% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="stylesheets/community/community_10.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/community/community.css">
 {% endblock %}
 
 {% block body %}
@@ -20,13 +20,13 @@
                     {%for community in object_list%}
                         <div class="result">
                            <div class="pic">
-                              <a class="nbg" href="http://127.0.0.1:5100/community?community_id={{community.id}}"  title="{{community.name|safe}}">
+                              <a class="nbg" href="http://127.0.0.1:6100/community?community_id={{community.id}}"  title="{{community.name|safe}}">
                                  <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
                               </a>
                            </div>
                            <div class="community_content">
                                <div class="title">
-                                     <a class href="http://127.0.0.1:5100/community?community_id={{community.id}}" >{{community.name|safe}}</a>
+                                     <a class href="http://127.0.0.1:6100/community?community_id={{community.id}}" >{{community.name|safe}}</a>
                                </div>
                                <div class="info"> 成员：{{community.user_num|safe}}</div>
                                <div class="describe">
@@ -86,8 +86,14 @@
          }
          function create_community() {
              alert('now begin create new communiyt!');
-             var name= {{name}};
-             post("/community_create",{"type":"publish","name":name,"create_user_id":1,"describe":document.getElementById("social_describe").value});
+             var name= document.getElementById("community_name").innerHTML;
+             var describe = document.getElementById("social_describe").value;
+             alert(describe);
+             if (describe == "输入200字以内的简介") {
+               alert("请输入简介");
+               return;
+             }
+             post("/community_create",{"type":"publish","name":name,"create_user_id":1,"describe":describe});
          }
          function click_new_social_name(){
              if (document.getElementById("div_create_social_info").style.display == "none") {
@@ -97,10 +103,10 @@
              }
         }
         window.onload=click_new_social_name;
-        function create_community() {
-            alert(document.getElementById("community_name").innerHTML);
-            post("/community_create",{"type":"publish","name":document.getElementById("community_name").innerHTML,"create_user_id":1});
-        }
+//        function create_community() {
+//            alert(document.getElementById("community_name").innerHTML);
+//            post("/community_create",{"type":"publish","name":document.getElementById("community_name").innerHTML,"create_user_id":1});
+//        }
         // function pre_page(page_no) {
         //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
         // }
