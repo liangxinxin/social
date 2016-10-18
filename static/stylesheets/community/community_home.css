@@ -1,0 +1,158 @@
+
+/*Standard Elements*/
+
+.card_top_wrap {
+  width:980px;
+  height:82px;
+  border-left:1px solid #e5e5e5;
+  border-top:1px solid #e5e5e5;
+  border-right:1px solid #e5e5e5;
+  border-bottom:1px solid #e5e5e5;
+  background-color:#f2f4f7;
+}
+.card_info {
+  width:335px;
+  line-height:normal;
+  position:relative;
+  padding:15px 0px 0px 15px;
+  float:left;
+}
+.card_image {
+  width:52px;
+  height:52px;
+  border:1px solid;
+  background:#fff;
+  position:relative;
+  float:left;
+/*  left:0;
+  top:0;*/
+}
+.card_title{
+  float:left;
+  position:relative;
+  margin-left:15px;
+  margin-top:5px;
+  height:40px;
+}
+
+.card_title_name{
+  float:left;
+  font-size:20px;
+  margin-top:5px;
+  color: #000;
+}
+.card_num_wrap{
+    float:left;
+    position:relative;
+    margin-top: 15px;
+    margin-left:5px;
+    /*margin-left: 10px;*/
+}
+.card_num_label{
+  font-size:12px;
+  position:relative;
+  margin-left:8px;
+  float:left;
+  color:#AAA;
+}
+.card_num{
+  position:relative;
+  margin-left:5px;
+  float:left;
+  color:#ff7f3e;
+  /*margin-right:15px;*/
+}
+.card_slogan {
+  color: #4c4c4c;
+  font-size: 14px;
+  float: left;
+  padding-right: 30px;
+  position: relative;
+  max-width: 280px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.post_item_wrap {
+  width:100%;
+  word-wrap:break-word;
+  overflow:hidden;
+  padding:20px 0 0;
+  border-top:dashed 0px;
+}
+.post_item {
+  margin-bottom:10px;
+  background:#fff;
+}
+.post_user_face {
+  float:left;
+  width:48px;
+  height:48px;
+  margin-right:20px;
+  overflow:hidden;
+}
+
+.post_content_wrap {
+  float:none;
+  width:auto;
+  overflow:hidden;
+  zoom:1;
+}
+.post_title {
+  font-size:14px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width:460px;
+  float:left;
+  font-color:blue;
+}
+.post_title_font {
+  color:#259;
+}
+.post_content {
+  width: 460px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666
+}
+.poster_container {
+  width:980px;
+  height:82px;
+  border-left:1px solid #e5e5e5;
+  border-top:1px solid #e5e5e5;
+  border-right:1px solid #e5e5e5;
+  border-bottom:1px solid #e5e5e5;
+  background-color:#f2f4f7;
+  text-align:left;
+}
+.poster_header {
+  margin:20px 0 0 0;
+  height:20px;
+}
+
+.poster_header_info {
+  margin-left:20px;
+  font-size: 14px;
+  float: left;
+}
+
+.poster_title {
+  background-color:#f2f4f7;
+  text-align:left;
+  height:30px;
+  padding:20px 0 0 0;
+}
+.poster_content {
+  text-align:left;
+  background-color:#f2f4f7;
+  height:300px;
+  padding:20px 0 0 0;
+}
+.poster_publish_container {
+  text-align:left;
+  background-color:#f2f4f7;
+  height:50px;
+}
