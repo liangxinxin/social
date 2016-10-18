@@ -1,19 +1,56 @@
 {% extends 'commons/_proto.html' %}
 {% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="stylesheets/community/community_home.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/community/post.css">
+{% endblock %}
+
 {% block body %}
     <div id="navbar">
     	{{ macro_body_navbar() }}
     </div>
     <input id="post_id" style="display:none" value={{post_data.id}}></input>
     <div id="all_backgroud" style="height:auto; background:#FFF">
-        <div id="post_wrapper" style="width:50%;text-align:center;margin:0 auto">
-            <div id="post_info" >
-                <div id="post_head" style="text-align:center; height:auto;background:#FFF">
-                    <p>{{post_data.title}} <p>
+        <div id="post_wrapper" style="width:980px;text-align:center;margin:0 auto">
+            <div id="community_head" class="card_top_wrap">
+                <div id="community_head_left" class="card_info">
+                    <div id="community_img" class="card_image">
+                        <a>
+                            <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
+                        </a>
+                    </div>
+                    <div id="community_title" class="card_title">
+                       <a class="card_title_name" title="" href="/f?kw=%E5%AE%9C%E4%BF%A1&amp;ie=utf-8">宜信
+岛</a>
+                       <span class="card_num_wrap">
+                           <span class="card_num_label">关注：</span>
+                           <span class="card_num">10,838</span>
+                           <span class="card_num_label">贴子：</span>
+                           <span class="card_num">40,565</span>
+                       </span>
+                    </div>
                 </div>
-                <div id="post_body" style="text-align:center; height:auto;background:#FFF">
-                    <p>{{post_data.content}} <p>
+            </div>
+            <div id="post_info" >
+                <div id="post_head" class="post_detail_title">
+                    {{post_data.title}}
+                </div>
+                <div class="post_detail_body">
+                    <div class="post_detail_author">
+                      <div class="post_detail_user_face">
+                          <a>
+                              <img class src="https://img3.doubanio.com/icon/u73410923-2.jpg">
+                          </a>
+                      </div>
+                    </div>
+                    <div class="post_detail_content_wrap">
+                        <div class="post_detail_content_area">
+                            <div class="post_detail_content">
+                                <p class="post_detail_content_char">{{post_data.content}} <p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="reply_info" style="text-align:left; height:auto; background:#FFF">
