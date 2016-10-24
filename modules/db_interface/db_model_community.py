@@ -52,6 +52,17 @@ def update(id,name,user_num,post_num,describe,head_img_url,create_user_id,create
     row.create_time = create_time
     db.session.commit()
 
+def update(community):
+    row = Community.query.get(community.id)
+    row.name = community.name
+    row.user_num = community.user_num 
+    row.post_num = community.post_num
+    row.describe = community.describe
+    row.head_img_url = community.head_img_url
+    row.create_user_id = community.create_user_id
+    row.create_time = community.create_time
+    db.session.commit()
+
 def delete(id):
     data=Community.query.get(id)
     db.session.delete(data) 

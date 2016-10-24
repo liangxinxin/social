@@ -21,12 +21,12 @@
                         <div class="result">
                            <div class="pic">
                               <a class="nbg" href="http://127.0.0.1:6100/community?community_id={{community.id}}"  title="{{community.name|safe}}">
-                                 <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
+                                 <img class src="{{community.head_img_url}}">
                               </a>
                            </div>
                            <div class="community_content">
                                <div class="title">
-                                     <a class href="http://127.0.0.1:6100/community?community_id={{community.id}}" >{{community.name|safe}}</a>
+                                     <a class href="http://127.0.0.1:6100/community?community_id={{community.id}}" >{{community.name|safe}}岛</a>
                                </div>
                                <div class="info"> 成员：{{community.user_num|safe}}</div>
                                <div class="describe">
@@ -39,14 +39,20 @@
                     {%endfor%}
                 {% endif %}
                 {% if num == 0 %}
-                    <div>
-                    <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p> 
-                    </div>
+                   {% if session.get('userinfo') %}
+                        <div>
+                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p> 
+                        </div>
+                    {% else %}
+                        <div>
+                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name_no_login()">现在创建 {{name}}岛</a> </p> 
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <div id="div_create_social_info" style="display:none">
                     <p id="community_name" style="display:none">{{name}}</p>
                     <div id="create_social_name" >
-                        <p >名字： {{name}}</p>
+                        <p >名字： {{name}}岛</p>
                     </div>
                     
                     <div id="create_social_describe" >
@@ -85,15 +91,18 @@
              post("/community_search",{"type":"query","name":document.getElementById("search_input").value});
          }
          function create_community() {
-             alert('now begin create new communiyt!');
              var name= document.getElementById("community_name").innerHTML;
              var describe = document.getElementById("social_describe").value;
-             alert(describe);
+             var head_img = "";
              if (describe == "输入200字以内的简介") {
                alert("请输入简介");
                return;
              }
-             post("/community_create",{"type":"publish","name":name,"create_user_id":1,"describe":describe});
+             {% if session.get('userinfo') %}
+                 post("/community_create",{"type":"publish","name":name,"create_user_id":{{session.get('userinfo')['id']}},"describe":describe});
+             {% else %}
+                 post("/community_create",{"type":"publish","name":name,"create_user_id":1,"describe":describe});
+             {% endif %}
          }
          function click_new_social_name(){
              if (document.getElementById("div_create_social_info").style.display == "none") {
@@ -101,8 +110,11 @@
              } else {
                  document.getElementById("div_create_social_info").style.display = "none";
              }
-        }
-        window.onload=click_new_social_name;
+         }
+         function click_new_social_name_no_login(){
+             alert('登录后才能创建新岛哦！');
+         }
+         window.onload=click_new_social_name;
 //        function create_community() {
 //            alert(document.getElementById("community_name").innerHTML);
 //            post("/community_create",{"type":"publish","name":document.getElementById("community_name").innerHTML,"create_user_id":1});

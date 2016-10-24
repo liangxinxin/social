@@ -8,8 +8,9 @@ from db_connect import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=False)
-    age = db.Column(db.Smallint, unique=False)
-    sex = db.Column(db.Tinyint, unique=False)
+    password = db.Column(db.String(150), unique=False)
+    age = db.Column(db.Integer, unique=False)
+    sex = db.Column(db.Integer, unique=False)
     mobile = db.Column(db.String(15), unique=False)
     email = db.Column(db.String(100), unique=False)
     professional = db.Column(db.String(300), unique=False)
@@ -41,6 +42,10 @@ def select_all():
 
 def select_by_id(id):
     data=User.query.get(id)
+    return data
+
+def select_by_name_and_password(name,password):
+    data=User.query.filter_by(name=name,password=password).first()
     return data
 
 def update(id,name,age,sex,mobile,email,professional,head_img_url,location):

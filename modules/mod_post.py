@@ -6,12 +6,15 @@ import urllib
 import urllib2 
 import httplib 
 import time 
+from db_interface import db_model_user
+from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 
 default_page_no = 1
 default_num_perpage = 20
-default_community_id = 1
+default_community_id = 0
+default_post_id = 0
 
 def service(request):
   if request.method == 'POST':
@@ -23,10 +26,10 @@ def service(request):
   elif request.method == 'GET':
     communit_id=request.args.get("community_id",0)
     post_id=request.args.get("post_id",0)
-    if communit_id != 0:
-      return query_post_in_community(request)
     if post_id != 0:
       return post_info(request)
+    if communit_id != 0:
+      return query_post_in_community(request)
 
 def publish_post(request):
   print "now publish post request"
@@ -46,30 +49,54 @@ def publish_post(request):
   #select db
   paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,community_id)
   print "now data:",paginate.items
+  user_list=[]
+  for post in paginate.items:
+    user = db_model_user.select_by_id(post.create_user_id)
+    user_list.append(user)
+
+  community = db_model_community.select_by_id(community_id)
+  community.post_num=community.post_num+1
+  db_model_community.update(community)
+
   #return select value
-  return paginate,community_id 
+  return paginate,user_list,community 
 
 def query_post_in_community(request):
   community_id = request.args.get("community_id",default_community_id)
   print " now query post in communit id:",community_id
   page_no = request.args.get("page_no",default_page_no)
   num_perpage = request.args.get("num_perpage",default_num_perpage)
-  #select db
+  #select post indb
   paginate=db_model_post.select_all_paging(page_no,num_perpage,community_id)
   print "now data:",paginate.items
+  
+  user_list=[]
+  for post in paginate.items:
+    user = db_model_user.select_by_id(post.create_user_id)
+    user_list.append(user)
 
+  #select communit info in db
+  community = db_model_community.select_by_id(community_id)
   #return select value
-  return paginate,community_id
+  return paginate,user_list,community
 
 def post_info(request):
-  post_id = request.args.get("post_id",default_community_id)
-  print " now query reply in post id:",post_id
+  post_id = request.args.get("post_id",default_post_id)
+  community_id = request.args.get("community_id",default_community_id)
   page_no = int(request.args.get("page_no",default_page_no))
   num_perpage = int(request.args.get("num_perpage",default_num_perpage))
+  print " now query post info---- post_id:",post_id," community_id: ",community_id," page no:",page_no," num_perpage:",num_perpage
+
   #select db
   post_data=db_model_post.select_by_id(post_id)
+  post_user=db_model_user.select_by_id(post_data.create_user_id)
   reply_data=db_model_reply.select_paging_by_post_id(page_no,num_perpage,post_id)
-  print "now data:",post_data
+  reply_user_list=[]
+  for reply in reply_data.items:
+    user = db_model_user.select_by_id(reply.create_user_id)
+    reply_user_list.append(user)
+  community = db_model_community.select_by_id(community_id)
+  print "post data:",post_data,"reply data:",reply_data
 
   #return select value
-  return post_data,reply_data
+  return post_data,post_user,reply_data,reply_user_list,community

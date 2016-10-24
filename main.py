@@ -14,7 +14,8 @@ from modules import mod_reply
 
 app = Flask(__name__, static_url_path='')
 #app.secret_key = "super secret key"
-app.config['SECRET_KEY'] = 'super secret key'
+#app.config['SECRET_KEY'] = 'super secret key'
+app.config.from_object('config')
 
 @app.route('/')
 #@interceptor(login_required=True)
@@ -66,45 +67,49 @@ def community_new():
 @app.route('/community_create', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community_create():
-  model,community_id = mod_community.service(request)
-  print model,community_id
+  model,community = mod_community.service(request)
+#  print model,community_id
   if model != None and len(model.items) > 0:
-    return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+    return render_template('community.html', paginate=model,object_list=model.items,community=community)
   else:
-    return render_template('community.html',community_id=community_id)
+    return render_template('community.html',community=community)
 
 @app.route('/community', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community():
-  model,community_id = mod_post.service(request)
-  print community_id
-  if model != None:
-    return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+  model,user_list,community = mod_post.service(request)
+  post_num=len(model.items) 
+  if model != None and community!=None:
+    return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community)
   else:
-    return render_template('community.html', community_id=community_id)
+#    return render_template('community.html', community=community)
+    return render_template('community_index.html')
 
 @app.route('/post_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post_publish():
-  model,community_id = mod_post.service(request)
+  model,user_list,community = mod_post.service(request)
+  post_num = len(model.items)
   print model
-  return render_template('community.html', paginate=model,object_list=model.items,community_id=community_id)
+  return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community)
 
 @app.route('/post', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post():
-  post_data,reply_data = mod_post.post_info(request)
+  post_data,post_user,reply_data,reply_user_list,community = mod_post.post_info(request)
+  reply_num=len(reply_data.items)
 #  print model
-  if reply_data != None:
-    return render_template('post.html',post_data=post_data)
+  if reply_data == None:
+    return render_template('post.html',post_data=post_data,post_user=post_user,community=community)
   else:
-    return render_template('post.html',post_data=post_data,reply_list=reply_data.items)
+    return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,reply_user_list=reply_user_list,community=community)
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def reply_publish():
-  post_data,reply_data = mod_reply.service(request)
-  return render_template('post.html',post_data=post_data,reply_list=reply_data.items)
+  post_data,post_user,reply_data,reply_user_list,community = mod_reply.service(request)
+  reply_num=len(reply_data.items)
+  return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,reply_user_list=reply_user_list,community=community)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -112,12 +117,11 @@ def login():
   if request.method == 'GET':
     return render_template('login.html')
   elif request.method == 'POST':
-    model,recommend_content=mod_login.service(request)
+    model = mod_login.service(request)
     if model['result'] == True:
-      return render_template('index.html', recommend_content=recommend_content)
+      return redirect(url_for('index'))
     else:
       return render_template('error.html',msg='login error')
-      #return render_template('index.html',model=model,recommend=recommend_content)
 
 @app.route('/logout',methods=['GET','POST'])
 def logout():

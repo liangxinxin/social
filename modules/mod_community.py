@@ -46,6 +46,7 @@ def publish_community(request):
   describe = request.form.get("describe","finance home")
   create_user_id = request.form.get("create_user_id",0)
   head_img_url = request.form.get("head_img_url","https://img3.doubanio.com/icon/g35417-1.jpg")
+
   ISOTIMEFORMAT='%Y-%m-%d %X'
   create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
   #db_model_community.insert(title,content,create_user_id,community_id,floor_num,create_time,last_update_time)
@@ -59,5 +60,5 @@ def publish_community(request):
     return None,0
   paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,data.id)
   print "now data:",paginate.items,len(paginate.items)
-  return paginate,data.id 
+  return paginate,data 
   #return select value

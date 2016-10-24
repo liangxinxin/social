@@ -118,6 +118,10 @@
   white-space: nowrap;
   color: #666
 }
+.post_content_char {
+  margin-top:5px;
+  font-size:12px;
+}
 .poster_container {
   width:980px;
   height:82px;
