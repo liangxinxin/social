@@ -21,25 +21,29 @@
 }
 
 .post_detail_title {
-  width: 740px;
+  width: 980px;
   height: 56px;
   line-height: 56px;
   background: #fff;
   position: relative;
   text-align:left;
   font-size:18px;
+  border-bottom:1px ##BBBDBF;
 }
 .post_detail_body {
-  width: 740px;
-  height: auto;
+  width: 980px;
+  overflow: auto;
+  word-wrap:break-word;
   border-bottom: 1px solid #BBBDBF;
-  border-top: 1px solid #BBBDBF;
 }
 .post_detail_author {
   width: 130px;
   float: left;
+  position:relative;
+  margin-right:5px;
   text-align: center;
   padding: 15px 0;
+  overflow:auto;
 }
 
 .post_detail_user_face {
@@ -53,14 +57,12 @@
 .post_detail_content_wrap {
   position: relative;
   float: left;
-  width: 588px;
+  width: 500px;
   padding: 0 0 8px 20px;
   background: #fff;
   overflow:auto;
 }
 .post_detail_content_area {
-  height: auto!important;
-  height: 170px;
   min-height: 170px;
   padding:10px 10px 10px 10px;
   overflow:auto;
@@ -78,38 +80,43 @@
 
 
 .reply_info {
-  height:auto;
+  text-align:center;
   overflow:auto;
 }
 
 .reply_body {
-  width: 740px;
+  width: 980px;
+  overflow: auto;
+  word-wrap:break-word;
+  border-bottom: 1px solid #BBBDBF;
 }
 .reply_author {
   width: 130px;
   float: left;
+  position:relative;
+  margin-right:5px;
   text-align: center;
   padding: 15px 0;
+  overflow:auto;
 }
 
 .reply_user_face {
   float:left;
   width:48px;
   height:48px;
-  margin-right:20px;
+  margin-right:10px;
   overflow:hidden;
 }
 
 .reply_content_wrap {
   position: relative;
   float: left;
-  width: 588px;
+  width: 500px;
   padding: 10px 5px 8px 20px;
   background: #fff;
-  border:1px;
+  border-bottom:1px #BBBDBF;
 }
 .reply_content_area {
-  height: auto;
   min-height: 170px;
   padding:10px 10px 10px 10px;
 }
