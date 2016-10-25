@@ -35,10 +35,18 @@
                     {%for i in range(post_num)%}
                         <div class="post_item_wrap">
                             <div class="post_item">
-                                <div class="post_user_face">
-                                    <a>
-                                        <img class src="{{user_list[i].head_img_url}}">
-                                    </a>
+                                <div class="post_item_left_wraper">
+                                    <div class="post_user_face">
+                                        <a>
+                                            <img class src="{{user_list[i].head_img_url}}">
+                                        </a>
+                                    </div>
+                                    <div class="post_reply_count_wraper">
+                                        <a class="post_reply_count">
+                                            <span>{{object_list[i].floor_num|safe}}</span>
+                                            <!--<span>152</span>-->
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="post_content_wrap">
                                     <div class="post_title">

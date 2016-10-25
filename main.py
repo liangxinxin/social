@@ -117,16 +117,16 @@ def login():
   if request.method == 'GET':
     return render_template('login.html')
   elif request.method == 'POST':
-    model = mod_login.service(request)
+    model,next_url = mod_login.service(request)
     if model['result'] == True:
-      return redirect(url_for('index'))
+      return redirect(next_url)
     else:
       return render_template('error.html',msg='login error')
 
 @app.route('/logout',methods=['GET','POST'])
 def logout():
-  model=mod_logout.service(request)
-  return render_template('index.html')
+  model,next_url=mod_logout.service(request)
+  return redirect(next_url)
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
