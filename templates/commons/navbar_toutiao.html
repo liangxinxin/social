@@ -2,7 +2,7 @@
 
 {% macro macro_body_navbar() -%}
   <div class="navbar-inner-for-search">
-    <ul class="nav pull-left">
+    <ul class="nav pull-left" style="margin:0">
       <li id="fat-menu" class="dropdown">
         {% if session.get('userinfo') %}
           <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<i class="icon-caret-down"></i></a>
@@ -17,7 +17,7 @@
         {% endif %}
       </li>
     </ul>
-    <ul class="nav pull-right">
+    <ul class="nav pull-right" style="margin:0">
       <li style="float:left;">
         <font color="red"><a href="http://127.0.0.1:6100/index">资讯</a></font>
       </li>
