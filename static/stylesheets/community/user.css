@@ -1,0 +1,17 @@
+
+/*Standard Elements*/
+.user_item_div {
+  width:auto;
+  overflow:auto;
+}
+.user_item_p {
+  float:left;
+  width:100px;
+  text-align:left;
+}
+.user_item_input {
+  float:left;
+  width:100px;
+  height:25px;
+  margin-left:10px;
+}

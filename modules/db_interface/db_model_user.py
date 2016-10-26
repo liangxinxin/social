@@ -17,9 +17,9 @@ class User(db.Model):
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
   
-    def __init__(self, id,name,age,sex,mobile,email,professional,head_img_url,location):
-        self.id = id 
+    def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
+        self.password = password
         self.age = age
         self.sex = sex 
         self.mobile= mobile
@@ -31,8 +31,8 @@ class User(db.Model):
 def create_table():
     db.create_all()
 
-def insert(name,age,sex,mobile,email,professional,head_img_url,location):
-    insert=User(name=name,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location)
+def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="",location=""):
+    insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location)
     db.session.add(insert)
     db.session.commit()
 
@@ -47,10 +47,14 @@ def select_by_id(id):
 def select_by_name_and_password(name,password):
     data=User.query.filter_by(name=name,password=password).first()
     return data
+def select_by_name_and_password_and_mobile(name,password,mobile):
+    data=User.query.filter_by(name=name,password=password,mobile=mobile).first()
+    return data
 
-def update(id,name,age,sex,mobile,email,professional,head_img_url,location):
+def update(id,name,password,mobile,age,sex,email,professional,head_img_url,location):
     row = User.query.get(id)
     row.name = name
+    row.password = password
     row.age = age 
     row.sex = sex
     row.mobile = mobile

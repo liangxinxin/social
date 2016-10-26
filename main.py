@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template 
 from flask import redirect, url_for
+from flask import jsonify 
 
 import os
 import os.path
@@ -9,6 +10,7 @@ from modules import mod_login
 from modules import mod_logout
 from modules import mod_post
 from modules import mod_reply
+from modules import mod_user
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -127,6 +129,17 @@ def login():
 def logout():
   model,next_url=mod_logout.service(request)
   return redirect(next_url)
+
+@app.route('/user_create',methods=['GET','POST'])
+def user_create():
+  next_url = request.args.get('next_url')
+  print next_url
+  return render_template('user_create.html',next_url=next_url)
+
+@app.route('/do_user_create',methods=['GET','POST'])
+def do_user_create():
+  model=mod_user.service(request)
+  return jsonify(result='succ') 
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
