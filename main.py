@@ -141,6 +141,11 @@ def do_user_create():
   model=mod_user.service(request)
   return jsonify(result='succ') 
 
+@app.route('/user_info',methods=['GET','POST'])
+def user_info():
+  user_info=mod_user.service(request)
+  return render_template('user_info.html',user_info=user_info)
+
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
   app.debug = True

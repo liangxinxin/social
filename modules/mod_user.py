@@ -23,12 +23,9 @@ def service(request):
     else:
       print "error request:",request
   elif request.method == 'GET':
-    communit_id=request.args.get("community_id",0)
-    post_id=request.args.get("post_id",0)
-    if post_id != 0:
-      return post_info(request)
-    if communit_id != 0:
-      return query_post_in_community(request)
+    user_id=request.args.get("user_id",0)
+    if user_id != 0:
+      return query_user_info(request)
 
 def create_user(request):
   print "now create new user request"
@@ -47,6 +44,9 @@ def create_user(request):
   if user != None:
     session['userinfo'] = {'name':user.name, 'id':user.id}
   return    
-
 #  rt=jsonify(result="succ",name=name,mobile=mobile) 
 
+def query_user_info(request):
+  user_id=request.args.get("user_id")
+  user_info =db_model_user.select_by_id(user_id) 
+  return user_info

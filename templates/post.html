@@ -39,7 +39,7 @@
                 <div class="post_detail_body">
                     <div class="post_detail_author">
                       <div class="post_detail_user_face">
-                          <a>
+                          <a href="/user_info?user_id={{post_user.id}}">
                               <img class src="{{post_user.head_img_url}}">
                           </a>
                       </div>
@@ -64,7 +64,7 @@
                         <div class="reply_body">
                             <div class="reply_author">
                               <div class="reply_user_face">
-                                  <a>
+                                  <a href="/user_info?user_id={{reply_user_list[i].id}}">
                                       <img class src="{{reply_user_list[i].head_img_url}}">
                                   </a>
                               </div>

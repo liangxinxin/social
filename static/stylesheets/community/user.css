@@ -15,3 +15,29 @@
   height:25px;
   margin-left:10px;
 }
+.user_info_face_div {
+  padding-top:25px;
+  width:auto;
+  height:100px;
+  text-align:center;
+}
+
+.user_info_name_div {
+  width:auto;
+  height:50px;
+  text-align:center;
+}
+.user_info_name_p {
+  text-align:center;
+  font-size:15px;
+}
+.user_info_professional_div {
+  text-align:center;
+  height:30px;
+}
+
+.user_info_professional_p {
+  text-align:center;
+  font-size:20px;
+  height:30px;
+}

@@ -23,11 +23,25 @@
                        <a class="card_title_name" title="" href="127.0.0.1:6100/community?id={{community.id}}">{{community.name}}岛</a>
                        <span class="card_num_wrap">
                            <span class="card_num_label">关注：</span>
-                           <span class="card_num">{{community.user_num}}</span>
+                           <span id="join_user_num" class="card_num">{{community.user_num}}</span>
                            <span class="card_num_label">贴子：</span>
                            <span class="card_num">{{community.post_num}}</span>
                        </span>
                     </div>
+                </div>
+                <div class="card_button_wrap">
+                {% if session.get('userinfo') %}
+                    {% if has_join and has_join==true %}
+                        <button id="join_community" style="display:none" onclick="join_community()">加入</button>
+                        <button id="left_community" onclick="left_community()">退出</button>
+                    {% else %}
+                        <button id="join_community" onclick="join_community()">加入</button>
+                        <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
+                    {% endif %}
+                {% else %}
+                    <button id="join_community" onclick="join_community()">加入</button>
+                    <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
+                {% endif %}
                 </div>
             </div>
             <div id="community_post" style="text-align:left; height:auto; background:#FFF">
@@ -37,7 +51,7 @@
                             <div class="post_item">
                                 <div class="post_item_left_wraper">
                                     <div class="post_user_face">
-                                        <a>
+                                        <a href="/user_info?user_id={{user_list[i].id}}">
                                             <img class src="{{user_list[i].head_img_url}}">
                                         </a>
                                     </div>
@@ -121,6 +135,58 @@
          }     
          function search() {
              post("/search",{"query":document.getElementById("search_input").value});
+         }
+         function join_community() {
+           {% if session.get('userinfo') %}
+             user_id={{session.get('userinfo'['id'])}};
+             community_id={{community.id}};
+             var data={};
+             data['action']='join';
+             data['user_id']=user_id;
+             data['community_id']=community_id;
+             $.ajax({
+               type:'POST',
+               url:'/user_community',
+               data:data, 
+               dataType:'json',
+               success:function(data) {
+                 document.getElementById('join_user_num').text(data['user_num']);
+                 document.getElementById('join_community').display='none';
+                 document.getElementById('left_community').display='block';
+               },
+               error:function(xhr,type){
+                 alert('加入社区失败!');
+               }
+             }) 
+           {%else%}
+             alert('登录后才能加入社区哦！');
+           {%endif%}
+         }
+         function left_community() {
+           {% if session.get('userinfo') %}
+             user_id={{session.get('userinfo'['id'])}};
+             community_id={{community.id}};
+             var data={};
+             data['action']='left';
+             data['user_id']=user_id;
+             data['community_id']=community_id;
+             $.ajax({
+               type:'POST',
+               url:'/user_community',
+               data:data, 
+               dataType:'json',
+               success:function(data) {
+                 document.getElementById('join_user_num').text(data['user_num']);
+                 document.getElementById('join_community').display='block';
+                 document.getElementById('left_community').display='none';
+               },
+               error:function(xhr,type){
+                 alert('离开社区失败!');
+               }
+             }) 
+           {%else%}
+             alert('登录后才能离开社区哦！');
+           {%endif%}
          }
         // function pre_page(page_no) {
         //     window.location="/search_result?page_no="+({{page_no}}-1).toString();

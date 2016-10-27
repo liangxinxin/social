@@ -1,0 +1,29 @@
+{% extends 'commons/_proto.html' %}
+{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
+    <script src="{{url_for('static', filename='lib/jquery-2.0.3.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="navbar">
+    	{{ macro_body_navbar() }}
+    </div>
+    <div id="all_backgroud" style="height:auto;min-height:1000px; background:#FFF;">
+        <div id="user_info_wrap" style="width:50%;height:auto;overflow:auto; background:#FFF; text-align:center;margin:0 auto">
+            {% if user_info %}
+            <div id="user_face" class="user_info_face_div">
+                <img src="{{user_info.head_img_url}}"/>
+            </div>
+            <div id="user_name" class="user_info_name_div">
+                <p class="user_info_name_p">{{user_info.name}}</p>
+            </div>
+            <div id="user_professional" class="user_info_professional_div">
+                <p class="user_info_professional_p">{{user_info.professional}}</p>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+
+{% endblock %}

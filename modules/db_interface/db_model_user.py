@@ -31,7 +31,7 @@ class User(db.Model):
 def create_table():
     db.create_all()
 
-def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="",location=""):
+def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="https://img3.doubanio.com/icon/g232413-3.jpg",location=""):
     insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location)
     db.session.add(insert)
     db.session.commit()
