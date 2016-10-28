@@ -6,8 +6,10 @@ import urllib
 import urllib2 
 import httplib 
 import time 
+from flask import session
 from db_interface import db_model_user
 from db_interface import db_model_community
+from db_interface import db_model_user_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 
@@ -58,8 +60,14 @@ def publish_post(request):
   community.post_num=community.post_num+1
   db_model_community.update(community)
 
+  has_join=False
+  if session.get('userinfo'):
+    user_id = session.get('userinfo')['id']
+    info = db_model_user_community.select_by_user_id_and_community_id(user_id=id,community_id=community_id)
+    if info != None:
+      has_join=True
   #return select value
-  return paginate,user_list,community 
+  return paginate,user_list,community,has_join 
 
 def query_post_in_community(request):
   community_id = request.args.get("community_id",default_community_id)
@@ -75,10 +83,17 @@ def query_post_in_community(request):
     user = db_model_user.select_by_id(post.create_user_id)
     user_list.append(user)
 
+  has_join=False
+  if session.get('userinfo'):
+    user_id = session.get('userinfo')['id']
+    info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id,community_id=community_id)
+    print " query user_community:","user_id:",user_id,"community_id:",community_id
+    if info != None:
+      has_join=True
   #select communit info in db
   community = db_model_community.select_by_id(community_id)
   #return select value
-  return paginate,user_list,community
+  return paginate,user_list,community,has_join
 
 def post_info(request):
   post_id = request.args.get("post_id",default_post_id)

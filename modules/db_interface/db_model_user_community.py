@@ -9,10 +9,9 @@ class UserCommunity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=False)
     community_id = db.Column(db.Integer, unique=False)
-    create_time = db.Column(db.Timestamp, unique=False)
+    create_time = db.Column(db.DateTime, unique=False)
   
-    def __init__(self, id,user_id,community_id,create_time):
-        self.id = id 
+    def __init__(self,user_id,community_id,create_time):
         self.user_id = user_id
         self.community_id = community_id 
         self.create_time=create_time 
@@ -31,6 +30,10 @@ def select_all():
 
 def select_by_id(id):
     data=UserCommunity.query.get(id)
+    return data
+
+def select_by_user_id_and_community_id(user_id,community_id):
+    data=UserCommunity.query.filter_by(user_id=user_id,community_id=community_id).first()
     return data
 
 def update(id,user_id,community_id,create_time):

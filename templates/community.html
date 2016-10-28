@@ -31,7 +31,7 @@
                 </div>
                 <div class="card_button_wrap">
                 {% if session.get('userinfo') %}
-                    {% if has_join and has_join==true %}
+                    {% if has_join and has_join==True %}
                         <button id="join_community" style="display:none" onclick="join_community()">加入</button>
                         <button id="left_community" onclick="left_community()">退出</button>
                     {% else %}
@@ -39,6 +39,7 @@
                         <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
                     {% endif %}
                 {% else %}
+                    alert('has not login');
                     <button id="join_community" onclick="join_community()">加入</button>
                     <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
                 {% endif %}
@@ -138,7 +139,7 @@
          }
          function join_community() {
            {% if session.get('userinfo') %}
-             user_id={{session.get('userinfo'['id'])}};
+             user_id={{session.get('userinfo')['id']}};
              community_id={{community.id}};
              var data={};
              data['action']='join';
@@ -150,9 +151,10 @@
                data:data, 
                dataType:'json',
                success:function(data) {
-                 document.getElementById('join_user_num').text(data['user_num']);
-                 document.getElementById('join_community').display='none';
-                 document.getElementById('left_community').display='block';
+                 alert('加入社区成功!');
+                 document.getElementById('join_user_num').innerHTML=data['user_num'];
+                 document.getElementById('join_community').style.display='none';
+                 document.getElementById('left_community').style.display='block';
                },
                error:function(xhr,type){
                  alert('加入社区失败!');
@@ -164,7 +166,7 @@
          }
          function left_community() {
            {% if session.get('userinfo') %}
-             user_id={{session.get('userinfo'['id'])}};
+             user_id={{session.get('userinfo')['id']}};
              community_id={{community.id}};
              var data={};
              data['action']='left';
@@ -176,9 +178,10 @@
                data:data, 
                dataType:'json',
                success:function(data) {
-                 document.getElementById('join_user_num').text(data['user_num']);
-                 document.getElementById('join_community').display='block';
-                 document.getElementById('left_community').display='none';
+                 alert('您已离开社区!');
+                 document.getElementById('join_user_num').innerHTML=(data['user_num']);
+                 document.getElementById('join_community').style.display='block';
+                 document.getElementById('left_community').style.display='none';
                },
                error:function(xhr,type){
                  alert('离开社区失败!');

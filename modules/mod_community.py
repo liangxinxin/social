@@ -60,5 +60,6 @@ def publish_community(request):
     return None,0
   paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,data.id)
   print "now data:",paginate.items,len(paginate.items)
-  return paginate,data 
+  has_join=True
+  return paginate,data,has_join 
   #return select value

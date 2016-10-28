@@ -11,6 +11,7 @@ from modules import mod_logout
 from modules import mod_post
 from modules import mod_reply
 from modules import mod_user
+from modules import mod_user_community
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -69,20 +70,21 @@ def community_new():
 @app.route('/community_create', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community_create():
-  model,community = mod_community.service(request)
+  model,community,has_join = mod_community.service(request)
 #  print model,community_id
   if model != None and len(model.items) > 0:
-    return render_template('community.html', paginate=model,object_list=model.items,community=community)
+    return render_template('community.html', paginate=model,object_list=model.items,community=community,has_join=has_join)
   else:
-    return render_template('community.html',community=community)
+    return render_template('community.html',community=community,has_join=has_join)
 
 @app.route('/community', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community():
-  model,user_list,community = mod_post.service(request)
+  model,user_list,community,has_join = mod_post.service(request)
+  print 'has_join:',has_join
   post_num=len(model.items) 
   if model != None and community!=None:
-    return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community)
+    return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community,has_join=has_join)
   else:
 #    return render_template('community.html', community=community)
     return render_template('community_index.html')
@@ -90,10 +92,10 @@ def community():
 @app.route('/post_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post_publish():
-  model,user_list,community = mod_post.service(request)
+  model,user_list,community,has_join = mod_post.service(request)
   post_num = len(model.items)
   print model
-  return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community)
+  return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community,has_join=has_join)
 
 @app.route('/post', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
@@ -140,6 +142,11 @@ def user_create():
 def do_user_create():
   model=mod_user.service(request)
   return jsonify(result='succ') 
+
+@app.route('/user_community',methods=['GET','POST'])
+def user_community():
+  community_user_num=mod_user_community.service(request)
+  return jsonify(user_num=community_user_num) 
 
 @app.route('/user_info',methods=['GET','POST'])
 def user_info():
