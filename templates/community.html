@@ -20,7 +20,7 @@
                         </a>
                     </div>
                     <div id="community_title" class="card_title">
-                       <a class="card_title_name" title="" href="127.0.0.1:6100/community?id={{community.id}}">{{community.name}}岛</a>
+                       <a class="card_title_name" title="" href="/community?community_id={{community.id}}">{{community.name}}岛</a>
                        <span class="card_num_wrap">
                            <span class="card_num_label">关注：</span>
                            <span id="join_user_num" class="card_num">{{community.user_num}}</span>
@@ -39,7 +39,6 @@
                         <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
                     {% endif %}
                 {% else %}
-                    alert('has not login');
                     <button id="join_community" onclick="join_community()">加入</button>
                     <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
                 {% endif %}
