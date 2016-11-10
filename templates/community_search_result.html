@@ -9,9 +9,13 @@
     <div id="navbar">
     	{{ macro_body_navbar() }}
     </div>
-    <div id="all_backgroud" style="height:auto; background:#FFF">
-        <div style="padding-top:100px; text-align:center; height:100px; background:white ">
-            <input type="text" id="search_input" placeholder=""  value={{name}} style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+    <div id="all_backgroud" style="height:auto; background:#FFF;overflow:auto">
+        <div style="padding-top:100px; text-align:center; height:100px; background:white;overflow:auto ">
+            {% if name and name !="" %}
+                <input type="text" id="search_input" placeholder=""  value={{name}} style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+            {%else%}
+                <input type="text" id="search_input" placeholder=""  style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+            {%endif%}
             <button id="community_search" onclick=community_search() >进入社区</button>
         </div>
         <div id="community_wrap" style="height:1100px; background:#FFF; text-align:center">
