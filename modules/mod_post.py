@@ -14,7 +14,7 @@ from db_interface import db_model_post
 from db_interface import db_model_reply
 
 default_page_no = 1
-default_num_perpage = 20
+default_num_perpage = 10
 default_community_id = 0
 default_post_id = 0
 
@@ -72,8 +72,8 @@ def publish_post(request):
 def query_post_in_community(request):
   community_id = request.args.get("community_id",default_community_id)
   print " now query post in communit id:",community_id
-  page_no = request.args.get("page_no",default_page_no)
-  num_perpage = request.args.get("num_perpage",default_num_perpage)
+  page_no = int(request.args.get("page_no",default_page_no))
+  num_perpage = int(request.args.get("num_perpage",default_num_perpage))
   #select post indb
   paginate=db_model_post.select_all_paging(page_no,num_perpage,community_id)
   print "now data:",paginate.items
@@ -93,7 +93,7 @@ def query_post_in_community(request):
   #select communit info in db
   community = db_model_community.select_by_id(community_id)
   #return select value
-  return paginate,user_list,community,has_join
+  return paginate,user_list,community,has_join,page_no,len(paginate.items),num_perpage
 
 def post_info(request):
   post_id = request.args.get("post_id",default_post_id)

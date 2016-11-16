@@ -80,11 +80,13 @@ def community_create():
 @app.route('/community', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community():
-  model,user_list,community,has_join = mod_post.service(request)
+  model,user_list,community,has_join,page_no,real_num,num_perpage = mod_post.service(request)
   print 'has_join:',has_join
   post_num=len(model.items) 
   if model != None and community!=None:
-    return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,user_list=user_list,community=community,has_join=has_join)
+    return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,\
+        user_list=user_list,community=community,has_join=has_join,page_no=page_no,real_num=real_num,\
+        num_perpage=num_perpage)
   else:
 #    return render_template('community.html', community=community)
     return render_template('community_index.html')
