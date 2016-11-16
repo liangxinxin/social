@@ -57,7 +57,7 @@ def community_index():
 def community_search():
   model,search_name = mod_community.service(request)
   if model != None:
-    print 'data list len:',len(model.items)
+    print 'data list len:',len(model.items)," search_name:",search_name
     return render_template('community_search_result.html',paginate=model,object_list=model.items,num=len(model.items),name=search_name)
   else:
     return render_template('community_search_result.html',paginate=model,object_list=None,num=0,name=search_name)
