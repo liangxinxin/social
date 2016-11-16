@@ -28,7 +28,7 @@ def service(request):
 
 def query_community(request):
   print " now query community by name!"
-  name = request.form.get("name"," ")
+  name = request.form.get("name","")
   page_no = request.form.get("page_no",default_page_no)
   num_perpage = request.form.get("num_perpage",default_num_perpage)
 
