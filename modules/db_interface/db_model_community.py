@@ -80,7 +80,7 @@ def select_by_name_equal(name):
 
 def select_by_name_paging(name,page_no,num_perpage):
     filter_string = "%" + name + "%"
-    paginate=Community.query.filter(Community.name.like(filter_string)).order_by(desc(Community.id)).paginate(page_no,num_perpage,False)
+    paginate=Community.query.filter(Community.name.like(filter_string)).order_by(desc(Community.post_num)).paginate(page_no,num_perpage,False)
     return paginate
 
 # return paginate
