@@ -114,4 +114,4 @@ def post_info(request):
   print "post data:",post_data,"reply data:",reply_data
 
   #return select value
-  return post_data,post_user,reply_data,reply_user_list,community
+  return post_data,post_user,reply_data,reply_user_list,community,page_no,len(reply_data.items),num_perpage

@@ -12,7 +12,7 @@ from db_interface import db_model_post
 from db_interface import db_model_reply
 
 default_page_no = 1
-default_num_perpage = 20
+default_num_perpage = 15 
 default_community_id = 1
 
 def service(request):
@@ -62,7 +62,7 @@ def publish_reply(request):
 
   community = db_model_community.select_by_id(community_id)
   #return select value
-  return post_data,post_user,paginate,reply_user_list,community
+  return post_data,post_user,paginate,reply_user_list,community,default_page_no,len(paginate.items),default_num_perpage
 
 #def query_post_in_community(request):
 #  community_id = request.args.get("community_id",default_community_id)

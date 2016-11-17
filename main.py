@@ -102,20 +102,22 @@ def post_publish():
 @app.route('/post', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post():
-  post_data,post_user,reply_data,reply_user_list,community = mod_post.post_info(request)
+  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_post.post_info(request)
   reply_num=len(reply_data.items)
 #  print model
   if reply_data == None:
     return render_template('post.html',post_data=post_data,post_user=post_user,community=community)
   else:
-    return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,reply_user_list=reply_user_list,community=community)
+    return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
+        reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def reply_publish():
-  post_data,post_user,reply_data,reply_user_list,community = mod_reply.service(request)
+  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_reply.service(request)
   reply_num=len(reply_data.items)
-  return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,reply_user_list=reply_user_list,community=community)
+  return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
+      reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
