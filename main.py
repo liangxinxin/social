@@ -46,11 +46,15 @@ def page_not_found(e):
 '''  BUSSINESS FUNCTIONS BEGIN  '''
 
 
-
 @app.route('/community_index', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community_index():
-  return render_template('community_index.html')
+  model = mod_community.get_default_communities(request);
+  if model != None:
+    print 'default coumunity list. data list len:',len(model.items)
+    return render_template('community_index.html',paginate=model,object_list=model.items,num=len(model.items),name=search_name)
+  else:
+    return render_template('community_index.html',paginate=model,object_list=None,num=0,name=search_name)
 
 @app.route('/community_search', methods=['GET', 'POST'])
 #@interceptor(login_required=True)

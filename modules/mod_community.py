@@ -63,3 +63,9 @@ def publish_community(request):
   has_join=True
   return paginate,data,has_join 
   #return select value
+
+def get_default_communities(request):
+  print "get default communities:"
+  return db_model_community.select_all_paging(1, default_num_perpage)
+  
+    

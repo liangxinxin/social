@@ -7,14 +7,14 @@
 
 {% block body %}
     <div id="navbar">
-    	{{ macro_body_navbar() }}
+        {{ macro_body_navbar() }}
     </div>
     <div id="all_backgroud" style="height:auto; background:#FFF;overflow:auto">
         <div style="padding-top:100px; text-align:center; height:100px; background:white;overflow:auto ">
             {% if name and name !="" %}
-                <input type="text" id="search_input" placeholder=""  value={{name}} style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
-            {%else%}
-                <input type="text" id="search_input" placeholder=""  style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}"> 
+                <input type="text" id="search_input" placeholder=""  value={{name}} style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}">
+                {%else%}
+                <input type="text" id="search_input" placeholder=""  style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {community_search()}">
             {%endif%}
             <button id="community_search" onclick=community_search() >进入社区</button>
         </div>
@@ -45,11 +45,11 @@
                 {% if num == 0 %}
                    {% if session.get('userinfo') %}
                         <div>
-                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p> 
+                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p>
                         </div>
                     {% else %}
                         <div>
-                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name_no_login()">现在创建 {{name}}岛</a> </p> 
+                        <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name_no_login()">现在创建 {{name}}岛</a> </p>
                         </div>
                     {% endif %}
                 {% endif %}
@@ -58,7 +58,7 @@
                     <div id="create_social_name" >
                         <p >名字： {{name}}岛</p>
                     </div>
-                    
+
                     <div id="create_social_describe" >
                         <p >简介： </p> <input type="text" id="social_describe" placeholder="输入200字以内的简介" style="width:500px;height:30px;"/>
                     </div>
@@ -76,21 +76,21 @@
     </div>
 
     <script type="text/javascript">
-         function post(URL, PARAMS) {        
-             var temp = document.createElement("form");        
-             temp.action = URL;        
-             temp.method = "post";        
-             temp.style.display = "none";        
-             for (var x in PARAMS) {        
-                 var opt = document.createElement("textarea");        
-                 opt.name = x;        
-                 opt.value = PARAMS[x];        
-                 temp.appendChild(opt);        
-             }     
-             document.body.appendChild(temp);        
-             temp.submit();        
-             return temp;        
-         }     
+         function post(URL, PARAMS) {
+             var temp = document.createElement("form");
+             temp.action = URL;
+             temp.method = "post";
+             temp.style.display = "none";
+             for (var x in PARAMS) {
+                 var opt = document.createElement("textarea");
+                 opt.name = x;
+                 opt.value = PARAMS[x];
+                 temp.appendChild(opt);
+             }
+             document.body.appendChild(temp);
+             temp.submit();
+             return temp;
+         }
          function community_search() {
              post("/community_search",{"type":"query","name":document.getElementById("search_input").value});
          }

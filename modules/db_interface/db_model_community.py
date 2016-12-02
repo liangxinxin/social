@@ -87,6 +87,6 @@ def select_by_name_paging(name,page_no,num_perpage):
 def select_all_paging(page_no,num_perpage):
     if page_no < 1:
         page_no = 1
-    paginate = Community.query.order_by(desc(Community.id)).paginate(page_no,num_perpage,False)
+        paginate = Community.query.order_by(desc(Community.id)).paginate(page_no,num_perpage,False)
     return paginate
 
