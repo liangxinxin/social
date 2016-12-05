@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, request, render_template 
 from flask import redirect, url_for
 from flask import jsonify 
@@ -133,7 +134,7 @@ def login():
     if model['result'] == True:
       return redirect(next_url)
     else:
-      return render_template('error.html',msg='login error')
+      return render_template('login.html',msg='用户名或密码错误！')
 
 @app.route('/logout',methods=['GET','POST'])
 def logout():

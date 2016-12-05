@@ -2,43 +2,834 @@
  * Restarting with stat
  * Debugger is active!
  * Debugger pin code: 261-968-665
-127.0.0.1 - - [02/Dec/2016 15:30:15] "GET /community_index HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:15] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:15] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:15] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:16] "GET /community_index HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:16] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:16] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:30:16] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:31:21] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:31:21] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:31:21] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:31:21] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:31:25] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:33:38] "GET /community_index HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:33:38] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:33:38] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:33:38] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:33:41] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:35:40] "GET /community_index HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:35:40] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:35:40] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:35:40] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:36:44] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:37:29] "GET /community_index HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:37:29] "GET /lib/meta-plate.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:37:29] "GET /lib/bootstrap35/js/bootstrap.js HTTP/1.1" 200 -
-127.0.0.1 - - [02/Dec/2016 15:37:29] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
- * Detected change in '/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/mod_community.py', reloading
- * Restarting with stat
- * Debugger is active!
- * Debugger pin code: 261-968-665
- * Detected change in '/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/mod_community.py', reloading
- * Restarting with stat
+127.0.0.1 - - [05/Dec/2016 14:09:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:15] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:09:15] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:18] "GET /login?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:18] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:22] "POST /login?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:09:22] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:11:51] "POST /login?next_url=http://localhost:6100/ HTTP/1.1" 302 -
+127.0.0.1 - - [05/Dec/2016 14:11:51] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:11:51] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:11:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:12:01] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:12:02] "GET /logout?next_url=http://localhost:6100/ HTTP/1.1" 302 -
+127.0.0.1 - - [05/Dec/2016 14:12:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:12:02] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:12:06] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:12:06] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:13:32] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:13:32] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:13:59] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:13:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:14:12] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:14:12] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:22:01] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:22:01] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:55] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:56] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:57] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:59] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:23:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:02] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:03] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:03] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:06] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:24:06] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:18] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:22] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:23] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:25:23] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:31] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:32] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:32] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:27:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:28:00] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:14] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:16] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:29:52] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:08] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:09] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:30:30] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:18] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:19] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:19] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:31:53] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:18] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:32:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:49] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:33:50] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:28] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:34:52] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:35:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:25] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:32] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:33] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:33] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:33] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:36:56] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:02] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:37:39] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:15] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:38:24] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:35] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:35] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:36] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:36] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:54] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:40:54] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:11] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:11] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:13] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:13] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:41:29] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:42:27] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:42:27] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:42:43] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:42:43] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:43:34] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:43:34] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:43:36] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:43:36] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:54] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:54] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:56] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:56] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:59] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:44:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:16] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:16] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:18] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:18] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:25] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:45:25] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:41] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:41] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:42] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:43] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:44] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:44] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:46:50] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:01] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:23] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:33] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:47:34] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:57] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:47:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:30] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:30] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:40] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:40] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:44] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:48:44] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:49:21] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:49:21] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:50:24] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:50:24] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:50:34] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:50:34] "POST /do_user_create HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:50:34] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:51:45] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:51:45] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:52:52] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:52:52] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:09] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:09] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:11] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:11] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:21] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:21] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:23] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:23] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:33] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:33] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:34] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:35] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:54:57] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:55:06] "GET /user_create? HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:55:06] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:55:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:55:35] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:56:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:56:10] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:56:13] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:56:13] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:23] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:25] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:35] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:57:50] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:12] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:13] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:13] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:13] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:23] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:58:25] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:30] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:30] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:32] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:58:32] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:55] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:57] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:58] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:59] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:59] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 14:59:59] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:29] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:30] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:30] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:30] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:32] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:54] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:57] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:01:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:00] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:00] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:03] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:05] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:05] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:02:36] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:04:04] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:24] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:24] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index HTTP/1.1" 500 -
 Traceback (most recent call last):
-  File "main.py", line 8, in <module>
-    from modules import mod_community
-  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/mod_community.py", line 69
-    return db_model_community.select_all_paging(1, default_num_perpage):
-                                                                       ^
-SyntaxError: invalid syntax
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1991, in wsgi_app
+    response = self.make_response(self.handle_exception(e))
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1567, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/main.py", line 53, in community_index
+    model = mod_community.get_default_communities(request);
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/mod_community.py", line 69, in get_default_communities
+    return db_model_community.select_all_paging(1, default_num_perpage)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/db_interface/db_model_community.py", line 91, in select_all_paging
+    return paginate
+UnboundLocalError: local variable 'paginate' referenced before assignment
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:33] "GET /community_index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:35] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1991, in wsgi_app
+    response = self.make_response(self.handle_exception(e))
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1567, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/main.py", line 53, in community_index
+    model = mod_community.get_default_communities(request);
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/mod_community.py", line 69, in get_default_communities
+    return db_model_community.select_all_paging(1, default_num_perpage)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/modules/db_interface/db_model_community.py", line 91, in select_all_paging
+    return paginate
+UnboundLocalError: local variable 'paginate' referenced before assignment
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:41] "GET /community_index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:04:45] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:13] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:13] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1991, in wsgi_app
+    response = self.make_response(self.handle_exception(e))
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1567, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Python/2.7/site-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/main.py", line 131, in login
+    return render_template('login.html')
+  File "/Library/Python/2.7/site-packages/flask/templating.py", line 134, in render_template
+    context, ctx.app)
+  File "/Library/Python/2.7/site-packages/flask/templating.py", line 116, in _render
+    rv = template.render(context)
+  File "/Library/Python/2.7/site-packages/jinja2/environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/Library/Python/2.7/site-packages/jinja2/environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/templates/login.html", line 3, in top-level template code
+    <!-- {% from 'commons/macros.html' import macro_navbar_title %} -->
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/templates/commons/_proto.html", line 56, in top-level template code
+    {% block body %}
+  File "/usr/local/klzhong/workspace/creditease/gitrepos/finance-news/social/templates/login.html", line 13, in block "body"
+    {{ macro_body_navbar() }}
+UndefinedError: 'macro_body_navbar' is undefined
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:16] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:31] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:05:31] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:05] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:05] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:08] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:08] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:09] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:09] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:12] "GET /login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:12] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:14] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:14] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:16] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:16] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:18] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:18] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:19] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:19] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:06:27] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:58] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:06:59] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:00] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:00] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:00] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:08] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:08] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:09] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:09] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:11] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:11] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:14] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:14] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:15] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:15] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:21] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:22] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:22] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:22] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:26] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:26] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:28] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/css/app.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:07:29] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:34] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:34] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:36] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:07:36] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:44] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:44] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:46] "GET /login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:46] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:48] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:48] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/bootstrap/css/bootstrap.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /stylesheets/theme.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/jquery-2.0.3.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /stylesheets/community/user.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/require.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /lib/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /images/black-Linen.png HTTP/1.1" 304 -
+127.0.0.1 - - [05/Dec/2016 15:08:55] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:58] "GET /user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:08:58] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:09:00] "GET /login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:09:00] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:09:07] "GET /user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/login?next_url=http://localhost:6100/login?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/user_create?next_url=http://localhost:6100/ HTTP/1.1" 200 -
+127.0.0.1 - - [05/Dec/2016 15:09:07] "GET /assets/ico/favicon.ico HTTP/1.1" 200 -
