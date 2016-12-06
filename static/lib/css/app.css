@@ -34,6 +34,9 @@ body {
 body {
     /* color: #fff; */
     text-align: center;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
     /* text-shadow: 0 1px 3px rgba(0,0,0,.5); */
 }
 
@@ -59,7 +62,6 @@ body {
 .inner {
     padding: 30px;
 }
-
 
 /*
  * Header
@@ -134,6 +136,10 @@ body {
     font-weight: bold;
 }
 
+.masthead {
+    position: absolute;
+
+}
 
 /*
  * Footer
@@ -152,11 +158,11 @@ body {
 @media (min-width: 768px) {
     /* Pull out the header and footer */
     .masthead {
-        position: fixed;
+        position: absolute;
         top: 0;
     }
     .mastfoot {
-        position: fixed;
+        position: absolute;
         bottom: 0;
     }
     /* Start the vertical centering */
@@ -244,4 +250,10 @@ body {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.index-main-div {
+    text-align: left;
+    margin-left: 20px;
+    padding: 10px;
 }

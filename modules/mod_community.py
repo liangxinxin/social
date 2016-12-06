@@ -64,8 +64,17 @@ def publish_community(request):
   return paginate,data,has_join 
   #return select value
 
-def get_default_communities(request):
+def get_default_communities(page_no, page_size):
   print "get default communities:"
-  return db_model_community.select_all_paging(1, default_num_perpage)
+  paginate = db_model_community.select_all_paging(page_no, page_size)
+  return paginate.items
+
+def get_hot_communities_total_num():
+  max_number = 1000;
+  data = db_model_community.select_all_paging(1, max_number)
+  if data == None:
+    return 0
+  else:
+    return len(data.items)
   
     

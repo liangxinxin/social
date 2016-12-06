@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, render_template 
+from flask import Flask, request, render_template
 from flask import redirect, url_for
 from flask import jsonify 
 
@@ -24,14 +24,33 @@ app.config.from_object('config')
 @app.route('/')
 #@interceptor(login_required=True)
 def default():
-  model = [] 
-  return render_template('index.html', model=model)
+  return redirect(url_for('index'))
 
 @app.route('/index')
 #@interceptor(login_required=False)
 def index():
-  model = [] 
-  return render_template('index.html', model=model)
+  page_size = 3
+  communities = mod_community.get_default_communities(1, page_size)
+  total_size = mod_community.get_hot_communities_total_num()
+  if communities != None:
+    print 'default coumunity list. data list len:',len(communities)
+    return render_template('index.html', target_list=communities, num=len(communities), no=1, size=page_size, totalsize=total_size)
+  else:
+    return render_template('index.html', target_list=communities, num=0, no=1, size=0, totalsize=0)
+
+@app.route('/indexpage')
+#@interceptor(login_required=False)
+def indexpage():
+  page_no = int(request.args.get('no'))
+  page_size = int(request.args.get('size'))
+  total_size = mod_community.get_hot_communities_total_num()
+  print "pageno:",page_no,"pagesize: ", page_size
+  communities = mod_community.get_default_communities(page_no, page_size)
+  if communities != None:
+    print 'default coumunity list. data list len:',len(communities)
+    return render_template('index.html', target_list=communities, num=len(communities), no=page_no, size=page_size, totalsize=total_size)
+  else:
+    return render_template('index.html', target_list=communities, num=0, no=page_no, size=0, totalsize=0)
 
 @app.route('/error', methods=['GET', 'POST'])
 #@interceptor(login_required=False)
@@ -50,12 +69,7 @@ def page_not_found(e):
 @app.route('/community_index', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def community_index():
-  model = mod_community.get_default_communities(request);
-  if model != None:
-    print 'default coumunity list. data list len:',len(model.items)
-    return render_template('community_index.html',paginate=model,object_list=model.items,num=len(model.items),name=search_name)
-  else:
-    return render_template('community_index.html',paginate=model,object_list=None,num=0,name=search_name)
+  return render_template('community_index.html')
 
 @app.route('/community_search', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
@@ -76,7 +90,7 @@ def community_new():
 #@interceptor(login_required=True)
 def community_create():
   model,community,has_join = mod_community.service(request)
-#  print model,community_id
+  #  print model,community_id
   if model != None and len(model.items) > 0:
     return render_template('community.html', paginate=model,object_list=model.items,community=community,has_join=has_join)
   else:
@@ -90,10 +104,10 @@ def community():
   post_num=len(model.items) 
   if model != None and community!=None:
     return render_template('community.html', paginate=model,post_num=post_num,object_list=model.items,\
-        user_list=user_list,community=community,has_join=has_join,page_no=page_no,real_num=real_num,\
-        num_perpage=num_perpage)
+                           user_list=user_list,community=community,has_join=has_join,page_no=page_no,real_num=real_num,\
+                           num_perpage=num_perpage)
   else:
-#    return render_template('community.html', community=community)
+    #    return render_template('community.html', community=community)
     return render_template('community_index.html')
 
 @app.route('/post_publish', methods=['GET', 'POST'])
@@ -109,12 +123,12 @@ def post_publish():
 def post():
   post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_post.post_info(request)
   reply_num=len(reply_data.items)
-#  print model
+  #  print model
   if reply_data == None:
     return render_template('post.html',post_data=post_data,post_user=post_user,community=community)
   else:
     return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
-        reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
+                           reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
@@ -122,7 +136,7 @@ def reply_publish():
   post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_reply.service(request)
   reply_num=len(reply_data.items)
   return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
-      reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
+                         reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
