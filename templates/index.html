@@ -15,26 +15,29 @@
 
   <div class="row">
     <div class="index-main-div">
-      <h3>热门社区列表：</h3>
+      <h3 class="index-hot-comm-title">热门社区列表：</h3>
 
       {%if num %}
         <ul>
           {% for community in target_list %}
             <li>
               <div class="community-div-wrapper">
-                <div class="cd-title-div row-fluid">
-                  <a class href="/community?community_id={{community.id}}">{{community.name|safe}}</a>
-                  <div class="info"> 成员数：{{community.user_num|safe}}</div>
+                <div class="cd-title-div">
+                  <div class="cd-title">
+                    <a class="" href="/community?community_id={{community.id}}">{{community.name|safe}}</a>
+                  </div>
+                  <div class="user-count-div"><small> 成员数：{{community.user_num|safe}}</small></div>
                 </div>
                 <div class="cd-desc-div">
                   {{community.describe|safe}}
                 </div>
+                <div class="div-bottom"> </div>
               </div>
             </li>
           {% endfor %}
         </ul>
 
-        <ul class="sync-pagination pagination-sm" id="pagination"></ul>
+        <ul class="sync-pagination pagination-sm" id="index-pagination"></ul>
 
         {%else%}
           <p> 没有推荐的热门社区，请搜索。

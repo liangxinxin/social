@@ -254,6 +254,46 @@ body {
 
 .index-main-div {
     text-align: left;
-    margin-left: 20px;
+    margin-left: 30px;
     padding: 10px;
+}
+
+.index-main-div ul {
+    list-style-type: none;
+    width: 680px;
+    margin-left: -30px;
+}
+
+.index-hot-comm-title {
+    margin-bottom: 25px;
+}
+
+.cd-title-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cd-title {
+    position: relative;
+    width: 600px;
+    display: inline;
+}
+
+.user-count-div {
+    position: absolute;
+    left: 860px; 
+    width: 100px;
+    display: inline;
+}
+
+.div-bottom {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.cd-desc-div {
+    margin-bottom: 15px;
+}
+
+#index-pagination {
+    margin-left: 0px;
 }

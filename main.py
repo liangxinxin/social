@@ -29,7 +29,7 @@ def default():
 @app.route('/index')
 #@interceptor(login_required=False)
 def index():
-  page_size = 3
+  page_size = 20
   communities = mod_community.get_default_communities(1, page_size)
   total_size = mod_community.get_hot_communities_total_num()
   if communities != None:
