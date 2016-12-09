@@ -9,13 +9,11 @@ class ReplyLikeActivity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reply_id = db.Column(db.Integer, unique=False)
     user_id = db.Column(db.Integer, unique=False)
-    # post_id = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
   
     def __init__(self,reply_id,user_id,create_time):
         self.reply_id= reply_id
         self.user_id = user_id
-        # self.post_id = post_id 
         self.create_time=create_time 
 
 def create_table():
@@ -23,12 +21,11 @@ def create_table():
 
 def is_reply_liked_by_user(reply_id, user_id):
     print "is_reply_liked_by_user:", reply_id, user_id
-    # TODO
-    return False
+    count=ReplyLikeActivity.query.filter_by(reply_id=reply_id, user_id=user_id).count()
+    return count > 0
 
 def get_reply_like_count(reply_id):
-    # TODO
-    return 10
+    return ReplyLikeActivity.query.filter(reply_id==reply_id).count()
 
 def insert(reply_id, user_id, create_time):
     insert=ReplyLikeActivity(reply_id=reply_id, user_id=user_id, create_time=create_time)
