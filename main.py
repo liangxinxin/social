@@ -121,14 +121,14 @@ def post_publish():
 @app.route('/post', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def post():
-  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_post.post_info(request)
+  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage, like_stats, liked_by_user = mod_post.post_info(request)
   reply_num=len(reply_data.items)
   #  print model
   if reply_data == None:
     return render_template('post.html',post_data=post_data,post_user=post_user,community=community)
   else:
     return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
-                           reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
+                           reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user)
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
@@ -137,6 +137,12 @@ def reply_publish():
   reply_num=len(reply_data.items)
   return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
                          reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
+
+@app.route('/reply_like_status_change', methods=['GET', 'POST'])
+#@interceptor(login_required=True)
+def reply_like():
+  mod_reply.reply_like_changed(request)
+  return jsonify(res="status-changed")
 
 @app.route('/login',methods=['GET','POST'])
 def login():

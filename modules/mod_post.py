@@ -12,6 +12,7 @@ from db_interface import db_model_community
 from db_interface import db_model_user_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
+from db_interface import db_model_reply_like_stat
 
 default_page_no = 1
 default_num_perpage = 10
@@ -113,5 +114,27 @@ def post_info(request):
   community = db_model_community.select_by_id(community_id)
   print "post data:",post_data,"reply data:",reply_data
 
+  def get_reply_like_count(reply):
+    reply_id = reply.id
+    count = db_model_reply_like_stat.get_reply_like_count(reply_id)
+    return (reply_id, count)
+
+  def is_reply_liked(reply):
+    reply_id = reply.id
+    if session.get('userinfo'):
+      user_id = session.get('userinfo')['id']
+      is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
+      return (reply_id, is_liked)
+    else:
+      return (reply_id, False)
+
+  liked_by_user = dict(map(is_reply_liked, reply_data.items))
+  like_stats = dict(map(get_reply_like_count, reply_data.items))
+  
   #return select value
-  return post_data,post_user,reply_data,reply_user_list,community,page_no,len(reply_data.items),num_perpage
+  return post_data,post_user,reply_data,reply_user_list,community,page_no,len(reply_data.items),num_perpage, like_stats, liked_by_user
+
+
+
+
+  

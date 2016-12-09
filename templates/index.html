@@ -4,14 +4,16 @@
 {% block body %}
   {{ macro_body_navbar() }}
 
-  <div class="row">
-    <div class="col-sm-7 col-sm-offset-1 search-div">
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" id="search_input" placeholder="Search" onkeypress="if(event.keyCode==13) {search()}">
-        <span class="glyphicon glyphicon-search form-control-feedback" />
-      </div>
-    </div>
+<div class="row">
+  <div class="col-sm-8 search-div">
+    <div class="input-group">
+      <input type="text" class="form-control input-lg" id="search_input" placeholder="Search" onkeypress="if(event.keyCode==13) {search()}">
+      <span class="input-group-btn">
+        <button class="btn btn-default btn-lg" type="button" onclick="search()">搜索</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
+</div>
 
   <div class="row">
     <div class="index-main-div">
@@ -28,7 +30,7 @@
                   </div>
                   <div class="user-count-div"><small> 成员数：{{community.user_num|safe}}</small></div>
                 </div>
-                <div class="cd-desc-div">
+                <div class="cd-desc-div describe">
                   {{community.describe|safe}}
                 </div>
                 <div class="div-bottom"> </div>
@@ -71,6 +73,30 @@
            window.location.href = url;
        }
    });
+
+   function post(URL, PARAMS) {
+       var temp = document.createElement("form");
+       temp.action = URL;
+       temp.method = "post";
+       temp.style.display = "none";
+       for (var x in PARAMS) {
+           var opt = document.createElement("textarea");
+           opt.name = x;
+           opt.value = PARAMS[x];
+           temp.appendChild(opt);
+       }
+       document.body.appendChild(temp);
+       temp.submit();
+       return temp;
+   }
+
+   function search() {
+       var searchText = $("#search_input").val(); //document.getElementById("search_input").value
+       console.debug("searchText:", searchText);
+       if (searchText && searchText.trim()) {
+           post("/community_search",{"type":"query", "name":searchText});
+       }
+   }
   </script>
 
 {% endblock %}

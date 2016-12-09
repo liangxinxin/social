@@ -1,168 +1,213 @@
 {% extends 'commons/_proto.html' %}
 {% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="stylesheets/community/community_home.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/community/post.css">
-{% endblock %}
-
 {% block body %}
-    <div id="navbar">
-    	{{ macro_body_navbar() }}
-    </div>
-    <input id="post_id" style="display:none" value={{post_data.id}}></input>
-    <input id="community_id" style="display:none" value={{community.id}}></input>
-    <div id="all_backgroud" class="all_background">
-        <div id="post_wrapper" class="post_all_wraper">
-            <div id="community_head" class="card_top_wrap">
-                <div id="community_head_left" class="card_info">
-                    <div id="community_img" class="card_image">
-                        <a>
-                            <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
-                        </a>
-                    </div>
-                    <div id="community_title" class="card_title">
-                       <a class="card_title_name" title="" href="/community?community_id={{community.id}}">{{community.name}}岛</a>
-                       <span class="card_num_wrap">
-                           <span class="card_num_label">成员：</span>
-                           <span class="card_num">{{community.user_num}}</span>
-                           <span class="card_num_label">贴子：</span>
-                           <span class="card_num">{{community.post_num}}</span>
-                       </span>
-                    </div>
-                </div>
-            </div>
-
-            {% if page_no < 2%}
-            <div id="post_info" class="post_info">
-                <div id="post_head" class="post_detail_title">
-                    {{post_data.title}}
-                </div>
-                <div class="post_detail_body">
-                    <div class="post_detail_author">
-                      <div class="post_detail_user_face">
-                          <a href="/user_info?user_id={{post_user.id}}">
-                              <img class src="{{post_user.head_img_url}}">
-                          </a>
-                      </div>
-                      <div class="post_detail_user_name_wraper">
-                          <a class="post_detail_user_name">
-                              {{post_user.name}}
-                          </a>
-                      </div>
-                    </div>
-                    <div class="post_detail_content_wrap">
-                        <div class="post_detail_content_area">
-                            <div class="post_detail_content">
-                                <p class="post_detail_content_char">{{post_data.content}} <p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {%endif%}
-            <div id="reply_info" class="reply_info">
-                {% if reply_list and reply_user_list %}
-                    {%for i in range(reply_num)%}
-                        <div class="reply_body">
-                            <div class="reply_author">
-                              <div class="reply_user_face">
-                                  <a href="/user_info?user_id={{reply_user_list[i].id}}">
-                                      <img class src="{{reply_user_list[i].head_img_url}}">
-                                  </a>
-                              </div>
-                              <div class="reply_user_name_wraper">
-                                  <a class="reply_user_name">
-                                      {{reply_user_list[i].name}}
-                                  </a>
-                              </div>
-                            </div>
-                            <div class="reply_content_wrap">
-                                <div class="reply_content_area">
-                                    <div class="reply_content">
-                                        <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {%endfor%}
-                {% endif %}
-            </div>
-            <div class="pagination">
-                <ul>
-                    {% if page_no > 1%}
-                    <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li>
-                    {% endif%}
-                    <li><a href="#">{{page_no}}</a></li>
-                    {% if real_num >=num_perpage%}
-                    <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li>
-                    {% endif%}
-                </ul>
-            </div>
-            <div id="publish_reply" class="publish_reply_wrap">
-                <!--<div style="text-align:left; height:30px; background:#f2f4f7; padding:10px 5px 0 0;">-->
-                <div class="publish_reply_mark">
-                    <p class="publish_reply_mark_p">发起回复</p>
-                </div>
-                <div id="div_reply_content" style="text-align:left; height:300px; background:#f2f4f7;">
-                    <input id="input_reply_content" type="text" style="width:500px;height:290px" />
-                </div>
-                <div id="div_button_reply_post" style="text-align:left; height:50px; background:#f2f4f7">
-                    {% if session.get('userinfo') %}
-                    <button id="button_reply_post" onclick='publish_reply()'>发表</button>
-                    {%else%}
-                    <button id="button_reply_post" onclick='publish_reply_no_login()'>发表</button>
-                    {%endif%}
-                </div>
-            </div>
+<div id="navbar">
+  {{ macro_body_navbar() }}
+</div>
+<input id="post_id" style="display:none" value={{post_data.id}}></input>
+<input id="community_id" style="display:none" value={{community.id}}></input>
+<div id="all_backgroud" class="post-page-main">
+  <div id="post_wrapper" class="post_all_wraper">
+    <div id="community_head" class="card_top_wrap">
+      <div id="community_head_left" class="card_info">
+        <div id="community_img" class="card_image">
+          <a>
+            <img class src="https://img3.doubanio.com/icon/g35417-1.jpg">
+          </a>
         </div>
+        <div id="community_title" class="card_title">
+          <a class="card_title_name" title="" href="/community?community_id={{community.id}}">{{community.name}}岛</a>
+          <span class="card_num_wrap">
+            <span class="card_num_label">成员：</span>
+            <span class="card_num">{{community.user_num}}</span>
+            <span class="card_num_label">贴子：</span>
+            <span class="card_num">{{community.post_num}}</span>
+          </span>
+        </div>
+      </div>
     </div>
 
-    <script type="text/javascript">
-         //var obj=document.getElementById("button_publish_post");
-         //obj.onclick=function() {
-         //  publish_post();
-         //}
-         function publish_reply() {
-           //get title
-           //get content
-           var content=document.getElementById("input_reply_content").value;
-           var id=document.getElementById("post_id").value;
-           var community_id=document.getElementById("community_id").value;
-           //post request for save post
-           {% if session.get('userinfo') %}
-             post("/reply_publish",{"type":"publish","content":content,"create_user_id":{{session.get('userinfo')['id']}},"post_id":id,"community_id":community_id});
-           {%else%}
-             post("/reply_publish",{"type":"publish","content":content,"create_user_id":1,"post_id":id,"community_id":community_id});
-           {%endif%}
-         }
-         function publish_reply_no_login() {
-           alert('您需要登录后才能回复哦！');
-         }
-         function post(URL, PARAMS) {        
-             var temp = document.createElement("form");        
-             temp.action = URL;        
-             temp.method = "post";        
-             temp.style.display = "none";        
-             for (var x in PARAMS) {        
-                 var opt = document.createElement("textarea");        
-                 opt.name = x;        
-                 opt.value = PARAMS[x];        
-                 temp.appendChild(opt);        
-             }     
-             document.body.appendChild(temp);        
-             temp.submit();        
-             return temp;        
-         }     
-         function search() {
-             post("/search",{"query":document.getElementById("search_input").value});
-         }
-         function pre_page(page_no) {
-             window.location="/post?post_id={{post_data.id}}&community_id={{community.id}}&page_no="+({{page_no}}-1).toString();
-         }
-         function next_page(page_no) {
-             //window.location="/post?post_id="+({{post_data.id}}).toString()+"&community_id="+({{community.id}}).toString()+"&page_no="+({{page_no}}+1).toString();
-             window.location="/post?post_id={{post_data.id}}&community_id={{community.id}}&page_no="+({{page_no}}+1).toString();
-         }
-    </script>
-{% endblock %}
+    {% if page_no < 2 %}
+    <div id="post_info" class="post_info">
+      <div id="post_head" class="post_detail_title">
+        {{post_data.title}}
+      </div>
+      <div class="post_detail_body">
+        <div class="post_detail_author">
+          <div class="post_detail_user_face">
+            <a href="/user_info?user_id={{post_user.id}}">
+              <img class src="{{post_user.head_img_url}}">
+            </a>
+          </div>
+          <div class="post_detail_user_name_wraper">
+            <a class="post_detail_user_name">
+              {{post_user.name}}
+            </a>
+          </div>
+        </div>
+        <div class="post_detail_content_wrap">
+          <div class="post_detail_content_area">
+            <div class="post_detail_content">
+              <p class="post_detail_content_char">{{post_data.content}} <p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%endif%}
+    <div id="reply_info" class="reply_info">
+      {% if reply_list and reply_user_list %}
+      {%for i in range(reply_num)%}
+      <div class="reply_body">
+        <input type="hidden" value="{{reply_list[i].id|safe}}" name="reply-id-hidden" />
+        <div class="reply_author">
+          <div class="reply_user_face">
+            <a href="/user_info?user_id={{reply_user_list[i].id}}">
+              <img class src="{{reply_user_list[i].head_img_url}}">
+            </a>
+          </div>
+          <div class="reply_user_name_wraper">
+            <a class="reply_user_name">
+              {{reply_user_list[i].name}}
+            </a>
+          </div>
+        </div>
+        <div class="reply_content_wrap">
+          <div class="reply_content_area">
+            <div class="reply_content">
+              <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
+            </div>
+          </div>
+          <div class="reply_like_stat">
+            <input type="hidden" id="isliked-{{reply_list[i].id|safe}}" value="{{liked_by_user[reply_list[i].id]}}"/>
+            {% if liked_by_user[reply_list[i].id]%}
+            <a id="link-{{reply_list[i].id|safe}}" href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+            {% else %}
+            <a id="link-{{reply_list[i].id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+            {%endif%}
+            <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+      {% endif %}
+    </div>
+
+    <div class="pagination">
+      <ul>
+        {% if page_no > 1%}
+        <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li>
+        {% endif%}
+        <li><a href="#">{{page_no}}</a></li>
+        {% if real_num >=num_perpage%}
+        <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li>
+        {% endif%}
+      </ul>
+    </div>
+    <div id="publish_reply" class="publish_reply_wrap">
+      <div class="publish_reply_mark">
+        <p class="publish_reply_mark_p">发表回复</p>
+      </div>
+      <div class="publish-reply-content-wrapper">
+        <div id="div_reply_content" class="row">
+          <div class="col-sm-10">
+            <textarea id="input_reply_content" class="publish-reply-content-area"></textarea>
+          </div>
+        </div>
+        <div id="div_button_reply_post" class="row reply-button-wrapper">
+          {% if session.get('userinfo') %}
+          <button id="button_reply_post" class="btn btn-primary publish-reply-button" onclick='publish_reply()'>发表</button>
+          {%else%}
+          <button id="button_reply_post" class="btn btn-primary publish-reply-button" onclick='publish_reply_no_login()'>发表</button>
+          {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+   //var obj=document.getElementById("button_publish_post");
+   //obj.onclick=function() {
+   //  publish_post();
+   //}
+   function publish_reply() {
+       //get title
+       //get content
+       var content=document.getElementById("input_reply_content").value;
+       var id=document.getElementById("post_id").value;
+       var community_id=document.getElementById("community_id").value;
+       //post request for save post
+       {% if session.get('userinfo') %}
+       post("/reply_publish",{"type":"publish","content":content,"create_user_id":{{session.get('userinfo')['id']}},"post_id":id,"community_id":community_id});
+       {%else%}
+       post("/reply_publish",{"type":"publish","content":content,"create_user_id":1,"post_id":id,"community_id":community_id});
+       {%endif%}
+   }
+   function publish_reply_no_login() {
+       alert('您需要登录后才能回复哦！');
+   }
+   function post(URL, PARAMS) {
+       var temp = document.createElement("form");
+       temp.action = URL;
+       temp.method = "post";
+       temp.style.display = "none";
+       for (var x in PARAMS) {
+           var opt = document.createElement("textarea");
+           opt.name = x;
+           opt.value = PARAMS[x];
+           temp.appendChild(opt);
+       }
+       document.body.appendChild(temp);
+       temp.submit();
+       return temp;
+   }
+   function search() {
+       post("/search",{"query":document.getElementById("search_input").value});
+   }
+   function pre_page(page_no) {
+       window.location="/post?post_id={{post_data.id}}&community_id={{community.id}}&page_no="+({{page_no}}-1).toString();
+   }
+   function next_page(page_no) {
+       //window.location="/post?post_id="+({{post_data.id}}).toString()+"&community_id="+({{community.id}}).toString()+"&page_no="+({{page_no}}+1).toString();
+       window.location="/post?post_id={{post_data.id}}&community_id={{community.id}}&page_no="+({{page_no}}+1).toString();
+   }
+
+   function likeReply(replyId) {
+       //console.debug("like icon clicked. replyId: ", replyId);
+       {% if session.get('userinfo') %}
+       var countElementId = "count-" + replyId;
+       var linkElementId = "link-" + replyId;
+       var isliked = $("#isliked-" + replyId).val();
+       var modType = "";
+
+       if (isliked == "True") {
+           var count = $("#" + countElementId).text();
+           var countNum = parseInt(count) - 1;
+           $("#" + countElementId).text("" + countNum);
+           $("#" + linkElementId).addClass("reply-liked-no");
+           $("#isliked-" + replyId).val("False");
+           modType="remove";
+       } else {
+           var count = $("#" + countElementId).text();
+           var countNum = parseInt(count) + 1;
+           $("#" + countElementId).text("" + countNum);
+           $("#" + linkElementId).removeClass("reply-liked-no");
+           $("#isliked-" + replyId).val("True");
+           modType="add";
+       }
+
+       var url = "/reply_like_status_change?replyid=" + replyId + "&modtype=" + modType;
+       console.debug("isliked: ", isliked, "url: ", url);
+       $.get(url, function(data) {
+           console.debug("data:", data);
+       });
+
+       {%else%}
+       alert("需要登陆才能点赞！");
+       {%endif%}
+
+   }
+  </script>
+  {% endblock %}

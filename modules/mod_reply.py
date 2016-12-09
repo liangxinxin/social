@@ -5,11 +5,13 @@ import json
 import urllib 
 import urllib2 
 import httplib 
-import time 
+import time
+from flask import session
 from db_interface import db_model_user
 from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
+from db_interface import db_model_reply_like_stat
 
 default_page_no = 1
 default_num_perpage = 15 
@@ -63,6 +65,19 @@ def publish_reply(request):
   community = db_model_community.select_by_id(community_id)
   #return select value
   return post_data,post_user,paginate,reply_user_list,community,default_page_no,len(paginate.items),default_num_perpage
+
+def reply_like_changed(request):
+  if session.get('userinfo'):
+    user_id = session.get('userinfo')['id']
+    reply_id= request.args.get("replyid")
+    mod_type= request.args.get("modtype")
+    if mod_type == "add":
+      ISOTIMEFORMAT='%Y-%m-%d %X'
+      create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
+      db_model_reply_like_stat.insert(reply_id, user_id, create_time)
+    else:
+      db_model_reply_like_stat.remove(reply_id, user_id)
+    
 
 #def query_post_in_community(request):
 #  community_id = request.args.get("community_id",default_community_id)
