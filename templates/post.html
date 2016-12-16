@@ -81,7 +81,7 @@
           </div>
           <div class="reply_like_stat">
             <input type="hidden" id="isliked-{{reply_list[i].id|safe}}" value="{{liked_by_user[reply_list[i].id]}}"/>
-            {% if liked_by_user[reply_list[i].id]%}
+            {% if liked_by_user and liked_by_user[reply_list[i].id]%}
             <a id="link-{{reply_list[i].id|safe}}" href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
             {% else %}
             <a id="link-{{reply_list[i].id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>

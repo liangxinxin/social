@@ -133,10 +133,10 @@ def post():
 @app.route('/reply_publish', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def reply_publish():
-  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage = mod_reply.service(request)
+  post_data,post_user,reply_data,reply_user_list,community,page_no,real_num,num_perpage,like_stats, liked_by_user = mod_reply.service(request)
   reply_num=len(reply_data.items)
   return render_template('post.html',post_data=post_data,post_user=post_user,reply_num=reply_num,reply_list=reply_data.items,\
-                         reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage)
+                         reply_user_list=reply_user_list,community=community,page_no=page_no,real_num=real_num,num_perpage=num_perpage,like_stats=like_stats, liked_by_user=liked_by_user)
 
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
 #@interceptor(login_required=True)

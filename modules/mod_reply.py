@@ -63,8 +63,24 @@ def publish_reply(request):
     reply_user_list.append(user)
 
   community = db_model_community.select_by_id(community_id)
+  def get_reply_like_count(reply):
+    reply_id = reply.id
+    count = db_model_reply_like_stat.get_reply_like_count(reply_id)
+    return (reply_id, count)
+
+  def is_reply_liked(reply):
+    reply_id = reply.id
+    if session.get('userinfo'):
+      user_id = session.get('userinfo')['id']
+      is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
+      return (reply_id, is_liked)
+    else:
+      return (reply_id, False)
+
+  liked_by_user = dict(map(is_reply_liked, paginate.items))
+  like_stats = dict(map(get_reply_like_count, paginate.items))
   #return select value
-  return post_data,post_user,paginate,reply_user_list,community,default_page_no,len(paginate.items),default_num_perpage
+  return post_data,post_user,paginate,reply_user_list,community,default_page_no,len(paginate.items),default_num_perpage,like_stats, liked_by_user
 
 def reply_like_changed(request):
   if session.get('userinfo'):
