@@ -806,4 +806,75 @@ h3 {
 .reply-liked-no {
     color: #333
 }
+.index-post-main-div{
+    text-align:left;
+    width:90%;
+    background-color:#fff;
+}
+.index-hot-post-title{
+    background-color:#f8f8f8;
+    height:30px;
+}
+.index-post-main-div ul{
+ list-style:none;
+}
+.post-left{
+ width:50px;
+ float:left;
+ height:100px;
+ font-size:8px;
+ color:#333;
+ text-align:center;
+}
+.user-header-image {
+  width:50px;
+  height:50px;
+  overflow:hidden;
+}
+.img-size{
+  width:45px;
+  height:45px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+.post-desc {
+  overflow:hidden;
+  word-break: break-all;
+  height:100px;
+  margin-top:10px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:5;
+}
+.post-community{
+    margin-right:15px;
+}
+.post-div{
+    height:auto;
+    width:100%;
+    margin-top:10px;
+    margin-bottom:10px;
+    min-height:50px;
+}
+.post-cont-right{
+    float:right;
+    height:auto;
+    min-height:100px;
+}
+.clear{
+    clear:both;
+}
+
+.post-title-div{
+    float:right;
+    min-height:20px;
+    height:auto;
+}
+.post-border-bottom{
+    border-bottom: 1px solid #e8e8e8;
+    font-size:12px;
+}
+
 /* community_search_result.html  end*/

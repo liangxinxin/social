@@ -186,8 +186,19 @@
   margin-left:10px;
   margin-top:10px;
 }
+.post-content{
+    position: relative;
+    width: 600px;
+    height:auto;
+    display: inline;
+}
 
-
+.post-user-head-img{
+  width:48px;
+  height:48px;
+  margin-right:20px;
+  overflow:hidden;
+}
 
 
 
