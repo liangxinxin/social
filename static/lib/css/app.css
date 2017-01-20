@@ -806,6 +806,9 @@ h3 {
 .reply-liked-no {
     color: #333
 }
+
+/* community_search_result.html  end*/
+/* good_post_list.html start*/
 .index-post-main-div{
     text-align:left;
     width:90%;
@@ -881,5 +884,4 @@ h3 {
 .page-center{
  text-align:center;
 }
-
-/* community_search_result.html  end*/
+/*good_post_list.html end*/
