@@ -15,7 +15,8 @@ class Community(db.Model):
     create_user_id = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
-  
+    posts = db.relationship('Post', backref='community',lazy='dynamic')
+
     def __init__(self,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
         self.name = name
         self.user_num = user_num

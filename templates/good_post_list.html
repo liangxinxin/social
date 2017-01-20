@@ -1,0 +1,132 @@
+{% extends 'commons/_proto.html' %}
+{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
+
+{% block body %}
+{{ macro_body_navbar() }}
+
+<div class="row">
+    <div class="col-sm-8 search-div">
+        <div class="input-group">
+            <input type="text" class="form-control input-lg" id="search_input" placeholder="Search"
+                   onkeypress="if(event.keyCode==13) {search()}">
+            <span class="input-group-btn">
+        <button class="btn btn-default btn-lg" type="button" onclick="search()">搜索</button>
+      </span>
+        </div><!-- /input-group -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="index-post-main-div">
+        <h3 class="index-hot-post-title">优秀帖子推荐</h3>
+
+        {%if num %}
+        <ul>
+            {% for post in post_list %}
+            <li>
+                <div class="community-div-wrapper">
+
+                    <div class="post-div">
+                        <div class="post-left">
+                            <div class="user-header-image">
+                                <a href="/user_info?user_id={{post.user.id}}">
+                                    <img class="img-size" src="{{post.user.head_img_url}}">
+                                </a>
+
+                            </div>
+                            {% if post.floor_num >0 %}
+                                <div>{{post.floor_num}}条评论</div>
+                            {%else%}
+                                <div>暂无评论</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-11 post-cont-right">
+                            <div class="col-sm-12 post-title-div">
+                                <a class="" href="/post?post_id={{post.id}}">{{post.title}}</a>
+                            </div>
+                            <div class="col-sm-12 post-desc">
+                                {{post.content}}
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="post-border-bottom">
+                        <span class="post-community">来自：{{post.community.name}}社区</span>
+                        <span class="post-community">
+                             {{post.create_time}}
+                        </span>
+                    </div>
+                </div>
+
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="page-center"><ul class="sync-pagination pagination-sm" id="index-pagination"></ul></div>
+
+        {%else%}
+        <p> 没有推荐的热门帖子，请搜索。
+            {%endif%}
+    </div>
+</div>
+
+<script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+   var pageNo = {{no}};
+   var pageSize = {{size}};
+   var totalCount = {{totalsize}};
+   console.debug("page:", pageNo, pageSize, totalCount);
+
+   var totalPages = Math.ceil(totalCount/pageSize);
+
+   $('.sync-pagination').twbsPagination({
+       startPage: pageNo,
+       totalPages: totalPages,
+       first: '首页',
+       prev: '前一页',
+       next: '下一页',
+       last: '末页',
+       onPageClick: function (evt, page) {
+           if (page == pageNo) {
+               console.debug("current page number clicked, do nothing.");
+               return;
+           }
+           var url = "/index?no=" + page + "&size=" + pageSize;
+           console.debug("pageurl:", url);
+           console.log("pageSize:",pageSize);
+          window.location.href = url;
+
+       }
+   });
+
+   function post(URL, PARAMS) {
+       var temp = document.createElement("form");
+       temp.action = URL;
+       temp.method = "post";
+       temp.style.display = "none";
+       for (var x in PARAMS) {
+           var opt = document.createElement("textarea");
+           opt.name = x;
+           opt.value = PARAMS[x];
+           temp.appendChild(opt);
+       }
+       document.body.appendChild(temp);
+       temp.submit();
+       return temp;
+   }
+
+   function search() {
+       var searchText = $("#search_input").val(); //document.getElementById("search_input").value
+       console.debug("searchText:", searchText);
+       if (searchText && searchText.trim()) {
+           post("/community_search",{"type":"query", "name":searchText});
+       }
+   }
+
+
+
+
+
+</script>
+
+{% endblock %}

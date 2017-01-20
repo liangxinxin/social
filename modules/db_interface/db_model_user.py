@@ -16,6 +16,7 @@ class User(db.Model):
     professional = db.Column(db.String(300), unique=False)
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
+    posts = db.relationship('Post', backref='user',lazy='dynamic')
   
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
