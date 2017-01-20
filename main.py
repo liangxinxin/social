@@ -26,18 +26,18 @@ def default():
     return redirect(url_for('index'))
 
 
-@app.route('/index')
-# @interceptor(login_required=False)
-def index():
-    page_size = 20
-    communities = mod_community.get_default_communities(1, page_size)
-    total_size = mod_community.get_hot_communities_total_num()
-    if communities != None:
-        print 'default coumunity list. data list len:', len(communities)
-        return render_template('index.html', target_list=communities, num=len(communities), no=1, size=page_size,
-                               totalsize=total_size)
-    else:
-        return render_template('index.html', target_list=communities, num=0, no=1, size=0, totalsize=0)
+# @app.route('/index')
+# # @interceptor(login_required=False)
+# def index():
+#     page_size = 20
+#     communities = mod_community.get_default_communities(1, page_size)
+#     total_size = mod_community.get_hot_communities_total_num()
+#     if communities != None:
+#         print 'default coumunity list. data list len:', len(communities)
+#         return render_template('index.html', target_list=communities, num=len(communities), no=1, size=page_size,
+#                                totalsize=total_size)
+#     else:
+#         return render_template('index.html', target_list=communities, num=0, no=1, size=0, totalsize=0)
 
 
 @app.route('/indexpage')
@@ -213,7 +213,7 @@ def user_info():
     return render_template('user_info.html', user_info=user_info)
 
 
-@app.route('/good_post_list', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def good_post_list():
     page_no, page_size, post_list = mod_post.select_good_post(request)
     total_size = mod_post.select_goodpost_all()

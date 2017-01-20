@@ -27,8 +27,8 @@
 html,
 body {
     height: 100%;
-    /* background-color: #333; */
-    background-image: url('../../images/furley_bg.png');
+   background-color: #fff;
+    /*  background-image: url('../../images/furley_bg.png'); */
 }
 
 body {
@@ -812,8 +812,9 @@ h3 {
     background-color:#fff;
 }
 .index-hot-post-title{
-    background-color:#f8f8f8;
     height:30px;
+    width:90%;
+    margin-left:40px;
 }
 .index-post-main-div ul{
  list-style:none;
@@ -875,6 +876,10 @@ h3 {
 .post-border-bottom{
     border-bottom: 1px solid #e8e8e8;
     font-size:12px;
+    text-align:right;
+}
+.page-center{
+ text-align:center;
 }
 
 /* community_search_result.html  end*/
