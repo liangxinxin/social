@@ -3,50 +3,95 @@ import sys
 import pycurl
 import cStringIO
 import json
-import urllib 
-import urllib2 
-import httplib 
-import time 
+import urllib
+import urllib2
+import httplib
+import time
 from db_interface import db_model_user
+from db_interface import db_model_user_relation
 
 default_page_no = 1
 default_num_perpage = 20
 default_community_id = 0
 default_post_id = 0
+default_relation = 0
+has_relation = 1
+cancel_relation =2
+default_relation_id = 0
+
 
 def service(request):
-  print "enter do user create service"
-  if request.method == 'POST':
-    type=request.form.get("type")
-    if type == "publish":
-      return create_user(request)
-    else:
-      print "error request:",request
-  elif request.method == 'GET':
-    user_id=request.args.get("user_id",0)
-    if user_id != 0:
-      return query_user_info(request)
+    print "enter do user create service"
+    if request.method == 'POST':
+        type = request.form.get("type")
+        if type == "publish":
+            return create_user(request)
+        else:
+            print "error request:", request
+    elif request.method == 'GET':
+        user_id = request.args.get("user_id", 0)
+        if user_id != 0:
+            return query_user_info(request)
+
 
 def create_user(request):
-  print "now create new user request"
-  #insert to db
-  name = request.form.get("name")
-  password = request.form.get("password")
-  mobile = request.form.get("mobile",0)
-  ISOTIMEFORMAT='%Y-%m-%d %X'
-  create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
-  print 'name:',name,'mobile:',mobile
-  print "now insert to db"
-  db_model_user.insert(name=name,password=password,mobile=mobile)
+    print "now create new user request"
+    # insert to db
+    name = request.form.get("name")
+    password = request.form.get("password")
+    mobile = request.form.get("mobile", 0)
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    print 'name:', name, 'mobile:', mobile
+    print "now insert to db"
+    db_model_user.insert(name=name, password=password, mobile=mobile)
 
-  #return select value
-  user=db_model_user.select_by_name_and_password_and_mobile(name=name,password=password,mobile=mobile)
-  if user != None:
-    session['userinfo'] = {'name':user.name, 'id':user.id}
-  return    
+    # return select value
+    user = db_model_user.select_by_name_and_password_and_mobile(name=name, password=password, mobile=mobile)
+    if user != None:
+        session['userinfo'] = {'name': user.name, 'id': user.id}
+    return
+
+
 #  rt=jsonify(result="succ",name=name,mobile=mobile) 
 
 def query_user_info(request):
-  user_id=request.args.get("user_id")
-  user_info =db_model_user.select_by_id(user_id) 
-  return user_info
+    user_id = request.args.get("user_id")
+    user_info = db_model_user.select_by_id(user_id)
+    return user_info
+
+
+def add_relation(request):
+    print "now create user relation"
+    # insert db
+    user_id = session.get('userinfo')['id']
+    relation_user_id = request.form.get("relation_user_id")
+    data =db_model_user_relation.select_by_user_id(user_id, relation_user_id)
+    if data!=None:
+        db_model_user_relation.update(user_id,relation_user_id,has_relation)
+    else:
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
+        create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+        update_time = create_time
+        print 'user_id', user_id, 'relation_user_id', relation_user_id
+        db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
+
+
+def update_relation(request):
+    print "now update user relation"
+    # update  is_relation = 1
+    user_id = session.get('userinfo')['id']
+    relation_user_id = request.form.get("relation_user_id", 0)
+    db_model_user_relation.update(user_id,relation_user_id, cancel_relation)
+
+def select_relation_user_id(request):
+    print "now select user relation"
+    # select db
+    user_id = session.get('userinfo')['id']
+    relation_user_id = request.form.get("relation_user_id", 0)
+    user_relation =db_model_user_relation.select_by_user_id(user_id,relation_user_id)
+    if user_relation !=None:
+        return user_relation.is_relation
+    else:
+        return default_relation
+

@@ -22,8 +22,90 @@
             <div id="user_professional" class="user_info_professional_div">
                 <p class="user_info_professional_p">{{user_info.professional}}</p>
             </div>
+            <div>
+
+                <a class="user_btn user_sendmsg_btn" onclick="add_relation()">发私信</a>
+            </div>
             {%endif%}
         </div>
     </div>
 
+<script type="text/javascript">
+  $('a.user_sendmsg_btn').before(select_relation());
+
+  var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
+
+function add_relation(){
+    {% if session.get('userinfo') %}
+
+        $.ajax({
+             type:'POST',
+             url:'/add_relation',
+             data:{
+                relation_user_id:{{user_info.id}},
+                 is_relation:0
+             },
+             dataType:'json',
+             success:function(data) {
+                var a = '<a  class="user_btn user_relation_btn"  onclick="cancel_relation()">已关注</a>'
+                $('a.user_relation_btn').remove();
+                $('a.user_sendmsg_btn').before(a);
+             },
+             error:function(xhr,type){
+                 alert('操作失败!');
+             }
+         })
+    {%else%}
+        alert('请先登录')
+    {%endif%}
+}
+function cancel_relation(){
+ {% if session.get('userinfo') %}
+    var userid={{session.get('userinfo')['id']}};
+    $.ajax({
+         type:'POST',
+         url:'/cancel_relation',
+         data:{
+            user_id:userid,
+            relation_user_id:{{user_info.id}},
+         },
+         dataType:'json',
+         success:function(data) {
+            alert('您已取消关注！')
+            var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
+            $('a.user_relation_btn').remove();
+            $('a.user_sendmsg_btn').before(a);
+
+         },
+         error:function(xhr,type){
+             alert('操作失败!');
+         }
+     })
+ {%endif%}
+}
+
+function select_relation(){
+    var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
+    {% if session.get('userinfo') %}
+         var userid={{session.get('userinfo')['id']}};
+         $.ajax({
+                type:'POST',
+                url:'/select_relation',
+                data:{
+                    user_id:userid,
+                    relation_user_id:{{user_info.id}}
+                },
+                async:false,
+                dataType:'json',
+                success:function(data) {
+                    if(data.is_relation==1){
+                        a = '<a  class="user_btn user_relation_btn" onclick="cancel_relation()">已关注</a>'
+                    }
+                }
+         })
+    {%endif%}
+    return a;
+}
+
+</script>
 {% endblock %}

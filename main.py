@@ -9,8 +9,9 @@ from modules import mod_logout
 from modules import mod_post
 from modules import mod_reply
 from modules import mod_user
-from modules import time_format
 from modules import mod_user_community
+from modules import time_format
+from modules.db_interface import db_model_user_relation
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -224,7 +225,28 @@ def good_post_list():
     return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,
                            totalsize=total_size)
 
+@app.route('/add_relation',methods=['POST'])
+# @interceptor(login_required=True)
+def add_relation():
+    mod_user.add_relation(request)
+    return jsonify(result='succ')
+
+@app.route('/cancel_relation',methods=['POST'])
+# @interceptor(login_required=True)
+def cancel_relation():
+    mod_user.update_relation(request)
+    return jsonify(result='succ')
+
+@app.route('/select_relation',methods=['POST'])
+# @interceptor(login_required=True)
+def select_relation():
+    is_relation = mod_user.select_relation_user_id(request)
+    return jsonify(is_relation=is_relation)
+
+
+
+
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
     app.debug = True
-app.run(host="0.0.0.0", port=6100, processes=6)
+    app.run(host="0.0.0.0", port=6100, processes=6)
