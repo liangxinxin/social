@@ -544,7 +544,7 @@ body {
 }
 
 .post_detail_title {
-    width: 980px;
+    /*width: 980px;*/
     height: 56px;
     line-height: 56px;
     background: #fff;
@@ -554,7 +554,7 @@ body {
     border-bottom:1px ##BBBDBF;
 }
 .post_detail_body {
-    width: 980px;
+    /*width: 980px;*/
     overflow: auto;
     word-wrap:break-word;
     border-bottom: 1px solid #BBBDBF;
