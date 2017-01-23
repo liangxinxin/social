@@ -17,7 +17,8 @@ class User(db.Model):
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
-  
+    relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
+
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
         self.password = password
