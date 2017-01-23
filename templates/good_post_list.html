@@ -5,13 +5,14 @@
 {{ macro_body_navbar() }}
 
 <div class="row">
-    <div class="col-sm-8 search-div">
-        <div class="input-group">
-            <input type="text" class="form-control input-lg" id="search_input" placeholder="Search"
-                   onkeypress="if(event.keyCode==13) {search()}">
+    <div class="search-div">
+        <div class="form-group input-group">
+            <span class="input-group-addon">财经岛社区</span>
+            <input type="text" class="form-control " id="search_input" placeholder="Search"
+                onkeypress="if(event.keyCode==13) {search()}">
             <span class="input-group-btn">
-        <button class="btn btn-default btn-lg" type="button" onclick="search()">搜索</button>
-      </span>
+                <button class="btn btn-default" type="button" onclick="search()"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
         </div><!-- /input-group -->
     </div>
 </div>
