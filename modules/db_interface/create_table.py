@@ -3,6 +3,10 @@ from flask import Flask, request, render_template
 from flask import jsonify
 from flask import redirect, url_for
 
+import os 
+import sys
+sys.path.append(os.path.abspath('../..'))
+
 from modules import mod_community
 from modules import mod_login
 from modules import mod_logout
