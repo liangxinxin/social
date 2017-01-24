@@ -39,7 +39,8 @@ def select_by_user_id(user_id, relation_user_id):
     return data
 
 
-def update(user_id, relation_user_id, is_relation):
+def update(user_id, relation_user_id, is_relation,update_time):
     row = select_by_user_id(user_id, relation_user_id)
     row.is_relation = is_relation
+    row.update_time = update_time
     db.session.commit()
