@@ -67,12 +67,12 @@ def add_relation(request):
     user_id = session.get('userinfo')['id']
     relation_user_id = request.form.get("relation_user_id")
     data =db_model_user_relation.select_by_user_id(user_id, relation_user_id)
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     if data!=None:
-        db_model_user_relation.update(user_id,relation_user_id,has_relation)
+        db_model_user_relation.update(user_id,relation_user_id,has_relation,update_time)
     else:
-        ISOTIMEFORMAT = '%Y-%m-%d %X'
-        create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-        update_time = create_time
+        create_time = update_time
         print 'user_id', user_id, 'relation_user_id', relation_user_id
         db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
 
@@ -82,7 +82,9 @@ def update_relation(request):
     # update  is_relation = 1
     user_id = session.get('userinfo')['id']
     relation_user_id = request.form.get("relation_user_id", 0)
-    db_model_user_relation.update(user_id,relation_user_id, cancel_relation)
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    db_model_user_relation.update(user_id,relation_user_id, cancel_relation,update_time)
 
 def select_relation_user_id(request):
     print "now select user relation"
