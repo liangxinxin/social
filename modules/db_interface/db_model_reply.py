@@ -12,6 +12,7 @@ class Reply(db.Model):
     post_id = db.Column(db.Integer, unique=False)
     floor = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
+    messages = db.relationship('Message',backref='reply',lazy='dynamic')
 
     def __init__(self,content,create_user_id,post_id,floor,create_time):
         self.content= content

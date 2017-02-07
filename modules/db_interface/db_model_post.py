@@ -16,6 +16,7 @@ class Post(db.Model):
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
     create_user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+    messages = db.relationship('Message',backref='post',lazy='dynamic')
 
     def __init__(self, title, content, create_user_id, community_id, floor_num, create_time, last_update_time):
         self.title = title
