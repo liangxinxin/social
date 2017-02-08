@@ -77,7 +77,7 @@ def add_relation(request):
         print 'user_id', user_id, 'relation_user_id', relation_user_id
         db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
         #write message
-        db_model_message.insert_follow(relation_user_id,user_id)
+        db_model_message.insert_follow(user_id,relation_user_id)
 
 
 def update_relation(request):
