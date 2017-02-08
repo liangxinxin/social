@@ -9,6 +9,7 @@ import httplib
 import time
 from db_interface import db_model_user
 from db_interface import db_model_user_relation
+from db_interface import db_model_message
 
 default_page_no = 1
 default_num_perpage = 20
@@ -75,6 +76,8 @@ def add_relation(request):
         create_time = update_time
         print 'user_id', user_id, 'relation_user_id', relation_user_id
         db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
+        #write message
+        db_model_message.insert_follow(relation_user_id,user_id)
 
 
 def update_relation(request):

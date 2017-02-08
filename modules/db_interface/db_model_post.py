@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class Post(db.Model):
+    __tablename__='post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1500), unique=False)
     content = db.Column(db.Text, unique=False)
@@ -16,7 +17,7 @@ class Post(db.Model):
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
     create_user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    messages = db.relationship('Message',backref='post',lazy='dynamic')
+   # messages = db.relationship('Message',backref='post',lazy='dynamic')
 
     def __init__(self, title, content, create_user_id, community_id, floor_num, create_time, last_update_time):
         self.title = title

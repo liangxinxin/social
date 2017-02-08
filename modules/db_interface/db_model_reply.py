@@ -6,13 +6,14 @@ from sqlalchemy import desc
 from db_connect import db
  
 class Reply(db.Model):
+    __tablename__='reply'
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, unique=False)
     create_user_id = db.Column(db.Integer, unique=False)
     post_id = db.Column(db.Integer, unique=False)
     floor = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
-    messages = db.relationship('Message',backref='reply',lazy='dynamic')
+    #messages = db.relationship('Message',backref='reply',lazy='dynamic')
 
     def __init__(self,content,create_user_id,post_id,floor,create_time):
         self.content= content
@@ -35,6 +36,10 @@ def select_all():
 
 def select_by_id(id):
     data=Reply.query.get(id)
+    return data
+
+def select_by_create_user_and_post_and_floor(create_user_id,post_id,floor):
+    data=Reply.query.filter_by(create_user_id=create_user_id,post_id=post_id,floor=floor).first()
     return data
 
 def update(id,content,create_user_id,post_id,floor,create_time):
