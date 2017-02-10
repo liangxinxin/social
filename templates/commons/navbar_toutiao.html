@@ -1,5 +1,3 @@
-
-{% macro macro_body_navbar() -%}
 <div class="site-wrapper">
   <div class="site-wrapper-inner">
     <div class="cover-container">
@@ -24,6 +22,14 @@
                     <li><a href="javascript:to_regist()">注册</a></li>
                   </ul>
                   {% endif %}
+                </li>
+                <li class="dropdown">
+                {% if messages_unread %}
+                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">消息</a>
+                  <ul class="dropdown-menu dropdown-menu-right" id="ul_message_unread">
+                  </ul>
+                {% else %}
+                {% endif %}
                 </li>
               </ul>
 
@@ -59,5 +65,22 @@
      var cur_url=this.location.href;
      window.location.href="/logout?next_url="+cur_url;
  }
+ function load_unread_message() {
+     var ul_message_unread=document.getElementById("ul_message_unread");
+     {% if messages_unread %}
+         {% for message in messages_unread %}
+             var new_li = document.createElement("li");
+             new_li.innerHTML = '{{message.content|safe}}';
+             ul_message_unread.appendChild(new_li);
+         {% endfor %}
+     {% else %}
+     {% endif %}
+ }
+
+ if(window.addEventListener){
+  window.addEventListener("load",load_unread_message,false);
+ }
+ else{
+   window.attachEvent("onload",load_unread_message);
+ }
 </script>
-{%- endmacro %}

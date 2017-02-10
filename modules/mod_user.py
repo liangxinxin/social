@@ -100,3 +100,14 @@ def select_relation_user_id(request):
     else:
         return default_relation
 
+
+def get_unread_message_from_session():
+    user_id = 0
+    if session.get('userinfo') != None:
+        user_id = (int)(session.get('userinfo')['id'])
+    user_info = db_model_user.select_by_id(user_id) 
+    messages = None
+    if user_info != None:
+        messages=user_info.messages.filter_by(has_read=False).all()
+        #print "message-------------",messages
+    return messages

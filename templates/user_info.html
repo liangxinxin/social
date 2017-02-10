@@ -1,5 +1,4 @@
 {% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
@@ -8,7 +7,7 @@
 
 {% block body %}
     <div id="navbar">
-    	{{ macro_body_navbar() }}
+        {% include 'commons/navbar_toutiao.html' %}
     </div>
     <div id="all_backgroud" style="height:auto;min-height:1000px; background:#FFF;">
         <div id="user_info_wrap" style="width:50%;height:auto;overflow:auto; background:#FFF; text-align:center;margin:0 auto">

@@ -51,10 +51,11 @@ def indexpage():
     communities = mod_community.get_default_communities(page_no, page_size)
     if communities != None:
         print 'default coumunity list. data list len:', len(communities)
-        return render_template('index.html', target_list=communities, num=len(communities), no=page_no, size=page_size,
-                               totalsize=total_size)
+        return render_template('index.html', target_list=communities, num=len(communities), no=page_no, size=page_size,\
+                               totalsize=total_size,messages_unread=mod_user.get_unread_message_from_session())
     else:
-        return render_template('index.html', target_list=communities, num=0, no=page_no, size=0, totalsize=0)
+        return render_template('index.html', target_list=communities, num=0, no=page_no, size=0, totalsize=0,\
+            messages_unread=mod_user.get_unread_message_from_session())
 
 
 @app.route('/error', methods=['GET', 'POST'])
@@ -222,8 +223,9 @@ def good_post_list():
     for post_new in post_list:
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
-    return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,
-                           totalsize=total_size)
+    print "message----",mod_user.get_unread_message_from_session()
+    return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,\
+        totalsize=total_size,messages_unread=mod_user.get_unread_message_from_session(),flag=1)
 
 @app.route('/add_relation',methods=['POST'])
 # @interceptor(login_required=True)

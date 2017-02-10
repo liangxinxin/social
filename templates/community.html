@@ -1,8 +1,7 @@
 {% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
 {% block body %}
-  {{ macro_body_navbar() }}
+  {% include 'commons/navbar_toutiao.html' %}
   <input id="community_id" type="hidden" style="display:none" value={{community.id}}></input>
   <div class="community-main-div">
     <div id="community_wrapper" >

@@ -49,8 +49,9 @@ def insert_follow(follower_id,followed_id):
     content = ""
     follower_info = db_model_user.select_by_id(follower_id)
     if follower_info != None:
-      content= '<a href=http://127.0.0.1:6100/user_info?user_id=>'+(str)(follower_id) + follower_info.name +'</a>' + '关注了你'
+      content= '<a href="http://127.0.0.1:6100/user_info?user_id='+(str)(follower_id)+'">' + follower_info.name +'</a>' + '</p>关注了你</p>'
     print "now insert message",follower_id,followed_id,content
+    content = content.encode('utf8')
     insert=Message(message_type_id=1, user_from_id=(int)(follower_id), user_to_id=(int)(followed_id), post_id= None,\
         reply_id=None,has_read=False,create_time=cur_time,update_time=cur_time,content=content)
     db.session.add(insert)
@@ -68,7 +69,8 @@ def insert_praise_reply(user_from_id,reply_id):
     content = ""
     follower_info = db_model_user.select_by_id(user_from_id)
     if follower_info != None and reply != None:
-      content= '<a href=http://127.0.0.1:6100/user_info?user_id=>'+(str)(user_from_id) + follower_info.name +'</a>' + '赞了你的回帖' + reply.content
+      content= '<a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+'">' + follower_info.name +'</a>' + '<p> 赞了你的回帖 </p>'
+    content = content.encode('utf8')
     insert=Message(message_type_id=2, user_from_id=user_from_id, user_to_id=reply.create_user_id, post_id=reply.post_id,\
         reply_id=reply_id,has_read=False,create_time=cur_time,update_time=cur_time,content=content)
     db.session.add(insert)
@@ -89,7 +91,7 @@ def insert_reply_post(user_from_id,post_id,reply_id):
     content = ""
     follower_info = db_model_user.select_by_id(user_from_id)
     if follower_info != None:
-      content= '<a href=http://127.0.0.1:6100/user_info?user_id=>'+(str)(user_from_id) + follower_info.name +'</a>'\
+      content= '<a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+'">' + follower_info.name +'</a>'\
          + '在帖子 ' + post_info.content + ' 回复了你'
     insert=Message(message_type_id=3, user_from_id=user_from_id, user_to_id=post_info.create_user_id, post_id=post_id, \
         reply_id=reply_id,has_read=False,create_time=cur_time,update_time=cur_time,content=content)

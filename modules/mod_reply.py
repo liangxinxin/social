@@ -89,6 +89,7 @@ def publish_reply(request):
 
 def reply_like_changed(request):
   if session.get('userinfo'):
+    print "user's info-------------------\n",session.get('userinfo')
     user_id = session.get('userinfo')['id']
     reply_id= request.args.get("replyid")
     mod_type= request.args.get("modtype")

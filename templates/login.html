@@ -1,9 +1,8 @@
 {% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
 {% block body %}
+{% include 'commons/navbar_toutiao.html' %}
 
-{{ macro_body_navbar() }}
 
 <div class="signin-div">
   <form method='POST' class="form-signin">
