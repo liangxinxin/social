@@ -9,8 +9,8 @@ from db_connect import db
 class DefaultImage(db.Model):
     __tablename__ = 'default_image'
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(150), unique=False)
-    imgsrc = db.Column(db.String(500), unique=False)
+    type = db.Column(db.String(2), unique=False)
+    imgsrc = db.Column(db.String(100), unique=False)
 
     def __init__(self, imgsrc, type):
         self.type = type
