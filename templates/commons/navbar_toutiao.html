@@ -7,9 +7,9 @@
             <div id="navbar" class="navbar-collapse collapse">
               <!-- <h2 class="masthead-brand">财经头条</h2> -->
               <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
+                <li class="dropdown" style="margin-right:1px;">
                   {% if session.get('userinfo') %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="#">个人主页</a></li>
                     <li><a href="#">设置</a></li>
@@ -23,9 +23,10 @@
                   </ul>
                   {% endif %}
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" style="margin-left:1px;padding-left:1px;">
                 {% if messages_unread %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">消息</a>
+                  <a href="#" class="dropdown-toggle" style="background: transparent;margin-left:1px;padding-left:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="message_count" class="circle">15</span></a>
+                  
                   <ul class="dropdown-menu dropdown-menu-right" style="min-width: 280px;" id="ul_message_unread">
                   </ul>
                 {% else %}
