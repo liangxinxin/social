@@ -91,3 +91,7 @@ def select_all_paging(page_no,num_perpage):
     paginate = Community.query.order_by(desc(Community.id)).paginate(page_no,num_perpage,False)
     return paginate
 
+def save_head_image(id,imageUrl):
+    row = Community.query.get(id)
+    row.head_img_url = imageUrl
+    db.session.commit()

@@ -12,6 +12,7 @@ from modules import mod_user
 from modules import mod_user_community
 from modules import time_format
 from modules.db_interface import db_model_user_relation
+from modules.db_interface import db_default_image
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -24,5 +25,8 @@ app.config.from_object('config')
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
     app.debug = True
-    db_model_user_relation.create_table()
+    ##db_model_user_relation.create_table()
+    print 'create table start'
+    db_default_image.create_table()
+    print 'create table end'
 

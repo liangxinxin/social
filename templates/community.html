@@ -1,16 +1,15 @@
 {% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
 {% block body %}
-  {{ macro_body_navbar() }}
+  {% include 'commons/navbar_toutiao.html' %}
   <input id="community_id" type="hidden" style="display:none" value={{community.id}}></input>
   <div class="community-main-div">
     <div id="community_wrapper" >
       <div id="community_head" class="card_top_wrap">
         <div id="community_head_left" class="card_info">
           <div id="community_img" class="card_image">
-            <a>
-              <img class src="{{community.head_img_url}}">
+            <a href="/community_info?id={{community.id}}">
+              <img class  src="{{community.head_img_url}}">
             </a>
           </div>
           <div id="community_title" class="card_title">
