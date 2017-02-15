@@ -37,7 +37,14 @@ def query_community(request):
   paginate=db_model_community.select_by_name_paging(name,page_no,num_perpage)
 
   #return select value
-  return paginate,name 
+  return paginate,name
+
+def get_community_info(request):
+  print " now query community info by id!"
+  id = request.args.get("id",default_community_id)
+  community=db_model_community.select_by_id(id)
+
+  return community
 
 def publish_community(request):
   print "publish community request"
@@ -78,3 +85,4 @@ def get_hot_communities_total_num():
     return len(data.items)
   
     
+

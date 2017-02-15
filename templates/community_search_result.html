@@ -1,13 +1,13 @@
 {% extends 'commons/_proto.html' %}
 
 {% block body %}
+
 <div id="navbar">
   {% include 'commons/navbar_toutiao.html' %}
 </div>
 <div class="community-main-div" >
   <div class="row">
-    <div class="comm-res-search-div">
-      <div class="col-sm-8 col-sm-offset-2">
+      <div class="col-sm-8 comm-search" >
         <div class="input-group">
           {% if name and name !="" %}
           <input type="text" id="search_input" class="form-control input-lg" placeholder=""  value={{name}} onkeypress="if(event.keyCode==13) {community_search()}">
@@ -18,7 +18,6 @@
             <button class="btn btn-default btn-lg" type="button" onclick="community_search()">搜索</button>
           </span>
         </div>
-      </div>
     </div>
   </div>
 
@@ -28,8 +27,8 @@
       {%for community in object_list%}
       <div class="result">
         <div class="pic">
-          <a class="nbg" href="/community?community_id={{community.id}}"  title="{{community.name|safe}}">
-            <img class src="{{community.head_img_url}}">
+          <a class="nbg" href="/community?id={{community.id}}"  title="{{community.name|safe}}">
+            <img class="comm-img-md" src="{{community.head_img_url}}">
           </a>
         </div>
         <div class="community_content">

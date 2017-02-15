@@ -90,3 +90,8 @@ def select_all_paging(page_no,num_per_page):
         page_no = 1
     paginate = User.query.order_by(desc(User.id)).paginate(page_no,num_per_page,False)
     return paginate
+
+def save_head_image(id,imageUrl):
+    row = User.query.get(id)
+    row.head_img_url = imageUrl
+    db.session.commit()

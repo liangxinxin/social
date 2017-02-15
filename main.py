@@ -11,6 +11,8 @@ from modules import mod_reply
 from modules import mod_user
 from modules import mod_user_community
 from modules import time_format
+from modules import mod_image
+
 from modules.db_interface import db_model_user_relation
 
 '''  BASICAL FUNCTIONS BEGIN  '''
@@ -121,6 +123,16 @@ def community():
                                user_list=user_list, community=community, has_join=has_join, page_no=page_no,
                                real_num=real_num, \
                                num_perpage=num_perpage)
+    else:
+        #    return render_template('community.html', community=community)
+        return render_template('community_index.html')
+
+@app.route('/community_info', methods=['GET', 'POST'])
+# @interceptor(login_required=True)
+def get_community_info():
+    community= mod_community.get_community_info(request)
+    if community != None:
+        return render_template('community_info.html', community=community)
     else:
         #    return render_template('community.html', community=community)
         return render_template('community_index.html')
@@ -245,8 +257,22 @@ def select_relation():
     is_relation = mod_user.select_relation_user_id(request)
     return jsonify(is_relation=is_relation)
 
+@app.route('/upload_head_image',methods=['POST'])
+# @interceptor(login_required=True)
+def upload_head_image():
+    print 'upload_head_image'
+    result = mod_image.service(request)
+    if result.get('code') == 0:
+        return jsonify(code=0, result='succ')
+    else:
+        return jsonify(code=1, result='fail')
 
-
+@app.route('/get_default_image',methods=['get'])
+# @interceptor(login_required=True)
+def get_default_image():
+    print 'get_default_image'
+    data = mod_image.service(request)
+    return jsonify(result=data)
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
