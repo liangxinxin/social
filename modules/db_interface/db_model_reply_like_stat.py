@@ -25,7 +25,7 @@ def is_reply_liked_by_user(reply_id, user_id):
     return count > 0
 
 def get_reply_like_count(reply_id):
-    return ReplyLikeActivity.query.filter(reply_id==reply_id).count()
+    return ReplyLikeActivity.query.filter(ReplyLikeActivity.reply_id==reply_id).count()
 
 def insert(reply_id, user_id, create_time):
     insert=ReplyLikeActivity(reply_id=reply_id, user_id=user_id, create_time=create_time)

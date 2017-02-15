@@ -1,19 +1,10 @@
-from flask import session
-import sys
-import pycurl
-import cStringIO
-import json
-import urllib
-import urllib2
-import httplib
-import base64
-import os
 import time
-import random
-import datetime
+
+from flask import session
+
+from db_interface import db_model_message
 from db_interface import db_model_user
 from db_interface import db_model_user_relation
-from db_interface import db_default_image
 
 default_page_no = 1
 default_num_perpage = 20
@@ -82,6 +73,8 @@ def add_relation(request):
         create_time = update_time
         print 'user_id', user_id, 'relation_user_id', relation_user_id
         db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
+        #write message
+        db_model_message.insert_follow(user_id,relation_user_id)
 
 
 def update_relation(request):
@@ -106,4 +99,14 @@ def select_relation_user_id(request):
         return default_relation
 
 
+def get_unread_message_from_session():
+    user_id = 0
+    if session.get('userinfo') != None:
+        user_id = (int)(session.get('userinfo')['id'])
+    user_info = db_model_user.select_by_id(user_id) 
+    messages = None
+    if user_info != None:
+        messages=user_info.messages.filter_by(has_read=False).all()
+        #print "message-------------",messages
+    return messages
 

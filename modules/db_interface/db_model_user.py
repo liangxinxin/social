@@ -6,6 +6,7 @@ from sqlalchemy import desc
 from db_connect import db
  
 class User(db.Model):
+    __tablename__='user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=False)
     password = db.Column(db.String(150), unique=False)
@@ -18,6 +19,7 @@ class User(db.Model):
     location = db.Column(db.String(150), unique=False)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
+    messages = db.relationship('Message',backref='user',lazy='dynamic')
 
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name

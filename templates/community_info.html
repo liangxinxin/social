@@ -5,7 +5,7 @@
  {{ macro_upload_js_css() }}
 <!-- Cropping css/js end -->
 {% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
+<!--{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}-->
 {% from 'commons/upload.html' import macro_upload %}
 
 
@@ -15,7 +15,7 @@
 {% block body %}
 
 <div id="navbar" class="navbar_style" >
-    {{ macro_body_navbar() }}
+    {% include 'commons/navbar_toutiao.html' %}
 </div>
 <div id="community_head" class="card_top_wrap">
         <div id="community_head_left" class="card_info">

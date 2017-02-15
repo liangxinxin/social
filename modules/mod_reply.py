@@ -12,6 +12,7 @@ from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
+from db_interface import db_model_message
 
 default_page_no = 1
 default_num_perpage = 15 
@@ -47,11 +48,15 @@ def publish_reply(request):
   post_data.floor_num+=1
   db_model_post.update(post_data)
   
+
   post_user=db_model_user.select_by_id(post_data.create_user_id)
 
   print 'create reply--- content:',content,"user_id:",create_user_id,"post_id:",post_id,"community_id",community_id
   #insert to db
   db_model_reply.insert(content,create_user_id,post_id,floor,create_time)
+  reply=db_model_reply.select_by_create_user_and_post_and_floor(create_user_id,post_id,floor)  
+  if reply != None:
+    db_model_message.insert_reply_post(create_user_id,post_id,reply.id)
   print "now insert to db"
   
   #select db
@@ -84,6 +89,7 @@ def publish_reply(request):
 
 def reply_like_changed(request):
   if session.get('userinfo'):
+    print "user's info-------------------\n",session.get('userinfo')
     user_id = session.get('userinfo')['id']
     reply_id= request.args.get("replyid")
     mod_type= request.args.get("modtype")
@@ -91,6 +97,7 @@ def reply_like_changed(request):
       ISOTIMEFORMAT='%Y-%m-%d %X'
       create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
       db_model_reply_like_stat.insert(reply_id, user_id, create_time)
+      db_model_message.insert_praise_reply(user_id,reply_id)
     else:
       db_model_reply_like_stat.remove(reply_id, user_id)
     

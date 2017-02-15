@@ -544,7 +544,7 @@ body {
 }
 
 .post_detail_title {
-    width: 980px;
+    /*width: 980px;*/
     height: 56px;
     line-height: 56px;
     background: #fff;
@@ -554,7 +554,7 @@ body {
     border-bottom:1px ##BBBDBF;
 }
 .post_detail_body {
-    width: 980px;
+    /*width: 980px;*/
     overflow: auto;
     word-wrap:break-word;
     border-bottom: 1px solid #BBBDBF;
@@ -894,29 +894,59 @@ h3 {
 .page-center{
  text-align:center;
 }
+<<<<<<< HEAD
 /*good_post_list.html end*/
 /* common css start*/
 
 .comm-img-sm{
     width:48px;
     height:48px;
+    border:1px solid #ccc;
+    border-radius:4px;
 }
 
 .comm-img-bg{
     width:98px;
     height:98px;
+    border:1px solid #ccc;
+    border-radius:4px;
 }
 
 .comm-img-md{
     width:65px;
     height:65px;
+    border:1px solid #ccc;
+    border-radius:4px;
+
 }
 .navbar_style{
     height:100px;
     background:#fff;
+
 }
 .comm-search{
     margin-top: 90px;
     margin-left: 30px;
 }
 /* common css end*/
+
+
+.circle {
+    background-color: #db4f36;
+    -moz-border-radius: 1.5em;
+    -webkit-border-radius: 1.5em;
+    border-radius: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    padding: 0 .6em;
+    margin: 0 0 0 8px;
+    font-size: 12px;
+    /* width: 22px; */
+    overflow: hidden;
+    top: 15px;
+    right: -40px;
+}
+/*good_post_list.html end*/
+
