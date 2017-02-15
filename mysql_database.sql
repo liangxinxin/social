@@ -220,3 +220,35 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-12-12 16:08:29
+
+-- add by lxx  添加 default_image 默认数据
+DROP TABLE IF EXISTS `default_image`;
+
+CREATE TABLE `default_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(2) DEFAULT NULL,
+  `imgsrc` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `default_image` WRITE;
+/*!40000 ALTER TABLE `default_image` DISABLE KEYS */;
+
+INSERT INTO `default_image` (`id`, `type`, `imgsrc`)
+VALUES
+	(1,'0','http://0.0.0.0:6100/images/user/default/1.jpg'),
+	(2,'0','http://0.0.0.0:6100/images/user/default/2.jpg'),
+	(3,'0','http://0.0.0.0:6100/images/user/default/3.jpg'),
+	(4,'1','http://0.0.0.0:6100/images/community/default/c1.jpg'),
+	(5,'1','http://0.0.0.0:6100/images/community/default/c2.jpg'),
+	(6,'1','http://0.0.0.0:6100/images/community/default/c4.jpg'),
+	(7,'0','http://0.0.0.0:6100/images/user/default/4.jpg'),
+	(8,'1','http://0.0.0.0:6100/images/community/default/c5.jpg'),
+	(9,'1','http://0.0.0.0:6100/images/community/default/c6.jpg'),
+	(10,'1','http://0.0.0.0:6100/images/community/default/c7.jpg'),
+	(11,'1','http://0.0.0.0:6100/images/community/default/c8.jpg'),
+	(12,'0','http://0.0.0.0:6100/images/user/default/5.jpg'),
+	(13,'0','http://0.0.0.0:6100/images/user/default/6.jpg');
+
+/*!40000 ALTER TABLE `default_image` ENABLE KEYS */;
+UNLOCK TABLES;
