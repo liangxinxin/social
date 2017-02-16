@@ -38,6 +38,15 @@ class Message(db.Model):
 def create_table():
     db.create_all()
 
+def select_by_id(id):
+    return Message.query.get(id)
+
+def update_has_read(id,has_read):
+    data = select_by_id(id)
+    if data != None:
+      data.has_read=int(has_read)
+      db.session.commit()
+
 def insert_follow(follower_id,followed_id):
     #if no the data,insert
     data=select_by_message_tye_and_user_from_and_user_to(1,follower_id, followed_id)

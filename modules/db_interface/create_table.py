@@ -36,6 +36,7 @@ if __name__ == '__main__':
     db_default_image.create_table()
     db_model_user_relation.create_table()
     db_model_message_type.create_table()
+    db_model_message_type.insert_default_value()
     db_model_message.create_table()
     print 'create table end'
 

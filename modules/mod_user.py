@@ -107,6 +107,6 @@ def get_unread_message_from_session():
     messages = None
     if user_info != None:
         messages=user_info.messages.filter_by(has_read=False).all()
-        #print "message-------------",messages
+        print "message-------------",len(messages)
     return messages
 

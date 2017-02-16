@@ -12,6 +12,7 @@ from modules import mod_user
 from modules import mod_user_community
 from modules import time_format
 from modules import mod_image
+from modules import mod_message
 
 from modules.db_interface import db_model_user_relation
 
@@ -56,11 +57,19 @@ def indexpage():
     communities = mod_community.get_default_communities(page_no, page_size)
     if communities != None:
         print 'default coumunity list. data list len:', len(communities)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
         return render_template('index.html', target_list=communities, num=len(communities), no=page_no, size=page_size,\
-                               totalsize=total_size,messages_unread=mod_user.get_unread_message_from_session())
+                               totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
+        messages_unread = mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
         return render_template('index.html', target_list=communities, num=0, no=page_no, size=0, totalsize=0,\
-            messages_unread=mod_user.get_unread_message_from_session())
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/error', methods=['GET', 'POST'])
@@ -223,6 +232,11 @@ def user_community():
     community_user_num = mod_user_community.service(request)
     return jsonify(user_num=community_user_num)
 
+@app.route('/read_message', methods=['GET', 'POST'])
+def read_message():
+    unread_message_num = mod_message.service(request)
+    return jsonify(unread_message_num=unread_message_num)
+
 
 @app.route('/user_info', methods=['GET', 'POST'])
 def user_info():
@@ -238,9 +252,12 @@ def good_post_list():
     for post_new in post_list:
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
-    print "message----",mod_user.get_unread_message_from_session()
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
     return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,\
-        totalsize=total_size,messages_unread=mod_user.get_unread_message_from_session(),flag=1)
+        totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
 
 @app.route('/add_relation',methods=['POST'])
 # @interceptor(login_required=True)
