@@ -22,6 +22,9 @@ app = Flask(__name__, static_url_path='')
 # app.config['SECRET_KEY'] = 'super secret key'
 app.config.from_object('config')
 
+default_user_data=[]
+default_community_data =[]
+
 
 @app.route('/')
 # @interceptor(login_required=True)
@@ -270,11 +273,20 @@ def upload_head_image():
 @app.route('/get_default_image',methods=['get'])
 # @interceptor(login_required=True)
 def get_default_image():
-    print 'get_default_image'
-    data = mod_image.service(request)
-    return jsonify(result=data)
+    type = request.args.get("type")
+    print type+':get_default_image'
+    if type == "user":
+        return jsonify(result=default_user_data)
+    else:
+        return jsonify(result=default_community_data)
+
+
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
     app.debug = True
+    ##项目启动 只查询一次默认图片数据
+    user_data, comm_data = mod_image.select_default_image()
+    default_user_data = user_data
+    default_community_data = comm_data
     app.run(host="0.0.0.0", port=6100, processes=6)

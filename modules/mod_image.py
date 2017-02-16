@@ -9,7 +9,6 @@ from db_interface import db_default_image
 from db_interface import db_model_user
 from db_interface import db_model_community
 
-
 default_page_no = 1
 default_num_perpage = 20
 default_community_id = 0
@@ -18,7 +17,7 @@ default_relation = 0
 has_relation = 1
 cancel_relation = 2
 default_relation_id = 0
-max_num_perpage =100
+max_num_perpage = 100
 
 
 def service(request):
@@ -34,16 +33,16 @@ def upload_head_image(request):
     type = request.form.get("type")  # user/community
     print os.getcwd()
     curPath = os.getcwd()
-    uploadPath = curPath + '/static/images/'+type+'/'
+    uploadPath = curPath + '/static/images/' + type + '/'
     oriFileName = request.form.get('filename').encode('utf-8')
     isDefault = request.form.get('isDefault').encode('utf-8')
 
-    community_id = request.form.get('community_id',0)
-    print 'type'+type
-    result ={}
-    if isDefault=='1':
-        savePath = 'http://0.0.0.0:6100/images/'+type+'/default/' + oriFileName
-        if type=='user':
+    community_id = request.form.get('community_id', 0)
+    print 'type' + type
+    result = {}
+    if isDefault == '1':
+        savePath = 'http://0.0.0.0:6100/images/' + type + '/default/' + oriFileName
+        if type == 'user':
             db_model_user.save_head_image(user_id, savePath)
         elif type == 'community':
             db_model_community.save_head_image(community_id, savePath)
@@ -85,17 +84,22 @@ def upload_head_image(request):
     return result
 
 
-
-def select_default_image(request):
-    type = request.args.get("type")
-    if type == "user":
-        typeid = 0
-    else:
-        typeid = 1
-    json_result =[]
-    data = db_default_image.select_by_type(typeid,default_page_no,max_num_perpage).items
-    if len(data)>0:
-        for object in data:
+def select_default_image():
+    # //type = request.args.get("type")
+    # if type == "user":
+    #     typeid = 0
+    # else:
+    #     typeid = 1
+    user_json_result = []
+    comm_json_result = []
+    user_data = db_default_image.select_by_type(0, default_page_no, max_num_perpage).items
+    comm_data = db_default_image.select_by_type(1, default_page_no, max_num_perpage).items
+    if len(user_data) > 0:
+        for object in user_data:
             jsonObj = db_default_image.to_json(object)
-            json_result.append(jsonObj)
-    return json_result
+            user_json_result.append(jsonObj)
+    if len(comm_data) > 0:
+        for object in comm_data:
+            jsonObj = db_default_image.to_json(object)
+            comm_json_result.append(jsonObj)
+    return user_json_result, comm_json_result
