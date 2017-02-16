@@ -4,16 +4,13 @@ from flask import jsonify
 from flask import redirect, url_for
 
 from modules import mod_community
+from modules import mod_image
 from modules import mod_login
 from modules import mod_logout
 from modules import mod_post
 from modules import mod_reply
 from modules import mod_user
 from modules import mod_user_community
-from modules import time_format
-from modules import mod_image
-
-from modules.db_interface import db_model_user_relation
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -234,12 +231,8 @@ def user_info():
 def good_post_list():
     page_no, page_size, post_list = mod_post.select_good_post(request)
     total_size = mod_post.select_goodpost_all()
-    post_list_new=[]
-    for post_new in post_list:
-        post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
-        post_list_new.append(post_new)
     print "message----",mod_user.get_unread_message_from_session()
-    return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,\
+    return render_template('good_post_list.html', post_list=post_list, num=len(post_list), no=page_no, size=page_size,\
         totalsize=total_size,messages_unread=mod_user.get_unread_message_from_session(),flag=1)
 
 @app.route('/add_relation',methods=['POST'])

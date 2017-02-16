@@ -27,7 +27,7 @@
       {%for community in object_list%}
       <div class="result">
         <div class="pic">
-          <a class="nbg" href="/community?id={{community.id}}"  title="{{community.name|safe}}">
+          <a class="nbg" href="/community?community_id={{community.id}}"  title="{{community.name|safe}}">
             <img class="comm-img-md" src="{{community.head_img_url}}">
           </a>
         </div>
