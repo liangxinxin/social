@@ -335,19 +335,15 @@
             });
 	},
     ajaxUpload:function(){
-       var data = new FormData(this.$avatarForm[0]);
-
+        var data = new FormData(this.$avatarForm[0]);
         if(this.isCommendBlock){
             this.getBase64Image(data);
-      }else{
+        }else{
             data.append('filename',this.$avatarInput.val());
-	        var canvasdata = this.$img.cropper("getCanvasData");
-	        var cropBoxData = this.$img.cropper('getCropBoxData');
-	        this.convertToData(this.url, canvasdata, cropBoxData, data);
-      }
-
-
-
+            var canvasdata = this.$img.cropper("getCanvasData");
+            var cropBoxData = this.$img.cropper('getCropBoxData');
+            this.convertToData(this.url, canvasdata, cropBoxData, data);
+        }
 
     },
 
@@ -387,15 +383,15 @@
 
           //this.$avatarInput.val('');
         } else if (data.message) {
-           alert(data.message);
+           console.log(data.message);
         }
       } else {
-        alert('Failed to response');
+        console.log('Failed to response');
       }
     },
 
     submitFail: function (msg) {
-      alert(msg);
+      console.log(msg);
     },
 
     submitEnd: function () {
@@ -520,7 +516,6 @@
                              '</a>',
                              '</li>'
                              ].join('');
-                             console.log(this.image)
                         imgs.push(this.image)
                     }
                     $('.recommend-image>ul').empty().html(imgs);
