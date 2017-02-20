@@ -90,7 +90,11 @@ def page_not_found(e):
 @app.route('/community_index', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community_index():
-    return render_template('community_index.html')
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('community_index.html',messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/community_search', methods=['GET', 'POST'])
@@ -99,17 +103,32 @@ def community_search():
     model, search_name = mod_community.service(request)
     if model != None:
         print 'data list len:', len(model.items), " search_name:", search_name
-        return render_template('community_search_result.html', paginate=model, object_list=model.items,
-                               num=len(model.items), name=search_name)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community_search_result.html', paginate=model, object_list=model.items,\
+            num=len(model.items), name=search_name,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
-        return render_template('community_search_result.html', paginate=model, object_list=None, num=0,
-                               name=search_name)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community_search_result.html', paginate=model, object_list=None, num=0,\
+            name=search_name,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/community_new', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community_new():
-    return render_template('community_new.html', name=request.args.get('name'))
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('community_new.html', name=request.args.get('name'),\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/community_create', methods=['GET', 'POST'])
@@ -118,10 +137,20 @@ def community_create():
     model, community, has_join = mod_community.service(request)
     #  print model,community_id
     if model != None and len(model.items) > 0:
-        return render_template('community.html', paginate=model, object_list=model.items, community=community,
-                               has_join=has_join)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community.html', paginate=model, object_list=model.items, community=community,\
+            has_join=has_join,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
-        return render_template('community.html', community=community, has_join=has_join)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community.html', community=community, has_join=has_join,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/community', methods=['GET', 'POST'])
@@ -131,23 +160,42 @@ def community():
     print 'has_join:', has_join
     post_num = len(model.items)
     if model != None and community != None:
-        return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items, \
-                               user_list=user_list, community=community, has_join=has_join, page_no=page_no,
-                               real_num=real_num, \
-                               num_perpage=num_perpage)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items,\
+            user_list=user_list, community=community, has_join=has_join, page_no=page_no,\
+            real_num=real_num,num_perpage=num_perpage,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
         #    return render_template('community.html', community=community)
-        return render_template('community_index.html')
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community_index.html',\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 @app.route('/community_info', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def get_community_info():
     community= mod_community.get_community_info(request)
     if community != None:
-        return render_template('community_info.html', community=community)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community_info.html', community=community,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
         #    return render_template('community.html', community=community)
-        return render_template('community_index.html')
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('community_index.html',\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/post_publish', methods=['GET', 'POST'])
@@ -156,36 +204,56 @@ def post_publish():
     model, user_list, community, has_join = mod_post.service(request)
     post_num = len(model.items)
     print model
-    return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items,
-                           user_list=user_list, community=community, has_join=has_join)
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('community.html', paginate=model, post_num=post_num,\
+        object_list=model.items,user_list=user_list, community=community, has_join=has_join,\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/post', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def post():
-    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user = mod_post.post_info(
-        request)
+    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user = \
+        mod_post.post_info(request)
     reply_num = len(reply_data.items)
     #  print model
     if reply_data == None:
-        return render_template('post.html', post_data=post_data, post_user=post_user, community=community)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('post.html', post_data=post_data, post_user=post_user, community=community,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
     else:
-        return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,
-                               reply_list=reply_data.items, \
-                               reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,
-                               num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user)
+        messages_unread=mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num=len(messages_unread)
+        return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,\
+            reply_list=reply_data.items, \
+            reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,\
+            num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
+            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def reply_publish():
-    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user = mod_reply.service(
-        request)
+    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user =\
+         mod_reply.service(request)
     reply_num = len(reply_data.items)
-    return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,
-                           reply_list=reply_data.items, \
-                           reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,
-                           num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user)
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,\
+        reply_list=reply_data.items, \
+        reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,\
+        num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
@@ -241,7 +309,12 @@ def read_message():
 @app.route('/user_info', methods=['GET', 'POST'])
 def user_info():
     user_info = mod_user.service(request)
-    return render_template('user_info.html', user_info=user_info)
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('user_info.html', user_info=user_info,\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/index', methods=['GET', 'POST'])
