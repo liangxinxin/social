@@ -18,14 +18,14 @@ def create_table():
 
 
 def insert_default_value():
-    insert = MessageType(id=1,content='关注')
+    insert = MessageType(content='关注')
     db.session.add(insert)
     db.session.commit()
     
-    insert2 = MessageType(id=2,content='帖子点赞')
+    insert2 = MessageType(content='帖子点赞')
     db.session.add(insert2)
     db.session.commit()
 
-    insert3 = MessageType(id=3,content='回帖')
+    insert3 = MessageType(content='回帖')
     db.session.add(insert3)
     db.session.commit()
