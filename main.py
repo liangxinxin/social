@@ -300,6 +300,17 @@ def user_community():
     community_user_num = mod_user_community.service(request)
     return jsonify(user_num=community_user_num)
 
+@app.route('/message_reply_post', methods=['GET', 'POST'])
+def message_reply():
+    post_data,post_user,reply_data,reply_user = mod_message.service(request)
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('message_reply_post.html',post_data=post_data,post_user=post_user,\
+        reply_data=reply_data,reply_user=reply_user,\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+
 @app.route('/read_message', methods=['GET', 'POST'])
 def read_message():
     unread_message_num = mod_message.service(request)

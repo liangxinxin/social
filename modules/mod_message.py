@@ -1,6 +1,8 @@
 from flask import session
 from db_interface import db_model_message
 from db_interface import db_model_user
+from db_interface import db_model_post
+from db_interface import db_model_reply
 
 def service(request):
   print "enter do db_model_message  service"
@@ -18,7 +20,18 @@ def service(request):
       print "use now have unread message num:",len(user_info.messages.filter_by(has_read=False).all())
     else:
       return 0
-  else:
+  elif request.method == 'GET':
+    query_type=request.args.get('type')
+    if query_type == 'message_reply_post':
+      user_from_id = int(request.args.get('user_from_id'))
+      user_to_id = int(request.args.get('user_to_id'))
+      post_id = int(request.args.get('post_id'))  
+      reply_id = int(request.args.get('reply_id'))
+      post_data = db_model_post.select_by_id(post_id)
+      post_user = db_model_user.select_by_id(user_to_id)
+      reply_data = db_model_reply.select_by_id(reply_id)
+      reply_user = db_model_user.select_by_id(user_from_id)
+      return post_data,post_user,reply_data,reply_user
     return 0
     
 
