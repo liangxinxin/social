@@ -301,7 +301,7 @@ def user_community():
     return jsonify(user_num=community_user_num)
 
 @app.route('/message_reply_post', methods=['GET', 'POST'])
-def message_reply():
+def message_reply_post():
     post_data,post_user,reply_data,reply_user = mod_message.service(request)
     messages_unread=mod_user.get_unread_message_from_session()
     messages_unread_num = 0
@@ -309,6 +309,17 @@ def message_reply():
         messages_unread_num=len(messages_unread)
     return render_template('message_reply_post.html',post_data=post_data,post_user=post_user,\
         reply_data=reply_data,reply_user=reply_user,\
+        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+
+@app.route('/message_praise_reply', methods=['GET', 'POST'])
+def message_praise_reply():
+    reply_data,reply_user,reply_like_count = mod_message.service(request)
+    messages_unread=mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('message_praise_reply.html',\
+        reply_data=reply_data,reply_user=reply_user,reply_like_count=reply_like_count,\
         messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 @app.route('/read_message', methods=['GET', 'POST'])

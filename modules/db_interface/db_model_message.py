@@ -81,8 +81,10 @@ def insert_praise_reply(user_from_id,reply_id):
     if follower_info != None and reply != None:
       content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+\
           '" style="max-width:100px;float:left;padding-left:5px;padding-right:10px;" target="_blank" >' + follower_info.name+' </a></font>'\
-          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">\
-         赞了你的回帖 <font color=blue>'+reply.content+'</font></p>'
+          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">'\
+          +'<a href="http://127.0.0.1:6100/message_praise_reply?type=message_praise_reply&user_from_id='+(str)(user_from_id)\
+          +'&user_to_id='+(str)(reply.create_user_id)+'&reply_id='+(str)(reply_id)+'" target="_blank">'\
+          +'赞了你的回帖 </a><font color=blue>'+reply.content+'</font></p>'
       #content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+'">' + follower_info.name +'</a> </font>' + '<p> 赞了你的回帖 </p>'
     content = content.encode('utf8')
     insert=Message(message_type_id=2, user_from_id=user_from_id, user_to_id=reply.create_user_id, post_id=reply.post_id,\
