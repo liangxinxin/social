@@ -685,7 +685,7 @@ body {
     border-bottom:1px #BBBDBF;
 }
 .reply_content_area {
-    min-height: 120px;
+    min-height: 230px;
     padding:10px 10px 10px 10px;
 }
 .reply_content {
