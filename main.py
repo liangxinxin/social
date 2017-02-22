@@ -30,7 +30,19 @@ default_community_data =[]
 @app.route('/')
 # @interceptor(login_required=True)
 def default():
-    return redirect(url_for('index'))
+    page_no, page_size, post_list = mod_post.select_good_post(request)
+    total_size = mod_post.select_goodpost_all()
+    post_list_new=[]
+    for post_new in post_list:
+        post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
+        post_list_new.append(post_new)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num=len(messages_unread)
+    return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size,\
+        totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
+    return redirect(url_for('/index'))
 
 
 # @app.route('/index')
