@@ -405,7 +405,7 @@ body {
 .post_item_left_wraper {
     float:left;
     width:48px;
-    height:100px;
+    height:60px;
     margin-right:20px;
 }
 .post_user_face {
@@ -699,7 +699,7 @@ body {
     border-bottom:1px #BBBDBF;
 }
 .reply_content_area {
-    min-height: 120px;
+    min-height: 230px;
     padding:10px 10px 10px 10px;
 }
 .reply_content {
@@ -958,7 +958,7 @@ h3 {
 .post-left{
  width:50px;
  float:left;
- height:100px;
+ height:50px;
  font-size:8px;
  color:#333;
  text-align:center;
@@ -977,7 +977,7 @@ h3 {
 .post-desc {
   overflow:hidden;
   word-break: break-all;
-  height:100px;
+  height:20px;
   margin-top:10px;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -1001,7 +1001,7 @@ h3 {
 .post-cont-right{
     float:right;
     height:auto;
-    min-height:100px;
+    min-height:20px;
 }
 .clear{
     clear:both;

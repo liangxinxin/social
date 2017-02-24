@@ -41,6 +41,15 @@ class Message(db.Model):
 def create_table():
     db.create_all()
 
+def select_by_id(id):
+    return Message.query.get(id)
+
+def update_has_read(id,has_read):
+    data = select_by_id(id)
+    if data != None:
+      data.has_read=int(has_read)
+      db.session.commit()
+
 def insert_follow(follower_id,followed_id):
     #if no the data,insert
     data=select_by_message_tye_and_user_from_and_user_to(1,follower_id, followed_id)
@@ -74,9 +83,11 @@ def insert_praise_reply(user_from_id,reply_id):
     follower_info = db_model_user.select_by_id(user_from_id)
     if follower_info != None and reply != None:
       content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+\
-          '" style="max-width:100px;float:left;padding-left:5px;padding-right:10px;">' + follower_info.name+' </a></font>'\
-          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">\
-         赞了你的回帖 <font color=blue>'+reply.content+'</font></p>'
+          '" style="max-width:100px;float:left;padding-left:5px;padding-right:10px;" target="_blank" >' + follower_info.name+' </a></font>'\
+          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">'\
+          +'<a href="http://127.0.0.1:6100/message_praise_reply?type=message_praise_reply&user_from_id='+(str)(user_from_id)\
+          +'&user_to_id='+(str)(reply.create_user_id)+'&reply_id='+(str)(reply_id)+'" target="_blank">'\
+          +'赞了你的回帖 </a><font color=blue>'+reply.content+'</font></p>'
       #content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+'">' + follower_info.name +'</a> </font>' + '<p> 赞了你的回帖 </p>'
     content = content.encode('utf8')
     insert=Message(message_type_id=2, user_from_id=user_from_id, user_to_id=reply.create_user_id, post_id=reply.post_id,\
@@ -99,10 +110,13 @@ def insert_reply_post(user_from_id,post_id,reply_id):
     content = ""
     follower_info = db_model_user.select_by_id(user_from_id)
     if follower_info != None:
-      content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)+\
-          '" style="max-width:100px;float:left;padding-left:5px;padding-right:10px;">' + follower_info.name+' </a></font>'\
-          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">\
-         回复了你的帖 <font color=blue>'+post_info.title+'</font></p>'
+      #fill html info to show message
+      content= '<font color=blue><a href="http://127.0.0.1:6100/user_info?user_id='+(str)(user_from_id)\
+          +'" style="max-width:100px;float:left;padding-left:5px;padding-right:10px;" target="_blank">' + follower_info.name+' </a></font>'\
+          + '<p style="overflow: hidden;text-overflow: ellipsis;white-space:nowrap;width:15em;">'\
+          +'<a href="http://127.0.0.1:6100/message_reply_post?type=message_reply_post&user_from_id='+(str)(user_from_id)\
+          +'&user_to_id='+(str)(post_info.create_user_id)+'&post_id='+(str)(post_id)+'&reply_id='+(str)(reply_id)+'" target="_blank">'\
+          +' 回复了你的帖 </a> <font color=blue>'+post_info.title+'</font></p>'
     insert=Message(message_type_id=3, user_from_id=user_from_id, user_to_id=post_info.create_user_id, post_id=post_id, \
         reply_id=reply_id,has_read=False,create_time=cur_time,update_time=cur_time,content=content)
     db.session.add(insert)

@@ -36,9 +36,10 @@ if __name__ == '__main__':
     app.debug = True
     ##db_model_user_relation.create_table()
     print 'create table start'
-    # db_default_image.create_table()
-    # db_model_user_relation.create_table()
-    # db_model_message_type.create_table()
+    db_default_image.create_table()
+    db_model_user_relation.create_table()
+    db_model_message_type.create_table()
+    db_model_message_type.insert_default_value()
     db_model_message.create_table()
     db_model_comment.create_table()
     db_model_reply.create_table()

@@ -11,21 +11,20 @@
                   {% if session.get('userinfo') %}
                   <a href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#">个人主页</a></li>
-                    <li><a href="#">设置</a></li>
+                    <li><a href="http://0.0.0.0:6100/user_info?user_id={{ session.get('userinfo')['id'] }}" >个人主页</a></li>
                     <li><a href="javascript:to_log_out()">登出</a></li>
                   </ul>
                   {% else %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登陆 <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登录 <span class="caret"></span></a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="javascript:to_log_in()">登陆</a></li>
+                    <li><a href="javascript:to_log_in()">登录</a></li>
                     <li><a href="javascript:to_regist()">注册</a></li>
                   </ul>
                   {% endif %}
                 </li>
                 <li class="dropdown" style="margin-left:1px;padding-left:1px;">
                 {% if messages_unread %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;margin-left:1px;padding-left:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="message_count" class="circle">15</span></a>
+                  <a href="#" class="dropdown-toggle" style="background: transparent;margin-left:1px;padding-left:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="message_count" class="circle">{{messages_unread_num}}</span></a>
                   
                   <ul class="dropdown-menu dropdown-menu-right" style="min-width: 280px;" id="ul_message_unread">
                   </ul>
@@ -72,10 +71,30 @@
          {% for message in messages_unread %}
              var new_li = document.createElement("li");
              new_li.innerHTML = '{{message.content|safe}}';
+             new_li.onclick= function() {
+                 click_message({{message.id|safe}});
+             }
              ul_message_unread.appendChild(new_li);
          {% endfor %}
      {% else %}
      {% endif %}
+ }
+ function click_message(message_id) {
+    data={};
+    data['message_id']=message_id;
+    $.ajax({
+      type:'POST',
+      url:'/read_message',
+      data:data,
+      dataType:'json',
+      success:function(data) {
+        document.getElementById("message_count").innerHTML=data['unread_message_num'];
+      },
+      error:function(xhr,type){
+        alert('read message fail');
+      } 
+    }
+    );
  }
 
  if(window.addEventListener){

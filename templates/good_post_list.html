@@ -5,7 +5,7 @@
 <div class="row">
     <div class="search-div">
         <div class="form-group input-group">
-            <span class="input-group-addon">财经岛社区</span>
+            <span class="input-group-addon">财经岛</span>
             <input type="text" class="form-control " id="search_input" placeholder="Search"
                 onkeypress="if(event.keyCode==13) {search()}">
             <span class="input-group-btn">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-sm-11 post-cont-right">
                             <div class="col-sm-12 post-title-div">
-                                <a class="" href="/post?post_id={{post.id}}">{{post.title}}</a>
+                                <a class="" href="/post?post_id={{post.id}}&community_id={{post.community.id}}">{{post.title}}</a>
                             </div>
                             <div class="col-sm-12 post-desc">
                                 {{post.content}}
@@ -50,7 +50,7 @@
                         <div class="clear"></div>
                     </div>
                     <div class="post-border-bottom">
-                        <span class="post-community">来自：<a href="/community?community_id={{post.community.id}}">{{post.community.name}}社区</a></span>
+                        <span class="post-community">来自：<a href="/community?community_id={{post.community.id}}">{{post.community.name}}岛</a></span>
                         <span class="post-community">
                              {{post.create_time}}
                         </span>
