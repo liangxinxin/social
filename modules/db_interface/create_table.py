@@ -19,6 +19,9 @@ from modules.db_interface import db_model_user_relation
 from modules.db_interface import db_default_image
 from modules.db_interface import db_model_message_type
 from modules.db_interface import db_model_message
+from modules.db_interface import db_model_comment
+from modules.db_interface import db_model_reply
+
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -33,9 +36,11 @@ if __name__ == '__main__':
     app.debug = True
     ##db_model_user_relation.create_table()
     print 'create table start'
-    db_default_image.create_table()
-    db_model_user_relation.create_table()
-    db_model_message_type.create_table()
+    # db_default_image.create_table()
+    # db_model_user_relation.create_table()
+    # db_model_message_type.create_table()
     db_model_message.create_table()
+    db_model_comment.create_table()
+    db_model_reply.create_table()
     print 'create table end'
 

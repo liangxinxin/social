@@ -252,3 +252,6 @@ VALUES
 
 /*!40000 ALTER TABLE `default_image` ENABLE KEYS */;
 UNLOCK TABLES;
+
+-- add by lxx  reply 添加列 floor_num
+alter table reply add floor_num int(11)

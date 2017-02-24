@@ -47,13 +47,13 @@ def publish_reply(request):
   floor=post_data.floor_num+1
   post_data.floor_num+=1
   db_model_post.update(post_data)
-  
 
+  floor_num = 0
   post_user=db_model_user.select_by_id(post_data.create_user_id)
 
   print 'create reply--- content:',content,"user_id:",create_user_id,"post_id:",post_id,"community_id",community_id
   #insert to db
-  db_model_reply.insert(content,create_user_id,post_id,floor,create_time)
+  db_model_reply.insert(content,create_user_id,post_id,floor,floor_num,create_time)
   reply=db_model_reply.select_by_create_user_and_post_and_floor(create_user_id,post_id,floor)  
   if reply != None:
     db_model_message.insert_reply_post(create_user_id,post_id,reply.id)

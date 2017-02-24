@@ -1,12 +1,13 @@
 # coding=utf-8
 import time
 from sqlalchemy import ForeignKey
+from sqlalchemy import desc
 from db_connect import db
 import db_model_user
 import db_model_reply
 import db_model_post
 import db_model_message_type
-import db_model_message_type
+import db_model_comment
 
 class Message(db.Model):
     __tablename__ = 'message'
@@ -17,18 +18,20 @@ class Message(db.Model):
     user_to_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     reply_id = db.Column(db.Integer, db.ForeignKey('reply.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     has_read = db.Column(db.Boolean, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
     update_time = db.Column(db.DateTime, unique=False)
     content = db.Column(db.Text)
 
 
-    def __init__(self, message_type_id, user_from_id, user_to_id, post_id, reply_id,has_read,create_time,update_time,content):
+    def __init__(self, message_type_id, user_from_id, user_to_id, post_id, reply_id,comment_id,has_read,create_time,update_time,content):
         self.message_type_id = message_type_id
         self.user_from_id = user_from_id
         self.user_to_id = user_to_id
         self.post_id = post_id 
         self.reply_id = reply_id
+        self.comment_id = comment_id
         self.has_read = has_read
         self.create_time = create_time
         self.update_time = update_time
@@ -105,6 +108,31 @@ def insert_reply_post(user_from_id,post_id,reply_id):
     db.session.add(insert)
     db.session.commit()
 
+
+def insert_comment_reply(comment_id):
+    #if no the data,insert
+    comment = db_model_comment.select_by_id(comment_id)
+    if comment != None:
+        user = comment.user
+        if user !=None:
+            data=select_by_comment(3,user.id,comment.post_id,comment.reply_id,comment_id)
+            if data == None:
+                print 'the Message has exist !',comment.id,
+                return
+        else:
+            print 'user is null'
+            return
+        ISOTIMEFORMAT='%Y-%m-%d %X'
+        cur_time=time.strftime(ISOTIMEFORMAT,time.localtime())
+        content = comment.content;
+        insert = Message(message_type_id=3, user_from_id=comment.create_user_id, user_to_id=comment.to_user_id,
+                         post_id=comment.post_id, \
+                         reply_id=comment.reply_id,comment_id=comment.id, has_read=False, create_time=cur_time, update_time=cur_time, content=content)
+        db.session.add(insert)
+        db.session.commit()
+    else:
+        print 'comment is null'
+        return
 def select_by_message_tye_and_user_from_and_user_to(message_type_id,user_from_id, user_to_id):
     data = Message.query.filter_by(message_type_id=message_type_id,user_from_id=user_from_id, user_to_id=user_to_id).first()
     return data
@@ -114,3 +142,12 @@ def select_by_message_tye_and_user_from_and_reply_id(message_type_id,user_from_i
 def select_by_message_tye_and_user_from_and_post_id_and_reply_id(message_type_id,user_from_id,post_id,reply_id):
     data = Message.query.filter_by(message_type_id=message_type_id,user_from_id=user_from_id,post_id=post_id,reply_id=reply_id).first()
     return data
+
+def select_by_comment(message_type_id,user_from_id,post_id,reply_id,comment_id):
+    data =Message.query.filter_by(message_type_id=message_type_id,user_from_id=user_from_id,post_id=post_id,reply_id=reply_id,comment_id=comment_id)
+    return data
+
+
+def select_by_user(user_id, page_no,num_perpage):
+    paginate = Message.query.filter(Message.user_from_id==user_id).order_by(desc(Message.create_time)).paginate(page_no,num_perpage,False)
+    return paginate

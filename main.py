@@ -11,6 +11,7 @@ from modules import mod_post
 from modules import mod_reply
 from modules import mod_user
 from modules import mod_user_community
+from modules import mod_comment
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -272,6 +273,22 @@ def get_default_image():
         return jsonify(result=default_user_data)
     else:
         return jsonify(result=default_community_data)
+
+
+@app.route('/get_comment',methods=['get'])
+# @interceptor(login_required=True)
+def get_comment():
+    print 'get_comment'
+    paginate = mod_comment.query_by_reply_id(request)
+    return jsonify(result=paginate.items,has_next=paginate.has_next)
+
+@app.route('/publish_comment',methods=['post'])
+# @interceptor(login_required=True)
+def publish_comment():
+    print 'publish_comment'
+    result = mod_comment.service(request)
+    print 'publish_comment result:code '+str(result.get('code'))+' message: '+result.get('message')
+    return jsonify(result)
 
 
 

@@ -20,6 +20,8 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
     messages = db.relationship('Message',backref='user',lazy='dynamic')
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
+    tocomments = db.relationship('Comment', backref='touser', lazy='dynamic')
 
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
@@ -95,3 +97,12 @@ def save_head_image(id,imageUrl):
     row = User.query.get(id)
     row.head_img_url = imageUrl
     db.session.commit()
+
+
+def to_json(object):
+    if isinstance(object, User):
+        return {
+            'id': object.id,
+            'name': object.name,
+            'head_img_url':object.head_img_url
+        }
