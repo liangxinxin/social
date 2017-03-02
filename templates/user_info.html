@@ -1,15 +1,11 @@
-{% extends 'commons/_proto.html' %}
-
-<link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
-<script src="{{url_for('static', filename='lib/jquery-2.0.3.js')}}"></script>
-<!-- Cropping css/js start -->
+<!-- Cropping css/js start 这个放在最上面 否则加载不到-->
 {% from 'commons/upload.html' import macro_upload_js_css %}
  {{ macro_upload_js_css() }}
 <!-- Cropping css/js end -->
+{% extends 'commons/_proto.html' %}
 {% from 'commons/upload.html' import macro_upload %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
-    <script src="{{url_for('static', filename='lib/jquery-2.0.3.js')}}"></script>
 {% endblock %}
 
 {% block body %}
@@ -45,7 +41,12 @@
 </div>
 
 <script type="text/javascript">
-  $('a.user_sendmsg_btn').before(select_relation());
+{% if session.get('userinfo') %}
+     var userid={{session.get('userinfo')['id']}};
+     if(userid!={{user_info.id}}){
+       $('a.user_sendmsg_btn').before(select_relation());
+     }
+{%endif%}
   var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
 function add_relation(){
     {% if session.get('userinfo') %}

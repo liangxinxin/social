@@ -6,7 +6,7 @@
   {% include 'commons/navbar_toutiao.html' %}
 </div>
 <input id="post_id" style="display:none" value={{post_data.id}}></input>
-<input id="community_id" style="display:none" value={{community.id}}></input>
+<input id="community_id" style="display:none" value={{post_data.community.id}}></input>
 <div id="all_backgroud" class="post-page-main">
   <div id="post_wrapper" class="post_all_wraper">
     <div id="community_head" class="card_top_wrap">
@@ -75,7 +75,7 @@
             </a>
           </div>
         </div>
-        <div class="reply_content_wrap">
+        <div class="reply_content_wrap" id="here_{{reply_list[i].id|safe}}">
           <div class="reply_content_area">
             <div class="reply_content">
               <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
@@ -90,7 +90,7 @@
             {%endif%}
             <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
           </div>
-          <div  class="reply_comment"><a href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})">
+          <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})">
             <span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
             </a>
           </div>
@@ -150,6 +150,12 @@
 <script type="text/javascript">
   var login = false;
   checkLogin();
+  if(window.location.hash!='' && window.location.hash!=null){
+      var param = window.location.hash;
+      var id = param.substring(6,param.length)
+     $('a#get_comment_'+id).click();
+  }
+
   function checkLogin(){
     var userid= 0;
     {% if session.get('userinfo') %}

@@ -1,0 +1,48 @@
+        <div class="col-sm-12 message_list">
+            <input id="type" type="hidden" value="message_all">
+            <input id="messagetype" type="hidden" value="{{message_type}}">
+            {% if unread_num>0 and no==1 %}
+            <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
+                {% for message in unread_list%}
+                <div class="CM_wrap col-sm-12" id="CM_unread_{{message.id}}">
+                    <div class="CM_co CM_head "><a href="/user_info?user_id={{message.user.id}}"><img class="comm-img-sm" src="{{message.user.head_img_url}}"></a></div>
+                    <div class="CM_co CM_detail  ">
+                        <input class="communityid" type="hidden" value="{{message.community_id}}">
+                        <input class="replyid" type="hidden" value="{{message.reply_id}}">
+                        <div class="CM_co CM_name col-sm-12"><a  href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a></div>
+                        <div class="CM_co CM_content col-sm-12" >{{message.reply.content}}</div>
+                        <div class="CM_co CM_old_content col-sm-12"><span>评论我的帖子:</a>:</span>
+                           <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                              id="CM_content_{{message.id}}">{{message.post.content}}</a>
+                        </div>
+                        <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            {%endif%}
+            {% if read_num > 0 %}
+                <div class="read_mess_list col-sm-12">已读消息</div>
+            {%elif unread_num==0 and read_num==0%}
+                <div class="read_mess_list col-sm-12">暂无消息</div>
+            {%else%}
+
+            {%endif%}
+            {% for message in read_list %}
+                <div class="CM_wrap col-sm-12" id="CM_read_{{message.id}}">
+                    <div class="CM_co CM_head "><a href="/user_info?user_id={{message.user.id}}"><img class="comm-img-sm" src="{{message.user.head_img_url}}"></a></div>
+                    <div class="CM_co CM_detail  ">
+                        <input class="communityid" type="hidden" value="{{message.community_id}}">
+                        <input class="replyid" type="hidden" value="{{message.reply_id}}">
+                        <div class="CM_co CM_name col-sm-12"><a  href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a></div>
+                        <div class="CM_co CM_content  col-sm-12" >{{message.reply.content}}</div>
+                        <div class="CM_co CM_old_content col-sm-12"><span>评论我的帖子:</span>
+                           <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                              id="CM_content_{{message.id}}">{{message.post.content}}</a>
+                        </div>
+                        <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+        <div class="page-center"><ul class="sync-pagination pagination-sm" id="index-pagination"></ul></div>
+

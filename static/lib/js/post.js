@@ -80,7 +80,7 @@ $('.say_word').hover(function() {
       function joinHtml(comment,replyid){
           var create_time =getDate(comment.create_time)
           var user = comment.user;
-          var touser = comment.user
+          var touser = comment.touser
           var content =comment.content;
           if(comment.parent_id>0){
             content='<span>回复<a href="#">'+touser.name+'</a></span>：'+comment.content;
@@ -105,10 +105,9 @@ $('.say_word').hover(function() {
             return false;
           }
           var community_id = $('input#community_id').val();
-          alert(community_id)
           var post_id = $('input#post_id').val();
           var say_block = $('#say_block_'+replyid)
-          var content = say_block.find('.say_content').val().replace(/(^\s*)|(\s*$)/g, "");;
+          var content = say_block.find('.say_content').val();
           var parentid = 0 ;
           var touid = 0;
           if(content==''|| content==null){
@@ -127,7 +126,6 @@ $('.say_word').hover(function() {
             touid = say_block.find('input.ruid').val(); // to reply user id
           }
            var url='/publish_comment?replyid='+replyid+'&touid='+touid+'&content='+content+'&parentid='+parentid+'&communityid='+community_id+'&postid='+post_id;
-            console.log('url'+url)
              $.ajax(url,{
                 type: 'post',
                 data: '',
