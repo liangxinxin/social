@@ -29,3 +29,8 @@ def insert_default_value():
     insert3 = MessageType(content='回帖')
     db.session.add(insert3)
     db.session.commit()
+
+
+    insert4 = MessageType(content='回复')
+    db.session.add(insert4)
+    db.session.commit()

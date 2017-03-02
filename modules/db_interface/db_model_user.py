@@ -19,7 +19,12 @@ class User(db.Model):
     location = db.Column(db.String(150), unique=False)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
-    messages = db.relationship('Message',backref='user',lazy='dynamic')
+    messages = db.relationship('Message',backref='user',lazy='dynamic',foreign_keys='Message.user_from_id')
+    to_user_messages = db.relationship('Message',backref='touser',lazy='dynamic',foreign_keys='Message.user_to_id')
+    comments = db.relationship('Comment', backref='user', lazy='dynamic',foreign_keys='Comment.create_user_id')
+    to_user_comments = db.relationship('Comment', backref='touser', lazy='dynamic',foreign_keys='Comment.to_user_id')
+    replys = db.relationship('Reply',backref='user',lazy='dynamic')
+
 
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
@@ -95,3 +100,12 @@ def save_head_image(id,imageUrl):
     row = User.query.get(id)
     row.head_img_url = imageUrl
     db.session.commit()
+
+
+def to_json(object):
+    if isinstance(object, User):
+        return {
+            'id': object.id,
+            'name': object.name,
+            'head_img_url':object.head_img_url
+        }
