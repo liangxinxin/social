@@ -11,13 +11,14 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, unique=False)
     create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),unique=False)
-    to_user_id = db.Column(db.Integer, unique=False)
-    parent_id = db.Column(db.Integer,unique=False)
+    to_user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=False)
+    parent_id = db.Column(db.Integer,db.ForeignKey('comment.id'),unique=False)
     reply_id = db.Column(db.Integer,db.ForeignKey('reply.id'),unique=False)
     post_id = db.Column(db.Integer,db.ForeignKey('post.id'),unique=False)
     community_id = db.Column(db.Integer,db.ForeignKey('community.id'),unique=False)
     floor = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
+    messages = db.relationship('Message',backref='comment',lazy='dynamic')
 
     def __init__(self,content,create_user_id,reply_id,to_user_id,parent_id,post_id,community_id,floor,create_time):
         self.content= content
@@ -32,7 +33,6 @@ class Comment(db.Model):
 
 def create_table():
     db.create_all()
-
 def insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time):
     insert=Comment(content=content,create_user_id=create_user_id,reply_id=reply_id,community_id=community_id,post_id=post_id,to_user_id=to_user_id,parent_id=parent_id,floor=floor,create_time=create_time)
     db.session.add(insert)
@@ -77,4 +77,5 @@ def to_json(object):
             'create_time':object.create_time,
             'user':db_model_user.to_json(object.user),
             'touser':db_model_user.to_json(object.touser)
+
         }

@@ -4,6 +4,11 @@ from db_interface import db_model_user
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
+from db_interface import db_model_comment
+
+default_page_no=1
+default_num_perpage=10
+
 
 def service(request):
   print "enter do db_model_message  service"
@@ -41,6 +46,47 @@ def service(request):
       reply_user = db_model_user.select_by_id(user_to_id)
       reply_like_count = db_model_reply_like_stat.get_reply_like_count(reply_id)
       return reply_data,reply_user,reply_like_count
+    elif query_type=='message_all':
+      return select_comment_message(request)
     return 0
-    
+
+
+
+def  select_comment_message(request):
+  if session.get('userinfo'):
+    to_userid = session.get('userinfo')['id']
+    message_type = int(request.args.get('message_type')) # 1.guanzhu 2.zan 3.pinglun 4.huifu
+    page_no = int(request.args.get("no", default_page_no))
+    num_perpage = int(request.args.get("size", 2))
+    read_list, unread_list= db_model_message.select_message_by_to_user(message_type, to_userid, page_no, num_perpage)
+    total = read_list.total
+    if message_type==4:
+      for message in read_list.items:
+        comment = message.comment
+        if comment.parent_id != None:
+          comment.parent  = db_model_comment.select_by_id(comment.parent_id)
+          message.comment = comment
+      unread_list_new = []
+      for message in unread_list:
+        db_model_message.update_has_read(message.id, True)
+        comment = message.comment
+        if comment.parent_id != None:
+          comment.parent  = db_model_comment.select_by_id(comment.parent_id)
+          message.comment = comment
+
+    else:
+      for message in unread_list:
+        db_model_message.update_has_read(message.id, True)
+
+    return read_list.items,unread_list,total,page_no,num_perpage,message_type
+
+
+
+def select_unread_num_by_type(request):
+  un_read = False
+  if session.get('userinfo'):
+    userid = session.get('userinfo')['id']
+    return db_model_message.select_num_unread_by_type(un_read,userid)
+
+  return 0,0,0,0
 

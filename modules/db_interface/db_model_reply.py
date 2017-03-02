@@ -9,12 +9,13 @@ class Reply(db.Model):
     __tablename__='reply'
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, unique=False)
-    create_user_id = db.Column(db.Integer, unique=False)
+    create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),unique=False)
     post_id = db.Column(db.Integer, unique=False)
     floor = db.Column(db.Integer, unique=False)
     floor_num = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
-    #messages = db.relationship('Message',backref='reply',lazy='dynamic')
+    messages = db.relationship('Message',backref='reply',lazy='dynamic')
+    comments= db.relationship('Comment',backref='reply',lazy='dynamic')
 
     def __init__(self,content,create_user_id,post_id,floor,floor_num,create_time):
         self.content= content
