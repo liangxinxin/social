@@ -8,33 +8,18 @@
 <div id="create_user_wrap" class="row div-signup">
   <form id="create_user_info">
     <h3 class="form-signup-heading">新用户注册</h3>
-    <div id="user_name_div" class="form-group row">
-      <label class="col-sm-3 col-form-label" for="user_name_input">名字(昵称)：</label>
-      <div class="col-sm-6">
-        <input type="text" id="user_name_input" class="form-control"/>
-      </div>
-    </div>
-    <div id="user_password_div" class="form-group row">
-      <label class="col-sm-3 col-form-label">密码：</label>
-      <div class="col-sm-6">
-        <input type="password" id="user_password_input" class="form-control"/>
-      </div>
-    </div>
-
-    <div id="user_password_div" class="form-group row">
-      <label class="col-sm-3 col-form-label">重复密码：</label>
-      <div class="col-sm-6">
-        <input type="password" id="user_password_input_repeat" class="form-control"/>
-      </div>
-    </div>
 
     <div id="user_mobile_phone_div" class="form-group row">
       <label class="col-sm-3 col-form-label" for="user_mobile_phone_input">手机号： </label>
       <div class="col-sm-6">
+        {% if mobile %}
+        <input type="text" id="user_mobile_phone_input" value="{{mobile}}" class="form-control"/>
+        {% else %}
         <input type="text" id="user_mobile_phone_input" placeholder="" class="form-control"/>
+        {% endif %}
       </div>
       <div class="col-sm-3">
-        <button class="form-control btn-info">发送验证码</button>
+        <button  id="button_send_sms_code" onclick="return send_sms_code()">发送验证码</button>
       </div>
     </div>
 
@@ -45,15 +30,9 @@
       </div>
     </div>
 
-    <div id="user_head_img" class="form-group row">
-      <label class="col-sm-3 col-form-label">头像： </label>
-      <div class="col-sm-4">
-        <button class="form-control btn-info">请选择...</button>
-      </div>
-    </div>
 
-    <div id="user_create" class="form-group row col-sm-6 col-sm-offset-3 signup-submit-div">
-      <button onclick="create_user()" class="btn btn-primary btn-lg btn-block">新用户申请</button>
+    <div id="verify" class="form-group row col-sm-6 col-sm-offset-3 signup-submit-div">
+      <button onclick="verify_to_next()" class="btn btn-primary btn-lg btn-block">下一步</button>
     </div>
   </form>
 </div>
@@ -75,43 +54,41 @@
      temp.submit();
      return temp;
  }
- function create_user() {
-     var name= document.getElementById("user_name_input").value;
+ function verify_to_next() {
      var mobile = document.getElementById("user_mobile_phone_input").value;
-     var password = document.getElementById("user_password_input").value;
-     var head_img_url = "";
-     if (name == "") {
-         alert("请输入昵称");
-         return;
-     }
+     var sms_code = document.getElementById("user_mobile_verify_code_input").value;
      if (mobile == "") {
          alert("请输入手机号");
          return;
      }
-     //post("/user_create",{"type":"publish","name":name,"mobile":mobile,"head_img":head_img});
+     if (sms_code == "") {
+         alert("请输入手机验证码");
+         return;
+     }
      var data={};
-     data['type']='publish';
-     data['name']=name;
-     data['password']=password;
      data['mobile']=mobile;
-     data['head_img_url']=head_img_url;
+     data['sms_code']=sms_code;
      $.ajax({
          type:'POST',
-         url:'/do_user_create',
+         url:'/verify',
          data:data,
          dataType:'json',
          success:function(data) {
-             alert('create user succ!');
-             {% if next_url %}
-             window.location.href='{{next_url}}';
-             {% else %}
-             window.location.href="/community_index";
-             {% endif %}
+            if (data['succ'] != 0) {
+              alert('sms code not correct');
+            } else {
+              window.location.href="/user_create_step_2";
+            }
          },
          error:function(xhr,type) {
-             alert('create user fail!');
+             alert("phone or verify_code is not correct!");
+             //window.location.href="/user_create_step_2";
          }
-     });
+     })
+ }
+ function send_sms_code() {
+   alert('验证码已发送，如果未收到可填写 123456');
+   return false;
  }
 </script>
 {% endblock %}

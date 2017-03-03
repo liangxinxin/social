@@ -2,11 +2,11 @@
 
 
 {% block body %}
-<div id="navbar">
+<div id="navbar" xmlns="http://www.w3.org/1999/html">
   {% include 'commons/navbar_toutiao.html' %}
 </div>
 <input id="post_id" style="display:none" value={{post_data.id}}></input>
-<input id="community_id" style="display:none" value={{community.id}}></input>
+<input id="community_id" style="display:none" value={{post_data.community.id}}></input>
 <div id="all_backgroud" class="post-page-main">
   <div id="post_wrapper" class="post_all_wraper">
     <div id="community_head" class="card_top_wrap">
@@ -15,7 +15,7 @@
           <!--<a>-->
             <!--<img class="" src="https://img3.doubanio.com/icon/g35417-1.jpg">-->
           <!--</a>-->
-          <a href="/community_info?community_id={{post_data.community.id}}">
+          <a href="/community?community_id={{post_data.community.id}}">
               <img class="comm-img-bg" src="{{post_data.community.head_img_url}}">
             </a>
         </div>
@@ -75,7 +75,7 @@
             </a>
           </div>
         </div>
-        <div class="reply_content_wrap">
+        <div class="reply_content_wrap" id="here_{{reply_list[i].id|safe}}">
           <div class="reply_content_area">
             <div class="reply_content">
               <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
@@ -90,6 +90,24 @@
             {%endif%}
             <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
           </div>
+          <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})">
+            <span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
+            </a>
+          </div>
+          <div class="comment_body comment_body_{{reply_list[i].id}}">
+            <input type="hidden" value="{{reply_list[i].id}}"/>
+            <div class="comment_container"></div>
+            <div class="say_word"><a href="javascript:void(0) " onclick="sayWord({{reply_list[i].id}})">我也说一句</a></div>
+            <div id="say_block_{{reply_list[i].id}}" class="col-sm-12">
+              <div class="say_wrap col-sm-11" contenteditable="true">
+                <input type="hidden" class="pubtype" value="reply" >
+                <input type="hidden" class="cuid" value="" >
+                <input type="hidden" class="ruid" value="{{reply_user_list[i].id}}" >
+                <input type="text" onfocus="sayWrapFocus({{reply_list[i].id}})" onblur="sayWrapBlur({{reply_list[i].id}})"  value="" class="say_content">
+              </div>
+              <div class="say_submit"><a class="comm-btn" href="javascript:void(0)" onclick="publishComment({{reply_list[i].id}})" id="saysubmit" >发表</a></div>
+            </div>
+            </div>
         </div>
       </div>
       {%endfor%}
@@ -127,8 +145,28 @@
       </div>
     </div>
   </div>
+</div>
+<script src="lib/js/post.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var login = false;
+  checkLogin();
+  if(window.location.hash!='' && window.location.hash!=null){
+      var param = window.location.hash;
+      var id = param.substring(6,param.length)
+     $('a#get_comment_'+id).click();
+  }
 
-  <script type="text/javascript">
+  function checkLogin(){
+    var userid= 0;
+    {% if session.get('userinfo') %}
+      userid={{session.get('userinfo')['id']}};
+    {%endif%}
+    if(userid>0){
+      login =true;
+    }
+    return login;
+
+  }
 
    //var obj=document.getElementById("button_publish_post");
    //obj.onclick=function() {

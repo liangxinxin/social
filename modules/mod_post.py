@@ -13,6 +13,7 @@ from db_interface import db_model_user_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
+from modules import time_format
 
 default_page_no = 1
 default_num_perpage = 10
@@ -97,6 +98,7 @@ def query_post_in_community(request):
     # select communit info in db
     community = db_model_community.select_by_id(community_id)
     # return select value
+    paginate.items = formate_post_time(paginate.items)
     return paginate, user_list, community, has_join, page_no, len(paginate.items), num_perpage
 
 
@@ -146,8 +148,18 @@ def select_good_post(request):
 
     # select db
     paginate = db_model_post.select_post_by_floor_num(page_no, num_perpage)
-    print len(paginate.items)
-    return page_no,num_perpage,paginate.items
+    post_list_new=formate_post_time(paginate.items)
+    print len(post_list_new)
+    return page_no,num_perpage,post_list_new
+
+
+def formate_post_time(post_list):
+    post_list_new=[]
+    for post_new in post_list:
+        post_new.create_time = time_format.timestampFormat(post_new.create_time)
+        post_list_new.append(post_new)
+    print len(post_list_new)
+    return post_list_new
 
 def select_goodpost_all():
     max_number = 1000;
