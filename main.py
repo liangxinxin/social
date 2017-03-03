@@ -2,7 +2,7 @@
 from flask import Flask, request, render_template
 from flask import jsonify
 from flask import redirect, url_for
-
+import json
 from modules import mod_community
 from modules import mod_login
 from modules import mod_logout
@@ -13,6 +13,7 @@ from modules import mod_user_community
 from modules import time_format
 from modules import mod_image
 from modules import mod_message
+from modules import mod_verify
 
 from modules.db_interface import db_model_user_relation
 
@@ -297,9 +298,13 @@ def logout():
 @app.route('/user_create', methods=['GET', 'POST'])
 def user_create():
     next_url = request.args.get('next_url')
+    mobile = request.args.get('mobile')
     print next_url
-    return render_template('user_create.html', next_url=next_url)
+    return render_template('user_create.html', next_url=next_url, mobile=mobile)
 
+@app.route('/user_create_step_2', methods=['GET', 'POST'])
+def user_create_step_2():
+    return render_template('user_create_step2.html')
 
 @app.route('/do_user_create', methods=['GET', 'POST'])
 def do_user_create():
@@ -349,6 +354,19 @@ def user_info():
         messages_unread_num=len(messages_unread)
     return render_template('user_info.html', user_info=user_info,\
         messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+
+@app.route('/verify', methods=['GET', 'POST'])
+def verify():
+    print "now begin verify"
+    result = mod_verify.service(request)
+    print "now begin return verify"
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+    #return jsonify(succ='0')
+    #return json_result
+   # print jsonify(succ='0',code='1',message='hehe')
+   # print jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+   # return jsonify(succ='0')
+   # return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 
 @app.route('/index', methods=['GET', 'POST'])
