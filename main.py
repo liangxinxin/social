@@ -45,7 +45,7 @@ def default():
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good,\
             totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
 
-    return redirect(url_for('/index'))
+    return redirect(url_for('good_post_list'))
 
 
 # @app.route('/index')
