@@ -36,7 +36,9 @@ def create_user(request):
     # insert to db
     name = request.form.get("name")
     password = request.form.get("password")
-    mobile = request.form.get("mobile", 0)
+    mobile = '0' 
+    if session['userinfo'] !=None:
+        mobile=session['userinfo']['mobile']
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     print 'name:', name, 'mobile:', mobile
@@ -44,10 +46,19 @@ def create_user(request):
     db_model_user.insert(name=name, password=password, mobile=mobile)
 
     # return select value
-    user = db_model_user.select_by_name_and_password_and_mobile(name=name, password=password, mobile=mobile)
+    user = db_model_user.select_by_mobile(mobile=mobile)
     if user != None:
-        session['userinfo'] = {'name': user.name, 'id': user.id}
-    return
+        print 'now update session info'
+        if session['userinfo'] == None:
+            print 'now create session info'
+            session['userinfo'] = {'name': user.name, 'id': user.id}
+        else:
+            print 'now add session info'
+            session['userinfo'] = {'mobile':mobile,'name': user.name, 'id': user.id}
+           # session['userinfo']['name'] = user.name
+           # session['userinfo']['id'] = user.id
+    print 'after create user,session is:',session
+    return user
 
 
 #  rt=jsonify(result="succ",name=name,mobile=mobile) 
@@ -102,6 +113,7 @@ def select_relation_user_id(request):
 def get_unread_message_from_session():
     user_id = 0
     if session.get('userinfo') != None:
+        print ' get unread message ,session is :',session
         user_id = (int)(session.get('userinfo')['id'])
     user_info = db_model_user.select_by_id(user_id) 
     messages = None

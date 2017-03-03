@@ -54,6 +54,9 @@ def select_by_name_and_password(name,password):
 def select_by_name_and_password_and_mobile(name,password,mobile):
     data=User.query.filter_by(name=name,password=password,mobile=mobile).first()
     return data
+def select_by_mobile(mobile):
+    data=User.query.filter_by(mobile=mobile).first()
+    return data
 
 def update(id,name,password,mobile,age,sex,email,professional,head_img_url,location):
     row = User.query.get(id)
