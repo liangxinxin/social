@@ -32,7 +32,7 @@
 
 
     <div id="verify" class="form-group row col-sm-6 col-sm-offset-3 signup-submit-div">
-      <button onclick="verify_to_next()" class="btn btn-primary btn-lg btn-block">下一步</button>
+      <button onclick="return verify_to_next()" class="btn btn-primary btn-lg btn-block">下一步</button>
     </div>
   </form>
 </div>
@@ -84,7 +84,8 @@
              alert("phone or verify_code is not correct!");
              //window.location.href="/user_create_step_2";
          }
-     })
+     });
+     return false;
  }
  function send_sms_code() {
    alert('验证码已发送，如果未收到可填写 123456');
