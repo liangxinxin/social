@@ -400,19 +400,28 @@ def user_info():
         count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
         messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
-@app.route('/verify', methods=['GET', 'POST'])
-def verify():
+@app.route('/regist', methods=['GET', 'POST'])
+def regist():
     print "now begin verify"
     result = mod_verify.service(request)
-    print "now begin return verify"
+    print result['succ']
+    if result['succ'] == '0':
+      print "verify pass! now begin insert db"
+      result,user_info = mod_user.service(request)
+    print "now begin return regist result"
     return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
-    #return jsonify(succ='0')
     #return json_result
    # print jsonify(succ='0',code='1',message='hehe')
    # print jsonify(succ=result['succ'],code=result['code'],message=result['message'])
    # return jsonify(succ='0')
    # return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
+@app.route('/modify_user', methods=['GET', 'POST'])
+def modify_user():
+    print "enter url modify_user"
+    result = mod_user.service(request)
+    print 'modify user result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 @app.route('/index', methods=['GET', 'POST'])
 def good_post_list():

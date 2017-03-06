@@ -17,6 +17,7 @@ class User(db.Model):
     professional = db.Column(db.String(300), unique=False)
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
+    label = db.Column(db.String(300), unique=False)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
     messages = db.relationship('Message',backref='user',lazy='dynamic',foreign_keys='Message.user_from_id')
@@ -26,7 +27,7 @@ class User(db.Model):
     replys = db.relationship('Reply',backref='user',lazy='dynamic')
 
 
-    def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
+    def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location,label):
         self.name = name
         self.password = password
         self.age = age
@@ -36,12 +37,13 @@ class User(db.Model):
         self.professional=professional 
         self.head_img_url=head_img_url 
         self.location=location 
+        self.label=label 
 
 def create_table():
     db.create_all()
 
-def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="https://img3.doubanio.com/icon/g232413-3.jpg",location=""):
-    insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location)
+def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="https://img3.doubanio.com/icon/g232413-3.jpg",location="",label=""):
+    insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location,label=label)
     db.session.add(insert)
     db.session.commit()
 
@@ -63,7 +65,7 @@ def select_by_mobile(mobile):
     data=User.query.filter_by(mobile=mobile).first()
     return data
 
-def update(id,name,password,mobile,age,sex,email,professional,head_img_url,location):
+def update(id,name,password,mobile,age,sex,email,professional,head_img_url,location,label):
     row = User.query.get(id)
     row.name = name
     row.password = password
@@ -74,7 +76,12 @@ def update(id,name,password,mobile,age,sex,email,professional,head_img_url,locat
     row.professional = professional
     row.head_img_url = head_img_url
     row.location = location
+    row.label =label 
     db.session.commit()
+
+def update_user(user):
+    update(user.id,user.name,user.password,user.mobile,user.age,user.sex,user.email,\
+        user.professional,user.head_img_url,user.location,user.label)
 
 def delete(id):
     data=User.query.get(id)

@@ -21,8 +21,10 @@ def service(request):
     print "enter do user create service"
     if request.method == 'POST':
         type = request.form.get("type")
-        if type == "publish":
+        if type == "create":
             return create_user(request)
+        elif type == "modify":
+            return modify_user_from_mobile(request)
         else:
             print "error request:", request
     elif request.method == 'GET':
@@ -34,16 +36,13 @@ def service(request):
 def create_user(request):
     print "now create new user request"
     # insert to db
-    name = request.form.get("name")
+    mobile = request.form.get("mobile")
     password = request.form.get("password")
-    mobile = '0' 
-    if session['userinfo'] !=None:
-        mobile=session['userinfo']['mobile']
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    print 'name:', name, 'mobile:', mobile
+    print 'password:', password, 'mobile:', mobile
     print "now insert to db"
-    db_model_user.insert(name=name, password=password, mobile=mobile)
+    db_model_user.insert(name=mobile, password=password, mobile=mobile)
 
     # return select value
     user = db_model_user.select_by_mobile(mobile=mobile)
@@ -58,8 +57,34 @@ def create_user(request):
            # session['userinfo']['name'] = user.name
            # session['userinfo']['id'] = user.id
     print 'after create user,session is:',session
-    return user
+    result={}
+    result['succ']='0'
+    result['code']='0'
+    result['message']='create user succ!'
+    return result,user
 
+def modify_user_from_mobile(request):
+    print "now modify  user info request from mobile"
+    # insert to db
+    result={}
+    result['succ']='1'
+    name = request.form.get("name")
+    label = request.form.get("label")
+    mobile = request.form.get("mobile")
+    if name == None or label == None or mobile ==None:
+      result['code'] = '1'
+      result['message'] = 'name or lable or mobile is null' 
+    else:
+      user=db_model_user.select_by_mobile(mobile)
+      if user != None:
+        user.name=name
+        user.label=label
+        db_model_user.update_user(user)
+        session['userinfo'] = {'mobile':mobile,'name': user.name, 'id': user.id}
+        result['succ']='0'
+        result['code']='0'
+        result['message']='fill user info succ!'
+    return result
 
 #  rt=jsonify(result="succ",name=name,mobile=mobile) 
 

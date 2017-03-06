@@ -30,9 +30,22 @@
       </div>
     </div>
 
+    <div id="user_password_div" class="form-group row">
+      <label class="col-sm-3 col-form-label">密码：</label>
+      <div class="col-sm-6">
+        <input type="password" id="user_password_input" class="form-control"/>
+      </div>
+    </div>
+
+    <div id="user_password_div" class="form-group row">
+      <label class="col-sm-3 col-form-label">重复密码：</label>
+      <div class="col-sm-6">
+        <input type="password" id="user_password_input_repeat" class="form-control"/>
+      </div>
+    </div>
 
     <div id="verify" class="form-group row col-sm-6 col-sm-offset-3 signup-submit-div">
-      <button onclick="return verify_to_next()" class="btn btn-primary btn-lg btn-block">下一步</button>
+      <button onclick="return regist()" class="btn btn-primary btn-lg btn-block">注册</button>
     </div>
   </form>
 </div>
@@ -54,9 +67,11 @@
      temp.submit();
      return temp;
  }
- function verify_to_next() {
+ function regist() {
      var mobile = document.getElementById("user_mobile_phone_input").value;
      var sms_code = document.getElementById("user_mobile_verify_code_input").value;
+     var password = document.getElementById("user_password_input").value;
+     var password_repeat = document.getElementById("user_password_input_repeat").value;
      if (mobile == "") {
          alert("请输入手机号");
          return;
@@ -65,12 +80,23 @@
          alert("请输入手机验证码");
          return;
      }
+     if (password == "") {
+         alert("请输入密码");
+         return;
+     }
+     if (password_repeat == "") {
+         alert("请重复输入密码");
+         return;
+     }
      var data={};
+     data['type']='create';
      data['mobile']=mobile;
      data['sms_code']=sms_code;
+     data['password']=password;
+     data['password_repeat']=password_repeat;
      $.ajax({
          type:'POST',
-         url:'/verify',
+         url:'/regist',
          data:data,
          dataType:'json',
          success:function(data) {
