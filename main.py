@@ -334,9 +334,8 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    model, next_url = mod_logout.service(request)
-    return redirect(next_url)
-
+    result = mod_logout.service(request)
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 @app.route('/user_create', methods=['GET', 'POST'])
 def user_create():

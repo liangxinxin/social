@@ -9,11 +9,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" style="margin-right:1px;">
                   {% if session.get('userinfo') %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <a id="a_login" href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
+                  <ul id="ul_login" class="dropdown-menu dropdown-menu-right">
                     <li><a href="http://0.0.0.0:6100/user_info?user_id={{ session.get('userinfo')['id'] }}" >个人主页</a></li>
                     <li><a target="_blank" href="http://0.0.0.0:6100/message?type=message_all&message_type=3" >消息</a></li>
-                    <li><a href="javascript:to_log_out()">登出</a></li>
+                    <li><a href="#" onclick="return to_log_out()">登出</a></li>
                   </ul>
                   {% else %}
                   <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登录 <span class="caret"></span></a>
@@ -85,9 +85,26 @@
      window.location.href="/user_create?next_url="+cur_url;
  }
  function to_log_out() {
-     var cur_url=this.location.href;
-     window.location.href="/logout?next_url="+cur_url;
+     data={};
+     $.ajax({
+       type:'POST',
+       url:'/logout',
+       data:data,
+       dataType:'json',
+       success:function(data){
+         if (data['succ']==0){
+           document.getElementById("a_login").innerHTML="未登录";
+           var html_new = '<li><a href="javascript:to_log_in()">登录</a></li>';
+           html_new += '<li><a href="javascript:to_regist()">注册</a></li>';
+           document.getElementById("ul_login").innerHTML=html_new;
+         }
+       },
+       error:function(xhr,type) {
+       }
+     });
+     return false;
  }
+
  function load_unread_message() {
      var ul_message_unread=document.getElementById("ul_message_unread");
      {% if messages_unread %}
