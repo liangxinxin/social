@@ -61,6 +61,9 @@ def select_full_match_by_name(name):
 def select_by_name_and_password(name,password):
     data=User.query.filter_by(name=name,password=password).first()
     return data
+def select_by_mobile_and_password(mobile,password):
+    data=User.query.filter_by(mobile=mobile,password=password).first()
+    return data
 def select_by_name_and_password_and_mobile(name,password,mobile):
     data=User.query.filter_by(name=name,password=password,mobile=mobile).first()
     return data
