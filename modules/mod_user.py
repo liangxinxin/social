@@ -18,13 +18,15 @@ max_num_perpage =100
 
 
 def service(request):
-    print "enter do user create service"
+    print "enter user  service ----"
     if request.method == 'POST':
         type = request.form.get("type")
         if type == "create":
             return create_user(request)
         elif type == "modify":
             return modify_user_from_mobile(request)
+        elif type == "check_user_name":
+            return check_user_name(request)
         else:
             print "error request:", request
     elif request.method == 'GET':
@@ -34,7 +36,7 @@ def service(request):
 
 
 def create_user(request):
-    print "now create new user request"
+    print "now create new user "
     # insert to db
     mobile = request.form.get("mobile")
     password = request.form.get("password")
@@ -64,7 +66,7 @@ def create_user(request):
     return result,user
 
 def modify_user_from_mobile(request):
-    print "now modify  user info request from mobile"
+    print "now modify  user info  from mobile"
     # insert to db
     result={}
     result['succ']='1'
@@ -86,13 +88,33 @@ def modify_user_from_mobile(request):
         result['message']='fill user info succ!'
     return result
 
-#  rt=jsonify(result="succ",name=name,mobile=mobile) 
+def check_user_name(request):
+    name=request.form.get("name")
+    print "check user name",name
+    result={}
+    result['succ']='1'
+    if name is None or name =="":
+      result['succ']='0'
+      result['code']='0'
+      result['message']='check user name pass!'
+    else:
+      user = db_model_user.select_full_match_by_name(name)
+      print 'query name result',name,user
+      if user != None:
+        result['succ']='1'
+        result['code']='1'
+        result['message']='user have exist!'
+      else:
+        result['succ']='0'
+        result['code']='0'
+        result['message']='check user name pass!'
+    return result
 
 def query_user_info(request):
+    print "now query user info from id"
     user_id = request.args.get("user_id")
     user_info = db_model_user.select_by_id(user_id)
     return user_info
-
 
 
 def add_relation(request):

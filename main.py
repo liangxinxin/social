@@ -15,6 +15,7 @@ from modules import time_format
 from modules import mod_image
 from modules import mod_message
 from modules import mod_verify
+from modules import mod_mobile
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -421,6 +422,17 @@ def modify_user():
     print "enter url modify_user"
     result = mod_user.service(request)
     print 'modify user result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/check_mobile', methods=['GET', 'POST'])
+def check_mobile():
+    result = mod_mobile.service(request)
+    print 'mobile check result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/check_user_name', methods=['GET', 'POST'])
+def check_user_name():
+    result = mod_user.service(request)
     return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 @app.route('/index', methods=['GET', 'POST'])

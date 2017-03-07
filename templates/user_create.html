@@ -15,7 +15,7 @@
         {% if mobile %}
         <input type="text" id="user_mobile_phone_input" value="{{mobile}}" class="form-control"/>
         {% else %}
-        <input type="text" id="user_mobile_phone_input" placeholder="" class="form-control"/>
+        <input type="text" id="user_mobile_phone_input" placeholder="" class="form-control" onblur="return check_mobile()"/>
         {% endif %}
       </div>
       <div class="col-sm-3">
@@ -40,7 +40,7 @@
     <div id="user_password_div" class="form-group row">
       <label class="col-sm-3 col-form-label">重复密码：</label>
       <div class="col-sm-6">
-        <input type="password" id="user_password_input_repeat" class="form-control"/>
+        <input type="password" id="user_password_input_repeat" class="form-control" onblur="return check_password_and_repeat()"/>
       </div>
     </div>
 
@@ -67,6 +67,39 @@
      temp.submit();
      return temp;
  }
+ function check_mobile() {
+   var mobile=document.getElementById('user_mobile_phone_input').value;
+   data={};
+   data['mobile']=mobile;
+   $.ajax({
+     type:'POST',
+     url:'/check_mobile',
+     data:data,
+     dataType:'json',
+     success:function(data) {
+       if (data['succ'] != 0) {
+         alert('your mobile maybe not correct');
+         document.getElementById('user_mobile_phone_input').value="";
+       } else {
+       }
+     },
+     error:function(xhr,type){
+       alert('mobile verify is not pass');
+     }
+   });
+   return false;
+ }
+ function check_password_and_repeat() {
+   var password=document.getElementById('user_password_input').value;
+   var password_repeat=document.getElementById('user_password_input_repeat').value;
+   if (password_repeat != password) {
+     alert('两次输入密码不一致');
+     document.getElementById('user_password_input').value="";
+     document.getElementById('user_password_input_repeat').value="";
+   }
+   return false;
+ }
+
  function regist() {
      var mobile = document.getElementById("user_mobile_phone_input").value;
      var sms_code = document.getElementById("user_mobile_verify_code_input").value;
@@ -101,7 +134,7 @@
          dataType:'json',
          success:function(data) {
             if (data['succ'] != 0) {
-              alert('sms code not correct');
+              alert('该手机号已经注册或者短信验证码不正确');
             } else {
               window.location.href="/user_create_step_2";
             }

@@ -12,7 +12,7 @@
     <div id="user_name_div" class="form-group row">
       <label class="col-sm-3 col-form-label" for="user_name_input">名字(昵称)：</label>
       <div class="col-sm-6">
-        <input type="text" id="user_name_input" class="form-control"/>
+        <input type="text" id="user_name_input" class="form-control" onblur="return check_user_name()"/>
       </div>
     </div>
 
@@ -46,6 +46,31 @@
      temp.submit();
      return temp;
  }
+
+ function check_user_name() {
+   var name=document.getElementById('user_name_input').value;
+   data={};
+   data['name']=name;
+   data['type']='check_user_name';
+   $.ajax({
+     type:'POST',
+     url:'/check_user_name',
+     data:data,
+     dataType:'json',
+     success:function(data) {
+       if (data['succ'] != 0) {
+         alert('该用户名已经被占用，请换一个:)');
+         document.getElementById('user_name_input').value="";
+       } else {
+       }
+     },
+     error:function(xhr,type){
+       alert('用户名验证没有返回结果');
+     }
+   });
+   return false;
+ }
+
  function fill_user_info() {
      var name= document.getElementById("user_name_input").value;
      var label = document.getElementById("user_label_input").value;
