@@ -23,6 +23,11 @@ from modules.db_interface import db_model_verify
 from modules.db_interface import db_model_comment
 from modules.db_interface import db_model_reply
 from modules.db_interface import db_model_user
+from modules.db_interface import db_model_community
+from modules.db_interface import db_model_post
+from modules.db_interface import db_model_reply_like_stat
+from modules.db_interface import db_model_user_community
+from modules.db_interface import db_model_user_relation
 
 
 '''  BASICAL FUNCTIONS BEGIN  '''
@@ -53,5 +58,10 @@ if __name__ == '__main__':
     db_model_comment.create_table()
     db_model_reply.create_table()
     db_model_user.create_table()
+    db_model_community.create_table()
+    db_model_post.create_table()
+    db_model_reply_like_stat.create_table()
+    db_model_user_community.create_table()
+    db_model_user_relation.create_table()
     print 'create table end'
 
