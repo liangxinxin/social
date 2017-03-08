@@ -27,6 +27,8 @@ def service(request):
             return modify_user_from_mobile(request)
         elif type == "check_user_name":
             return check_user_name(request)
+        elif type == "modify_password":
+            return modify_password(request)
         else:
             print "error request:", request
     elif request.method == 'GET':
@@ -86,6 +88,27 @@ def modify_user_from_mobile(request):
         result['succ']='0'
         result['code']='0'
         result['message']='fill user info succ!'
+    return result
+
+def modify_password(request):
+    print "now modify  user password  from mobile"
+    # insert to db
+    result={}
+    result['succ']='1'
+    mobile = request.form.get("mobile")
+    password = request.form.get("password")
+    if password == None or mobile ==None:
+      result['code'] = '1'
+      result['message'] = 'password or mobile is null' 
+    else:
+      user=db_model_user.select_by_mobile(mobile)
+      if user != None:
+        user.password=password
+        db_model_user.update_user(user)
+        session['userinfo'] = {'mobile':mobile,'name': user.name, 'id': user.id}
+        result['succ']='0'
+        result['code']='0'
+        result['message']='modify password succ!'
     return result
 
 def check_user_name(request):

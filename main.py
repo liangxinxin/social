@@ -429,10 +429,20 @@ def check_mobile():
     print 'mobile check result:',result
     return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
+@app.route('/check_mobile_exist', methods=['GET', 'POST'])
+def check_mobile_exist():
+    result = mod_mobile.service(request)
+    print 'mobile check result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
 @app.route('/check_user_name', methods=['GET', 'POST'])
 def check_user_name():
     result = mod_user.service(request)
     return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/forget_password', methods=['GET', 'POST'])
+def forget_password():
+    return render_template('find_password.html')
 
 @app.route('/index', methods=['GET', 'POST'])
 def good_post_list():
