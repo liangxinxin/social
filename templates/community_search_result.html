@@ -119,11 +119,13 @@
      {% endif %}
  }
  function click_new_social_name(){
+     {% if num == 0 %}
      if (document.getElementById("div_create_social_info").style.display == "none") {
          document.getElementById("div_create_social_info").style.display = "block";
      } else {
          document.getElementById("div_create_social_info").style.display = "none";
      }
+     {% endif %}
  }
  function click_new_social_name_no_login(){
      alert('登录后才能创建新岛哦！');
