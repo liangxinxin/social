@@ -44,7 +44,7 @@ def default():
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good,\
             totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
 
-    return redirect(url_for('/index'))
+    return redirect('/index')
 
 
 # @app.route('/index')
@@ -381,19 +381,49 @@ def read_message():
     unread_message_num = mod_message.service(request)
     return jsonify(unread_message_num=unread_message_num)
 
-
+# user_info start
 @app.route('/user_info', methods=['GET', 'POST'])
 def user_info():
     user_info = mod_user.service(request)
-    messages_unread=mod_user.get_unread_message_from_session()
+    #friends, page_no, num_perpage, friends_total = mod_user.good_friends(request)
+    messages_unread = mod_user.get_unread_message_from_session()
     messages_unread_num = 0
     count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-
     if messages_unread != None:
-        messages_unread_num=len(messages_unread)
+        messages_unread_num = len(messages_unread)
     return render_template('user_info.html', user_info=user_info,\
-        count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good, \
+                           messages_unread=messages_unread, messages_unread_num=messages_unread_num)
+
+@app.route('/user_info_post', methods=['GET'])
+def user_info_post():
+    print 'user_info_post start'
+    post_list, page_no, num_perpage, total= mod_user.get_user_post(request)
+    return jsonify(post_list=post_list,no=page_no,size=num_perpage,totalsize=total)
+
+
+
+@app.route('/get_post_reply', methods=['GET'])
+def user_info_get_reply():
+    print 'user_info_friends start'
+    reply_list, page_no, num_perpage,total= mod_reply.get_reply_by_post(request)
+    return jsonify(reply_list=reply_list,no=page_no, size=num_perpage,totalsize=total)
+
+
+@app.route('/user_info_publish_reply', methods=['POST'])
+def user_info_publish_reply():
+    print 'user_info_pubreply start'
+    reply, floor_num= mod_reply.publish_reply_in_UserInfo(request)
+    return jsonify(reply=reply,floor_num=floor_num)
+
+@app.route('/good_friends',methods=['GET','post'])
+# @interceptor(login_required=True)
+def get_good_friends():
+    print 'get_good_friends'
+    friends, page_no, num_perpage, friends_total = mod_user.good_friends(request)
+    return jsonify(friends=friends,no=page_no,size=num_perpage,totalsize=friends_total)
+# user_info end
 
 
 @app.route('/index', methods=['GET', 'POST'])
@@ -474,7 +504,7 @@ def get_message():
     login_flag = mod_user.check_login()
     if not login_flag:
         print 'user not login'
-        return redirect(url_for('good_post_list'))
+        return redirect('/index')
     messages_unread = mod_user.get_unread_message_from_session()
     messages_unread_num=0
     if messages_unread !=None:

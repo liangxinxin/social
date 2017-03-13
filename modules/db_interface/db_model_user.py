@@ -17,6 +17,9 @@ class User(db.Model):
     professional = db.Column(db.String(300), unique=False)
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
+    post_num = db.Column(db.Integer, unique=False,default=0)
+    by_attention_num = db.Column(db.Integer, unique=False,default=0)
+    attention_num= db.Column(db.Integer, unique=False,default=0)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
     messages = db.relationship('Message',backref='user',lazy='dynamic',foreign_keys='Message.user_from_id')
@@ -24,7 +27,6 @@ class User(db.Model):
     comments = db.relationship('Comment', backref='user', lazy='dynamic',foreign_keys='Comment.create_user_id')
     to_user_comments = db.relationship('Comment', backref='touser', lazy='dynamic',foreign_keys='Comment.to_user_id')
     replys = db.relationship('Reply',backref='user',lazy='dynamic')
-
 
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location):
         self.name = name
@@ -72,6 +74,12 @@ def update(id,name,password,mobile,age,sex,email,professional,head_img_url,locat
     row.head_img_url = head_img_url
     row.location = location
     db.session.commit()
+def update_user(user):
+    row = User.query.get(user.id)
+    row.post_num = user.post_num
+    row.by_attention_num = user.by_attention_num
+    row.attention_num = user.attention_num
+    db.session.commit()
 
 def delete(id):
     data=User.query.get(id)
@@ -107,5 +115,8 @@ def to_json(object):
         return {
             'id': object.id,
             'name': object.name,
-            'head_img_url':object.head_img_url
+            'head_img_url':object.head_img_url,
+            'post_num': object.post_num,
+            'by_attention_num':object.by_attention_num,
+            'attention_num':object.attention_num
         }
