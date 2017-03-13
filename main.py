@@ -2,7 +2,7 @@
 from flask import Flask, request, render_template
 from flask import jsonify
 from flask import redirect, url_for
-
+import json
 from modules import mod_community
 from modules import mod_login
 from modules import mod_logout
@@ -14,6 +14,8 @@ from modules import mod_comment
 from modules import time_format
 from modules import mod_image
 from modules import mod_message
+from modules import mod_verify
+from modules import mod_mobile
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -45,6 +47,7 @@ def default():
             totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
 
     return redirect('/index')
+
 
 
 # @app.route('/index')
@@ -332,16 +335,19 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    model, next_url = mod_logout.service(request)
-    return redirect(next_url)
-
+    result = mod_logout.service(request)
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 @app.route('/user_create', methods=['GET', 'POST'])
 def user_create():
     next_url = request.args.get('next_url')
+    mobile = request.args.get('mobile')
     print next_url
-    return render_template('user_create.html', next_url=next_url)
+    return render_template('user_create.html', next_url=next_url, mobile=mobile)
 
+@app.route('/user_create_step_2', methods=['GET', 'POST'])
+def user_create_step_2():
+    return render_template('user_create_step2.html')
 
 @app.route('/do_user_create', methods=['GET', 'POST'])
 def do_user_create():
@@ -425,6 +431,49 @@ def get_good_friends():
     return jsonify(friends=friends,no=page_no,size=num_perpage,totalsize=friends_total)
 # user_info end
 
+@app.route('/regist', methods=['GET', 'POST'])
+def regist():
+    print "now begin verify"
+    result = mod_verify.service(request)
+    print result['succ']
+    if result['succ'] == '0':
+      print "verify pass! now begin insert db"
+      result,user_info = mod_user.service(request)
+    print "now begin return regist result"
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+    #return json_result
+   # print jsonify(succ='0',code='1',message='hehe')
+   # print jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+   # return jsonify(succ='0')
+   # return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/modify_user', methods=['GET', 'POST'])
+def modify_user():
+    print "enter url modify_user"
+    result = mod_user.service(request)
+    print 'modify user result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/check_mobile', methods=['GET', 'POST'])
+def check_mobile():
+    result = mod_mobile.service(request)
+    print 'mobile check result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/check_mobile_exist', methods=['GET', 'POST'])
+def check_mobile_exist():
+    result = mod_mobile.service(request)
+    print 'mobile check result:',result
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/check_user_name', methods=['GET', 'POST'])
+def check_user_name():
+    result = mod_user.service(request)
+    return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
+
+@app.route('/forget_password', methods=['GET', 'POST'])
+def forget_password():
+    return render_template('find_password.html')
 
 @app.route('/index', methods=['GET', 'POST'])
 def good_post_list():

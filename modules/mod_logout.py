@@ -1,9 +1,14 @@
 from flask import session
 
 def service(request):
-  model = {}
+  result = {}
+  result['succ'] = '1'
+  result['code'] = '1'
+  result['message'] = 'logout fail'
   userinfo = session.get('userinfo')
-  next_url=request.args.get('next_url')
   if userinfo is not None:
     session['userinfo'] = None
-  return model,next_url
+    result['succ'] = '0'
+    result['code'] = '0'
+    result['message'] = 'logout succ'
+  return result 

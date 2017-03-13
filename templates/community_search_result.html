@@ -69,10 +69,11 @@
             <textarea id="social_describe" cols="80" rows="3" placeholder="输入200字以内的简介" ></textarea>
             <!-- <input type="text" id="social_describe" style="width:500px;height:30px;"/> -->
           </div>
-
+          <!--
           <div id="create_social_img" >
             <p >标志图： </p>
           </div>
+          -->
 
           <div id="community_create" >
             <button onclick="create_community()">创建</button>
@@ -119,11 +120,13 @@
      {% endif %}
  }
  function click_new_social_name(){
+     {% if num == 0 %}
      if (document.getElementById("div_create_social_info").style.display == "none") {
          document.getElementById("div_create_social_info").style.display = "block";
      } else {
          document.getElementById("div_create_social_info").style.display = "none";
      }
+     {% endif %}
  }
  function click_new_social_name_no_login(){
      alert('登录后才能创建新岛哦！');
