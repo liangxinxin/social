@@ -8,7 +8,6 @@ default_comment_id = 0
 default_reply_id =0
 default_page_no=1
 default_num_perpage=5
-
 def service(request):
   if request.method == 'POST':
     print 'post'
@@ -61,6 +60,7 @@ def publish_comment(request):
     db_model_reply.update_floor_num(reply_id, floor)
     if create_user_id != to_user_id:
         db_model_message.insert_comment_message(data.id)
+
     data = db_model_comment.to_json(data)
     result = {'code': 0, 'message': 'success','comment':data}
     return result

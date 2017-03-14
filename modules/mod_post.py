@@ -43,6 +43,7 @@ def publish_post(request):
     title = request.form.get("title")
     content = request.form.get("content")
     create_user_id = request.form.get("create_user_id", 0)
+    login_user = db_model_user.select_by_id(create_user_id)
     community_id = request.form.get("community_id", 0)
     floor_num = 0
     ISOTIMEFORMAT = '%Y-%m-%d %X'
@@ -51,6 +52,9 @@ def publish_post(request):
     print 'title:', title, 'content:', content, "user_id:", create_user_id, "community_id:", community_id
     db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time)
     print "now insert to db"
+
+    login_user.post_num = login_user.post_num + 1
+    print "now update post_num to db",(login_user)
 
     # select db
     paginate = db_model_post.select_all_paging(default_page_no, default_num_perpage, community_id)

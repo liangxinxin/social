@@ -2,7 +2,7 @@
 from sqlalchemy import desc
 
 from db_connect import db
-from sqlalchemy.orm import sessionmaker
+import  db_model_user
 
 
 class Post(db.Model):
@@ -18,6 +18,7 @@ class Post(db.Model):
     last_update_time = db.Column(db.DateTime, unique=False)
     create_user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     messages = db.relationship('Message',backref='post',lazy='dynamic')
+    replys = db.relationship('Reply',backref='post',lazy='dynamic')
 
     def __init__(self, title, content, create_user_id, community_id, floor_num, create_time, last_update_time):
         self.title = title
@@ -116,4 +117,26 @@ def select_post_by_floor_num(page_no, num_per_page):
     print paginate
     return paginate
 
+# return paginate
+def select_all_by_user(page_no, num_per_page, user_id):
+    print 'no:', page_no, 'num:', num_per_page, 'user_id:', user_id
+    if page_no < 1:
+        page_no = 1
+    paginate = Post.query.filter(Post.create_user_id == user_id).order_by(desc(Post.create_time)).paginate(page_no,num_per_page, False)
+    return paginate
 
+def to_json(object):
+    if isinstance(object, Post):
+        return {
+            'id':object.id,
+            'title': object.title,
+            'content': object.content,
+            'create_user_id':object.create_user_id,
+            'user':db_model_user.to_json(object.user),
+            'community_id':object.community_id,
+            'floor_num':object.floor_num,
+            'create_time':object.create_time,
+            'last_update_time':object.last_update_time,
+
+
+        }
