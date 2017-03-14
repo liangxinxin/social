@@ -50,7 +50,11 @@
     <div id="friend_container" class="col-sm-12 u_friend_container">
         <div class="col-sm-12 user_friend_blv" >
             <div class="friend_title col-sm-12">
-                我的好友
+                 {% if user_info.id ==session.get('userinfo')['id'] %}
+                    我的好友
+                 {%else%}
+                    他的好友
+                {%endif%}
             </div>
             <div class="col-sm-12 friend_content"></div>
         </div>
