@@ -76,8 +76,8 @@ jQuery.fn.extend({
 	}, 
 
 	setCaret: function(){
-//        var flag= /msie/.test(navigator.userAgent.toLowerCase());
-//		if(!flag)return;
+        var flag= /msie/.test(navigator.userAgent.toLowerCase());
+		if(!flag)return;
 		var initSetCaret = function(){
 			var textObj = $(this).get(0);
 			textObj.caretPos = document.selection.createRange().duplicate();
@@ -89,6 +89,8 @@ jQuery.fn.extend({
 	insertAtCaret: function(textFeildValue){
 		var textObj = $(this).get(0);
 		textObj.value = textObj.innerHTML
+		//alert(textObj.value)
+		var img = replace_em(textFeildValue)
 		if(document.all && textObj.createTextRange && textObj.caretPos){
 			var caretPos=textObj.caretPos;
 			caretPos.text = caretPos.text.charAt(caretPos.text.length-1) == '' ? 
@@ -104,7 +106,9 @@ jQuery.fn.extend({
 		}else{
 			textObj.value=textFeildValue;
 		}
-		$("#editor").append(replace_em(textObj.value));
+		//$("#editor").append(replace_em(textObj.value));
+		$("#editor").focus();
+        document.execCommand('InsertImage', false, $(img).attr('src'));
 
 	} 
 });
