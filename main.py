@@ -266,6 +266,7 @@ def post():
     post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user = \
         mod_post.post_info(request)
     reply_num = len(reply_data.items)
+    total_page = reply_data.pages
     count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
 
     #  print model
@@ -287,7 +288,7 @@ def post():
             count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
 
         return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num, \
-                               reply_list=reply_data.items, \
+                               reply_list=reply_data.items,total_page=total_page, \
                                reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num, \
                                num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user, \
                                messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
@@ -300,17 +301,22 @@ def reply_publish():
     login_flag = mod_user.check_login()
     post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user=mod_reply.service(request)
     reply_num = len(reply_data.items)
+    total_page = reply_data.pages
     messages_unread=mod_user.get_unread_message_from_session()
     messages_unread_num = 0
     count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,\
-        reply_list=reply_data.items, \
-        reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,\
-        count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-        num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
-        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+
+    # upd by lxx,redirect to post by pageno;  post is method name
+    return redirect(url_for('post',post_id=post_data.id,page_no=total_page,community_id=post_data.community_id))
+
+    # return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,\
+    #     reply_list=reply_data.items, total_page=total_page, \
+    #     reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,\
+    #     count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
+    #     num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
+    #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
