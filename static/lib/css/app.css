@@ -829,16 +829,18 @@ body {
     border:1px solid #5c9dff;
 }
 .publish_reply_wrap {
-    height:400px;
+    height:450px;
     background-color:#f2f4f7;
     padding-left: 20px;
-    overflow:auto;
+    overflow:hidden;
     border-left:1px solid #e5e5e5;
     border-top:1px solid #e5e5e5;
     border-right:1px solid #e5e5e5;
     border-bottom:1px solid #e5e5e5;
 }
-
+.reply-button-wrapper{
+    margin:10px;
+}
 .publish_reply_mark {
     height:30px;
     text-align:left;

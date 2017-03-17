@@ -123,7 +123,6 @@ def post_info(request):
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
     print "post data:", post_data, "reply data:", reply_data
-
     def get_reply_like_count(reply):
         reply_id = reply.id
         count = db_model_reply_like_stat.get_reply_like_count(reply_id)

@@ -17,7 +17,7 @@ from db_interface import db_model_reply_like_stat
 from db_interface import db_model_message
 
 default_page_no = 1
-default_num_perpage = 15
+default_num_perpage = 10
 default_community_id = 1
 
 

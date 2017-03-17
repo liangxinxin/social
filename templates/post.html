@@ -132,7 +132,8 @@
       <div class="publish-reply-content-wrapper">
         <div id="div_reply_content" class="row">
           <div class="col-sm-10">
-            <textarea id="input_reply_content" class="publish-reply-content-area"></textarea>
+            {% include 'input.html' %}
+            <!--<textarea id="input_reply_content" class="publish-reply-content-area"></textarea>-->
           </div>
         </div>
         <div id="div_button_reply_post" class="row reply-button-wrapper">
@@ -146,6 +147,7 @@
     </div>
   </div>
 </div>
+
 <script src="lib/js/post.js" type="text/javascript"></script>
 <script type="text/javascript">
   var login = false;
@@ -168,6 +170,7 @@
 
   }
 
+
    //var obj=document.getElementById("button_publish_post");
    //obj.onclick=function() {
    //  publish_post();
@@ -175,12 +178,13 @@
    function publish_reply() {
        //get title
        //get content
-       var content=document.getElementById("input_reply_content").value;
+       var content=$('#editor').html();
        var id=document.getElementById("post_id").value;
        var community_id=document.getElementById("community_id").value;
        //post request for save post
        {% if session.get('userinfo') %}
-       post("/reply_publish",{"type":"publish","content":content,"create_user_id":{{session.get('userinfo')['id']}},"post_id":id,"community_id":community_id});
+       post("/reply_publish",{"type":"publish","content":content,"create_user_id":{{session.get('userinfo')['id']}},"post_id":id,"community_id":community_id,"page_no":{{total_page}}});
+
        {%else%}
        post("/reply_publish",{"type":"publish","content":content,"create_user_id":1,"post_id":id,"community_id":community_id});
        {%endif%}
