@@ -69,7 +69,7 @@ def select_paging_by_post_id(page_no,num_per_page,post_id):
     print 'no:',page_no,'num:',num_per_page,'post id:',post_id
     if page_no < 1:
         page_no = 1
-    paginate = Reply.query.filter(Reply.post_id==post_id).order_by(desc(Reply.create_time)).paginate(page_no,num_per_page,False)
+    paginate = Reply.query.filter(Reply.post_id==post_id).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
     return paginate
 
 # return paginate
