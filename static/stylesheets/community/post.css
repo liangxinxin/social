@@ -631,6 +631,17 @@ body {
     font-weight:bold;
     font-size:18px;
 }
+.best_reply_tail {
+    height:100px;
+    text-align:center;
+}
+
+.best_reply_tail_span {
+    margin-top:20px;
+    font-size:15px;
+    color:#ccc;
+}
+
 .reply_info {
     text-align:center;
     overflow:auto;
