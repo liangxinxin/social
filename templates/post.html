@@ -63,7 +63,7 @@
     {% if best_reply and best_reply_user %}
     <div id="best_reply_info" class="reply_info">
       <div class="best_reply_title">
-        <span class="best_reply_title_span">最佳回复</span>
+        <span class="best_reply_title_span">最佳回贴</span>
       </div>
       <div class="reply_body">
         <input type="hidden" value="{{best_reply.id|safe}}" name="reply-id-hidden" />
@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="best_reply_tail">
-        <span class="best_reply_tail_span">更多回复.....</span>
+        <span class="best_reply_tail_span">更多回贴.....</span>
       </div>
     </div>
     {% endif %}
@@ -188,7 +188,7 @@
     </div>
     <div id="publish_reply" class="publish_reply_wrap">
       <div class="publish_reply_mark">
-        <p class="publish_reply_mark_p">发表回复</p>
+        <p class="publish_reply_mark_p">回贴</p>
       </div>
       <div class="publish-reply-content-wrapper">
         <div id="div_reply_content" class="row">
