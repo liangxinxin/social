@@ -718,6 +718,7 @@ body {
 
 .rely_like_count {
     margin-left: 5px;
+    font-size:11px;
 }
 
 .reply_comment{
@@ -726,7 +727,6 @@ body {
     width:auto;
     height:auto;
     text-align: right;
-
 }
 .comment_body{
     display:none;

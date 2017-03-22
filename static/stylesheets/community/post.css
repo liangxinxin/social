@@ -639,7 +639,7 @@ body {
 .best_reply_tail_span {
     margin-top:20px;
     font-size:15px;
-    color:#ccc;
+    color:#bbb;
 }
 
 .reply_info {
@@ -718,7 +718,10 @@ body {
 .rely_like_count {
     margin-left: 5px;
 }
-
+.comment_a {
+    color:#888;
+    font-size:11px;
+}
 .publish_reply_wrap {
     height:400px;
     background-color:#f2f4f7;

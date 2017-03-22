@@ -94,8 +94,8 @@
             {%endif%}
             <span id="count-{{best_reply.id|safe}}" class="rely_like_count">{{like_stats[best_reply.id]}}</span>
           </div>
-          <div  class="reply_comment"><a id="get_comment_{{best_reply.id|safe}}" href="javascript:void(0)" onclick="getComment({{best_reply.id}})">
-            <span class="comment-btn">回复(<span id="comment_num_{{best_reply.id|safe}}">{{best_reply.floor_num|safe}}</span>)</span>
+          <div  class="reply_comment"><a id="get_comment_{{best_reply.id|safe}}" href="javascript:void(0)" onclick="getComment({{best_reply.id}})" class="comment_a">
+            <span style="margin-right:10px">{{best_reply.create_time|safe}}</span><span class="comment-btn">回复(<span id="comment_num_{{best_reply.id|safe}}">{{best_reply.floor_num|safe}}</span>)</span>
             </a>
           </div>
           <div class="comment_body comment_body_{{best_reply.id}}">
@@ -151,8 +151,8 @@
             {%endif%}
             <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
           </div>
-          <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})">
-            <span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
+          <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})" class="comment_a">
+            <span style="margin-right:10px">{{reply_list[i].create_time|safe}}</span><span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
             </a>
           </div>
           <div class="comment_body comment_body_{{reply_list[i].id}}">
