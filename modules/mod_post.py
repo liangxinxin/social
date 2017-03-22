@@ -122,6 +122,9 @@ def post_info(request):
         user = db_model_user.select_by_id(reply.create_user_id)
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
+    best_reply = db_model_reply.select_best_by_post_id(post_id)
+    if best_reply != None:
+      best_reply_user=db_model_user.select_by_id(reply.create_user_id)
     print "post data:", post_data, "reply data:", reply_data
     def get_reply_like_count(reply):
         reply_id = reply.id
@@ -141,8 +144,8 @@ def post_info(request):
     like_stats = dict(map(get_reply_like_count, reply_data.items))
 
     # return select value
-    return post_data, post_user, reply_data, reply_user_list, community, page_no, len(
-        reply_data.items), num_perpage, like_stats, liked_by_user
+    return post_data, post_user, reply_data, reply_user_list, community, page_no, len(\
+        reply_data.items), num_perpage, like_stats, liked_by_user,best_reply,best_reply_user
 
 
 def select_good_post(request):

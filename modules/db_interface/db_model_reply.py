@@ -72,6 +72,11 @@ def select_paging_by_post_id(page_no,num_per_page,post_id):
     paginate = Reply.query.filter(Reply.post_id==post_id).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
     return paginate
 
+def select_best_by_post_id(post_id):
+    print 'post id:',post_id
+    best_reply = Reply.query.filter(Reply.post_id==post_id).order_by(desc(Reply.like_num)).first()
+    return best_reply
+
 # return paginate
 def select_all_paging(page_no,num_per_page):
     if page_no < 1:

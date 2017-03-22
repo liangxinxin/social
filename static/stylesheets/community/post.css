@@ -541,6 +541,7 @@ body {
     height:auto;
     overflow:auto;
     padding:20px 10px 10px 10px;
+    overflow-x:hidden;
 }
 
 .post_detail_title {
@@ -619,7 +620,17 @@ body {
     text-align:left;
 }
 
+.best_reply_title {
+    height:50px;
+    text-align:left;
+}
 
+.best_reply_title_span {
+    margin-left:10px;
+    color:green;
+    font-weight:bold;
+    font-size:18px;
+}
 .reply_info {
     text-align:center;
     overflow:auto;
