@@ -123,6 +123,7 @@ def post_info(request):
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
     best_reply = db_model_reply.select_best_by_post_id(post_id)
+    best_reply_user=None
     if best_reply != None:
       best_reply_user=db_model_user.select_by_id(reply.create_user_id)
     print "post data:", post_data, "reply data:", reply_data

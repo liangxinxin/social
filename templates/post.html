@@ -18,7 +18,7 @@
             <!--<img class="" src="https://img3.doubanio.com/icon/g35417-1.jpg">-->
           <!--</a>-->
           <a href="/community?community_id={{post_data.community.id}}">
-              <img class="comm-img-bg" src="{{post_data.community.head_img_url}}">
+              <img class="comm-img-bg-post" src="{{post_data.community.head_img_url}}">
             </a>
         </div>
         <div id="community_title" class="card_title">
@@ -115,7 +115,9 @@
         </div>
       </div>
       <div class="best_reply_tail">
-        <span class="best_reply_tail_span">更多回贴.....</span>
+        <div>
+          <span class="best_reply_tail_span">更多回贴.....</span>
+        </div>
       </div>
     </div>
     {% endif %}

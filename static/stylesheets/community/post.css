@@ -571,8 +571,8 @@ body {
 }
 
 .post_detail_user_face {
-    width:48px;
-    height:48px;
+    width:65px;
+    height:65px;
     margin-right:20px;
     overflow:hidden;
 }
@@ -633,11 +633,14 @@ body {
 }
 .best_reply_tail {
     height:100px;
+    line-height:100px;
     text-align:center;
+    vertical-align: middle;
 }
 
 .best_reply_tail_span {
     margin-top:20px;
+    margin:auto;
     font-size:15px;
     color:#bbb;
 }

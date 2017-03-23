@@ -1043,10 +1043,17 @@ h3 {
 }
 
 .comm-img-bg{
+    width:100px;
+    height:100px;
+    /*border:0px solid #ccc;
+    */
+    border-radius:100px;
+}
+.comm-img-bg-post{
     width:52px;
     height:52px;
     border:1px solid #ccc;
-    border-radius:100px;
+    border-radius:52px;
 }
 
 .comm-img-md{
