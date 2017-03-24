@@ -349,6 +349,12 @@ body {
     margin-top:5px;
     color: #000;
 }
+
+.card_community_modify{
+    font-size:20px;
+    margin-top:5px;
+    color: #000;
+}
 .card_num_wrap{
     float:left;
     position:relative;
@@ -632,7 +638,7 @@ body {
     text-align:left;
     height:25px;
     float:right;
-
+    color: #666
 }
 .reply_info {
     text-align:center;

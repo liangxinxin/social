@@ -10,7 +10,7 @@
       <div id="community_head" class="card_top_wrap">
         <div id="community_head_left" class="card_info">
           <div id="community_img" class="card_image">
-            <a href="/community_info?id={{community.id}}">
+            <a href="/community?community_id={{community.id}}">
               <img class="comm-img-bg"  src="{{community.head_img_url}}">
             </a>
           </div>
@@ -32,6 +32,11 @@
             {% else %}
               <button id="join_community" onclick="join_community()">加入</button>
               <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
+            {% endif %}
+            {% if session.get('userinfo')['id']== community.create_user_id %}
+              <a class="card_community_modify" href="/community_info?id={{community.id}}" style="margin-left:30px;">
+                修改社区
+              </a>
             {% endif %}
           {% else %}
             <button id="join_community" onclick="join_community()">加入</button>
