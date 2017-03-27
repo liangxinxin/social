@@ -78,14 +78,7 @@
               {{best_reply_user.name}}
             </a>
           </div>
-        </div>
-        <div class="reply_content_wrap" id="here_{{best_reply.id|safe}}">
-          <div class="reply_content_area">
-            <div class="reply_content">
-              <a style="color:inherit" href="javascript:void"><p>{{best_reply.content|safe}}</p></a>
-            </div>
-          </div>
-          <div class="reply_like_stat">
+          <div class="reply_like_stat_left">
             <input type="hidden" id="isliked-{{best_reply.id|safe}}" value="{{liked_by_user[best_reply.id]}}"/>
             {% if liked_by_user and liked_by_user[best_reply.id]%}
             <a id="link-{{best_reply.id|safe}}" href="javascript:likeReply({{best_reply.id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
@@ -93,6 +86,13 @@
             <a id="link-{{best_reply.id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{best_reply.id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
             {%endif%}
             <span id="count-{{best_reply.id|safe}}" class="rely_like_count">{{like_stats[best_reply.id]}}</span>
+          </div>
+        </div>
+        <div class="reply_content_wrap" id="here_{{best_reply.id|safe}}">
+          <div class="reply_content_area">
+            <div class="reply_content">
+              <a style="color:inherit" href="javascript:void"><p>{{best_reply.content|safe}}</p></a>
+            </div>
           </div>
           <div  class="reply_comment"><a id="get_comment_{{best_reply.id|safe}}" href="javascript:void(0)" onclick="getComment({{best_reply.id}})" class="comment_a">
             <span style="margin-right:10px">{{best_reply.create_time|safe}}</span><span class="comment-btn">回复(<span id="comment_num_{{best_reply.id|safe}}">{{best_reply.floor_num|safe}}</span>)</span>
