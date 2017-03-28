@@ -1,5 +1,7 @@
 {% extends 'commons/_proto.html' %}
-
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="stylesheets/community/post.css">
+{%endblock%}
 
 {% block body %}
 <div id="navbar" xmlns="http://www.w3.org/1999/html">
@@ -16,7 +18,7 @@
             <!--<img class="" src="https://img3.doubanio.com/icon/g35417-1.jpg">-->
           <!--</a>-->
           <a href="/community?community_id={{post_data.community.id}}">
-              <img class="comm-img-bg" src="{{post_data.community.head_img_url}}">
+              <img class="comm-img-bg-post" src="{{post_data.community.head_img_url}}">
             </a>
         </div>
         <div id="community_title" class="card_title">
@@ -43,7 +45,7 @@
             </a>
           </div>
           <div class="post_detail_user_name_wraper">
-            <a class="post_detail_user_name">
+            <a href="/user_info?user_id={{post_user.id}}" class="post_detail_user_name">
               {{post_user.name}}
             </a>
           </div>
@@ -58,59 +60,122 @@
       </div>
     </div>
     {%endif%}
-    <div id="reply_info" class="reply_info">
-      {% if reply_list and reply_user_list %}
-      {%for i in range(reply_num)%}
+    {% if best_reply and best_reply_user %}
+    <div id="best_reply_info" class="reply_info">
+      <div class="best_reply_title">
+        <span class="best_reply_title_span">最佳回贴</span>
+      </div>
       <div class="reply_body">
-        <input type="hidden" value="{{reply_list[i].id|safe}}" name="reply-id-hidden" />
+        <input type="hidden" value="{{best_reply.id|safe}}" name="reply-id-hidden" />
         <div class="reply_author">
           <div class="reply_user_face">
-            <a href="/user_info?user_id={{reply_user_list[i].id}}">
-              <img class="comm-img-sm" src="{{reply_user_list[i].head_img_url}}">
+            <a href="/user_info?user_id={{best_reply_user.id}}">
+              <img class="comm-img-sm" src="{{best_reply_user.head_img_url}}">
             </a>
           </div>
           <div class="reply_user_name_wraper">
-            <a class="reply_user_name">
-              {{reply_user_list[i].name}}
+            <a href="/user_info?user_id={{best_reply_user.id}}" class="reply_user_name">
+              {{best_reply_user.name}}
             </a>
+          </div>
+          <div class="reply_like_stat_left">
+            <input type="hidden" id="isliked-{{best_reply.id|safe}}" value="{{liked_by_user[best_reply.id]}}"/>
+            {% if liked_by_user and liked_by_user[best_reply.id]%}
+            <a id="link-{{best_reply.id|safe}}" href="javascript:likeReply({{best_reply.id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+            {% else %}
+            <a id="link-{{best_reply.id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{best_reply.id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+            {%endif%}
+            <span id="count-{{best_reply.id|safe}}" class="rely_like_count">{{like_stats[best_reply.id]}}</span>
           </div>
         </div>
-        <div class="reply_content_wrap" id="here_{{reply_list[i].id|safe}}">
+        <div class="reply_content_wrap" id="here_{{best_reply.id|safe}}">
           <div class="reply_content_area">
             <div class="reply_content">
-              <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
+              <a style="color:inherit" href="javascript:void"><p>{{best_reply.content|safe}}</p></a>
             </div>
           </div>
-          <div class="reply_like_stat">
-            <input type="hidden" id="isliked-{{reply_list[i].id|safe}}" value="{{liked_by_user[reply_list[i].id]}}"/>
-            {% if liked_by_user and liked_by_user[reply_list[i].id]%}
-            <a id="link-{{reply_list[i].id|safe}}" href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
-            {% else %}
-            <a id="link-{{reply_list[i].id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
-            {%endif%}
-            <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
-          </div>
-          <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})">
-            <span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
+          <div  class="reply_comment"><a id="get_comment_{{best_reply.id|safe}}" href="javascript:void(0)" onclick="getComment({{best_reply.id}})" class="comment_a">
+            <span style="margin-right:10px">{{best_reply.create_time|safe}}</span><span class="comment-btn">回复(<span id="comment_num_{{best_reply.id|safe}}">{{best_reply.floor_num|safe}}</span>)</span>
             </a>
           </div>
-          <div class="comment_body comment_body_{{reply_list[i].id}}">
-            <input type="hidden" value="{{reply_list[i].id}}"/>
+          <div class="comment_body comment_body_{{best_reply.id}}">
+            <input type="hidden" value="{{best_reply.id}}"/>
             <div class="comment_container"></div>
-            <div class="say_word"><a href="javascript:void(0) " onclick="sayWord({{reply_list[i].id}})">我也说一句</a></div>
-            <div id="say_block_{{reply_list[i].id}}" class="col-sm-12">
+            <div class="say_word"><a href="javascript:void(0) " onclick="sayWord({{best_reply.id}})">我也说一句</a></div>
+            <div id="say_block_{{best_reply.id}}" class="col-sm-12">
               <div class="say_wrap col-sm-11" contenteditable="true">
                 <input type="hidden" class="pubtype" value="reply" >
                 <input type="hidden" class="cuid" value="" >
-                <input type="hidden" class="ruid" value="{{reply_user_list[i].id}}" >
-                <input type="text" onfocus="sayWrapFocus({{reply_list[i].id}})" onblur="sayWrapBlur({{reply_list[i].id}})"  value="" class="say_content">
+                <input type="hidden" class="ruid" value="{{best_reply_user.id}}" >
+                <input type="text" onfocus="sayWrapFocus({{best_reply.id}})" onblur="sayWrapBlur({{best_reply.id}})"  value="" class="say_content">
               </div>
-              <div class="say_submit"><a class="comm-btn" href="javascript:void(0)" onclick="publishComment({{reply_list[i].id}})" id="saysubmit" >发表</a></div>
+              <div class="say_submit"><a class="comm-btn" href="javascript:void(0)" onclick="publishComment({{best_reply.id}})" id="saysubmit" >发表</a></div>
             </div>
             </div>
         </div>
       </div>
-      {%endfor%}
+      <div class="best_reply_tail">
+        <div>
+          <span class="best_reply_tail_span">更多回贴.....</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <div id="reply_info" class="reply_info">
+      {% if reply_list and reply_user_list %}
+        {%for i in range(reply_num)%}
+          {% if not best_reply or best_reply.id !=reply_list[i].id %}
+          <div class="reply_body">
+            <input type="hidden" value="{{reply_list[i].id|safe}}" name="reply-id-hidden" />
+            <div class="reply_author">
+              <div class="reply_user_face">
+                <a href="/user_info?user_id={{reply_user_list[i].id}}">
+                  <img class="comm-img-sm" src="{{reply_user_list[i].head_img_url}}">
+                </a>
+              </div>
+              <div class="reply_user_name_wraper">
+                <a  href="/user_info?user_id={{reply_user_list[i].id}}"class="reply_user_name">
+                  {{reply_user_list[i].name}}
+                </a>
+              </div>
+            </div>
+            <div class="reply_content_wrap" id="here_{{reply_list[i].id|safe}}">
+              <div class="reply_content_area">
+                <div class="reply_content">
+                  <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
+                </div>
+              </div>
+              <div class="reply_like_stat">
+                <input type="hidden" id="isliked-{{reply_list[i].id|safe}}" value="{{liked_by_user[reply_list[i].id]}}"/>
+                {% if liked_by_user and liked_by_user[reply_list[i].id]%}
+                <a id="link-{{reply_list[i].id|safe}}" href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+                {% else %}
+                <a id="link-{{reply_list[i].id|safe}}" class="reply-liked-no"  href="javascript:likeReply({{reply_list[i].id|safe}});" ><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i></a>
+                {%endif%}
+                <span id="count-{{reply_list[i].id|safe}}" class="rely_like_count">{{like_stats[reply_list[i].id]}}</span>
+              </div>
+              <div  class="reply_comment"><a id="get_comment_{{reply_list[i].id|safe}}" href="javascript:void(0)" onclick="getComment({{reply_list[i].id}})" class="comment_a">
+                <span style="margin-right:10px">{{reply_list[i].create_time|safe}}</span><span class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
+                </a>
+              </div>
+              <div class="comment_body comment_body_{{reply_list[i].id}}">
+                <input type="hidden" value="{{reply_list[i].id}}"/>
+                <div class="comment_container"></div>
+                <div class="say_word"><a href="javascript:void(0) " onclick="sayWord({{reply_list[i].id}})">我也说一句</a></div>
+                <div id="say_block_{{reply_list[i].id}}" class="col-sm-12">
+                  <div class="say_wrap col-sm-11" contenteditable="true">
+                    <input type="hidden" class="pubtype" value="reply" >
+                    <input type="hidden" class="cuid" value="" >
+                    <input type="hidden" class="ruid" value="{{reply_user_list[i].id}}" >
+                    <input type="text" onfocus="sayWrapFocus({{reply_list[i].id}})" onblur="sayWrapBlur({{reply_list[i].id}})"  value="" class="say_content">
+                  </div>
+                  <div class="say_submit"><a class="comm-btn" href="javascript:void(0)" onclick="publishComment({{reply_list[i].id}})" id="saysubmit" >发表</a></div>
+                </div>
+                </div>
+            </div>
+          </div>
+          {% endif %}
+        {%endfor%}
       {% endif %}
     </div>
 
@@ -127,7 +192,7 @@
     </div>
     <div id="publish_reply" class="publish_reply_wrap">
       <div class="publish_reply_mark">
-        <p class="publish_reply_mark_p">发表回复</p>
+        <p class="publish_reply_mark_p">回贴</p>
       </div>
       <div class="publish-reply-content-wrapper">
           <div class="div_reply_input ">

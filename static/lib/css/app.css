@@ -283,7 +283,7 @@ body {
 
 .user-count-div {
     position: absolute;
-    left: 860px; 
+    left: 860px;
     width: 100px;
     display: inline;
 }
@@ -345,6 +345,12 @@ body {
 
 .card_title_name{
     float:left;
+    font-size:20px;
+    margin-top:5px;
+    color: #000;
+}
+
+.card_community_modify{
     font-size:20px;
     margin-top:5px;
     color: #000;
@@ -632,7 +638,7 @@ body {
     text-align:left;
     height:25px;
     float:right;
-
+    color: #666
 }
 .reply_info {
     text-align:center;
@@ -718,6 +724,7 @@ body {
 
 .rely_like_count {
     margin-left: 5px;
+    font-size:11px;
 }
 
 .reply_comment{
@@ -726,7 +733,6 @@ body {
     width:auto;
     height:auto;
     text-align: right;
-
 }
 .comment_body{
     display:none;
@@ -1068,10 +1074,17 @@ h3 {
 }
 
 .comm-img-bg{
-    width:98px;
-    height:98px;
-    border:1px solid #ccc;
+    width:100px;
+    height:100px;
+    /*border:0px solid #ccc;
+    */
     border-radius:100px;
+}
+.comm-img-bg-post{
+    width:52px;
+    height:52px;
+    border:1px solid #ccc;
+    border-radius:52px;
 }
 
 .comm-img-md{
@@ -1449,19 +1462,3 @@ border:solid 8px;
 border-color:#fff #f2f4f7 #fff #fff ;
 }
 /* private_message end*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -109,8 +109,8 @@
      var name= document.getElementById("community_name").innerHTML;
      var describe = document.getElementById("social_describe").value;
      var head_img = "";
-     if (describe == "输入200字以内的简介") {
-         alert("请输入简介");
+     if (describe == "输入200字以内的简介" || describe == "") {
+         alert("请写下社区的简介吧");
          return;
      }
      {% if session.get('userinfo') %}
