@@ -17,6 +17,9 @@ class User(db.Model):
     professional = db.Column(db.String(300), unique=False)
     head_img_url = db.Column(db.String(500), unique=False)
     location = db.Column(db.String(150), unique=False)
+    post_num = db.Column(db.Integer, unique=False,default=0)
+    by_attention_num = db.Column(db.Integer, unique=False,default=0)
+    attention_num= db.Column(db.Integer, unique=False,default=0)
     label = db.Column(db.String(300), unique=False)
     posts = db.relationship('Post', backref='user',lazy='dynamic')
     relations = db.relationship('UserRelation', backref='user', lazy='dynamic',foreign_keys='UserRelation.user_id')
@@ -26,8 +29,7 @@ class User(db.Model):
     to_user_comments = db.relationship('Comment', backref='touser', lazy='dynamic',foreign_keys='Comment.to_user_id')
     replys = db.relationship('Reply',backref='user',lazy='dynamic')
 
-
-    def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location,label):
+    def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location,label,post_num,attention_num,by_attention_num):
         self.name = name
         self.password = password
         self.age = age
@@ -37,13 +39,16 @@ class User(db.Model):
         self.professional=professional 
         self.head_img_url=head_img_url 
         self.location=location 
-        self.label=label 
+        self.label=label
+        self.post_num = post_num
+        self.by_attention_num = by_attention_num
+        self.attention_num = attention_num
 
 def create_table():
     db.create_all()
 
-def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="https://img3.doubanio.com/icon/g232413-3.jpg",location="",label=""):
-    insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location,label=label)
+def insert(name,password,mobile,age=0,sex=2,email="",professional="",head_img_url="https://img3.doubanio.com/icon/g232413-3.jpg",location="",label="",post_num=0,attention_num=0,by_attention_num=0):
+    insert=User(name=name,password=password,age=age,sex=sex,mobile=mobile,email=email,professional=professional,head_img_url=head_img_url,location=location,label=label,post_num=post_num,attention_num=attention_num,by_attention_num=by_attention_num)
     db.session.add(insert)
     db.session.commit()
 
@@ -84,6 +89,12 @@ def update(id,name,password,mobile,age,sex,email,professional,head_img_url,locat
     row.location = location
     row.label =label 
     db.session.commit()
+def update_user(user):
+    row = User.query.get(user.id)
+    row.post_num = user.post_num
+    row.by_attention_num = user.by_attention_num
+    row.attention_num = user.attention_num
+    db.session.commit()
 
 def update_user(user):
     update(user.id,user.name,user.password,user.mobile,user.age,user.sex,user.email,\
@@ -123,5 +134,10 @@ def to_json(object):
         return {
             'id': object.id,
             'name': object.name,
-            'head_img_url':object.head_img_url
+            'head_img_url':object.head_img_url,
+            'post_num': object.post_num,
+            'by_attention_num':object.by_attention_num,
+            'attention_num':object.attention_num,
+            'professional':object.professional
         }
+

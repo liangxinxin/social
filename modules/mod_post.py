@@ -43,6 +43,7 @@ def publish_post(request):
     title = request.form.get("title")
     content = request.form.get("content")
     create_user_id = request.form.get("create_user_id", 0)
+    login_user = db_model_user.select_by_id(create_user_id)
     community_id = request.form.get("community_id", 0)
     floor_num = 0
     ISOTIMEFORMAT = '%Y-%m-%d %X'
@@ -51,6 +52,9 @@ def publish_post(request):
     print 'title:', title, 'content:', content, "user_id:", create_user_id, "community_id:", community_id
     db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time)
     print "now insert to db"
+
+    login_user.post_num = login_user.post_num + 1
+    print "now update post_num to db",(login_user)
 
     # select db
     paginate = db_model_post.select_all_paging(default_page_no, default_num_perpage, community_id)
@@ -118,8 +122,13 @@ def post_info(request):
         user = db_model_user.select_by_id(reply.create_user_id)
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
+    best_reply = db_model_reply.select_best_by_post_id(post_id)
+    if best_reply.like_num < 3:
+      best_reply=None
+    best_reply_user=None
+    if best_reply != None:
+      best_reply_user=db_model_user.select_by_id(reply.create_user_id)
     print "post data:", post_data, "reply data:", reply_data
-
     def get_reply_like_count(reply):
         reply_id = reply.id
         count = db_model_reply_like_stat.get_reply_like_count(reply_id)
@@ -138,8 +147,8 @@ def post_info(request):
     like_stats = dict(map(get_reply_like_count, reply_data.items))
 
     # return select value
-    return post_data, post_user, reply_data, reply_user_list, community, page_no, len(
-        reply_data.items), num_perpage, like_stats, liked_by_user
+    return post_data, post_user, reply_data, reply_user_list, community, page_no, len(\
+        reply_data.items), num_perpage, like_stats, liked_by_user,best_reply,best_reply_user
 
 
 def select_good_post(request):
