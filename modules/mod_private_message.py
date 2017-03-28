@@ -16,18 +16,17 @@ def select_recent_user(request):
         if to_user_id>0:# have click private_mess
             to_user = db_model_user.select_by_id(to_user_id)
             user_list.append(to_user)
-        page_no = request.args.get('page_no',default_page_no)
+            unread_count_list.append(0)
         num_perpage =request.args.get('num_perpage',default_num_perpage)
-        to_user_list = db_model_private_message.select_recent_user(user_id)# 返回最近聊天的人
+        to_user_list = db_model_private_message.select_recent_user(user_id,num_perpage)# 返回最近聊天的人
         for  user in to_user_list:
                 #查询未读的消息条数
-                count = db_model_private_message.select_unread_by_each_user(user.id,user_id)
-                unread_count_list.append(int(count))
                 if user not in user_list:
+                    count = db_model_private_message.select_unread_by_each_user(user.id,user_id)
+                    unread_count_list.append(int(count))
                     user_list.append(user)
-        if len(user_list)>0 and to_user_id==0:
-            to_user_id =user_list[0].id
-        unread_count_list[0]=0 #第一个人不显示红色标注的未读消息条数
+        if len(unread_count_list)>0:
+            unread_count_list[0]=0 #第一个人不显示红色标注的未读消息条数
         user_num = len(user_list)
         return user_list,unread_count_list,user_num
 
