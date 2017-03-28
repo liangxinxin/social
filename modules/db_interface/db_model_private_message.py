@@ -76,7 +76,7 @@ def update_has_read(id):
     db.session.commit()
 
 
-def select_recent_user(create_user_id):
+def select_recent_user(create_user_id,num_perpage):
     # create_user==登录者  to_user == 最近聊天的人
     data1 = PrivateMessage.query.filter_by(create_user_id=create_user_id)
     data2 = db.session.query(PrivateMessage.id, PrivateMessage.content,
@@ -84,7 +84,7 @@ def select_recent_user(create_user_id):
                              PrivateMessage.create_user_id.label('to_user_id'), PrivateMessage.has_read,
                              PrivateMessage.create_time).filter_by(to_user_id=create_user_id)
     data = data1.union(data2).group_by(PrivateMessage.create_user_id, PrivateMessage.to_user_id).order_by(
-        desc(PrivateMessage.create_time))
+        desc(PrivateMessage.create_time)).limit(num_perpage)
     to_user_list= []
     for private_message in data:
         to_user_list.append(private_message.touser)

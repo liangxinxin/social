@@ -54,8 +54,8 @@ function getUserMessage(to_user_id){
     $("li.select-li:not(li#user_"+to_user_id+")").removeClass('select-li');
     $('li#user_'+to_user_id).addClass('select-li');
     $('#to_user').val(to_user_id);
-    $('.messsge_to_user_name').text($('#user_'+to_user_id).find('div.private_u_name').text())
     $('#user_'+to_user_id).find('span.circle_sm').remove();
+    $('.messsge_to_user_name').text($('#user_'+to_user_id).find('div.private_u_name').text())
     var data = {to_user_id:to_user_id}
 
     $.ajax({
@@ -75,7 +75,7 @@ function getUserMessage(to_user_id){
                         }else{
                             if(!mess_list[i].has_read &&flag){
                                 flag=false;
-                                new_message+=new_message+'<li class="mess_list">历史消息</li>';
+                                new_message+='<li class="mess_list">历史消息</li>';
                             }else if(mess_list[i].has_read){
                                flag=true;
                             }
@@ -83,7 +83,7 @@ function getUserMessage(to_user_id){
                         }
                 }
                 if(flag){
-                       new_message+=new_message+'<li class="mess_list">历史消息</li>';
+                       new_message+='<li class="mess_list">历史消息</li>';
                 }
             }
             $('.messsge_content>ul').empty().html(new_message);
