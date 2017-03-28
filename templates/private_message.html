@@ -1,0 +1,199 @@
+{% extends 'commons/_proto.html' %}
+{% block body %}
+<div id="navbar" xmlns="http://www.w3.org/1999/html">
+  {% include 'commons/navbar_toutiao.html' %}
+</div>
+<div class="private_container">
+    <div class="private_left col-sm-3">
+        <div class="each_u_title col-sm-12">私信消息</div>
+        <div id="chat_user" class="user_list  col-sm-12">
+            <ul>
+                {% if user_list and unread_count_list%}
+                {% for i in range(user_num)%}
+                <li id="user_{{user_list[i].id}}" class="each_u col-sm-12"  onclick="getUserMessage({{user_list[i].id}})">
+                    <div class="private_u_head left"><img class="comm-img-sm" src="{{user_list[i].head_img_url}}"></div>
+                    <div class="private_u_name col-sm-6">{{user_list[i].name}}
+                        {% if unread_count_list[i]%}
+                      <span class="circle_sm">{{unread_count_list[i]}}</span>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </li>
+                {% endif%}
+            </ul>
+        </div>
+    </div>
+    <div class="private_right col-sm-9">
+        <div class="messsge_to_user_name col-sm-12">{{user_list[0].name}}</div>
+        <div class="messsge_content col-sm-12">
+            <ul>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="send_messsge ">
+            <input id="to_user" type="hidden" value="{{user_list[0].id}}">
+            {% include 'smile.html' %}
+            <div class="send_btn col-sm-1 right"><a class="comm-btn" onclick="sendok()">发送</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src='lib/js/jquery.thoughtBubble.js'></script>
+<script type="text/javascript">
+var login_user_id ={{session.get('userinfo')['id']}};
+var to_user_id = $('#to_user').val()
+init();
+
+function init(){
+    $("div.messsge_content").scrollTop($("div.messsge_content")[0].scrollHeight+10);
+    $("li.each_u:first").addClass('select-li');
+     $('li.each_u:first').click();
+}
+
+function getUserMessage(to_user_id){
+    $("li.select-li:not(li#user_"+to_user_id+")").removeClass('select-li');
+    $('li#user_'+to_user_id).addClass('select-li');
+    $('#to_user').val(to_user_id);
+    $('.messsge_to_user_name').text($('#user_'+to_user_id).find('div.private_u_name').text())
+    $('#user_'+to_user_id).find('span.circle_sm').remove();
+    var data = {to_user_id:to_user_id}
+
+    $.ajax({
+        url:'/get_user_message',
+        type:'get',
+        data:data,
+        dataType: 'json',
+        timeout: 5000,
+        success:function(data){
+            var new_message='';
+            var mess_list= data.result;
+            if(mess_list.length>0){
+                var flag = false;
+                for(var i =0;i<mess_list.length;i++){
+                        if(mess_list[i].create_user_id==login_user_id){
+                            new_message+=make_right_html(mess_list[i])
+                        }else{
+                            if(!mess_list[i].has_read &&flag){
+                                flag=false;
+                                new_message+=new_message+'<li class="mess_list">历史消息</li>';
+                            }else if(mess_list[i].has_read){
+                               flag=true;
+                            }
+                            new_message+=make_left_html(mess_list[i])
+                        }
+                }
+                if(flag){
+                       new_message+=new_message+'<li class="mess_list">历史消息</li>';
+                }
+            }
+            $('.messsge_content>ul').empty().html(new_message);
+            $("div.messsge_content").scrollTop($("div.messsge_content")[0].scrollHeight);
+        }
+    })
+
+}
+
+function make_right_html(message){
+    var send_html ='<li class="mess_list col-sm-12">\
+                       <div class="message_wrap">\
+                              <div class="right private_u_head">\
+                                  <img class="comm-img-sm" src="'+message.user.head_img_url +'">\
+                              </div>\
+                              <div class="message_each_content right"><div class="arrow-r"></div>'+message.content+'</div>\
+                          </div>\
+                    </li>';
+    return send_html;
+}
+
+function make_left_html(message){
+    var send_html ='<li class="mess_list col-sm-12">\
+                       <div class="message_wrap">\
+                              <div class="left private_u_head">\
+                                  <img class="comm-img-sm" src="'+message.user.head_img_url +'">\
+                              </div>\
+                              <div class="message_each_content left"><div class="arrow-l"></div>'+message.content+'</div>\
+                          </div>\
+                    </li>';
+    return send_html;
+}
+
+function sendok(){
+    var content = $('#editor').html();
+    if(content==''){
+        alert('发送内容不能为空！')
+        return;
+    }
+    to_user_id = $('#to_user').val()
+   var data= {
+          data:JSON.stringify({
+             to_user_id:to_user_id,
+             content:content
+         })
+            }
+    $.ajax({
+        url:'/save_message',
+        type:'POST',
+        data:data,
+        dataType: 'json',
+        timeout: 5000,
+        success:function(data){
+            if(data.result.code==0){
+                message=data.result.data;
+                $('.messsge_content>ul').append(make_right_html(message));
+                $('#editor').html('');
+                $("div.messsge_content").scrollTop($("div.messsge_content")[0].scrollHeight);
+            }else{
+                alert('发送失败')
+            }
+
+        },
+        error:function(data){
+
+                alert('发送失败')
+        }
+    })
+
+}
+
+$(function () {
+    (function longPolling() {
+       to_user_id = $('#to_user').val();
+       var data= { create_user_id:to_user_id}
+        $.ajax({
+            url: "/get_new_message",
+            data: data,
+            dataType: "json",
+            timeout: 5000,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (textStatus == "timeout") { // 请求超时
+                        alert('请求超时')
+                    }
+                },
+            success: function (data) {
+                 message_list=data.result;
+                 var len = message_list.length
+                 if(len>0){
+                    var new_message='';
+                    for(var i =0;i<message_list.length;i++){
+                        new_message+=make_left_html(message_list[i])
+                    }
+                    $('.messsge_content>ul').append(new_message);
+                     $("div.messsge_content").scrollTop($("div.messsge_content")[0].scrollHeight);
+                 }
+
+                setTimeout(longPolling, 5000);//5000毫秒，自己定义延迟时间
+            }
+        });
+    })();
+});
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

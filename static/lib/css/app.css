@@ -283,7 +283,7 @@ body {
 
 .user-count-div {
     position: absolute;
-    left: 860px; 
+    left: 860px;
     width: 100px;
     display: inline;
 }
@@ -846,17 +846,23 @@ body {
 }
 .reply-button-wrapper{
     margin:10px;
+    height:15%;
 }
 .publish_reply_mark {
     height:30px;
     text-align:left;
     background-color:#f2f4f7;
 }
-
 .publish-reply-content-wrapper {
-    margin-left: 0px;
+    padding:0px;
+    margin:0px;
+    width:800px;
+    height:200px;
 }
-
+.div_reply_input{
+    width:100%;
+    height:80%;
+}
 .publish_reply_mark_p {
     color: #337ab7;
     margin-left:0px;
@@ -865,16 +871,16 @@ body {
 
 .publish-reply-content-area {
     width: 100%;
+    height:100%;
     padding: 5px;
     margin-right: 30px;
-    margin-top: 10px;
+    margin-top:5px;
     margin-bottom: 10px;
-    min-height: 240px;
 }
 
 .publish-reply-button {
     float: left;
-    margin-left: 15px;
+    margin-left: 30px;
 }
 
 /* post.html end.*/
@@ -1034,6 +1040,25 @@ h3 {
  .no_border:{
     border:none;
  }
+ .left{
+    float:left;
+ }
+ .right{
+    float:right;
+ }
+ .text-l{
+    text-align:left;
+ }
+  .text-r{
+    text-align:right;
+ }
+ .text-c{
+    text-align:center;
+ }
+.select-li{
+    background:#f2f4f7;
+}
+
 .comm-img-ss{
     width:32px;
     height:32px;
@@ -1095,6 +1120,9 @@ h3 {
 .comm-btn:hover, .comm-btn:focus {
     color: #fff;
     background: #317ef3;
+}
+.li_bg{
+    background:#ccc;
 }
 /* common css end*/
 
@@ -1273,9 +1301,164 @@ outline: medium none;
     font-size:12px;
     padding:0;
     margin:0;
-    line-height:30px;
-}
+    line-heght:30px;
+}c
 .comm-font-color{
     color:#333;
 }
 /*message.html end*/
+
+/* private_message start*/
+.private_container{
+    width:800px;
+    height:580px;
+    margin:auto;
+    border:1px solid #ccc;
+    border-radius:3px;
+    margin: 120px 0px 20px 0px;
+
+}
+.user_list{
+    padding:0px;
+    margin:0px;
+}
+.private_left{
+ float:left;
+ height:90%;
+ margin:0px;
+ padding:0px;
+
+}
+.private_right{
+ border-left:1px solid #ccc;
+ float:left;
+ height:100%;
+ margin:0px;
+ padding:0px;
+}
+.messsge_content{
+    margin-top:-200px;
+    height:380px;
+    margin:0px;
+    padding:0px;
+    padding-bottom:10px;
+    overflow-y:scroll;
+}
+.messsge_content>ul,.user_list>ul{
+    margin:0px;
+    padding:0px;
+}
+
+.send_messsge{
+    height:50px;
+    width:100%;
+    padding:5px;
+
+}
+.private_left>ul{
+    margin:0px;
+    padding:0px;
+}
+.each_u{
+    list-style:none;
+    text-align:left;
+    border-bottom:1px solid #ccc;
+    padding:2px;
+
+}
+.private_u_head{
+    height:48px;
+    width:48px;
+}
+.mess_list{
+    list-style:none;
+
+}
+.private_u_name{
+    margin-left:5px;
+    padding:0px;
+    float:left;
+    height:50px;
+    line-height:40px;
+}
+.each_u_title{
+    height:25px;
+    line-height:25px;
+    text-align:center;
+    border-bottom:1px solid #ccc;
+}
+.messsge_to_user_name{
+    padding:0px;
+    margin:0px;
+    height:25px;
+    line-height:25px;
+    text-align:center;
+    border-bottom:1px solid #ccc;
+}
+.message_each_content{
+    min-height:30px;
+    line-height:17px;
+    height:auto;
+    padding:10px;
+    margin:5px 20px 0px 17px;
+    max-width:50%;
+    text-align:left;
+position:relative;
+background:#f2f4f7;
+border-radius:5px; /* 圆角 */
+
+}
+.message_wrap{
+    min-height:60px;
+    height:auto;
+    width:auto;
+}
+.send_content{
+    min-height:50px;
+    border:1px solid blue;
+}
+.send_btn{
+    margin:0px;
+    margin-top:10px;
+    padding:0px;
+    margin-right:5px;
+}
+
+
+.send {
+    min-height:30px;
+    line-height:25px;
+    height:auto;
+    padding:5px;
+    margin-top:5px;
+    max-width:50%;
+    text-align:left;
+position:relative;
+
+background:#fff;
+border-radius:5px; /* 圆角 */
+margin:30px auto 0;
+}
+
+.message_each_content .arrow-r {
+position:absolute;
+top:5px;
+right:-16px; /* 圆角的位置需要细心调试哦 */
+width:0;
+height:0;
+font-size:0;
+border:solid 8px;
+border-color:#fff #fff #fff #f2f4f7;
+}
+
+.arrow-l {
+position:absolute;
+top:5px;
+left:-16px; /* 圆角的位置需要细心调试哦 */
+width:0;
+height:0;
+font-size:0;
+border:solid 8px;
+border-color:#fff #f2f4f7 #fff #fff ;
+}
+/* private_message end*/

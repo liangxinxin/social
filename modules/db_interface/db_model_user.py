@@ -28,6 +28,9 @@ class User(db.Model):
     comments = db.relationship('Comment', backref='user', lazy='dynamic',foreign_keys='Comment.create_user_id')
     to_user_comments = db.relationship('Comment', backref='touser', lazy='dynamic',foreign_keys='Comment.to_user_id')
     replys = db.relationship('Reply',backref='user',lazy='dynamic')
+    private_mess_user = db.relationship('PrivateMessage', backref='user', lazy='dynamic',foreign_keys='PrivateMessage.create_user_id')
+    private_mess_to_user= db.relationship('PrivateMessage', backref='touser', lazy='dynamic',foreign_keys='PrivateMessage.to_user_id')
+
 
     def __init__(self,name,password,mobile,age,sex,email,professional,head_img_url,location,label,post_num,attention_num,by_attention_num):
         self.name = name

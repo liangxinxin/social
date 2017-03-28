@@ -195,12 +195,10 @@
         <p class="publish_reply_mark_p">回贴</p>
       </div>
       <div class="publish-reply-content-wrapper">
-        <div id="div_reply_content" class="row">
-          <div class="col-sm-10">
+          <div class="div_reply_input ">
             {% include 'input.html' %}
             <!--<textarea id="input_reply_content" class="publish-reply-content-area"></textarea>-->
           </div>
-        </div>
         <div id="div_button_reply_post" class="row reply-button-wrapper">
           {% if session.get('userinfo') %}
           <button id="button_reply_post" class="btn btn-primary publish-reply-button" onclick='publish_reply()'>发表</button>
@@ -221,6 +219,15 @@
       var param = window.location.hash;
       var id = param.substring(6,param.length)
      $('a#get_comment_'+id).click();
+  }
+
+  function sayWrapFocus(replyid){
+    var say_block = $('#say_block_'+replyid)
+    say_block.find('div.say_wrap').addClass('say_word_border');
+  }
+  function sayWrapBlur(replyid){
+    var say_block = $('#say_block_'+replyid)
+    say_block.find('div.say_wrap').removeClass('say_word_border');
   }
 
   function checkLogin(){

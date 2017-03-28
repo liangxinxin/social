@@ -5,7 +5,7 @@ from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_comment
-
+from db_interface import db_model_private_message
 default_page_no=1
 default_num_perpage=10
 
@@ -86,7 +86,9 @@ def select_unread_num_by_type(request):
   un_read = False
   if session.get('userinfo'):
     userid = session.get('userinfo')['id']
-    return db_model_message.select_num_unread_by_type(un_read,userid)
+    private_unread_count = db_model_private_message.select_all_unread(userid)
+    count_comment, count_reply, count_guanzhu, count_do_good = db_model_message.select_num_unread_by_type(un_read,userid)
+    return private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good
 
-  return 0,0,0,0
+  return 0,0,0,0,0
 
