@@ -95,3 +95,12 @@ def save_head_image(id,imageUrl):
     row = Community.query.get(id)
     row.head_img_url = imageUrl
     db.session.commit()
+
+# return paginate
+def select_by_user_num(page_no, num_per_page):
+    print 'no:', page_no, 'num:', num_per_page
+    if page_no < 1:
+        page_no = 1
+    paginate = Community.query.order_by(desc(Community.user_num)).paginate(page_no, num_per_page, False)
+    print paginate
+    return paginate

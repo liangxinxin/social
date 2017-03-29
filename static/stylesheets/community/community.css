@@ -42,6 +42,71 @@ h3 {
 .describe{
 }
 
+.community_recommend_wrapper {
+    float: left;
+    height: 71px;
+    padding: 2px 0;
+    overflow: hidden;
+}
+.community_recommend_list {
+    overflow: hidden;
+    width: 800px;
+}
+
+.clear_fix {
+    zoom:1;
+    width:180px;
+    float:left;
+}
+
+.community_recommend_item_a {
+    background-color: #FCFCFC;
+    display: block;
+    width: 168px;
+    height: 69px;
+    float: left;
+    margin: 0 5px;
+    _margin: 0 3px;
+    border: 1px solid #E7E7E7;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+
+.community_recommend_pic {
+    display: block;
+    float: left;
+    width: 65px;
+    height: 64px;
+    margin: 2px;
+}
+
+
+.community_recommend_desc {
+    overflow: hidden;
+    float: left;
+    padding-top:10px;
+    /*margin: 2px 0 0 10px;
+    _margin: 2px 0 0 5px;*/
+}
+
+.community_recommend_name {
+    font-family: STHeiti,"Microsoft Yahei","Microsoft YaHei",Arial,sans-serif;
+    font-size: 14px;
+    color: #444;
+    height: 18px;
+    width: 88px;
+    overflow: hidden;
+    padding-left:10px;
+}
+
+.community_recommend_member_num {
+    background-position: 0 4px;
+    margin-top: 4px;
+    font-size: 14px;
+    font-family: tahoma;
+    padding-left:10px;
+}
+
 /*
 body {
   background: #222;
