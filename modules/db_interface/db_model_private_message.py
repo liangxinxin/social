@@ -78,7 +78,6 @@ def update_has_read(id):
 
 def select_recent_user(create_user_id, num_perpage):
     # create_user==登录者  to_user == 最近聊天的人
-    #先查询最新联系人对应的一条私信,
     sql = 'select max(tbl.id) as id from (' \
           'SELECT pm1.id,pm1.content,pm1.to_user_id as create_user_id,pm1.create_user_id as to_user_id,pm1.has_read,create_time ' \
           'FROM private_message pm1 ' \
