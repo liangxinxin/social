@@ -78,15 +78,14 @@
         {% endif %}
       </div>
       <div class="pagination">
-        {# <ul> #}
-        {#   {% if page_no > 1%} #}
-        {#     <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li> #}
-        {#   {% endif%} #}
-        {#   <li><a href="#">{{page_no}}</a></li> #}
-        {#   {% if real_num >=num_perpage%} #}
-        {#     <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li> #}
-        {#   {% endif%} #}
-        {# </ul> #}
+        <ul>
+        {% if page_no > 1%}
+        <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li>{% endif%}
+        <li><a href="#">{{page_no}}</a></li>
+        {% if real_num >=num_perpage%}
+          <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li>
+        {% endif%}
+        </ul>
       </div>
       <div id="publish_post" class="poster_container">
         <div id="publish_post_header" class="poster_header">

@@ -34,7 +34,7 @@ body {
 body {
     /* color: #fff; */
     text-align: center;
-    width: 900px;
+    width: 100%px;
     margin-left: auto;
     margin-right: auto;
     /* text-shadow: 0 1px 3px rgba(0,0,0,.5); */
@@ -57,7 +57,25 @@ body {
     margin-right: auto;
     margin-left: auto;
 }
-
+.main_container{
+    width:900px;
+    margin:0 auto;
+    height:auto;
+}
+.nav_container{
+ float:right;
+ text-align:center;
+ width:100%;
+ height:30px;
+}
+.nav_container>ul>li{
+list-style:none;
+ float:right;
+ width:40px;
+ height:38px;
+ line-height:38px;
+  margin-right:15px;
+}
 /* Padding for spacing */
 .inner {
     padding: 30px;
@@ -72,22 +90,29 @@ body {
     margin-bottom: 10px;
     margin-right: 120px;
 }
-
+.masthead-nav{
+    margin-right:5px;
+}
 .masthead-nav > li {
     display: inline-block;
+     width:50px;
+     height:38px;
+     line-height:38px;
 }
 .masthead-nav > li + li {
     margin-left: 20px;
 }
 .masthead-nav > li > a {
-    padding-right: 0;
-    padding-left: 0;
     font-size: 16px;
     font-weight: bold;
+    display: block;
+    padding: 0px;
     color: #777; /* IE8 proofing */
     /* color: rgba(255,255,255,.75); */
     border-bottom: 2px solid transparent;
 }
+
+
 .masthead-nav > li > a:hover,
 .masthead-nav > li > a:focus {
     background-color: transparent;
