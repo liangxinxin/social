@@ -51,7 +51,8 @@ def select_user_message(create_user_id, to_user_id, page_no, num_per_page):  # t
         num_per_page = unread_count
     data = PrivateMessage.query.filter(
         or_(and_(PrivateMessage.create_user_id == create_user_id, PrivateMessage.to_user_id == to_user_id),
-            and_(PrivateMessage.create_user_id == to_user_id, PrivateMessage.to_user_id == create_user_id))
+            and_(PrivateMessage.create_user_id == to_user_id, PrivateMessage.to_user_id == create_user_id)),
+        PrivateMessage.has_read==True
     ).order_by(desc(PrivateMessage.create_time)).paginate(page_no, num_per_page, False)
     return data.items
 

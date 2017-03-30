@@ -11,7 +11,7 @@
                         <input class="replyid" type="hidden" value="{{message.reply_id}}">
                         <div class="CM_co CM_name col-sm-12"><a  href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a>&nbsp;赞了我的评论</div>
                         <div class="CM_co CM_old_content col-sm-12"><span><a class="comm-font-color" href="/user_info?user_id={{message.reply.user.id}}">{{message.reply.user.name}}</a>:</span>
-                           <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content}}</a>
+                           <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}</a>
                         </div>
                         <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
                     </div>
@@ -31,7 +31,7 @@
                         <input class="replyid" type="hidden" value="{{message.reply_id}}">
                         <div class="CM_co CM_name col-sm-12"><a href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a><span>&nbsp;赞了我的评论</span></div>
                         <div class="CM_co CM_old_content col-sm-12"><span><a  href="/user_info?user_id={{message.reply.user.id}}">{{message.reply.user.name}}</a>:</span>
-                           <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content}}</a>
+                           <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}</a>
                         </div>
                         <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
                     </div>

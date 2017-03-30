@@ -67,14 +67,7 @@ body {
  width:100%;
  height:30px;
 }
-.nav_container>ul>li{
-list-style:none;
- float:right;
- width:40px;
- height:38px;
- line-height:38px;
-  margin-right:15px;
-}
+
 /* Padding for spacing */
 .inner {
     padding: 30px;
@@ -89,18 +82,17 @@ list-style:none;
     margin-bottom: 10px;
     margin-right: 120px;
 }
-.masthead-nav{
-    margin-right:5px;
-}
+
 .masthead-nav > li {
     display: inline-block;
-     width:50px;
+     width:40px;
      height:38px;
      line-height:38px;
 }
+/*
 .masthead-nav > li + li {
     margin-left: 20px;
-}
+}*/
 .masthead-nav > li > a {
     font-size: 16px;
     font-weight: bold;
@@ -125,7 +117,18 @@ list-style:none;
     color: #000;
     border-bottom-color: #000;
 }
+.navbar-nav{
+    margin-right:20px;
+}
+.navbar-nav>li{
+list-style:none;
+ min-width:90px;
+ width:auto;
+ height:38px;
+ line-height:38px;
+  margin-right:5px;
 
+}
 .navbar-nav > li > a:hover,
 .navbar-nav > li > a:focus {
     background-color: transparent;
@@ -134,8 +137,8 @@ list-style:none;
 }
 
 .dropdown {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 
@@ -1203,7 +1206,9 @@ h3 {
  margin:0px;
  padding:0px;
 }
-
+.message_nav{
+    min-width:100px;
+}
 
 .message_nav li a{
  color:#999;
@@ -1252,7 +1257,7 @@ color:black;
 .CM_content{
     line-height:25px;
     padding:0px;
-    margin:0px;
+    margin:0px 0px 5px 0px;
     color:#333;
 }
 .CM_wrap{
@@ -1411,6 +1416,10 @@ outline: medium none;
     float:left;
     height:50px;
     line-height:40px;
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 .each_u_title{
     height:25px;

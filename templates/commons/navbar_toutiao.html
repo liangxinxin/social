@@ -6,60 +6,60 @@
           <nav>
             <div id="navbar" class="navbar-collapse collapse">
               <!-- <h2 class="masthead-brand">财经头条</h2> -->
-              <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" style="margin-right:1px;">
-                  {% if session.get('userinfo') %}
-                  <a id="a_login" href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
-                  <ul id="ul_login" class="dropdown-menu dropdown-menu-right">
-                    <li><a href="/user_info?user_id={{ session.get('userinfo')['id'] }}" >个人主页</a></li>
-                    <li><a target="_blank" href="/message?type=message_all&message_type=3" >消息</a></li>
-                    <li><a href="#" onclick="return to_log_out()">登出</a></li>
-                  </ul>
-                  {% else %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登录 <span class="caret"></span></a>
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="javascript:to_log_in()">登录</a></li>
-                    <li><a href="javascript:to_regist()">注册</a></li>
-                  </ul>
-                  {% endif %}
-                </li>
-                <li class="dropdown" style="margin-left:1px;padding-left:1px;">
-                {% if messages_unread %}
-                  <a href="#" class="dropdown-toggle" style="background: transparent;margin-left:1px;padding-left:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span id="message_count" class="circle">{{messages_unread_num}}</span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-right message_nav" id="ul_message_unread">
-                      <li target="_blank" ><a href="/message?type=message_all&message_type=3">评论
-                        {% if count_reply %}
-                          <span class="circle_sm">{{count_reply}}</span>
-                        {% endif %}
+              <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li class="dropdown" style="margin-right:1px;">-->
+                  <!--{% if session.get('userinfo') %}-->
+                  <!--<a id="a_login" href="#" class="dropdown-toggle" style="background: transparent;padding-right:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>-->
+                  <!--<ul id="ul_login" class="dropdown-menu dropdown-menu-right">-->
+                    <!--<li><a href="/user_info?user_id={{ session.get('userinfo')['id'] }}" >个人主页</a></li>-->
+                    <!--<li><a target="_blank" href="/message?type=message_all&message_type=3" >消息</a></li>-->
+                    <!--<li><a href="#" onclick="return to_log_out()">登出</a></li>-->
+                  <!--</ul>-->
+                  <!--{% else %}-->
+                  <!--<a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登录 <span class="caret"></span></a>-->
+                  <!--<ul class="dropdown-menu dropdown-menu-right">-->
+                    <!--<li><a href="javascript:to_log_in()">登录</a></li>-->
+                    <!--<li><a href="javascript:to_regist()">注册</a></li>-->
+                  <!--</ul>-->
+                  <!--{% endif %}-->
+                <!--</li>-->
+                <!--<li class="dropdown" style="margin-left:1px;padding-left:1px;">-->
+                <!--{% if messages_unread %}-->
+                  <!--<a href="#" class="dropdown-toggle" style="background: transparent;margin-left:1px;padding-left:1px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">-->
+                    <!--<span id="message_count" class="circle">{{messages_unread_num}}</span>-->
+                  <!--</a>-->
+                  <!--<ul class="dropdown-menu dropdown-menu-right message_nav" id="ul_message_unread">-->
+                      <!--<li target="_blank" ><a href="/message?type=message_all&message_type=3">评论-->
+                        <!--{% if count_reply %}-->
+                          <!--<span class="circle_sm">{{count_reply}}</span>-->
+                        <!--{% endif %}-->
 
-                      </a></li>
-                      <li target="_blank" ><a href="/message?type=message_all&message_type=4">回复
-                         {% if count_comment %}
-                          <span class="circle_sm">{{count_comment}}</span>
-                        {% endif %}
-                      </a></li>
-                      <li target="_blank" ><a href="/message?type=message_all&message_type=2">赞
-                        {% if count_do_good %}
-                          <span class="circle_sm">{{count_do_good}}</span>
-                        {% endif %}
-                      </a></li>
-                      <li  target="_blank" ><a href="/message?type=message_all&message_type=1">关注
-                        {% if count_guanzhu %}
-                          <span class="circle_sm">{{count_guanzhu}}</span>
-                        {% endif %}
-                      </a></li>
-                     <li  target="_blank" ><a href="/private_message">私信
-                        {% if private_unread_count %}
-                          <span class="circle_sm">{{private_unread_count}}</span>
-                        {% endif %}
-                     </a></li>
-                  </ul>
-                {% else %}
-                {% endif %}
-                </li>
-              </ul>
+                      <!--</a></li>-->
+                      <!--<li target="_blank" ><a href="/message?type=message_all&message_type=4">回复-->
+                         <!--{% if count_comment %}-->
+                          <!--<span class="circle_sm">{{count_comment}}</span>-->
+                        <!--{% endif %}-->
+                      <!--</a></li>-->
+                      <!--<li target="_blank" ><a href="/message?type=message_all&message_type=2">赞-->
+                        <!--{% if count_do_good %}-->
+                          <!--<span class="circle_sm">{{count_do_good}}</span>-->
+                        <!--{% endif %}-->
+                      <!--</a></li>-->
+                      <!--<li  target="_blank" ><a href="/message?type=message_all&message_type=1">关注-->
+                        <!--{% if count_guanzhu %}-->
+                          <!--<span class="circle_sm">{{count_guanzhu}}</span>-->
+                        <!--{% endif %}-->
+                      <!--</a></li>-->
+                     <!--<li  target="_blank" ><a href="/private_message">私信-->
+                        <!--{% if private_unread_count %}-->
+                          <!--<span class="circle_sm">{{private_unread_count}}</span>-->
+                        <!--{% endif %}-->
+                     <!--</a></li>-->
+                  <!--</ul>-->
+                <!--{% else %}-->
+                <!--{% endif %}-->
+                <!--</li>-->
+              <!--</ul>-->
 
               <!--<ul class="nav masthead-nav navbar-right">-->
                 <!--<li><a href="http://0.0.0.0:5100/index" target="blank">资讯</a></li>-->
