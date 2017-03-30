@@ -1,8 +1,7 @@
 # coding=utf-8
-from sqlalchemy import desc, asc, or_, not_, and_
+from sqlalchemy import desc, asc, or_, and_
 
 import db_model_user
-import time
 from db_connect import db
 
 
@@ -46,7 +45,8 @@ def select_by_id(id):
 
 
 def select_user_message(create_user_id, to_user_id, page_no, num_per_page):  # think no_read over 10
-    unread_count = PrivateMessage.query.filter_by(create_user_id=to_user_id,to_user_id=create_user_id,has_read=False).order_by(asc(PrivateMessage.create_time)).count()
+    unread_count = PrivateMessage.query.filter_by(create_user_id=to_user_id, to_user_id=create_user_id,
+                                                  has_read=False).order_by(asc(PrivateMessage.create_time)).count()
     if num_per_page < unread_count:
         num_per_page = unread_count
     data = PrivateMessage.query.filter(
@@ -57,9 +57,9 @@ def select_user_message(create_user_id, to_user_id, page_no, num_per_page):  # t
 
 
 def select_new_message(create_user_id, to_user_id):  # think no_read over 10
-    data = PrivateMessage.query.filter_by(create_user_id=create_user_id,to_user_id=to_user_id,has_read=False).order_by(asc(PrivateMessage.create_time)).all()
+    data = PrivateMessage.query.filter_by(create_user_id=create_user_id, to_user_id=to_user_id,
+                                          has_read=False).order_by(asc(PrivateMessage.create_time)).all()
     return data
-
 
 
 def delete(id):
@@ -72,33 +72,56 @@ def delete(id):
 def update_has_read(id):
     row = PrivateMessage.query.get(id)
     row.has_read = int(True)
-    print 'do update',row.id,row.has_read
+    print 'do update', row.id, row.has_read
     db.session.commit()
 
 
-def select_recent_user(create_user_id,num_perpage):
+def select_recent_user(create_user_id, num_perpage):
     # create_user==登录者  to_user == 最近聊天的人
-    data1 = PrivateMessage.query.filter_by(create_user_id=create_user_id)
+    #先查询最新联系人对应的一条私信,
+    sql = 'select max(tbl.id) as id from (' \
+          'SELECT pm1.id,pm1.content,pm1.to_user_id as create_user_id,pm1.create_user_id as to_user_id,pm1.has_read,create_time ' \
+          'FROM private_message pm1 ' \
+          'WHERE pm1.to_user_id =' \
+          + str(create_user_id) + \
+          ' union ' \
+          'SELECT * ' \
+          'FROM private_message pm2  ' \
+          'WHERE pm2.create_user_id =' \
+          + str(create_user_id) + \
+          ') tbl group by tbl.to_user_id'
+    rows = db.session.execute(sql).fetchall()
+
+    ids = []
+    for row in rows:
+        ids.append(str(int(row.id)))
+    data1 = PrivateMessage.query.filter_by(create_user_id=create_user_id).filter(PrivateMessage.id.in_(ids)).order_by(
+        desc(PrivateMessage.create_time))
     data2 = db.session.query(PrivateMessage.id, PrivateMessage.content,
                              PrivateMessage.to_user_id.label('create_user_id'),
                              PrivateMessage.create_user_id.label('to_user_id'), PrivateMessage.has_read,
-                             PrivateMessage.create_time).filter_by(to_user_id=create_user_id)
+                             PrivateMessage.create_time).filter_by(to_user_id=create_user_id).filter(
+        PrivateMessage.id.in_(ids)).order_by(desc(PrivateMessage.create_time)).order_by(
+        desc(PrivateMessage.create_time))
     data = data1.union(data2).group_by(PrivateMessage.create_user_id, PrivateMessage.to_user_id).order_by(
         desc(PrivateMessage.create_time)).limit(num_perpage)
-    to_user_list= []
+    to_user_list = []
     for private_message in data:
         to_user_list.append(private_message.touser)
     return to_user_list
 
-#查询未读私信条数
+
+# 查询未读私信条数
 def select_all_unread(to_user_id):
-    count = PrivateMessage.query.filter_by(to_user_id=to_user_id,has_read=False).count()
+    count = PrivateMessage.query.filter_by(to_user_id=to_user_id, has_read=False).count()
     return count
 
-def select_unread_by_each_user(create_user_id,to_user_id):
-    count = PrivateMessage.query.filter_by(create_user_id=create_user_id,to_user_id=to_user_id,has_read=False).count()
-    print 'unread count',count,'to_user_id',to_user_id,'create_user_id',create_user_id
+
+def select_unread_by_each_user(create_user_id, to_user_id):
+    count = PrivateMessage.query.filter_by(create_user_id=create_user_id, to_user_id=to_user_id, has_read=False).count()
+    print 'unread count', count, 'to_user_id', to_user_id, 'create_user_id', create_user_id
     return count
+
 
 def to_json(object):
     if isinstance(object, PrivateMessage):
@@ -108,7 +131,7 @@ def to_json(object):
             'create_user_id': object.create_user_id,
             'to_user_id': object.to_user_id,
             'create_time': object.create_time,
-            'has_read':object.has_read,
+            'has_read': object.has_read,
             'user': db_model_user.to_json(object.user),
             'touser': db_model_user.to_json(object.touser)
 
