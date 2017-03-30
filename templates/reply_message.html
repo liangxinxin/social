@@ -10,10 +10,10 @@
                         <input class="communityid" type="hidden" value="{{message.community_id}}">
                         <input class="replyid" type="hidden" value="{{message.reply_id}}">
                         <div class="CM_co CM_name col-sm-12"><a  href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a></div>
-                        <div class="CM_co CM_content col-sm-12" >{{message.reply.content}}</div>
+                        <div class="CM_co CM_content col-sm-12" >{{message.reply.content|safe}}</div>
                         <div class="CM_co CM_old_content col-sm-12"><span>评论我的帖子:</a>:</span>
                            <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
-                              id="CM_content_{{message.id}}">{{message.post.content}}</a>
+                              id="CM_content_{{message.id}}">{{message.post.content|safe}}</a>
                         </div>
                         <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
                     </div>
@@ -34,10 +34,10 @@
                         <input class="communityid" type="hidden" value="{{message.community_id}}">
                         <input class="replyid" type="hidden" value="{{message.reply_id}}">
                         <div class="CM_co CM_name col-sm-12"><a  href="/user_info?user_id={{message.user.id}}">{{message.user.name}}</a></div>
-                        <div class="CM_co CM_content  col-sm-12" >{{message.reply.content}}</div>
+                        <div class="CM_co CM_content  col-sm-12" >{{message.reply.content|safe}}</div>
                         <div class="CM_co CM_old_content col-sm-12"><span>评论我的帖子:</span>
                            <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
-                              id="CM_content_{{message.id}}">{{message.post.content}}</a>
+                              id="CM_content_{{message.id}}">{{message.post.content|safe}}</a>
                         </div>
                         <div class="CM_co CM_foot col-sm-12">{{message.create_time}}</div>
                     </div>

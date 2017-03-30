@@ -35,7 +35,7 @@
 
         </div>
     </div>
-    <div class="col-sm-12 u_page_title"><a href="user_info?user_id={{user_info.id}}">个人主页</a></div>
+    <div id="user" class="col-sm-12 u_page_title"><a href="user_info?user_id={{user_info.id}}">个人主页</a></div>
     <div id="post_container" class="col-sm-12 no_m_p">
         <div class="user_post_wrap col-sm-8">
             <div class="col-sm-12 user_post"></div>
@@ -95,6 +95,7 @@ var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注<
 {%endif%}
 load_friends(1);
 load_post(1);
+init();
 
 // init end
 function likeReply(replyId) {
@@ -227,7 +228,7 @@ function init(){
                    return;
                }
               load_post(page);
-              window.location.hash="#user_container";//定位到列表头部
+              window.location.hash="#user";//定位到列表头部
            }
         });
     }//post info end
@@ -248,24 +249,12 @@ function init(){
                    return;
                }
                load_more_friends(page)
-              window.location.hash="#user_container";//定位到列表头部
+              window.location.hash="#user";//定位到列表头部
 
 
            }
         });
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 {% endblock %}

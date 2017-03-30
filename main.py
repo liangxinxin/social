@@ -259,10 +259,11 @@ def post_publish():
 
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return render_template('community.html', paginate=model, post_num=post_num,\
-        object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
-        private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+    return redirect(url_for('community', community_id=community.id))
+    # return render_template('community.html', paginate=model, post_num=post_num,\
+    #     object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
+    #     private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
+    #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/post', methods=['GET', 'POST'])

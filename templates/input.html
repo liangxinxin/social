@@ -87,7 +87,7 @@
 </div>
 
 
-     <div id="editor"   class="publish-reply-content-area">
+     <div id="editor" onblur="onBlur()" onfocus="onFocus()"   class="publish-reply-content-area">
      </div>
 
 <script>
@@ -107,8 +107,14 @@ $(function(){
 
 });
 
+function onBlur(){
+    $('#editor').removeClass('say_word_border')
+}
+function onFocus(){
 
+  $('#editor').addClass('say_word_border')
 
+}
 //查看结果
 
 function replace_em(str){
