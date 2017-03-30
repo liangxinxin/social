@@ -314,7 +314,7 @@ def reply_publish():
     total_page = reply_data.pages
     messages_unread=mod_user.get_unread_message_from_session()
     messages_unread_num = 0
-    count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
 
