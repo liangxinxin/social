@@ -123,7 +123,7 @@ def post_info(request):
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
     best_reply = db_model_reply.select_best_by_post_id(post_id)
-    if best_reply.like_num < 3:
+    if best_reply!=None and best_reply.like_num < 3:
       best_reply=None
     best_reply_user=None
     if best_reply != None:

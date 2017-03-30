@@ -38,15 +38,17 @@ def default():
     for post_new in post_list:
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
+    page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
     messages_unread = mod_user.get_unread_message_from_session()
-    count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
         private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
         return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
                                private_unread_count=private_unread_count,\
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good,\
-            totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
+                               totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1,\
+                               community_recommend_list=community_recommend_list)
 
     return redirect('/index')
 
@@ -286,6 +288,11 @@ def post():
     else:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
+        private_unread_count = 0
+        count_comment=0
+        count_reply=0
+        count_guanzhu=0
+        count_do_good=0
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
             private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
@@ -308,7 +315,7 @@ def reply_publish():
     total_page = reply_data.pages
     messages_unread=mod_user.get_unread_message_from_session()
     messages_unread_num = 0
-    count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
 
@@ -493,14 +500,17 @@ def good_post_list():
     for post_new in post_list:
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
+    page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
     messages_unread = mod_user.get_unread_message_from_session()
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     messages_unread_num=0
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
     return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
-                           private_unread_count=private_unread_count, count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-                           totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1)
+                           private_unread_count=private_unread_count, count_comment=count_comment, count_reply=count_reply,\
+                           count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
+                           totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1,\
+                           community_recommend_list=community_recommend_list)
 
 @app.route('/add_relation',methods=['POST'])
 # @interceptor(login_required=True)

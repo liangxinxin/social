@@ -85,4 +85,13 @@ def get_hot_communities_total_num():
     return len(data.items)
   
     
+def select_good_community(request):
+   # page_no = int(request.args.get("no", default_page_no))
+   # num_perpage = int(request.args.get("size", default_num_perpage))
+    page_no = 1
+    num_perpage=4 
+
+    # select db
+    paginate = db_model_community.select_by_user_num(page_no, num_perpage)
+    return page_no,num_perpage,paginate.items 
 

@@ -1,4 +1,7 @@
 {% extends 'commons/_proto.html' %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="stylesheets/community/community.css">
+{%endblock%}
 
 {% block body %}
 {% include 'commons/navbar_toutiao.html' %}
@@ -16,6 +19,26 @@
 </div>
 
 <div class="row">
+   {% if community_recommend_list %}
+    <div class="index-post-main-div">
+        <h3 class="index-hot-post-title">热门社区</h3>
+        <ul class="community_recommend_list">
+            {% for community in community_recommend_list %}
+            <li class="clear_fix" style="width:180px;">
+                <a class="community_recommend_item_a clear_fix" style="border:1px solid #D6D6D6;" href="/community?community_id={{community.id}}">
+                    <img class="community_recommend_pic" src="{{community.head_img_url}}"></img>
+                    <div class="community_recommend_desc">
+                        <p class="community_recommend_name">{{community.name}}岛
+                        </p>
+                        <p class="community_recommend_member_num">{{community.user_num}}
+                        </p>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <div class="index-post-main-div">
 
         {%if num %}
