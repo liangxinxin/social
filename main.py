@@ -287,6 +287,11 @@ def post():
     else:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
+        private_unread_count = 0
+        count_comment=0
+        count_reply=0
+        count_guanzhu=0
+        count_do_good=0
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
             private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
