@@ -98,8 +98,11 @@
           </div>
         </div>
         <div id="div_publish_post_content" class="poster_content">
-          <div class="col-sm-10">
-            <textarea id="input_publish_post_content" class="poster-content-area"></textarea>
+          <!--<div class="col-sm-10">-->
+            <!--<textarea id="input_publish_post_content" class="poster-content-area"></textarea>-->
+          <!--</div>-->
+          <div class="div_post_input ">
+            {% include 'input.html' %}
           </div>
         </div>
         <div id="div_button_publish_post" class="poster_publish_container">
@@ -122,7 +125,7 @@
      //get title
      var title=document.getElementById("input_publish_post_title").value;
      //get content
-     var content=document.getElementById("input_publish_post_content").value;
+     var content=$('#editor').html();
      var id=document.getElementById("community_id").value;
      //post request for save post
      {% if session.get('userinfo') %}

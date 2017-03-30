@@ -199,7 +199,7 @@
             {% include 'input.html' %}
             <!--<textarea id="input_reply_content" class="publish-reply-content-area"></textarea>-->
           </div>
-        <div id="div_button_reply_post" class="row reply-button-wrapper">
+        <div id="div_button_reply_post" class="reply-button-wrapper">
           {% if session.get('userinfo') %}
           <button id="button_reply_post" class="btn btn-primary publish-reply-button" onclick='publish_reply()'>发表</button>
           {%else%}
