@@ -5,7 +5,6 @@ import datetime
 
 
 def timestampFormat(timestampParam):
-    print timestampParam
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     timestamp = time.mktime(time.strptime(str(timestampParam), ISOTIMEFORMAT))
     curTimestamp = time.mktime(datetime.datetime.now().timetuple())  # 当前时间戳

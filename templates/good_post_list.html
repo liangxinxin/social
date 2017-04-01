@@ -67,7 +67,7 @@
                                 <a class="" href="/post?post_id={{post.id}}&community_id={{post.community.id}}">{{post.title}}</a>
                             </div>
                             <div class="col-sm-12 post-desc">
-                                {{post.content}}
+                                <p>{{post.content|safe}}</p>
                             </div>
                         </div>
                         <div class="clear"></div>

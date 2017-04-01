@@ -1,18 +1,14 @@
-import sys
-import pycurl
-import cStringIO
-import json
-import urllib
-import urllib2
-import httplib
+#coding=utf-8
 import time
+import json
 from flask import session
-from db_interface import db_model_user
+
 from db_interface import db_model_community
-from db_interface import db_model_user_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
+from db_interface import db_model_user
+from db_interface import db_model_user_community
 from modules import time_format
 
 default_page_no = 1
@@ -37,6 +33,29 @@ def service(request):
             return query_post_in_community(request)
 
 
+
+def delete_post(request):
+    param = json.loads(request.form.get('data'))
+    post_id = param["post_id"]
+    post = db_model_post.select_by_id(post_id)
+    result = {}
+    if post==None:
+        result['code']=1
+        print 'delete fail,post is not find'
+    try:
+        post.status=1
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
+        update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+        post.last_update_time = update_time
+        db_model_post.update(post)
+        result['code'] = 0
+    except Exception,e:
+        result['code']=1
+        print '删除失败'
+    print 'delete post ',post_id
+
+    return result
+
 def publish_post(request):
     print "now publish post request"
     # insert to db
@@ -46,11 +65,12 @@ def publish_post(request):
     login_user = db_model_user.select_by_id(create_user_id)
     community_id = request.form.get("community_id", 0)
     floor_num = 0
+    status = 0
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     last_update_time = create_time
     print 'title:', title, 'content:', content, "user_id:", create_user_id, "community_id:", community_id
-    db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time)
+    db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time,status)
     print "now insert to db"
 
     login_user.post_num = login_user.post_num + 1
