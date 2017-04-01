@@ -170,6 +170,7 @@ function load_post(currPageNo){
                         <div class="u_post_foot col-sm-8">\
                         <span class="col-sm-6">'+post.create_time+'</span>\
                         <a href="javascript:void(0)" onclick="load_post_reply('+post.id+')"><i class="glyphicon glyphicon-comment"></i><span class="u_post_comment">&nbsp;评论\
+                        <a class="delete_p_btn" href="javascript:void(0)" onclick="deletePost('+post.id+')">删除\
                         <i class="floor_num">'
                         if(post.floor_num>0)
                             post_html_text=post_html_text+post.floor_num
@@ -184,9 +185,32 @@ function load_post(currPageNo){
            });
 
 }
-
-
-
+/* delete post start*/
+function deletePost(postid) {
+    if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
+        var data = {
+            data: JSON.stringify({
+                "post_id": postid
+            })
+        }
+        $.ajax({
+            url: '/delete_post',
+            type: 'POST',
+            data: data,
+            success: function(data) {
+                if (data.result== 0) {
+                    window.location.reload();
+                } else {
+                    alert('删除失败')
+                }
+            },
+            error: function(data) {
+                alert('删除失败')
+            }
+        })
+    }
+}
+/* delete post end*/
 
 
 

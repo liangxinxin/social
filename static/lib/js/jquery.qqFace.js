@@ -81,7 +81,6 @@ jQuery.fn.extend({
 		var initSetCaret = function(){
 			var textObj = $(this).get(0);
 			textObj.caretPos = document.selection.createRange().duplicate();
-			alert('ccc')
 		};
 		$(this).click(initSetCaret).select(initSetCaret).keyup(initSetCaret);
 	},
@@ -89,7 +88,6 @@ jQuery.fn.extend({
 	insertAtCaret: function(textFeildValue){
 		var textObj = $(this).get(0);
 		textObj.value = textObj.innerHTML
-		//alert(textObj.value)
 		var img = replace_em(textFeildValue)
 		if(document.all && textObj.createTextRange && textObj.caretPos){
 			var caretPos=textObj.caretPos;

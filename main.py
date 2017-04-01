@@ -306,6 +306,17 @@ def post():
                                count_do_good=count_do_good,best_reply=best_reply,best_reply_user=best_reply_user)
 
 
+
+@app.route('/delete_post', methods=['POST'])
+# @interceptor(login_required=True)
+def delete_post():
+    result = mod_post.delete_post(request)
+    print 'delete commpelete'
+    return jsonify(result=result['code'])
+
+
+
+
 @app.route('/reply_publish', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def reply_publish():
@@ -498,6 +509,7 @@ def good_post_list():
     total_size = mod_post.select_goodpost_all()
     post_list_new=[]
     for post_new in post_list:
+        print 'status:',post_new.status,'id',post_new.id
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
     page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
@@ -621,6 +633,7 @@ def newMessage():
 def getUserMessage():
     mess_list = mod_private_message.select_mess_by_user(request)
     return jsonify(result=mess_list)
+
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
