@@ -259,10 +259,11 @@ def post_publish():
 
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return render_template('community.html', paginate=model, post_num=post_num,\
-        object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
-        private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-        messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+    return redirect(url_for('community', community_id=community.id))
+    # return render_template('community.html', paginate=model, post_num=post_num,\
+    #     object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
+    #     private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
+    #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/post', methods=['GET', 'POST'])
@@ -303,6 +304,17 @@ def post():
                                messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
                                count_do_good=count_do_good,best_reply=best_reply,best_reply_user=best_reply_user)
+
+
+
+@app.route('/delete_post', methods=['POST'])
+# @interceptor(login_required=True)
+def delete_post():
+    result = mod_post.delete_post(request)
+    print 'delete commpelete'
+    return jsonify(result=result['code'])
+
+
 
 
 @app.route('/reply_publish', methods=['GET', 'POST'])
@@ -497,6 +509,7 @@ def good_post_list():
     total_size = mod_post.select_goodpost_all()
     post_list_new=[]
     for post_new in post_list:
+        print 'status:',post_new.status,'id',post_new.id
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
     page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
@@ -620,6 +633,7 @@ def newMessage():
 def getUserMessage():
     mess_list = mod_private_message.select_mess_by_user(request)
     return jsonify(result=mess_list)
+
 
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':

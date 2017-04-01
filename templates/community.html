@@ -78,15 +78,14 @@
         {% endif %}
       </div>
       <div class="pagination">
-        {# <ul> #}
-        {#   {% if page_no > 1%} #}
-        {#     <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li> #}
-        {#   {% endif%} #}
-        {#   <li><a href="#">{{page_no}}</a></li> #}
-        {#   {% if real_num >=num_perpage%} #}
-        {#     <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li> #}
-        {#   {% endif%} #}
-        {# </ul> #}
+        <ul>
+        {% if page_no > 1%}
+        <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li>{% endif%}
+        <li><a href="#">{{page_no}}</a></li>
+        {% if real_num >=num_perpage%}
+          <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li>
+        {% endif%}
+        </ul>
       </div>
       <div id="publish_post" class="poster_container">
         <div id="publish_post_header" class="poster_header">
@@ -98,8 +97,11 @@
           </div>
         </div>
         <div id="div_publish_post_content" class="poster_content">
-          <div class="col-sm-10">
-            <textarea id="input_publish_post_content" class="poster-content-area"></textarea>
+          <!--<div class="col-sm-10">-->
+            <!--<textarea id="input_publish_post_content" class="poster-content-area"></textarea>-->
+          <!--</div>-->
+          <div class="div_post_input ">
+            {% include 'input.html' %}
           </div>
         </div>
         <div id="div_button_publish_post" class="poster_publish_container">
@@ -122,7 +124,7 @@
      //get title
      var title=document.getElementById("input_publish_post_title").value;
      //get content
-     var content=document.getElementById("input_publish_post_content").value;
+     var content=$('#editor').html();
      var id=document.getElementById("community_id").value;
      //post request for save post
      {% if session.get('userinfo') %}
