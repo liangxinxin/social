@@ -15,6 +15,8 @@ from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_message
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 
 default_page_no = 1
 default_num_perpage = 10
@@ -65,6 +67,15 @@ def publish_reply(request):
         db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
     print "now insert to db"
 
+    if reply != None:
+        print "record action of create reply"
+        action_content={}
+        action_content['reply_id']=reply.id
+        db_model_action.insert(user_id=create_user_id,\
+               action_type_id=db_model_action_type.get_type_id('create_reply'),\
+               action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+               create_time=create_time)
+      
     # select db
     paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)
     print "now data:", paginate.items

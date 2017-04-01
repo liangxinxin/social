@@ -137,6 +137,8 @@ def to_json(object):
             'floor_num':object.floor_num,
             'create_time':object.create_time,
             'last_update_time':object.last_update_time,
-
-
         }
+
+def select_by_title_user_id_community_id(title,user_id,community_id):
+    data = Post.query.filter(Post.title==title,Post.create_user_id==user_id,Post.community_id==community_id)
+    return data

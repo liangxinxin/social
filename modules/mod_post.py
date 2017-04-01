@@ -53,6 +53,18 @@ def publish_post(request):
     db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time)
     print "now insert to db"
 
+    print "record action of create post"
+    action_content={}
+    action_content['post_id']=0
+    data=db_model_post.select_by_title_user_id_community_id(title=title,\
+        user_id=create_user_id,community_id=community_id)
+    if data != None:
+        action_content['post_id']=data[0].id
+    db_model_action.insert(user_id=create_user_id,\
+           action_type_id=db_model_action_type.get_type_id('create_post'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=create_time)
+
     login_user.post_num = login_user.post_num + 1
     print "now update post_num to db",(login_user)
 

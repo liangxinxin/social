@@ -29,6 +29,8 @@ from modules.db_interface import db_model_reply_like_stat
 from modules.db_interface import db_model_user_community
 from modules.db_interface import db_model_user_relation
 from modules.db_interface import db_model_private_message
+from modules.db_interface import db_model_action
+from modules.db_interface import db_model_action_type
 
 
 '''  BASICAL FUNCTIONS BEGIN  '''
@@ -66,5 +68,11 @@ if __name__ == '__main__':
     db_model_user_relation.create_table()
     db_model_private_message.create_table()
     print 'create table private message...'
+    print 'create table action...'
+    db_model_action.create_table()
+    print 'create table action type...'
+    db_model_action_type.create_table()
+    print 'insert default action type value...'
+    db_model_action_type.insert_default_value()
     print 'create table end'
 

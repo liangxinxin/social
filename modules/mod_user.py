@@ -5,6 +5,8 @@ from db_interface import db_model_message
 from db_interface import db_model_post
 from db_interface import db_model_user
 from db_interface import db_model_user_relation
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 from flask import session
 
 default_page_no = 1
@@ -62,6 +64,12 @@ def create_user(request):
             session['userinfo'] = {'mobile':mobile,'name': user.name, 'id': user.id}
            # session['userinfo']['name'] = user.name
            # session['userinfo']['id'] = user.id
+        print 'record action user regist:'
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
+        create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+        db_model_action.insert(user_id=user.id,\
+            action_type_id=db_model_action_type.get_type_id('regist'),action_detail_info='',\
+            create_time=create_time) 
     print 'after create user,session is:',session
     result={}
     result['succ']='0'
