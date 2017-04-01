@@ -121,6 +121,13 @@ def reply_like_changed(request):
             db_model_message.insert_praise_reply(user_id, reply_id)
             reply.like_num += 1
             db_model_reply.update_like_num(reply_id, reply.like_num)
+            print "record action of like reply"
+            action_content={}
+            action_content['reply_id']=reply.id
+            db_model_action.insert(user_id=user_id,\
+            action_type_id=db_model_action_type.get_type_id('praise_reply'),\
+            action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+            create_time=create_time) 
         else:
             db_model_reply_like_stat.remove(reply_id, user_id)
             reply.like_num -= 1
