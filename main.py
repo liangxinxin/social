@@ -322,6 +322,9 @@ def delete_post():
 def reply_publish():
     login_flag = mod_user.check_login()
     post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user=mod_reply.service(request)
+    if post_data == None:
+        return redirect('/index')
+      
     reply_num = len(reply_data.items)
     total_page = reply_data.pages
     messages_unread=mod_user.get_unread_message_from_session()

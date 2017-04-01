@@ -9,6 +9,8 @@ from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
 from db_interface import db_model_user_community
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 from modules import time_format
 
 default_page_no = 1
@@ -70,16 +72,12 @@ def publish_post(request):
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     last_update_time = create_time
     print 'title:', title, 'content:', content, "user_id:", create_user_id, "community_id:", community_id
-    db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time,status)
+    insert=db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time, last_update_time,status)
     print "now insert to db"
 
     print "record action of create post"
     action_content={}
-    action_content['post_id']=0
-    data=db_model_post.select_by_title_user_id_community_id(title=title,\
-        user_id=create_user_id,community_id=community_id)
-    if data != None:
-        action_content['post_id']=data[0].id
+    action_content['post_id']=insert.id
     db_model_action.insert(user_id=create_user_id,\
            action_type_id=db_model_action_type.get_type_id('create_post'),\
            action_detail_info=json.dumps(action_content, ensure_ascii = False),\

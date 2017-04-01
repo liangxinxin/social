@@ -41,6 +41,7 @@ def insert(title, content, create_user_id, community_id, floor_num, create_time,
                   floor_num=floor_num, create_time=create_time, last_update_time=last_update_time,status=status)
     db.session.add(insert)
     db.session.commit()
+    return insert
 
 
 def select_all():

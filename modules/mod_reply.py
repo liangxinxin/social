@@ -51,6 +51,8 @@ def publish_reply(request):
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     post_data = db_model_post.select_by_id(post_id)
+    if post_data == None:
+      return None,None,None,None,None,None,None,None,None,None
     floor = post_data.floor_num + 1
     post_data.floor_num += 1
     db_model_post.update(post_data)
@@ -61,20 +63,18 @@ def publish_reply(request):
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
-    reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
-    if reply != None and (create_user_id != post_data.create_user_id):
+    insert=db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
+    if insert != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
     print "now insert to db"
 
-    if reply != None:
-        print "record action of create reply"
-        action_content={}
-        action_content['reply_id']=reply.id
-        db_model_action.insert(user_id=create_user_id,\
-               action_type_id=db_model_action_type.get_type_id('create_reply'),\
-               action_detail_info=json.dumps(action_content, ensure_ascii = False),\
-               create_time=create_time)
+    print "record action of create reply"
+    action_content={}
+    action_content['reply_id']=insert.id
+    db_model_action.insert(user_id=create_user_id,\
+           action_type_id=db_model_action_type.get_type_id('create_reply'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=create_time)
       
     # select db
     paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)

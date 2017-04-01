@@ -35,6 +35,7 @@ def insert(content,create_user_id,post_id,floor,floor_num,like_num,create_time):
     insert=Reply(content=content,create_user_id=create_user_id,post_id=post_id,floor=floor,floor_num=floor_num,like_num=like_num,create_time=create_time)
     db.session.add(insert)
     db.session.commit()
+    return insert
 
 def select_all():
     data_all=Reply.query.all()
