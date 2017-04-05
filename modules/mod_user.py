@@ -1,6 +1,7 @@
 #coding=utf-8
 import time
 import time_format
+import json 
 from db_interface import db_model_message
 from db_interface import db_model_post
 from db_interface import db_model_user
@@ -180,6 +181,15 @@ def add_relation(request):
         #write message
         db_model_message.insert_follow(user_id,relation_user_id)
 
+    print "record action of follow user"
+    action_content={}
+    action_content['user_id']=user_id
+    action_content['to_user_id']=relation_user_id
+    db_model_action.insert(user_id=user_id,\
+           action_type_id=db_model_action_type.get_type_id('follow'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=update_time)
+
     login_user.attention_num = login_user.attention_num + 1
     print "now update user attention_num", login_user.attention_num
     db_model_user.update_user(login_user)
@@ -197,6 +207,15 @@ def update_relation(request):
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     db_model_user_relation.update(user_id, relation_user_id, cancel_relation, update_time)
+    
+    print "record action of cancel follow user"
+    action_content={}
+    action_content['user_id']=user_id
+    action_content['to_user_id']=relation_user_id
+    db_model_action.insert(user_id=user_id,\
+           action_type_id=db_model_action_type.get_type_id('cancel_follow'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=update_time)
 
     login_user.attention_num = login_user.attention_num - 1
     db_model_user.update_user(login_user)
