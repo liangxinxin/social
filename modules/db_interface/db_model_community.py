@@ -33,6 +33,7 @@ def insert(name,user_num,post_num,describe,head_img_url,create_user_id,create_ti
     insert=Community(name=name,user_num=user_num,post_num=post_num,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
     db.session.add(insert)
     db.session.commit()
+    return insert
 
 def select_all():
     data_all=Community.query.all()
