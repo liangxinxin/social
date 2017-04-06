@@ -1,7 +1,10 @@
+import json
 from db_interface import db_model_user
 from db_interface import db_model_comment
 from db_interface import db_model_reply
 from db_interface import db_model_message
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 import time
 from flask import session
 default_comment_id = 0
@@ -61,6 +64,15 @@ def publish_comment(request):
     if create_user_id != to_user_id:
         db_model_message.insert_comment_message(data.id)
 
+    print "record action of create post"
+    action_content={}
+    action_content['comment_id']=data.id
+    db_model_action.insert(user_id=create_user_id,\
+           action_type_id=db_model_action_type.get_type_id('create_comment'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=create_time)
+    
+    
     data = db_model_comment.to_json(data)
     result = {'code': 0, 'message': 'success','comment':data}
     return result

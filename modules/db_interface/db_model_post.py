@@ -41,6 +41,7 @@ def insert(title, content, create_user_id, community_id, floor_num, create_time,
                   floor_num=floor_num, create_time=create_time, last_update_time=last_update_time,status=status)
     db.session.add(insert)
     db.session.commit()
+    return insert
 
 
 def select_all():
@@ -142,3 +143,7 @@ def to_json(object):
             'last_update_time':object.last_update_time,
             'status':object.status
         }
+
+def select_by_title_user_id_community_id(title,user_id,community_id):
+    data = Post.query.filter(Post.title==title,Post.create_user_id==user_id,Post.community_id==community_id)
+    return data

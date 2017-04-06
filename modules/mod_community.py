@@ -8,6 +8,8 @@ import httplib
 import time 
 from db_interface import db_model_post
 from db_interface import db_model_community
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 
 default_page_no = 1
 default_num_perpage = 20
@@ -57,14 +59,22 @@ def publish_community(request):
   ISOTIMEFORMAT='%Y-%m-%d %X'
   create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
   #db_model_community.insert(title,content,create_user_id,community_id,floor_num,create_time,last_update_time)
-  db_model_community.insert(name=name,user_num=1,post_num=0,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
-  print "now insert to db"
-  
+  print "now insert new community to db"
+  data=db_model_community.insert(name=name,user_num=1,post_num=0,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
   #select db
-  data=db_model_community.select_by_name_equal(name)
-  print "community id:",data.id
   if data == None:
     return None,0
+  print "community id:",data.id
+  
+  print "record action of create community"
+  action_content={}
+  action_content['user_id']=create_user_id
+  action_content['community_id']=data.id
+  db_model_action.insert(user_id=create_user_id,\
+         action_type_id=db_model_action_type.get_type_id('create_community'),\
+         action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+         create_time=create_time)  
+ 
   paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,data.id)
   print "now data:",paginate.items,len(paginate.items)
   has_join=True

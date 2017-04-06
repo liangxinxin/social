@@ -10,6 +10,8 @@ import time
 from db_interface import db_model_user
 from db_interface import db_model_community
 from db_interface import db_model_user_community
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 
 default_page_no = 1
 default_num_perpage = 20
@@ -39,7 +41,15 @@ def user_join_community(request):
   print 'uid:',user_id,'cid:',community_id
   print "now insert to db"
   db_model_user_community.insert(user_id=user_id,community_id=community_id,create_time=create_time)
-
+  print "record action of user join community"
+  action_content={}
+  action_content['user_id']=user_id
+  action_content['community_id']=community_id
+  db_model_action.insert(user_id=user_id,\
+         action_type_id=db_model_action_type.get_type_id('join_community'),\
+         action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+         create_time=create_time)
+  
   #return select value
   community=db_model_community.select_by_id(id=community_id)
   community.user_num=community.user_num+1
@@ -59,6 +69,15 @@ def user_left_community(request):
   info=db_model_user_community.select_by_user_id_and_community_id(user_id=user_id,community_id=community_id)
   if info != None:
     db_model_user_community.delete(info.id)
+
+  print "record action of user left community"
+  action_content={}
+  action_content['user_id']=user_id
+  action_content['community_id']=community_id
+  db_model_action.insert(user_id=user_id,\
+         action_type_id=db_model_action_type.get_type_id('left_community'),\
+         action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+         create_time=create_time)
 
   #return select value
   community=db_model_community.select_by_id(id=community_id)
