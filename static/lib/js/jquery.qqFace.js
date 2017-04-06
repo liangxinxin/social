@@ -104,7 +104,6 @@ jQuery.fn.extend({
 			textObj.value=textFeildValue;
 		}
 		var id = $(this).attr('id')
-		$("#"+id).append(replace_em(textObj.value));
 		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
 
