@@ -7,6 +7,9 @@
 <div id="navbar" xmlns="http://www.w3.org/1999/html">
     {% include 'commons/navbar_toutiao.html' %}
 </div>
+<div class="update_reply">
+    {% include 'update.html' %}
+</div>
 <input id="post_id" style="display:none" value={{post_data.id}}></input>
 <input id="community_id" style="display:none" value={{post_data.community.id}}></input>
 <div id="all_backgroud" class="post-page-main">
@@ -14,9 +17,6 @@
         <div id="community_head" class="card_top_wrap">
             <div id="community_head_left" class="card_info">
                 <div id="community_img" class="card_image">
-                    <!--<a>-->
-                    <!--<img class="" src="https://img3.doubanio.com/icon/g35417-1.jpg">-->
-                    <!--</a>-->
                     <a href="/community?community_id={{post_data.community.id}}">
                         <img class="comm-img-bg-post" src="{{post_data.community.head_img_url}}">
                     </a>
@@ -102,6 +102,9 @@
                         <div class="reply_content">
                             <a style="color:inherit" href="javascript:void"><p>{{best_reply.content|safe}}</p></a>
                         </div>
+                        <div class="update_content a_hide">
+                        </div>
+
                     </div>
                     <div class="reply_comment"><a id="get_comment_{{best_reply.id|safe}}" href="javascript:void(0)"
                                                   onclick="getComment({{best_reply.id}})" class="comment_a">
@@ -159,6 +162,7 @@
                         <div class="reply_content">
                             <a style="color:inherit" href="javascript:void"><p>{{reply_list[i].content|safe}}</p></a>
                         </div>
+                        <div class="update_content a_hide"></div>
                     </div>
                     <div class="reply_like_stat">
                         <input type="hidden" id="isliked-{{reply_list[i].id|safe}}"
@@ -179,6 +183,11 @@
                         <span style="margin-right:10px">{{reply_list[i].create_time|safe}}</span><span
                             class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
                     </a>
+                    </div>
+                    <div class="upd_btn">
+                        <a  class="upd a_show" href="javascript:void(0)" onclick="update({{reply_list[i].id}})">修改</a>
+                        <a  class="cancel a_hide" href="javascript:void(0)" onclick="cancelUpd({{reply_list[i].id}})" >取消</a>
+                        <a  class="submitupd a_hide" href="javascript:void(0)" onclick="submitUpdate({{reply_list[i].id}})">提交修改</a>
                     </div>
                     <div class="comment_body comment_body_{{reply_list[i].id}}">
                         <input type="hidden" value="{{reply_list[i].id}}"/>
@@ -260,6 +269,90 @@
     say_block.find('div.say_wrap').removeClass('say_word_border');
   }
 
+  function set_focus()
+    {
+        el=document.getElementById('update');
+        //el=el[0];  //jquery 对象转dom对象
+        el.focus();
+        if($.support.msie)
+        {
+            var range = document.selection.createRange();
+            this.last = range;
+            range.moveToElementText(el);
+            range.select();
+            document.selection.empty(); //取消选中
+        }
+        else
+        {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
+function cancelUpd(replyid){
+    $('#here_'+replyid).find('.reply_content').removeClass('a_hide')
+    $('#here_'+replyid).find('.update_content').removeClass('a_hide').empty();
+    $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_hide').addClass('a_show');
+    $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_show').addClass('a_hide');
+    $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_show').addClass('a_hide');
+}
+
+function update(replyid){
+   $('.upd_btn>.cancel').each(function(){
+     $('.upd_btn>.cancel').click();
+   });
+   $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_show').addClass('a_hide');
+   $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_hide').addClass('a_show');
+   $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_hide').addClass('a_show');
+   var content = $('#here_'+replyid).find('.reply_content').find('p').html();
+   $('#update').focus();
+   $('#update').html(content);
+   var container = $('.update_reply').html();
+   $('#here_'+replyid).find('.reply_content').addClass('a_hide')
+   $('#here_'+replyid).find('.update_content').removeClass('a_hide')
+   $('#here_'+replyid).find('.update_content').html(container)
+
+
+}
+
+function submitUpdate(replyid){
+    var content = $('#here_'+replyid).find('#update').html();
+    $('#here_'+replyid).find('#update').remove();
+
+        var data = {
+            data: JSON.stringify({
+                "reply_id": replyid,
+                "content":content
+            })
+        }
+        $.ajax({
+            url: '/update_reply',
+            type: 'POST',
+            data: data,
+            timeout:5000,
+            success: function(data) {
+                if (data.result== 0) {
+                    $('#here_'+replyid).find('.reply_content').removeClass('a_hide')
+                    $('#here_'+replyid).find('.update_content').removeClass('a_hide').empty();
+                    $('#here_'+replyid).find('.reply_content>a>p').empty().html(content);
+                    $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_hide').addClass('a_show');
+                    $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_show').addClass('a_hide');
+                    $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_show').addClass('a_hide');
+                } else {
+                    alert('修改失败')
+                }
+            },
+            error: function(data) {
+                alert('修改失败')
+            }
+        })
+
+}
+
+
 function deletePost() {
     if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
         var postid = $('#post_id').val();
@@ -272,6 +365,7 @@ function deletePost() {
             url: '/delete_post',
             type: 'POST',
             data: data,
+            timeout:5000,
             success: function(data) {
                 if (data.result== 0) {
                     window.location = "/index";

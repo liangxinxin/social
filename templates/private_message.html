@@ -23,8 +23,11 @@
             </ul>
         </div>
     </div>
+
     <div class="private_right col-sm-9">
+        {% if user_list%}
         <div class="messsge_to_user_name col-sm-12">{{user_list[0].name}}</div>
+
         <div class="messsge_content col-sm-12">
             <ul>
 
@@ -37,7 +40,9 @@
             <div class="send_btn col-sm-1 right"><a class="comm-btn" onclick="sendok()">发送</a>
             </div>
         </div>
+        {% endif%}
     </div>
+
 </div>
 <script type="text/javascript">
 var login_user_id ={{session.get('userinfo')['id']}};

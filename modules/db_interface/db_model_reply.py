@@ -16,23 +16,25 @@ class Reply(db.Model):
     floor_num = db.Column(db.Integer, unique=False)
     like_num= db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
+    last_update_time = db.Column(db.DateTime, unique=False)
     messages = db.relationship('Message',backref='reply',lazy='dynamic')
     comments= db.relationship('Comment',backref='reply',lazy='dynamic')
 
-    def __init__(self,content,create_user_id,post_id,floor,floor_num,like_num,create_time):
+    def __init__(self,content,create_user_id,post_id,floor,floor_num,like_num,create_time,last_update_time):
         self.content= content
         self.create_user_id = create_user_id
         self.post_id = post_id 
         self.floor=floor
         self.floor_num=floor_num
         self.like_num =like_num
-        self.create_time=create_time 
+        self.create_time=create_time
+        self.last_update_time=last_update_time
 
 def create_table():
     db.create_all()
 
-def insert(content,create_user_id,post_id,floor,floor_num,like_num,create_time):
-    insert=Reply(content=content,create_user_id=create_user_id,post_id=post_id,floor=floor,floor_num=floor_num,like_num=like_num,create_time=create_time)
+def insert(content,create_user_id,post_id,floor,floor_num,like_num,create_time,last_update_time):
+    insert=Reply(content=content,create_user_id=create_user_id,post_id=post_id,floor=floor,floor_num=floor_num,like_num=like_num,create_time=create_time,last_update_time=last_update_time)
     db.session.add(insert)
     db.session.commit()
     return insert
@@ -52,12 +54,19 @@ def select_by_create_user_and_post_and_floor(create_user_id,post_id,floor):
 def update(id,content,create_user_id,post_id,floor,floor_num,like_num,create_time):
     row = Reply.query.get(id)
     row.content = content
-    row.create_user_id = create_user_id 
+    row.create_user_id = create_user_id
     row.post_id = post_id
     row.floor = floor
     row.floor_num = floor_num
     row.like_num = like_num
     row.create_time = create_time
+    db.session.commit()
+
+
+def update(reply):
+    row = Reply.query.get(reply.id)
+    row.content = reply.content
+    row.last_update_time = reply.last_update_time
     db.session.commit()
 
 def delete(id):
@@ -107,6 +116,7 @@ def to_json(object):
             'floor_num':object.floor_num,
             'like_num':object.like_num,
             'create_time':object.create_time,
+            'last_update_time':object.last_update_time,
             'user':db_model_user.to_json(object.user)
 
         }

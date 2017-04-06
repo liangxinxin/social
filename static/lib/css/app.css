@@ -765,6 +765,16 @@ list-style:none;
     height:auto;
     text-align: right;
 }
+
+#reply_info .upd_btn{
+    width:150px;
+    height:20px;
+    line-height:20px;
+    font-size:12px;
+    float:right;
+    cursor:pointer;
+
+}
 .comment_body{
     display:none;
     clear:both;
@@ -1526,3 +1536,4 @@ border:solid 8px;
 border-color:#fff #f2f4f7 #fff #fff ;
 }
 /* private_message end*/
+
