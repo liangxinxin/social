@@ -52,7 +52,7 @@ def publish_reply(request):
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     post_data = db_model_post.select_by_id(post_id)
     if post_data == None:
-      return None,None,None,None,None,None,None,None,None,None
+        return None, None, None, None, None, None, None, None, None, None
     floor = post_data.floor_num + 1
     post_data.floor_num += 1
     db_model_post.update(post_data)
@@ -63,18 +63,18 @@ def publish_reply(request):
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    insert=db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
+    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
     if insert != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
     print "now insert to db"
 
     print "record action of create reply"
-    action_content={}
-    action_content['reply_id']=insert.id
-    db_model_action.insert(user_id=create_user_id,\
-           action_type_id=db_model_action_type.get_type_id('create_reply'),\
-           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
-           create_time=create_time)
+    action_content = {}
+    action_content['reply_id'] = insert.id
+    db_model_action.insert(user_id=create_user_id, \
+                           action_type_id=db_model_action_type.get_type_id('create_reply'), \
+                           action_detail_info=json.dumps(action_content, ensure_ascii=False), \
+                           create_time=create_time)
       
     # select db
     paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)
@@ -181,6 +181,29 @@ def publish_reply_in_UserInfo(request):
     reply.create_time= time_format.timestampFormat(reply.create_time)
     reply= db_model_reply.to_json(reply)
     return reply, post_data.floor_num
+
+
+
+def update_reply(request):
+    result = {}
+    data = json.loads(request.form.get("data"))
+    content = data["content"]
+    reply_id = long(data["reply_id"])
+    reply = db_model_reply.select_by_id(reply_id)
+    if reply == None:
+        print 'reply is none',reply_id
+        result['code']= 1
+    reply.content = content
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    reply.last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    result['code'] = 0
+    try:
+        db_model_reply.update(reply)
+    except:
+        result['code'] = 1
+    return result
+
+
 # def query_post_in_community(request):
 #  community_id = request.args.get("community_id",default_community_id)
 #  print " now query post in communit id:",community_id
