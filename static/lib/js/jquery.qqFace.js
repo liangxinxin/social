@@ -16,7 +16,7 @@
 			alert('缺少表情赋值对象。');
 			return false;
 		}
-		
+		assign.focus();
 		$(this).click(function(e){
 			var strFace, labFace;
 			if($('#'+id).length<=0){
