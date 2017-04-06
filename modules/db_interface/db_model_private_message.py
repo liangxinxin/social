@@ -78,38 +78,65 @@ def update_has_read(id):
 
 
 def select_recent_user(create_user_id, num_perpage):
-    # create_user==登录者  to_user == 最近聊天的人
-    sql = 'select max(tbl.id) as id from (' \
-          'SELECT pm1.id,pm1.content,pm1.to_user_id as create_user_id,pm1.create_user_id as to_user_id,pm1.has_read,create_time ' \
-          'FROM private_message pm1 ' \
-          'WHERE pm1.to_user_id =' \
-          + str(create_user_id) + \
-          ' union ' \
-          'SELECT * ' \
-          'FROM private_message pm2  ' \
-          'WHERE pm2.create_user_id =' \
-          + str(create_user_id) + \
-          ') tbl group by tbl.to_user_id'
-    rows = db.session.execute(sql).fetchall()
+#    # create_user==登录者  to_user == 最近聊天的人
+#    sql = 'select max(tbl.id) as id from (' \
+#          'SELECT pm1.id,pm1.content,pm1.to_user_id as create_user_id,pm1.create_user_id as to_user_id,pm1.has_read,create_time ' \
+#          'FROM private_message pm1 ' \
+#          'WHERE pm1.to_user_id =' \
+#          + str(create_user_id) + \
+#          ' union ' \
+#          'SELECT * ' \
+#          'FROM private_message pm2  ' \
+#          'WHERE pm2.create_user_id =' \
+#          + str(create_user_id) + \
+#          ') tbl group by tbl.to_user_id'
+#    rows = db.session.execute(sql).fetchall()
+#
+#    ids = []
+#    for row in rows:
+#        ids.append(str(int(row.id)))
+#    data1 = PrivateMessage.query.filter_by(create_user_id=create_user_id).filter(PrivateMessage.id.in_(ids)).order_by(
+#        desc(PrivateMessage.create_time))
+#    data2 = db.session.query(PrivateMessage.id, PrivateMessage.content,
+#                             PrivateMessage.to_user_id.label('create_user_id'),
+#                             PrivateMessage.create_user_id.label('to_user_id'), PrivateMessage.has_read,
+#                             PrivateMessage.create_time).filter_by(to_user_id=create_user_id).filter(
+#        PrivateMessage.id.in_(ids)).order_by(desc(PrivateMessage.create_time)).order_by(
+#        desc(PrivateMessage.create_time))
+#    data = data1.union(data2).group_by(PrivateMessage.create_user_id, PrivateMessage.to_user_id).order_by(
+#        desc(PrivateMessage.create_time)).limit(num_perpage)
+#    to_user_list = []
+#    for private_message in data:
+#        to_user_list.append(private_message.touser)
+#    return to_user_list
 
-    ids = []
+    user_recently={}
+    sql1='select create_user_id,max(create_time) as max_create_time from private_message \
+        where to_user_id=' + str(create_user_id) +' group by create_user_id '\
+        +' order by max_create_time desc limit '+str(num_perpage)
+    rows = db.session.execute(sql1).fetchall()
     for row in rows:
-        ids.append(str(int(row.id)))
-    data1 = PrivateMessage.query.filter_by(create_user_id=create_user_id).filter(PrivateMessage.id.in_(ids)).order_by(
-        desc(PrivateMessage.create_time))
-    data2 = db.session.query(PrivateMessage.id, PrivateMessage.content,
-                             PrivateMessage.to_user_id.label('create_user_id'),
-                             PrivateMessage.create_user_id.label('to_user_id'), PrivateMessage.has_read,
-                             PrivateMessage.create_time).filter_by(to_user_id=create_user_id).filter(
-        PrivateMessage.id.in_(ids)).order_by(desc(PrivateMessage.create_time)).order_by(
-        desc(PrivateMessage.create_time))
-    data = data1.union(data2).group_by(PrivateMessage.create_user_id, PrivateMessage.to_user_id).order_by(
-        desc(PrivateMessage.create_time)).limit(num_perpage)
-    to_user_list = []
-    for private_message in data:
-        to_user_list.append(private_message.touser)
-    return to_user_list
+      user_recently[str(int(row.create_user_id))]=str(row.max_create_time)
 
+    sql2='select to_user_id,max(create_time) as max_create_time from private_message \
+        where create_user_id=' + str(create_user_id) +' group by to_user_id '\
+        +' order by max_create_time desc limit '+str(num_perpage)
+    rows2 = db.session.execute(sql2).fetchall()
+    for row in rows2:
+      user_recently[str(int(row.to_user_id))]=str(row.max_create_time)
+
+    sorted_user_recently=sorted(user_recently.iteritems(),key=lambda asd:asd[1],reverse=True)
+
+    user_list=[]
+    count=0
+    for item in sorted_user_recently:
+      print item 
+      if item[0] != str(create_user_id):
+        if count < num_perpage:
+          user_list.append(db_model_user.select_by_id(int(item[0])))
+          count=count+1
+    
+    return user_list
 
 # 查询未读私信条数
 def select_all_unread(to_user_id):
