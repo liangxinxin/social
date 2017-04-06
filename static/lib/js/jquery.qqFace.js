@@ -16,7 +16,7 @@
 			alert('缺少表情赋值对象。');
 			return false;
 		}
-		
+		assign.focus();
 		$(this).click(function(e){
 			var strFace, labFace;
 			if($('#'+id).length<=0){
@@ -104,7 +104,6 @@ jQuery.fn.extend({
 			textObj.value=textFeildValue;
 		}
 		var id = $(this).attr('id')
-		$("#"+id).append(replace_em(textObj.value));
 		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
 

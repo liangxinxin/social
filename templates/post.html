@@ -184,11 +184,15 @@
                             class="comment-btn">回复(<span id="comment_num_{{reply_list[i].id|safe}}">{{reply_list[i].floor_num|safe}}</span>)</span>
                     </a>
                     </div>
-                    <div class="upd_btn">
-                        <a  class="upd a_show" href="javascript:void(0)" onclick="update({{reply_list[i].id}})">修改</a>
-                        <a  class="cancel a_hide" href="javascript:void(0)" onclick="cancelUpd({{reply_list[i].id}})" >取消</a>
-                        <a  class="submitupd a_hide" href="javascript:void(0)" onclick="submitUpdate({{reply_list[i].id}})">提交修改</a>
-                    </div>
+                    {% if session.get('userinfo')%}
+                        {% if reply_list[i].create_user_id == session.get('userinfo')['id'] %}
+                        <div class="upd_btn">
+                            <a  class="upd a_show" href="javascript:void(0)" onclick="update({{reply_list[i].id}})">修改</a>
+                            <a  class="cancel a_hide" href="javascript:void(0)" onclick="cancelUpd({{reply_list[i].id}})" >取消</a>
+                            <a  class="submitupd a_hide" href="javascript:void(0)" onclick="submitUpdate({{reply_list[i].id}})">提交修改</a>
+                        </div>
+                        {% endif%}
+                    {% endif%}
                     <div class="comment_body comment_body_{{reply_list[i].id}}">
                         <input type="hidden" value="{{reply_list[i].id}}"/>
                         <div class="comment_container"></div>
