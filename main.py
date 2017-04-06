@@ -340,6 +340,14 @@ def reply_publish():
     #     num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
     #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
+@app.route('/update_reply', methods=['GET', 'POST'])
+# @interceptor(login_required=True)
+def reply_update():
+    print 'reply_update'
+    result = mod_reply.update_reply(request)
+    print 'reply_update result',result['code']
+    return jsonify(result=result['code'])
+
 
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
 # @interceptor(login_required=True)

@@ -19,3 +19,15 @@ vertical-align: baseline; margin: 0 2px; outline: none; cursor: pointer; text-al
 #editor img{
     vertical-align: left;
 }
+
+.btn_emotion{
+padding:0px;
+padding-top:2px;
+}
+
+.emotion{
+    display:inline-block;
+    height:26px;
+    width:35px;
+
+}

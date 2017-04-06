@@ -59,7 +59,7 @@ def publish_reply(request):
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
+    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,create_time)
     reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
     if reply != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
@@ -163,6 +163,29 @@ def publish_reply_in_UserInfo(request):
     reply.create_time= time_format.timestampFormat(reply.create_time)
     reply= db_model_reply.to_json(reply)
     return reply, post_data.floor_num
+
+
+
+def update_reply(request):
+    result = {}
+    data = json.loads(request.form.get("data"))
+    content = data["content"]
+    reply_id = long(data["reply_id"])
+    reply = db_model_reply.select_by_id(reply_id)
+    if reply == None:
+        print 'reply is none',reply_id
+        result['code']= 1
+    reply.content = content
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    reply.last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    result['code'] = 0
+    try:
+        db_model_reply.update(reply)
+    except:
+        result['code'] = 1
+    return result
+
+
 # def query_post_in_community(request):
 #  community_id = request.args.get("community_id",default_community_id)
 #  print " now query post in communit id:",community_id

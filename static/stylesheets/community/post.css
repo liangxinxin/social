@@ -703,12 +703,14 @@ body {
     min-height: 120px;
     padding:10px 10px 10px 10px;
 }
-.reply_content {
+.reply_content,update_content{
+    min-height:120px;
     line-height: 24px;
     font-size: 14px;
     word-wrap: break-word;
     text-align:left;
 }
+
 .reply_content_char {
     text-align:left;
 }
@@ -855,5 +857,24 @@ h3 {
     width:50px;
     float:right;
     color:#333;
+}
+.update_reply{
+    display:none;
+}
+#update{
+    min-height:100px;
+    outline: medium none;
+    text-align:left;
+}
+.a_show{
+    display:inline-block;
+}
+.a_hide{
+    display:none;
+}
+.upd_btn>a{
+    width:50px;
+    height:20px;
+
 }
 /* community_search_result.html  end*/

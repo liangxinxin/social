@@ -18,7 +18,6 @@
 		}
 		
 		$(this).click(function(e){
-                      
 			var strFace, labFace;
 			if($('#'+id).length<=0){
 				strFace = '<div id="'+id+'" style="position:absolute;display:none;z-index:1000;" class="qqFace">' +
@@ -104,8 +103,9 @@ jQuery.fn.extend({
 		}else{
 			textObj.value=textFeildValue;
 		}
-		//$("#editor").append(replace_em(textObj.value));
-		$("#editor").focus();
+		var id = $(this).attr('id')
+		$("#"+id).append(replace_em(textObj.value));
+		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
 
 	} 
