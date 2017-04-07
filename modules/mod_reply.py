@@ -63,7 +63,7 @@ def publish_reply(request):
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
+    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,create_time)
     if insert != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
     print "now insert to db"
