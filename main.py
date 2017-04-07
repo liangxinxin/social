@@ -283,6 +283,7 @@ def post():
         return redirect(url_for('post', post_id = post_id,community_id=community_id, num_perpage=num_perpage, page_no = page_no))
 
     #  print model
+    private_unread_count=0
     if reply_data == None:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
