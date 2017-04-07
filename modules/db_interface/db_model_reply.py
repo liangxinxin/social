@@ -16,11 +16,12 @@ class Reply(db.Model):
     floor_num = db.Column(db.Integer, unique=False)
     like_num= db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
+    status = db.Column(db.Boolean,unique=False,default=0)
     last_update_time = db.Column(db.DateTime, unique=False)
     messages = db.relationship('Message',backref='reply',lazy='dynamic')
     comments= db.relationship('Comment',backref='reply',lazy='dynamic')
 
-    def __init__(self,content,create_user_id,post_id,floor,floor_num,like_num,create_time,last_update_time):
+    def __init__(self,content,create_user_id,post_id,floor,floor_num,like_num,create_time,status,last_update_time):
         self.content= content
         self.create_user_id = create_user_id
         self.post_id = post_id 
@@ -28,19 +29,20 @@ class Reply(db.Model):
         self.floor_num=floor_num
         self.like_num =like_num
         self.create_time=create_time
+        self.status = status
         self.last_update_time=last_update_time
 
 def create_table():
     db.create_all()
 
-def insert(content,create_user_id,post_id,floor,floor_num,like_num,create_time,last_update_time):
-    insert=Reply(content=content,create_user_id=create_user_id,post_id=post_id,floor=floor,floor_num=floor_num,like_num=like_num,create_time=create_time,last_update_time=last_update_time)
+def insert(content,create_user_id,post_id,floor,floor_num,like_num,create_time,status,last_update_time):
+    insert=Reply(content=content,create_user_id=create_user_id,post_id=post_id,floor=floor,floor_num=floor_num,like_num=like_num,create_time=create_time,status=status,last_update_time=last_update_time)
     db.session.add(insert)
     db.session.commit()
     return insert
 
 def select_all():
-    data_all=Reply.query.all()
+    data_all=Reply.query.filter_by(status=0).all()
     return data_all
 
 def select_by_id(id):
@@ -48,10 +50,10 @@ def select_by_id(id):
     return data
 
 def select_by_create_user_and_post_and_floor(create_user_id,post_id,floor):
-    data=Reply.query.filter_by(create_user_id=create_user_id,post_id=post_id,floor=floor).first()
+    data=Reply.query.filter_by(create_user_id=create_user_id,post_id=post_id,floor=floor,status=0).first()
     return data
 
-def update(id,content,create_user_id,post_id,floor,floor_num,like_num,create_time):
+def update(id,content,create_user_id,post_id,floor,floor_num,like_num,create_time,status,last_udate_time):
     row = Reply.query.get(id)
     row.content = content
     row.create_user_id = create_user_id
@@ -60,12 +62,15 @@ def update(id,content,create_user_id,post_id,floor,floor_num,like_num,create_tim
     row.floor_num = floor_num
     row.like_num = like_num
     row.create_time = create_time
+    row.status = status
+    row.last_udate_time = last_udate_time
     db.session.commit()
 
 
 def update(reply):
     row = Reply.query.get(reply.id)
     row.content = reply.content
+    row.status = reply.status
     row.last_update_time = reply.last_update_time
     db.session.commit()
 
@@ -79,30 +84,32 @@ def select_paging_by_post_id(page_no,num_per_page,post_id):
     print 'no:',page_no,'num:',num_per_page,'post id:',post_id
     if page_no < 1:
         page_no = 1
-    paginate = Reply.query.filter(Reply.post_id==post_id).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
+    paginate = Reply.query.filter(Reply.post_id==post_id,Reply.status==0).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
     return paginate
 
 def select_best_by_post_id(post_id):
     print 'post id:',post_id
-    best_reply = Reply.query.filter(Reply.post_id==post_id).order_by(desc(Reply.like_num)).first()
+    best_reply = Reply.query.filter(Reply.post_id==post_id,Reply.status==0).order_by(desc(Reply.like_num)).first()
     return best_reply
 
 # return paginate
 def select_all_paging(page_no,num_per_page):
     if page_no < 1:
         page_no = 1
-    paginate = Reply.query.order_by(desc(Reply.id)).paginate(page_no,num_per_page,False)
+    paginate = Reply.query.filter_by(status=0).order_by(desc(Reply.id)).paginate(page_no,num_per_page,False)
     return paginate
 
 
-def update_floor_num(id,floor_num):
+def update_floor_num(id,floor_num,last_update_time):
     row = Reply.query.get(id)
     row.floor_num = floor_num
+    row.last_update_time = last_update_time
     db.session.commit()
 
-def update_like_num(id,like_num):
+def update_like_num(id,like_num,last_update_time):
     row = Reply.query.get(id)
     row.like_num = like_num
+    row.last_update_time = last_update_time
     db.session.commit()
 
 def to_json(object):
@@ -116,6 +123,7 @@ def to_json(object):
             'floor_num':object.floor_num,
             'like_num':object.like_num,
             'create_time':object.create_time,
+            'status':object.status,
             'last_update_time':object.last_update_time,
             'user':db_model_user.to_json(object.user)
 
