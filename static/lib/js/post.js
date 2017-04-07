@@ -246,30 +246,31 @@ $('.say_word').hover(function() {
 
 
 function deleteReply(replyid){
-    var data ={
-        data:JSON.stringify({
-            "reply_id":replyid
-        })
-    }
-    $.ajax({
-        url:'delete_reply',
-        type:'POST',
-        dataType:'json',
-        data:data,
-        timeout:5000,
-        success:function(data){
-            if(data.result==0){
-                window.location.reload();
-            }else{
-                alert('删除失败')
-            }
+    if (confirm('你确定删除这条回帖吗')) {
+        var data ={
+            data:JSON.stringify({
+                "reply_id":replyid
+            })
         }
-    })
+        $.ajax({
+            url:'delete_reply',
+            type:'POST',
+            dataType:'json',
+            data:data,
+            timeout:5000,
+            success:function(data){
+                if(data.result==0){
+                    window.location.reload();
+                }else{
+                    alert('删除失败')
+                }
+            }
+        })
 
+    }
 }
 
 function cancelUpd(replyid){
-    console.log('cancel'+replyid)
     $('#here_'+replyid).find('.reply_content').removeClass('a_hide')
     $('#here_'+replyid).find('.update_content').removeClass('a_hide').empty();
     $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_show').addClass('a_hide');
