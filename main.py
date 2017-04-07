@@ -283,6 +283,11 @@ def post():
         return redirect(url_for('post', post_id = post_id,community_id=community_id, num_perpage=num_perpage, page_no = page_no))
 
     #  print model
+    private_unread_count=0
+    count_comment=0
+    count_reply=0
+    count_guanzhu=0
+    count_do_good=0
     if reply_data == None:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
@@ -671,4 +676,4 @@ if __name__ == '__main__':
     user_data, comm_data = mod_image.select_default_image()
     default_user_data = user_data
     default_community_data = comm_data
-    app.run(host="0.0.0.0", port=6100, processes=6)
+    app.run(host="jinrongdao.com", port=6100, processes=6)
