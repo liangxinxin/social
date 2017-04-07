@@ -284,6 +284,10 @@ def post():
 
     #  print model
     private_unread_count=0
+    count_comment=0
+    count_reply=0
+    count_guanzhu=0
+    count_do_good=0
     if reply_data == None:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
