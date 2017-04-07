@@ -4,6 +4,8 @@ import json
 from flask import session
 from db_interface import db_model_private_message
 from db_interface import  db_model_user
+from db_interface import  db_model_action
+from db_interface import  db_model_action_type
 
 default_page_no=1
 default_num_perpage = 10
@@ -93,6 +95,15 @@ def save_private_message(request):
         result['code']=0
         result['message']='success'
         result['data']= message
+        print "record action of create private message"
+        action_content={}
+        action_content['from_user_id']=user_id
+        action_content['to_user_id']=to_user_id
+        action_content['message_id']=message['id']
+        db_model_action.insert(user_id=user_id,\
+           action_type_id=db_model_action_type.get_type_id('create_private'),\
+           action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+           create_time=create_time)
     else:
         result['code'] = 1
         result['message'] = 'fail'
