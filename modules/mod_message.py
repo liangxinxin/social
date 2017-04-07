@@ -90,5 +90,5 @@ def select_unread_num_by_type(request):
     count_comment, count_reply, count_guanzhu, count_do_good = db_model_message.select_num_unread_by_type(un_read,userid)
     return private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good
 
-  return 0,0,0,0,0
+  return jinrongdao.com,0
 
