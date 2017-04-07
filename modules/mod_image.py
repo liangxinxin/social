@@ -18,6 +18,7 @@ has_relation = 1
 cancel_relation = 2
 default_relation_id = 0
 max_num_perpage = 100
+default_path = 'http://0.0.0.0:6100/images/'
 
 
 def service(request):
@@ -41,7 +42,7 @@ def upload_head_image(request):
     print 'type' + type
     result = {}
     if isDefault == '1':
-        savePath = 'http://0.0.0.0:6100/images/' + type + '/default/' + oriFileName
+        savePath = default_path + type + '/default/' + oriFileName
         if type == 'user':
             db_model_user.save_head_image(user_id, savePath)
         elif type == 'community':
@@ -56,7 +57,7 @@ def upload_head_image(request):
         rand2 = random.randint(0, 90) + 10
         # curTime = time.mktime(datetime.datetime.now().timetuple())
         fileName = '%s%s%s%s' % (curTime, rand1, rand2, fileType)
-        savePath = 'http://0.0.0.0:6100/images/' + type + '/' + fileName
+        savePath = default_path + type + '/' + fileName
         print(fileName)
         image = request.form.get('image').encode('utf-8')
         imageArr = image.split(",")
