@@ -274,6 +274,14 @@ def post():
     reply_num = len(reply_data.items)
     total_page = reply_data.pages
 
+    if page_no > total_page :
+        default_num_perpage = 10
+        post_id = request.args.get("post_id")
+        community_id = request.args.get("community_id")
+        page_no = total_page
+        num_perpage = int(request.args.get("num_perpage",default_num_perpage))
+        return redirect(url_for('post', post_id = post_id,community_id=community_id, num_perpage=num_perpage, page_no = page_no))
+
     #  print model
     if reply_data == None:
         messages_unread=mod_user.get_unread_message_from_session()
@@ -288,11 +296,6 @@ def post():
     else:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
-        private_unread_count = 0
-        count_comment=0
-        count_reply=0
-        count_guanzhu=0
-        count_do_good=0
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
             private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
@@ -343,12 +346,19 @@ def reply_publish():
     #     num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
     #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
-@app.route('/update_reply', methods=['GET', 'POST'])
+@app.route('/update_reply', methods=['POST'])
 # @interceptor(login_required=True)
 def reply_update():
     print 'reply_update'
     result = mod_reply.update_reply(request)
     print 'reply_update result',result['code']
+    return jsonify(result=result['code'])
+
+
+@app.route('/delete_reply',methods=['POST'])
+# @interceptor(login_required=True)
+def delete_reply():
+    result = mod_reply.delete_reply(request)
     return jsonify(result=result['code'])
 
 
@@ -588,6 +598,14 @@ def publish_comment():
     result = mod_comment.service(request)
     print 'publish_comment result:code '+str(result.get('code'))+' message: '+result.get('message')
     return jsonify(result)
+
+@app.route('/delete_comment',methods=['post'])
+# @interceptor(login_required=True)
+def delete_comment():
+    print 'delete_comment'
+    result = mod_comment.delete_comment(request)
+    print 'delete_comment result:code '+str(result.get('code'))
+    return jsonify(result=result['code'])
 
 @app.route('/message',methods=['GET', 'POST'])
 # @interceptor(login_required=True)

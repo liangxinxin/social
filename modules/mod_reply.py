@@ -59,11 +59,13 @@ def publish_reply(request):
 
     floor_num = 0
     like_num = 0
+    status = 0
+    last_update_time = create_time
     post_user = db_model_user.select_by_id(post_data.create_user_id)
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,create_time)
+    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
     if insert != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
     print "now insert to db"
@@ -120,7 +122,7 @@ def reply_like_changed(request):
             db_model_reply_like_stat.insert(reply_id, user_id, create_time)
             db_model_message.insert_praise_reply(user_id, reply_id)
             reply.like_num += 1
-            db_model_reply.update_like_num(reply_id, reply.like_num)
+            db_model_reply.update_like_num(reply_id, reply.like_num,create_time)
             print "record action of like reply"
             action_content={}
             action_content['reply_id']=reply.id
@@ -171,9 +173,11 @@ def publish_reply_in_UserInfo(request):
     floor_num = 0
     like_num = 0
     is_like = False
+    status = 0
+    last_update_time = create_time
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
-    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time)
+    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
     reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
     if reply != None and (create_user_id != post_data.create_user_id):
         db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
@@ -199,6 +203,30 @@ def update_reply(request):
     result['code'] = 0
     try:
         db_model_reply.update(reply)
+    except:
+        result['code'] = 1
+    return result
+
+def delete_reply(request):
+    result = {}
+    data = json.loads(request.form.get("data"))
+    reply_id = long(data["reply_id"])
+    reply = db_model_reply.select_by_id(reply_id)
+    if reply == None:
+        print 'reply is none',reply_id
+        result['code']= 1
+    reply.status = 1
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    reply.last_update_time = last_update_time
+    result['code'] = 0
+    try:
+        db_model_reply.update(reply)
+        post = db_model_post.select_by_id(reply.post_id)
+        if post.floor_num>0:
+            post.floor_num = post.floor_num-1
+        post.last_update_time = last_update_time
+        db_model_post.update(post)
     except:
         result['code'] = 1
     return result

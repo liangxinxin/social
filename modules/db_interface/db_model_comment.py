@@ -18,9 +18,11 @@ class Comment(db.Model):
     community_id = db.Column(db.Integer,db.ForeignKey('community.id'),unique=False)
     floor = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
+    status = db.Column(db.Integer,unique=False,default=0)
+    last_upate_time = db.Column(db.DateTime,unique=False)
     messages = db.relationship('Message',backref='comment',lazy='dynamic')
 
-    def __init__(self,content,create_user_id,reply_id,to_user_id,parent_id,post_id,community_id,floor,create_time):
+    def __init__(self,content,create_user_id,reply_id,to_user_id,parent_id,post_id,community_id,floor,create_time,status,last_upate_time):
         self.content= content
         self.create_user_id = create_user_id
         self.reply_id = reply_id
@@ -29,12 +31,14 @@ class Comment(db.Model):
         self.post_id =post_id
         self.community_id = community_id
         self.floor=floor 
-        self.create_time=create_time 
+        self.create_time=create_time
+        self.status = status
+        self.last_upate_time=last_upate_time
 
 def create_table():
     db.create_all()
-def insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time):
-    insert=Comment(content=content,create_user_id=create_user_id,reply_id=reply_id,community_id=community_id,post_id=post_id,to_user_id=to_user_id,parent_id=parent_id,floor=floor,create_time=create_time)
+def insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time,status,last_upate_time):
+    insert=Comment(content=content,create_user_id=create_user_id,reply_id=reply_id,community_id=community_id,post_id=post_id,to_user_id=to_user_id,parent_id=parent_id,floor=floor,create_time=create_time,status=status,last_upate_time=last_upate_time)
     db.session.add(insert)
     db.session.commit()
     return insert
@@ -44,7 +48,7 @@ def select_all():
     return data_all
 
 def select_by_reply_id(reply_id,page_no,num_per_page):
-    paginate=Comment.query.filter(Comment.reply_id==reply_id).order_by(desc(Comment.create_time)).paginate(page_no,num_per_page,False)
+    paginate=Comment.query.filter(Comment.reply_id==reply_id,Comment.status==0).order_by(desc(Comment.create_time)).paginate(page_no,num_per_page,False)
     return paginate
 
 def select_by_id(id):
@@ -62,8 +66,14 @@ def delete(id):
 def select_all_paging(page_no,num_per_page):
     if page_no < 1:
         page_no = 1
-    paginate = Comment.query.order_by(desc(Comment.id)).paginate(page_no,num_per_page,False)
+    paginate = Comment.query.filter(Comment.status==0).order_by(desc(Comment.id)).paginate(page_no,num_per_page,False)
     return paginate
+
+def update_comment(comment):
+    row =Comment.query.get(comment.id)
+    row.status = comment.status
+    row.last_update_time = comment.last_upate_time
+    db.session.commit()
 
 def to_json(object):
     if isinstance(object, Comment):
@@ -75,6 +85,8 @@ def to_json(object):
             'parent_id':object.parent_id,
             'floor':object.floor,
             'create_time':object.create_time,
+            'status':object.status,
+            'last_update_time':object.last_upate_time,
             'user':db_model_user.to_json(object.user),
             'touser':db_model_user.to_json(object.touser)
 
