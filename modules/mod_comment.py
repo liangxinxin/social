@@ -1,12 +1,13 @@
 import json
-from db_interface import db_model_user
-from db_interface import db_model_comment
-from db_interface import db_model_reply
-from db_interface import db_model_message
+import time
+
+from flask import session
 from db_interface import db_model_action
 from db_interface import db_model_action_type
-import time
-from flask import session
+from db_interface import db_model_comment
+from db_interface import db_model_message
+from db_interface import db_model_reply
+
 default_comment_id = 0
 default_reply_id =0
 default_page_no=1
@@ -28,7 +29,6 @@ def query_by_reply_id(request):
     paginate = db_model_comment.select_by_reply_id(reply_id,page_no,default_num_perpage)
     json_comment_list =[]
     for comment in paginate.items:
-        #comment.user = db_model_user.to_json(comment.user)
         comment =db_model_comment.to_json(comment)
         json_comment_list.append(comment)
     paginate.items = json_comment_list
@@ -55,12 +55,14 @@ def publish_comment(request):
         result = {'code': 1, 'message': 'create_user_id is null','comment':''}
         return result
     floor = reply.floor_num+1
+    status =0
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    last_upate_time = create_time
     if int(parent_id)==0:
         parent_id=None
-    data = db_model_comment.insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time)
-    db_model_reply.update_floor_num(reply_id, floor)
+    data = db_model_comment.insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time,status,last_upate_time)
+    db_model_reply.update_floor_num(reply_id, floor,last_upate_time)
     if create_user_id != to_user_id:
         db_model_message.insert_comment_message(data.id)
 
@@ -71,14 +73,33 @@ def publish_comment(request):
            action_type_id=db_model_action_type.get_type_id('create_comment'),\
            action_detail_info=json.dumps(action_content, ensure_ascii = False),\
            create_time=create_time)
-    
-    
     data = db_model_comment.to_json(data)
     result = {'code': 0, 'message': 'success','comment':data}
     return result
 
-def delete_by_id(request):
+def delete_comment(request):
+    result = {}
     #delete
-    comment_id = request.args.get('comment_id', default_comment_id)
+    param = json.loads(request.form.get('data'));
+    comment_id = param['comment_id']
     print 'do delete comment'
-    db_model_comment.delete(comment_id)
+    comment = db_model_comment.select_by_id(comment_id)
+    if comment == None:
+        result['code']=1
+        return result
+    comment.status = 1
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    comment.last_upate_time = last_update_time
+    result['code'] = 0
+    try:
+        db_model_comment.update_comment(comment)
+        reply = db_model_reply.select_by_id(comment.reply_id)
+        if reply.floor_num>0:
+            reply.floor_num = reply.floor_num - 1
+        reply.last_update_time = last_update_time
+        db_model_reply.update(reply)
+
+    except :
+        result['code'] =1
+    return result

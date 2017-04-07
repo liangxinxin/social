@@ -580,9 +580,11 @@ body {
     width:auto;
     height:24px;
     margin-top:1px;
-    overflow:hidden;
     padding:5px;
     text-align:left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .post_detail_user_name {
     width: auto;
@@ -679,6 +681,8 @@ body {
     overflow:hidden;
     padding:5px;
     text-align:left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .reply_user_name {
     width: auto;
@@ -875,6 +879,18 @@ h3 {
 .upd_btn>a{
     width:50px;
     height:20px;
+}
+.comment-foot .btn_comment,.comment-foot .btn_delete{
+    display:inline-block;
+    width:30px;
+    height:15px;
+    text-align:center;
 
+}
+.comment-foot .btn_delete{
+   color:rgb(145, 148, 153)
+}
+.comment-foot a:hover{
+    color:rgb(51, 122, 183);
 }
 /* community_search_result.html  end*/

@@ -165,16 +165,16 @@ function load_post(currPageNo){
                         post_html_text=post_html_text+'<div id="post_'+post.id+'" class="each_post_wrap col-sm-12">\
                         <div class="p_user_head col-sm-2 "><a href="#"><img class="comm-img-sm" src="'+post.user.head_img_url+'"></a> \
                         <a href="#"><span class="p_user_name" >'+post.user.name+'</span></a></div>\
-                        <div class="p_title col-sm-9"><a href="#">'+post.title+'</a></div>\
+                        <div class="p_title col-sm-9"><a href="/post?post_id='+post.id+'">'+post.title+'</a></div>\
                         <div class="u_post_content col-sm-10"><a href="/post?post_id='+post.id+'">'+post.content+'</a></div>\
                         <div class="u_post_foot col-sm-8">\
                         <span class="col-sm-6">'+post.create_time+'</span>\
                         <a href="javascript:void(0)" onclick="load_post_reply('+post.id+')"><i class="glyphicon glyphicon-comment"></i><span class="u_post_comment">&nbsp;评论\
-                        <a class="delete_p_btn" href="javascript:void(0)" onclick="deletePost('+post.id+')">删除\
                         <i class="floor_num">'
                         if(post.floor_num>0)
                             post_html_text=post_html_text+post.floor_num
                         post_html_text = post_html_text+'</i></span></a>\
+                        <a class="delete_p_btn" href="javascript:void(0)" onclick="deletePost('+post.id+')">删除\
                         </div>\
                         </div>\
                         </div>\
@@ -239,7 +239,6 @@ function load_more_friends(currPageNo){
             success:function(data) {
                 friend_html='';
                 friends=data.friends;
-                console.log(friends)
                 defaultParam='未知'
                 var len = data.friends.length;
                 var default_relation=''

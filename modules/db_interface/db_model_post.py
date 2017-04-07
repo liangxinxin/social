@@ -16,7 +16,7 @@ class Post(db.Model):
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
     create_user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    status =db.Column(db.Integer,unique=False,default=0)
+    status =db.Column(db.Boolean,unique=False,default=0)
     messages = db.relationship('Message',backref='post',lazy='dynamic')
     replys = db.relationship('Reply',backref='post',lazy='dynamic')
 

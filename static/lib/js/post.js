@@ -85,6 +85,10 @@ $('.say_word').hover(function() {
           if(comment.parent_id>0){
             content='<span>回复<a href="#">'+touser.name+'</a></span>：'+comment.content;
           }
+          var btn_delete ='';
+          if(user.id==userid){
+            btn_delete='<a class="btn_delete" href="javascript:void(0)" onclick="deleteComment('+replyid+','+comment.id+')">删除</a>'
+          }
           var comment= ['<div class="comment_wrap comment_wrap_'+comment.id+' col-sm-12">',
               '<div class="comment-head-img">',
               '<a href="/user_info?user_id='+user.id+'"><img class="comm-img-ss" src="'+user.head_img_url+'"></a>',
@@ -92,8 +96,9 @@ $('.say_word').hover(function() {
                 '<div class="comment-content"><a class="username" href="/user_info?user_id='+user.id+'">'+user.name+'</a><span>&nbsp;:&nbsp;</span>',
                 content,
                 '</div>',
-                '<div class="comment-foot"><span class="col-sm-11">'+create_time+'</span>',
-                '<a href="javascript:void(0)" onclick="huifu('+replyid+','+comment.id+','+user.id+')">回复</a>',
+                '<div class="comment-foot"><span class="col-sm-10">'+create_time+'</span>',
+                '<a class="btn_comment" href="javascript:void(0)" onclick="huifu('+replyid+','+comment.id+','+user.id+')">回复</a>',
+                btn_delete,
                 '</div></div>'
                ].join('');
           return comment;
@@ -157,13 +162,15 @@ $('.say_word').hover(function() {
           }
           var page_no=1;
           $('.comment_body_'+replyid).find('.comment_container').html('');
-         var length = sendAjax(replyid,page_no);
-         if(!login){
-            $("div[id^='say_block']").css('display','none');//未登录时不显示 输入框。
-         }
-         if(login || length>0){
-           $('.comment_body_'+replyid).slideDown('fast');
-         }
+          var length = sendAjax(replyid,page_no);
+          if(!login){
+             $("div[id^='say_block']").css('display','none');//未登录时不显示 输入框。
+          }
+          if(login || length>0){
+            $('.comment_body_'+replyid).slideDown('fast');
+          }else if(!login && length==0){
+            alert('请登录后回复！')
+          }
 
       }
 
@@ -183,8 +190,9 @@ $('.say_word').hover(function() {
               dataType: 'json',
               success:function (data) {
                   var res =data.result;
-                  if(res.length==0 ){
-                      return ;
+                  datalen = res.length;
+                  if(datalen==0 ){
+                      return datalen;
                   }
                   var comments = [];
                   for(var i=0;i<res.length;i++){
@@ -193,7 +201,6 @@ $('.say_word').hover(function() {
                   }
                   $('.say_content').val('');
                   $('.comment_body_'+replyid).find('div.comment_container').append(comments);
-
                   if(data.has_next){
                       var more = $('.comment_body_'+replyid).find('div.more_comment')
                       if(typeof(more)!='undefined'){
@@ -202,7 +209,7 @@ $('.say_word').hover(function() {
                       var more ='<div class="more_comment col-sm-3"><a href="javascript:void(0)" onclick="more_comment('+replyid+','+page_no+')"><span id=more_'+replyid+'>查看更多</span></a></div>'
                       $('.comment_body_'+replyid).find('div.comment_container').after(more);
                   }
-                  datalen = res.length;
+
                 },
                 error: function (data) {
                     alert('error')
@@ -210,3 +217,139 @@ $('.say_word').hover(function() {
         });
         return datalen;
       }
+
+       function deleteComment(replyid,commentid){
+    var data={
+        data:JSON.stringify({
+            "comment_id":commentid
+        })
+    }
+    $.ajax({
+        url:'delete_comment',
+        type:'POST',
+        dataType:'json',
+        data:data,
+        timeout:5000,
+        success:function(data){
+            if(data.result==0){
+               var reply_num = parseInt($('#comment_num_'+replyid).text());
+                if(reply_num>0){
+                    reply_num = reply_num-1
+                    $('#comment_num_'+replyid).text(reply_num);
+                }
+                $('.comment_body_'+replyid).find('div.comment_container').find('div.comment_wrap_'+commentid).remove();
+            }
+
+        }
+    })
+ }
+
+
+function deleteReply(replyid){
+    var data ={
+        data:JSON.stringify({
+            "reply_id":replyid
+        })
+    }
+    $.ajax({
+        url:'delete_reply',
+        type:'POST',
+        dataType:'json',
+        data:data,
+        timeout:5000,
+        success:function(data){
+            if(data.result==0){
+                window.location.reload();
+            }else{
+                alert('删除失败')
+            }
+        }
+    })
+
+}
+
+function cancelUpd(replyid){
+    console.log('cancel'+replyid)
+    $('#here_'+replyid).find('.reply_content').removeClass('a_hide')
+    $('#here_'+replyid).find('.update_content').removeClass('a_hide').empty();
+    $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_show').addClass('a_hide');
+    $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_hide').addClass('a_show');
+    $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_show').addClass('a_hide');
+    $('#here_'+replyid).find('.upd_btn>.delete').removeClass('a_hide').addClass('a_show');
+}
+
+function update(replyid){
+   $('.upd_btn>a.cancel.a_show').each(function(){
+     $(this).click();
+   });
+   $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_show').addClass('a_hide');
+   $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_hide').addClass('a_show');
+   $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_hide').addClass('a_show');
+   $('#here_'+replyid).find('.upd_btn>.delete').removeClass('a_show').addClass('a_hide');
+   var content = $('#here_'+replyid).find('.reply_content').find('p').html();
+   $('#update').focus();
+   $('#update').html(content);
+   var container = $('.update_reply').html();
+   $('#here_'+replyid).find('.reply_content').addClass('a_hide')
+   $('#here_'+replyid).find('.update_content').removeClass('a_hide')
+   $('#here_'+replyid).find('.update_content').html(container)
+
+
+}
+
+function submitUpdate(replyid){
+    var content = $('#here_'+replyid).find('#update').html();
+    var data = {
+        data: JSON.stringify({
+            "reply_id": replyid,
+            "content":content
+        })
+    }
+    $.ajax({
+        url: '/update_reply',
+        type: 'POST',
+        data: data,
+        timeout:5000,
+        success: function(data) {
+            if (data.result== 0) {
+                $('#here_'+replyid).find('#update').remove();
+                $('#here_'+replyid).find('.reply_content>a>p').empty().html(content);
+                cancelUpd(replyid);
+            } else {
+                alert('修改失败')
+            }
+        },
+        error: function(data) {
+            alert('修改失败')
+        }
+    })
+
+}
+
+
+function deletePost() {
+    if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
+        var postid = $('#post_id').val();
+        var data = {
+            data: JSON.stringify({
+                "post_id": postid
+            })
+        }
+        $.ajax({
+            url: '/delete_post',
+            type: 'POST',
+            data: data,
+            timeout:5000,
+            success: function(data) {
+                if (data.result== 0) {
+                    window.location = "/index";
+                } else {
+                    alert('删除失败')
+                }
+            },
+            error: function(data) {
+                alert('删除失败')
+            }
+        })
+    }
+}
