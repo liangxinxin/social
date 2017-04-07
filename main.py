@@ -653,4 +653,4 @@ if __name__ == '__main__':
     user_data, comm_data = mod_image.select_default_image()
     default_user_data = user_data
     default_community_data = comm_data
-    app.run(host="0.0.0.0", port=6100, processes=6)
+    app.run(host="jinrongdao.com", port=6100, processes=6)
