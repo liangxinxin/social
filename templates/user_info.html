@@ -1,10 +1,8 @@
-<!-- Cropping css/js start 这个放在最上面 否则加载不到-->
-{% from 'commons/upload.html' import macro_upload_js_css %}
-{{ macro_upload_js_css() }}
-<!-- Cropping css/js end -->
 {% extends 'commons/_proto.html' %}
+{% from 'commons/upload.html' import macro_upload_js_css %}
 {% from 'commons/upload.html' import macro_upload %}
 {% block head %}
+{{ macro_upload_js_css() }}
 {% endblock %}
 {% block body %}
 <div id="navbar" class="navbar_style">
