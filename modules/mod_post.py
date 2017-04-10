@@ -1,18 +1,19 @@
 #coding=utf-8
-import time
 import json
+import time
+
 from flask import session
 
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
 from db_interface import db_model_user_community
-from db_interface import db_model_action
-from db_interface import db_model_action_type
 from modules import time_format
-
+from modules import  mod_base64
 default_page_no = 1
 default_num_perpage = 10
 default_community_id = 0
@@ -63,6 +64,8 @@ def publish_post(request):
     # insert to db
     title = request.form.get("title")
     content = request.form.get("content")
+    path_type='post'
+    content = mod_base64.base64_hander(content,path_type)
     create_user_id = request.form.get("create_user_id", 0)
     login_user = db_model_user.select_by_id(create_user_id)
     community_id = request.form.get("community_id", 0)

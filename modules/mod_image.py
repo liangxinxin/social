@@ -18,7 +18,7 @@ has_relation = 1
 cancel_relation = 2
 default_relation_id = 0
 max_num_perpage = 100
-default_path = 'http://0.0.0.0:6100/images/'
+default_path = 'http://jinrongdao.com:6100/images/'
 
 
 def service(request):

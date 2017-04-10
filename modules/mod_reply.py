@@ -1,22 +1,19 @@
 # coding=utf-8
-import sys
-import pycurl
-import cStringIO
 import json
-import urllib
-import urllib2
-import httplib
 import time
-import time_format
+
 from flask import session
-from db_interface import db_model_user
+
+import mod_base64
+import time_format
+from db_interface import db_model_action
+from db_interface import db_model_action_type
 from db_interface import db_model_community
+from db_interface import db_model_message
 from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
-from db_interface import db_model_message
-from db_interface import db_model_action
-from db_interface import db_model_action_type
+from db_interface import db_model_user
 
 default_page_no = 1
 default_num_perpage = 10
@@ -62,6 +59,8 @@ def publish_reply(request):
     status = 0
     last_update_time = create_time
     post_user = db_model_user.select_by_id(post_data.create_user_id)
+    path_type = 'reply'
+    content = mod_base64.base64_hander(content, path_type)
 
     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
     # insert to db
