@@ -273,7 +273,14 @@ def post():
         best_reply,best_reply_user = mod_post.post_info(request)
     reply_num = len(reply_data.items)
     total_page = reply_data.pages
-
+    
+    reply_data_new=[]
+    if reply_data == None:
+      reply_data_new=None
+    else:
+        for reply in reply_data.items:
+           reply.last_update_time=time_format.timestampFormat(reply.last_update_time)
+           reply_data_new.append(reply)
     if page_no > total_page :
         default_num_perpage = 10
         post_id = request.args.get("post_id")
@@ -288,7 +295,7 @@ def post():
     count_reply=0
     count_guanzhu=0
     count_do_good=0
-    if reply_data == None:
+    if reply_data_new == None:
         messages_unread=mod_user.get_unread_message_from_session()
         messages_unread_num = 0
         if messages_unread != None:
@@ -306,7 +313,7 @@ def post():
             private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
 
         return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num, \
-                               reply_list=reply_data.items,total_page=total_page,private_unread_count=private_unread_count, \
+                               reply_list=reply_data_new,total_page=total_page,private_unread_count=private_unread_count, \
                                reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num, \
                                num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user, \
                                messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
