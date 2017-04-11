@@ -1,15 +1,10 @@
-<link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
-<script src="{{url_for('static', filename='lib/jquery-2.0.3.js')}}"></script>
-<!-- Cropping css/js start -->
-{% from 'commons/upload.html' import macro_upload_js_css %}
- {{ macro_upload_js_css() }}
-<!-- Cropping css/js end -->
 {% extends 'commons/_proto.html' %}
-<!--{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}-->
+{% from 'commons/upload.html' import macro_upload_js_css %}
 {% from 'commons/upload.html' import macro_upload %}
-
-
 {% block head %}
+ {{ macro_upload_js_css() }}
+ <link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
+ <script src="{{url_for('static', filename='lib/jquery-2.0.3.js')}}"></script>
 {% endblock %}
 
 {% block body %}
