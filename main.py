@@ -131,7 +131,7 @@ def community_index():
 @app.route('/community_search', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community_search():
-    model, search_name = mod_community.service(request)
+    model, search_name,community_name = mod_community.service(request)
     messages_unread_num = 0
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if model != None:
@@ -141,7 +141,7 @@ def community_search():
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
         return render_template('community_search_result.html', paginate=model, object_list=model.items,\
-            num=len(model.items), name=search_name,\
+            num=len(model.items), search_name=search_name,community_name=community_name,\
             count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
             private_unread_count=private_unread_count,\
             messages_unread=messages_unread,messages_unread_num=messages_unread_num)
@@ -151,7 +151,7 @@ def community_search():
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
         return render_template('community_search_result.html', paginate=model, object_list=None, num=0,\
-            name=search_name,\
+            search_name=search_name,community_name=community_name,\
             messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
