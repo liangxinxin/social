@@ -1,3 +1,4 @@
+#coding=utf8
 import sys
 import pycurl
 import cStringIO
@@ -35,8 +36,13 @@ def query_community(request):
   num_perpage = request.form.get("num_perpage",default_num_perpage)
 
   #select db
+  search_name=name
+  index=search_name.find('岛'.decode('utf8'))
+  if index+1 == len(search_name):
+    search_name=search_name[:index]
+  print search_name,name
   paginate=None
-  paginate=db_model_community.select_by_name_paging(name,page_no,num_perpage)
+  paginate=db_model_community.select_by_name_paging(search_name,page_no,num_perpage)
 
   #return select value
   return paginate,name
