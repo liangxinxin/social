@@ -1,10 +1,9 @@
 #coding=utf-8
-from flask import Flask
-import MySQLdb
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
+
 from db_connect import db
- 
+
+
 class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=False)
