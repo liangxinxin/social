@@ -166,6 +166,8 @@ $('#input_publish_post_title').keyup(function(){
                       $('#input_publish_post_title').after(drop_menu);
                       $('#div_publish_post_title').addClass('open');
                       $('#button_publish_post').attr('disabled','disabled')
+                  }else{
+                    $('#button_publish_post').removeAttr('disabled')
                   }
               }
 
@@ -173,7 +175,7 @@ $('#input_publish_post_title').keyup(function(){
         }
  }
  function publish_post() {
-    find_match_post();
+    <!--find_match_post();-->
      var is_submit =  $('#submit').val()
      if(is_submit=='true'){
      //get title
@@ -183,7 +185,8 @@ $('#input_publish_post_title').keyup(function(){
        if (title==""){
           alert('标题不能为空');
           return;
-       }else if(content==""){
+       }
+       if(content.trim()=="" || content==null || content.length==0){
           alert('内容不能为空');
           return;
        }
