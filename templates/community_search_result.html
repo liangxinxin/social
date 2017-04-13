@@ -9,8 +9,8 @@
   <div class="row">
       <div class="col-sm-8 comm-search" >
         <div class="input-group">
-          {% if name and name !="" %}
-          <input type="text" id="search_input" class="form-control input-lg" placeholder=""  value={{name}} onkeypress="if(event.keyCode==13) {community_search()}">
+          {% if search_name and search_name !="" %}
+          <input type="text" id="search_input" class="form-control input-lg" placeholder=""  value={{search_name}} onkeypress="if(event.keyCode==13) {community_search()}">
           {%else%}
           <input type="text" id="search_input" class="form-control input-lg" placeholder="" onkeypress="if(event.keyCode==13) {community_search()}">
           {%endif%}
@@ -50,18 +50,18 @@
       <div class="create_comm_div">
         {% if session.get('userinfo') %}
         <div class="create_comm_hint">
-          <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{name}}岛</a> </p>
+          <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name()">现在创建 {{community_name}}岛</a> </p>
         </div>
         {% else %}
         <div>
-          <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name_no_login()">现在创建 {{name}}岛</a> </p>
+          <p>目前还没有该岛， <a id="a_click_new_social_name" href="javascript:" onclick="click_new_social_name_no_login()">现在创建 {{community_name}}岛</a> </p>
         </div>
         {% endif %}
 
         <div id="div_create_social_info" style="display:none">
-          <p id="community_name" style="display:none">{{name}}</p>
+          <p id="community_name" style="display:none">{{community_name}}</p>
           <div id="create_social_name" >
-            <p >名字： {{name}}岛</p>
+            <p >名字： {{community_name}}岛</p>
           </div>
 
           <div id="create_social_describe" >

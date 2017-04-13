@@ -24,8 +24,9 @@ def service(request):
 	elif user2 is not None:
 		session['userinfo'] = {'name':user2.name, 'id':user2.id}
 		model['result'] = True
+                ISOTIMEFORMAT = '%Y-%m-%d %X'
                 create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-                db_model_action.insert(user_id=user1.id,\
+                db_model_action.insert(user_id=user2.id,\
                     action_type_id=db_model_action_type.get_type_id('login'),action_detail_info='',\
                     create_time=create_time)
 	else:
