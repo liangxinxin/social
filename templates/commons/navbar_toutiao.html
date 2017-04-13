@@ -60,3 +60,55 @@
     <li><a href="http://jinrongdao.com:5100/index" target="blank">资讯</a></li>
     <li class="active"><a href="/index">社区</a></li>
 </ul>
+
+
+
+<script type="text/javascript" >
+ function to_log_in() {
+     var cur_url=this.location.href;
+     window.location.href="/login?next_url="+cur_url;
+ }
+ function to_regist() {
+     var cur_url=this.location.href;
+     window.location.href="/user_create?next_url="+cur_url;
+ }
+ function to_log_out() {
+     data={};
+     $.ajax({
+       type:'POST',
+       url:'/logout',
+       data:data,
+       dataType:'json',
+       success:function(data){
+         if (data['succ']==0){
+           document.getElementById("a_login").innerHTML="未登录";
+           var html_new = '<li><a href="javascript:to_log_in()">登录</a></li>';
+           html_new += '<li><a href="javascript:to_regist()">注册</a></li>';
+           document.getElementById("ul_login").innerHTML=html_new;
+         }
+       },
+       error:function(xhr,type) {
+       }
+     });
+     return false;
+ }
+
+
+ function click_message(message_id) {
+    data={};
+    data['message_id']=message_id;
+    $.ajax({
+      type:'POST',
+      url:'/read_message',
+      data:data,
+      dataType:'json',
+      success:function(data) {
+        document.getElementById("message_count").innerHTML=data['unread_message_num'];
+      },
+      error:function(xhr,type){
+        alert('read message fail');
+      }
+    }
+    );
+ }
+</script>
