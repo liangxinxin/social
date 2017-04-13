@@ -329,6 +329,11 @@ def delete_post():
     print 'delete commpelete'
     return jsonify(result=result['code'])
 
+@app.route('/find_match_post',methods=['GET'])
+# @interceptor(login_required=True)
+def find_match_post():
+    post_list = mod_post.find_match_post(request)
+    return jsonify(post_list=post_list)
 
 
 
