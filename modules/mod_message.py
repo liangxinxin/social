@@ -55,7 +55,7 @@ def service(request):
 def  select_comment_message(request):
   if session.get('userinfo'):
     to_userid = session.get('userinfo')['id']
-    message_type = int(request.args.get('message_type')) # 1.guanzhu 2.zan 3.pinglun 4.huifu
+    message_type = int(request.args.get('message_type',3)) # 1.guanzhu 2.zan 3.pinglun 4.huifu
     page_no = int(request.args.get("no", default_page_no))
     num_perpage = int(request.args.get("size", 2))
     read_list, unread_list= db_model_message.select_message_by_to_user(message_type, to_userid, page_no, num_perpage)
