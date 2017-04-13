@@ -1,6 +1,7 @@
 #coding=utf-8
 import json
 import time
+import jieba
 
 from flask import session
 
@@ -12,12 +13,15 @@ from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
 from db_interface import db_model_user_community
+from db_interface import  db_model_inverted_index
 from modules import time_format
-from modules import  mod_base64
+from modules import mod_base64
+from modules import mod_lcs
 default_page_no = 1
 default_num_perpage = 10
 default_community_id = 0
 default_post_id = 0
+default_precent =0.85
 
 
 def service(request):
@@ -34,6 +38,58 @@ def service(request):
             return post_info(request)
         if communit_id != 0:
             return query_post_in_community(request)
+
+
+
+def find_match_post(request):
+    title = request.args.get("title")
+    words = list(jieba.cut(title.strip(), cut_all=False))
+    post_ids = []
+    for word in words:
+        data = db_model_inverted_index.select_by_word(word)
+        if data != None:
+            post_ids = list(set(post_ids + str(data.post_id).split(',')))
+    if post_ids:
+        # lcs
+        dict_post = {}
+        for id in post_ids:
+            post = db_model_post.select_by_id(id)
+            lcs_list, flag = mod_lcs.lcs(title, post.title)
+            lcs_title = []
+            lcs_title = mod_lcs.printLcs(flag, title, len(title), len(post.title), lcs_title)
+            lcs_title = ''.join(lcs_title)
+            #匹配百分比
+            percent = len(lcs_title.strip()) / float(len(title.strip()))
+            dict_post[id] = percent #dict:{'post_id':'percent',}
+            #print 'id', id, 'lcs_title', lcs_title, 'percent', '%.2f' % percent
+        #按percent 由大到小排序
+        dict_list = sorted(dict_post.items(), key=lambda e: e[1], reverse=True)
+        #从元组取值
+        key = dict_list[0][0]
+        value =dict_list[0][1]
+        #保留2位小数
+        max_percent = round(value, 2)
+        print 'key', key, 'value', value
+        ids=[]
+        if max_percent > default_precent:
+            for item in dict_list:#遍历元素是元组的集合
+                if item[1]>default_precent:
+                    ids.append(item[0])
+                else:
+                    break
+        ids = ','.join(ids)
+        paginate = db_model_post.select_by_ids(ids, default_page_no, default_num_perpage)
+        post_list = []
+        if True:
+            for item in paginate.items:
+                post_list.append(db_model_post.to_json(item))
+        return post_list
+
+
+
+
+
+
 
 
 
@@ -88,6 +144,23 @@ def publish_post(request):
 
     login_user.post_num = login_user.post_num + 1
     print "now update post_num to db",(login_user)
+
+    #insert into inverted_index
+    last_update_time = create_time
+    # fenci
+    words = list(jieba.cut(title.strip(), cut_all=False))
+    print 'words length',len(words)
+    for word in words:
+        inverted_index = db_model_inverted_index.select_by_word(word)
+        if inverted_index != None:
+            post_id_list = str(inverted_index.post_id).split(',')
+            post_id_list.append(str(insert.id))
+            inverted_index.post_id = ','.join(post_id_list)
+            inverted_index.last_update_time = last_update_time
+            db_model_inverted_index.update(inverted_index)
+        else:
+            db_model_inverted_index.insert(word, insert.id, create_time, last_update_time)
+    print 'now insert into inverted_index'
 
     # select db
     paginate = db_model_post.select_all_paging(default_page_no, default_num_perpage, community_id)

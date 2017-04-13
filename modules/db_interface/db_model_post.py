@@ -1,7 +1,6 @@
 # coding=utf-8
 
-from sqlalchemy import desc
-
+from sqlalchemy import desc,func
 import  db_model_user
 from db_connect import db
 
@@ -44,6 +43,10 @@ def insert(title, content, create_user_id, community_id, floor_num, create_time,
     return insert
 
 
+def select_by_ids(ids,page_no, num_per_page):
+    #按ids顺序返回 find_in_set
+    paginate = Post.query.filter(Post.status == 0,func.find_in_set(Post.id,ids)).paginate(page_no, num_per_page,False)
+    return paginate
 def select_all():
     data_all = Post.query.filter(Post.status==0).all()
     return data_all

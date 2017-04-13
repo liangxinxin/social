@@ -31,6 +31,7 @@ from modules.db_interface import db_model_user_relation
 from modules.db_interface import db_model_private_message
 from modules.db_interface import db_model_action
 from modules.db_interface import db_model_action_type
+from modules.db_interface import  db_model_inverted_index
 
 
 '''  BASICAL FUNCTIONS BEGIN  '''
@@ -74,5 +75,7 @@ if __name__ == '__main__':
     db_model_action_type.create_table()
     print 'insert default action type value...'
     db_model_action_type.insert_default_value()
+    print 'create table inverted_index'
+    db_model_inverted_index.create_table()
     print 'create table end'
 
