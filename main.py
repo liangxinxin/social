@@ -281,7 +281,7 @@ def post():
         for reply in reply_data.items:
            reply.last_update_time=time_format.timestampFormat(reply.last_update_time)
            reply_data_new.append(reply)
-    if page_no > total_page :
+    if page_no > total_page and total_page>0:
         default_num_perpage = 10
         post_id = request.args.get("post_id")
         community_id = request.args.get("community_id")
