@@ -96,7 +96,8 @@
         </div>
         <div id="div_publish_post_title" class="poster_title">
           <div class="col-sm-10">
-            <input id="input_publish_post_title" class="post-title-input" type="text" placeholder="标题" />
+            <input type="hidden" id="submit" value="true">
+            <input onfocus="remove_match()" id="input_publish_post_title" class="post-title-input" type="text" placeholder="标题" />
           </div>
         </div>
         <div id="div_publish_post_content" class="poster_content">
@@ -123,18 +124,77 @@
  //obj.onclick=function() {
  //  publish_post();
  //}
+
+ function remove_match(){
+    $('#button_publish_post').removeAttr('disabled')
+    <!--$('#div_publish_post_title').find('ul.dropdown-menu').remove();-->
+    $('#submit').val('true');
+ }
+var flag;
+$('#input_publish_post_title').keyup(function(){
+     clearTimeout(flag);
+       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+       //只要有输入则不执行keyup事件
+      flag = setTimeout(function(){
+       //这里面就是调用的请求
+          find_match_post();
+        }, 500);
+
+})
+ function find_match_post(){
+        var title = $('#input_publish_post_title').val();
+        $('input#input_publish_post_title~ul').remove();
+        if (title.trim()!=""){
+            $.ajax({
+              url:'/find_match_post',
+              type:'get',
+              dataType:'json',
+              async:false,
+              data:{
+                title:title
+              },
+              timeout:5000,
+              success:function(data){
+                  posts = data.post_list
+                  if (posts !=null && posts.length>0){
+                      drop_menu='<ul class="dropdown-menu"><li><a style="color:#337ab7;" class="match_info" href="#">已有类似的帖子,不能再次发表,请点击查看</a></li>'
+                      for(var i =0;i<posts.length;i++){
+                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'">'+posts[i].title+'</a></li>'
+                      }
+                      drop_menu =drop_menu+'</ul>'
+                      $('#submit').val('false');
+                      $('#input_publish_post_title').after(drop_menu);
+                      $('#div_publish_post_title').addClass('open');
+                      $('#button_publish_post').attr('disabled','disabled')
+                  }
+              }
+
+            })
+        }
+ }
  function publish_post() {
+    find_match_post();
+     var is_submit =  $('#submit').val()
+     if(is_submit=='true'){
      //get title
-     var title=document.getElementById("input_publish_post_title").value;
-     //get content
-     var content=$('#editor').html();
-     var id=document.getElementById("community_id").value;
-     //post request for save post
-     {% if session.get('userinfo') %}
-     post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":{{session.get('userinfo')['id']}},"community_id":id});
-     {%else%}
-     post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":1,"community_id":id});
-     {%endif%}
+       var title=document.getElementById("input_publish_post_title").value;
+       //get content
+       var content=$('#editor').html();
+       if (title==""){
+          alert('标题不能为空');
+          return;
+       }else if(content==""){
+          alert('内容不能为空');
+          return;
+       }
+       var id=document.getElementById("community_id").value;
+       //post request for save post
+       {% if session.get('userinfo') %}
+       post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":{{session.get('userinfo')['id']}},"community_id":id});
+       {%else%}
+       post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":1,"community_id":id});
+       {%endif%}
+     }
  }
  function publish_post_no_login() {
      alert('您需要登录后才能发帖哦！');

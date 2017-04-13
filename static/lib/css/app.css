@@ -84,10 +84,11 @@ body {
 }
 
 .masthead-nav > li {
-    display: inline-block;
+     display: inline-block;
      width:40px;
      height:38px;
      line-height:38px;
+
 }
 /*
 .masthead-nav > li + li {
@@ -101,6 +102,7 @@ body {
     color: #777; /* IE8 proofing */
     /* color: rgba(255,255,255,.75); */
     border-bottom: 2px solid transparent;
+     cursor:pointer;
 }
 
 
@@ -333,6 +335,7 @@ list-style:none;
     background: #fff;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:20px;
 }
 
 .card_top_wrap {
@@ -554,6 +557,26 @@ list-style:none;
     height:100%;
 }
 
+.open .dropdown-menu{
+    display:block;
+    width:96%;
+    margin-right:15px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+.open .dropdown-menu>li>a{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match_info{
+    color:#337ab7;
+    font-size:12px;
+}
 /* community.html end */
 
 /*  post.html */

@@ -92,7 +92,6 @@ function getUserMessage(to_user_id){
                 <!--}-->
             }
             new_message+='<li class="mess_list">历史消息</li>';
-            console.log(new_message)
             $('.messsge_content>ul').empty().html(new_message);
             $("div.messsge_content").scrollTop($("div.messsge_content")[0].scrollHeight);
         }
