@@ -1069,8 +1069,18 @@ h3 {
     margin-right:15px;
     float:right;
     text-align:left;
-    width:125px;
+    width:100px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
+.community-name-a {
+    width:30px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
 .post-div{
     height:auto;
     width:100%;
