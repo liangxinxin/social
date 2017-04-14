@@ -348,7 +348,7 @@ list-style:none;
 }
 
 .card_info {
-    width:380px;
+    width:500px;
     line-height:normal;
     position:relative;
     padding:15px 0px 0px 15px;
@@ -378,6 +378,11 @@ list-style:none;
     font-size:20px;
     margin-top:5px;
     color: #000;
+    width:180px;
+    text-align:left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .card_community_modify{
