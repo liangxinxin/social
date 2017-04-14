@@ -1,3 +1,126 @@
+
+
+function inputFocus(param){
+    if(param=="name"){
+        $('#user_name').find('div.input_wrap').addClass('focus_border');
+    }else if(param=="label"){
+        $('#user_label').find('div.input_wrap').addClass('focus_border');
+    }
+
+}
+function inputBlur(param){
+     if(param=="name"){
+        $('#user_name').find('div.input_wrap').removeClass('focus_border');
+    }else if(param=="label"){
+        $('#user_label').find('div.input_wrap').removeClass('focus_border');
+    }
+}
+
+// name click edit
+function to_edit_name(){
+    var username = $('.user_info_name_p').text();
+    var input ="<div class='input_wrap'><input class='input_name' onfocus='inputFocus(\"name\")' onblur='inputBlur(\"name\")' value='"+username+"' type='text'><div>";
+    var save_btn ='<a href="javascript:void(0)" onclick="save_name()" id="a_save_name" class="edit_btn">保存</a>';
+    var cancel_btn ="<a href='javascript:void(0)' onclick='cancel_edit(\"name\")' class='edit_btn'>取消</a>";
+    $('#user_name').append(input).append(cancel_btn).append(save_btn);
+    $('.show_name').removeClass('edit').addClass('none');
+    $('#user_name').addClass('do_edit');
+    $('#user_name').find('.input_name').focus();
+}
+
+//label click edit
+function to_edit_label(){
+    var userlabel = $('.user_info_professional_p').text();
+    var defaultlabel ='用一句话介绍一下自己吧'
+    if(userlabel.trim()==defaultlabel){
+        userlabel='';
+    }
+    var input ="<div class='input_wrap'><input class='input_label' onfocus='inputFocus(\"label\")' onblur='inputBlur(\"label\")' value='"+userlabel+"' type='text'><div>";
+    var save_btn ='<a href="javascript:void(0)" onclick="save_label()"  id="a_save_label" class="edit_btn">保存</a>';
+    var cancel_btn ="<a href='javascript:void(0)' onclick='cancel_edit(\"label\")' class='edit_btn'>取消</a>";
+    $('#user_label').append(input).append(cancel_btn).append(save_btn);
+    $('.show_label').removeClass('edit').addClass('none');
+    $('#user_label').addClass('do_edit');
+    $('#user_label').find('.input_label').focus();
+}
+function save_name(){
+        var username = $('#user_name').find('.input_name').val();
+        if (username.trim()==''){
+            alert('昵称不能为空')
+            return;
+        }
+        var data={
+            data:JSON.stringify({
+                 username:username,
+                 type:'name'
+            })
+        }
+        $.ajax({
+                 type:'POST',
+                 url:'/update_user',
+                 data:data,
+                 dataType:'json',
+                 timeout:5000,
+                 success:function(data) {
+                        if(data.result==0){
+                            $('.user_info_name_p').text(username);
+                            cancel_edit('name');
+                        }else{
+                            alert('保存失败!');
+                        }
+                 },
+                 error:function(xhr,type){
+                     alert('保存失败!');
+                 }
+        })
+
+    }
+ function save_label(){
+        var userlabel = $('#user_label').find('.input_label').val();
+        var data={
+            data:JSON.stringify({
+                 label:userlabel,
+                 type:'label'
+            })
+        }
+        $.ajax({
+                 type:'POST',
+                 url:'/update_user',
+                 data:data,
+                 dataType:'json',
+                 timeout:5000,
+                 success:function(data) {
+                    if(data.result==0){
+                        $('.user_info_professional_p').text(userlabel);
+                        cancel_edit('label');
+                     }else{
+                        alert('保存失败!');
+                     }
+                 },
+                 error:function(xhr,type){
+                     alert('保存失败!');
+                 }
+        })
+
+    }
+function cancel_edit(param){
+    if(param=='name'){
+        $('#user_name').find('div.input_wrap').remove();
+        $('#user_name').find('a.edit_btn').remove();
+        $('#user_name').removeClass('do_edit');
+        $('#user_name').find('.show_name').removeClass('edit').removeClass('none');
+    }else if(param=="label"){
+
+        $('#user_label').find('div.input_wrap').remove();
+        $('#user_label').find('a.edit_btn').remove();
+        $('#user_label').removeClass('do_edit');
+        $('#user_label').find('.show_label').removeClass('edit').removeClass('none');
+
+    }
+
+}
+
+
 function friend_attention(friendid,userid){
     $.ajax({
              type:'POST',
