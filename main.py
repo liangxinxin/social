@@ -419,6 +419,10 @@ def user_create_step_2():
 def do_user_create():
     model = mod_user.service(request)
     return jsonify(result='succ')
+@app.route('/update_user',methods=['POST'])
+def update_user():
+    result = mod_user.update_user(request)
+    return jsonify(result=result['code'])
 
 
 @app.route('/user_community', methods=['GET', 'POST'])
@@ -679,6 +683,8 @@ def newMessage():
 def getUserMessage():
     mess_list = mod_private_message.select_mess_by_user(request)
     return jsonify(result=mess_list)
+
+
 
 
 '''  MAIN ENTRY  '''
