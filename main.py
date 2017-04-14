@@ -281,7 +281,7 @@ def post():
         for reply in reply_data.items:
            reply.last_update_time=time_format.timestampFormat(reply.last_update_time)
            reply_data_new.append(reply)
-    if page_no > total_page :
+    if page_no > total_page and total_page>0:
         default_num_perpage = 10
         post_id = request.args.get("post_id")
         community_id = request.args.get("community_id")
@@ -419,6 +419,10 @@ def user_create_step_2():
 def do_user_create():
     model = mod_user.service(request)
     return jsonify(result='succ')
+@app.route('/update_user',methods=['POST'])
+def update_user():
+    result = mod_user.update_user(request)
+    return jsonify(result=result['code'])
 
 
 @app.route('/user_community', methods=['GET', 'POST'])
@@ -679,6 +683,8 @@ def newMessage():
 def getUserMessage():
     mess_list = mod_private_message.select_mess_by_user(request)
     return jsonify(result=mess_list)
+
+
 
 
 '''  MAIN ENTRY  '''

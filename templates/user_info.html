@@ -5,8 +5,13 @@
 {{ macro_upload_js_css() }}
 {% endblock %}
 {% block body %}
-<div id="navbar" class="navbar_style">
-    {% include 'commons/navbar_toutiao.html' %}
+<!--<div id="navbar" class="navbar_style">-->
+<!--{% include 'commons/navbar_toutiao.html' %}-->
+<!--</div>-->
+<div class="d1" >
+    <div class="d2" >
+        <div class="d3" ></div>
+    </div>
 </div>
 <div class="container" id="crop-avatar" style="width:90%">
     {% if user_info %}
@@ -15,11 +20,23 @@
             <div id="user_face" class="user_info_face_div avatar-view">
                 <a href="JavaScript:void(0)"><img class="comm-img-bg" src="{{user_info.head_img_url}}" alt="用户头像"></a>
             </div>
-            <div id="user_name" class="user_info_name_div">
-                <p class="user_info_name_p">{{user_info.name}}</p>
+            <div id="user_name" class="user_info_name_div ">
+                <div class="show_name">
+                    <p class="user_info_name_p">{{user_info.name}}</p>
+                    <a onclick="to_edit_name()" class="user_edit">编辑</a>
+                </div>
             </div>
             <div id="user_label" class="user_info_professional_div">
-                <p class="user_info_professional_p">{{user_info.label}}</p>
+                <div class="show_label">
+                    <p class="user_info_professional_p">
+                        {%if user_info.label%}
+                            {{user_info.label}}
+                        {%else%}
+                         用一句话介绍一下自己吧
+                        {%endif%}
+                    </p>
+                    <a onclick="to_edit_label()" class="user_edit">编辑</a>
+                </div>
             </div>
             <div>
                 {% if user_info.id!=session.get('userinfo')['id'] %}
@@ -48,12 +65,12 @@
         </div>
     </div>
     <div id="friend_container" class="col-sm-12 u_friend_container">
-        <div class="col-sm-12 user_friend_blv" >
+        <div class="col-sm-12 user_friend_blv">
             <div class="friend_title col-sm-12">
-                 {% if user_info.id ==session.get('userinfo')['id'] %}
-                    我的好友
-                 {%else%}
-                    他的好友
+                {% if user_info.id ==session.get('userinfo')['id'] %}
+                我的好友
+                {%else%}
+                他的好友
                 {%endif%}
             </div>
             <div class="col-sm-12 friend_content"></div>
@@ -94,6 +111,8 @@ var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注<
 load_friends(1);
 load_post(1);
 init();
+
+
 
 // init end
 function likeReply(replyId) {
@@ -212,6 +231,22 @@ function select_relation(){
 }
 
 function init(){
+    //edit
+    if(login_userid=={{user_info.id}}){
+        $('#user_name').mouseover(function () {
+             $('.show_name').addClass('edit')
+        })
+        $('#user_name').mouseout(function(){
+             $('.show_name').removeClass('edit')
+        })
+        $('#user_label').mouseover(function () {
+             $('.show_label').addClass('edit')
+        })
+        $('#user_label').mouseout(function(){
+             $('.show_label').removeClass('edit')
+        })
+    }
+
     if(totalPages>0){
         $('#user-post-pagination').twbsPagination({
            startPage: pageNo,
@@ -254,5 +289,6 @@ function init(){
         });
     }
 }
+
 </script>
 {% endblock %}
