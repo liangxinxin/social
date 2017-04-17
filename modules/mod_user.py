@@ -8,6 +8,7 @@ from db_interface import db_model_user
 from db_interface import db_model_user_relation
 from db_interface import db_model_action
 from db_interface import db_model_action_type
+from db_interface import db_model_community
 from flask import session
 
 default_page_no = 1
@@ -291,6 +292,21 @@ def good_friends(request):
             json_user.append(user_relation)
 
     return json_user,page_no,num_perpage,paginate.total
+
+def community_owned(request):
+    user_id = request.args.get("user_id")
+    login_user_id=0
+    print 'into community owned user_id:',user_id
+    if session.get('userinfo') != None:
+        login_user_id = (int)(session.get('userinfo')['id'])
+    page_no = int(request.args.get("no",default_page_no))
+    num_perpage = int(request.args.get("size", default_num_perpage))
+    paginate = db_model_community.select_by_owner_id_paging(user_id,page_no, num_perpage)
+    print 'total community',paginate.total
+    community_json=[]
+    for item in paginate.items:
+        community_json.append(db_model_community.to_json(item))
+    return community_json,page_no,num_perpage,paginate.total
 
 
 def update_user(request):

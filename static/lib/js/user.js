@@ -262,6 +262,48 @@ function load_friends(currPageNo){
     })
 }
 
+// load  community owned 
+function load_community_owned(currPageNo){
+    $.ajax({
+            type:'get',
+            url:'/community_owned',
+            data:{
+                 user_id:user_id,
+                 no:currPageNo,
+                 size:fPageSize
+            },
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                communities = data.communities;
+                var community_html ='<ul>';
+                if(communities.length==0){
+                    community_html='主人还没有担任岛主';
+                    $('.community_own_content').empty().html(community_html);
+                }
+                for(var k=0;k<communities.length;k++){
+                    community=communities[k]
+                    community_html=community_html+'<li class="friend_head left col-sm-4">\
+                                                <div class="no_m_p">\
+                                                <a href="community?community_id='+community.id+'">\
+                                                <img class="comm-img-md" src="'+community.head_img_url+'"></a></div>\
+                                                <div class="f_name"><a href="community?community_id='+community.id+'">'+community.name+'</a></div>\
+                                                </li>';
+
+                }
+                if(data.totalsize>3){
+                    community_html=community_html+'<div class="col-sm-12 f_more"><a onclick="load_more_community_owned(1)" href="javascript:void(0)">查看更多</a></div>';
+                }
+                community_html=community_html+'</ul>';
+                $('.community_own_content').empty().html(community_html);
+
+            }
+    })
+}
+
+// get more friends
+function load_more_community_owned(currPageNo){
+}
 
 // init post info
 function load_post(currPageNo){
