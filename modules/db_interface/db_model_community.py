@@ -12,6 +12,7 @@ class Community(db.Model):
     user_num = db.Column(db.Integer, unique=False)
     post_num = db.Column(db.Integer, unique=False)
     create_user_id = db.Column(db.Integer, unique=False)
+    owner_user_id = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
     posts = db.relationship('Post', backref='community',lazy='dynamic')
@@ -19,11 +20,11 @@ class Community(db.Model):
     def __init__(self,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
         self.name = name
         self.user_num = user_num
-        self.post_num = post_num 
+        self.post_num = post_num
         self.describe= describe
-        self.head_img_url=head_img_url 
-        self.create_user_id=create_user_id 
-        self.create_time=create_time 
+        self.head_img_url=head_img_url
+        self.create_user_id=create_user_id
+        self.create_time=create_time
 
 def create_table():
     db.create_all()
@@ -45,7 +46,7 @@ def select_by_id(id):
 def update(id,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
     row = Community.query.get(id)
     row.name = name
-    row.user_num = user_num 
+    row.user_num = user_num
     row.post_num = post_num
     row.describe = describe
     row.head_img_url = head_img_url
@@ -56,7 +57,7 @@ def update(id,name,user_num,post_num,describe,head_img_url,create_user_id,create
 def update(community):
     row = Community.query.get(community.id)
     row.name = community.name
-    row.user_num = community.user_num 
+    row.user_num = community.user_num
     row.post_num = community.post_num
     row.describe = community.describe
     row.head_img_url = community.head_img_url
@@ -66,8 +67,8 @@ def update(community):
 
 def delete(id):
     data=Community.query.get(id)
-    db.session.delete(data) 
-    db.session.commit() 
+    db.session.delete(data)
+    db.session.commit()
     return data
 
 def select_by_name_like(name):
@@ -82,6 +83,10 @@ def select_by_name_equal(name):
 def select_by_name_paging(name,page_no,num_perpage):
     filter_string = "%" + name + "%"
     paginate=Community.query.filter(Community.name.like(filter_string)).order_by(desc(Community.post_num)).paginate(page_no,num_perpage,False)
+    return paginate
+
+def select_by_owner_id_paging(owner_id,page_no,num_perpage):
+    paginate=Community.query.filter(Community.owner_user_id==owner_id).paginate(page_no,num_perpage,False)
     return paginate
 
 # return paginate
@@ -105,18 +110,18 @@ def select_by_user_num(page_no, num_per_page):
     print paginate
     return paginate
 
-def select_by_name(name,page_no, num_per_page):
-    paginate = Community.query.filter(Community.name.like(name+'%')).paginate(page_no, num_per_page, False)
-    return paginate
 
 def to_json(object):
-    if isinstance(object,Community):
-        return{
+    if isinstance(object, Community):
+        return {
             'id':object.id,
             'name':object.name,
-            'describe':object.describe,
-            'head_img_url':object.head_img_url,
             'user_num':object.user_num,
             'post_num':object.post_num,
-            'create_user_id':object.create_user_id
+            'describe': object.describe,
+            'head_img_url':object.head_img_url,
+            'create_user_id':object.create_user_id,
+            'create_time':object.create_time
         }
+    else:
+        return {}
