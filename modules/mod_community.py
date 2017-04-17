@@ -111,3 +111,10 @@ def select_good_community(request):
     paginate = db_model_community.select_by_user_num(page_no, num_perpage)
     return page_no,num_perpage,paginate.items 
 
+def find_match_community(request):
+  name = request.args.get('name')
+  paginate = db_model_community.select_by_name_paging(name,default_page_no,default_num_perpage)
+  comm_list = []
+  for item in paginate.items:
+    comm_list.append(db_model_community.to_json(item))
+  return comm_list

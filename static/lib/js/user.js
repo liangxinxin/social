@@ -19,13 +19,14 @@ function inputBlur(param){
 // name click edit
 function to_edit_name(){
     var username = $('.user_info_name_p').text();
-    var input ="<div class='input_wrap'><input class='input_name' onfocus='inputFocus(\"name\")' onblur='inputBlur(\"name\")' value='"+username+"' type='text'><div>";
+    var input ="<div class='input_wrap'><input class='input_name' onfocus='inputFocus(\"name\")' onblur='inputBlur(\"name\")' value='' type='text'><div>";
     var save_btn ='<a href="javascript:void(0)" onclick="save_name()" id="a_save_name" class="edit_btn">保存</a>';
     var cancel_btn ="<a href='javascript:void(0)' onclick='cancel_edit(\"name\")' class='edit_btn'>取消</a>";
     $('#user_name').append(input).append(cancel_btn).append(save_btn);
     $('.show_name').removeClass('edit').addClass('none');
     $('#user_name').addClass('do_edit');
     $('#user_name').find('.input_name').focus();
+    $('#user_name').find('.input_name').val(username)
 }
 
 //label click edit
@@ -35,13 +36,15 @@ function to_edit_label(){
     if(userlabel.trim()==defaultlabel){
         userlabel='';
     }
-    var input ="<div class='input_wrap'><input class='input_label' onfocus='inputFocus(\"label\")' onblur='inputBlur(\"label\")' value='"+userlabel+"' type='text'><div>";
+    var input ="<div class='input_wrap'><input class='input_label' onfocus='inputFocus(\"label\")' onblur='inputBlur(\"label\")' value='' type='text'><div>";
     var save_btn ='<a href="javascript:void(0)" onclick="save_label()"  id="a_save_label" class="edit_btn">保存</a>';
     var cancel_btn ="<a href='javascript:void(0)' onclick='cancel_edit(\"label\")' class='edit_btn'>取消</a>";
     $('#user_label').append(input).append(cancel_btn).append(save_btn);
     $('.show_label').removeClass('edit').addClass('none');
     $('#user_label').addClass('do_edit');
     $('#user_label').find('.input_label').focus();
+    userlabel=userlabel.replace(/(^\s*)|(\s*$)/g, "");
+    $('#user_label').find('.input_label').val(userlabel)
 }
 function save_name(){
         var username = $('#user_name').find('.input_name').val();

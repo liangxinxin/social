@@ -20,11 +20,11 @@ class Community(db.Model):
     def __init__(self,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
         self.name = name
         self.user_num = user_num
-        self.post_num = post_num 
+        self.post_num = post_num
         self.describe= describe
-        self.head_img_url=head_img_url 
-        self.create_user_id=create_user_id 
-        self.create_time=create_time 
+        self.head_img_url=head_img_url
+        self.create_user_id=create_user_id
+        self.create_time=create_time
 
 def create_table():
     db.create_all()
@@ -46,7 +46,7 @@ def select_by_id(id):
 def update(id,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
     row = Community.query.get(id)
     row.name = name
-    row.user_num = user_num 
+    row.user_num = user_num
     row.post_num = post_num
     row.describe = describe
     row.head_img_url = head_img_url
@@ -57,7 +57,7 @@ def update(id,name,user_num,post_num,describe,head_img_url,create_user_id,create
 def update(community):
     row = Community.query.get(community.id)
     row.name = community.name
-    row.user_num = community.user_num 
+    row.user_num = community.user_num
     row.post_num = community.post_num
     row.describe = community.describe
     row.head_img_url = community.head_img_url
@@ -67,8 +67,8 @@ def update(community):
 
 def delete(id):
     data=Community.query.get(id)
-    db.session.delete(data) 
-    db.session.commit() 
+    db.session.delete(data)
+    db.session.commit()
     return data
 
 def select_by_name_like(name):
@@ -110,6 +110,7 @@ def select_by_user_num(page_no, num_per_page):
     print paginate
     return paginate
 
+
 def to_json(object):
     if isinstance(object, Community):
         return {
@@ -119,8 +120,8 @@ def to_json(object):
             'post_num':object.post_num,
             'describe': object.describe,
             'head_img_url':object.head_img_url,
-            'create_user_idi':object.create_user_id,
+            'create_user_id':object.create_user_id,
             'create_time':object.create_time
         }
     else:
-        return {} 
+        return {}
