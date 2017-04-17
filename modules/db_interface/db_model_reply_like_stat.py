@@ -35,4 +35,10 @@ def insert(reply_id, user_id, create_time):
 def remove(reply_id, user_id):
     data=ReplyLikeActivity.query.filter_by(reply_id=reply_id, user_id=user_id).first()
     db.session.delete(data) 
-    db.session.commit() 
+    db.session.commit()
+
+
+def like_user(id,page_no,num_per_page):
+    data = ReplyLikeActivity.query.filter_by(reply_id=id).order_by(desc(ReplyLikeActivity.create_time)).paginate(page_no,num_per_page,False)
+    return data
+

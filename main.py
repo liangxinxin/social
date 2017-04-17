@@ -275,7 +275,7 @@ def post_publish():
 @app.route('/post', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def post():
-    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user,\
+    post_data, post_user, reply_data,like_user_list, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user,\
         best_reply,best_reply_user = mod_post.post_info(request)
     reply_num = len(reply_data.items)
     total_page = reply_data.pages
@@ -317,15 +317,15 @@ def post():
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
             private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+        # like_user_list 点赞用户
 
-        return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num, \
+        return render_template('post.html', post_data=post_data, post_user=post_user,like_user_list=like_user_list, reply_num=reply_num, \
                                reply_list=reply_data_new,total_page=total_page,private_unread_count=private_unread_count, \
                                reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num, \
                                num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user, \
                                messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
                                count_do_good=count_do_good,best_reply=best_reply,best_reply_user=best_reply_user)
-
 
 
 @app.route('/delete_post', methods=['POST'])
