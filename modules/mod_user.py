@@ -308,3 +308,32 @@ def community_owned(request):
         community_json.append(db_model_community.to_json(item))
     return community_json,page_no,num_perpage,paginate.total
 
+
+def update_user(request):
+    result={}
+
+    if session.get('userinfo')['id']:
+        try:
+            userid= int(session.get('userinfo')['id'])
+            user = db_model_user.select_by_id(userid)
+            param = json.loads(request.form.get('data'))
+            type = param['type']
+            if type=='name':
+                username = param['username']
+                user.name = username
+            elif type=='label':
+                label = param['label']
+                user.label=label
+            db_model_user.update_user(user)
+            result['code']=0
+            result['message'] = 'success'
+        except Exception,e:
+            result['code'] = 1
+            result['message'] = 'exception'
+
+    else:
+        result['code'] = 1
+        request['message'] = 'user not login'
+
+    print 'type',type,'code',result['code'],'message',result['message']
+    return result
