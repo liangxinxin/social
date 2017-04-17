@@ -1,53 +1,99 @@
 {% extends 'commons/_proto.html' %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="stylesheets/community/community.css">
+{%endblock%}
 
 {% block body %}
-
-
+<!--{% include 'commons/navbar_toutiao.html' %}-->
 <div class="row">
-  <div class="col-sm-8 search-div">
-    <div class="input-group">
-      <input type="text" class="form-control input-lg" id="search_input" placeholder="Search" onkeypress="if(event.keyCode==13) {search()}">
-      <span class="input-group-btn">
-        <button class="btn btn-default btn-lg" type="button" onclick="search()">搜索</button>
-      </span>
-    </div><!-- /input-group -->
-  </div>
+    <div class="search-div">
+        <div  class="form-group input-group">
+            <span class="input-group-addon">财经岛</span>
+            <input type="text" class="form-control " id="search_input" placeholder="搜社区"
+                onkeypress="if(event.keyCode==13) {search()}">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="search()"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
+        </div><!-- /input-group -->
+    </div>
 </div>
 
-  <div class="row">
-    <div class="index-main-div">
-      <h3 class="index-hot-comm-title">热门社区列表：</h3>
-
-      {%if num %}
-        <ul>
-          {% for community in target_list %}
-            <li>
-              <div class="community-div-wrapper">
-                <div class="cd-title-div">
-                  <div class="cd-title">
-                    <a class="" href="/community?community_id={{community.id}}">{{community.name|safe}}</a>
-                  </div>
-                  <div class="user-count-div"><small> 成员数：{{community.user_num|safe}}</small></div>
-                </div>
-                <div class="cd-desc-div describe">
-                  {{community.describe|safe}}
-                </div>
-                <div class="div-bottom"> </div>
-              </div>
+<div class="row">
+   {% if community_recommend_list %}
+    <div class="index-post-main-div">
+        <h3 class="index-hot-post-title">热门社区</h3>
+        <ul class="community_recommend_list">
+            {% for community in community_recommend_list %}
+            <li class="clear_fix" style="width:180px;">
+                <a class="community_recommend_item_a clear_fix" style="border:1px solid #D6D6D6;" href="/community?community_id={{community.id}}">
+                    <img class="community_recommend_pic" src="{{community.head_img_url}}"></img>
+                    <div class="community_recommend_desc">
+                        <p class="community_recommend_name">{{community.name}}岛
+                        </p>
+                        <p class="community_recommend_member_num">{{community.user_num}}
+                        </p>
+                    </div>
+                </a>
             </li>
-          {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="index-post-main-div">
+
+        {%if num %}
+        <h3 class="index-hot-post-title">热帖推荐</h3>
+        <ul>
+            {% for post in post_list %}
+            <li>
+                <div class="community-div-wrapper">
+
+                    <div class="post-div">
+                        <div class="post-left">
+                            <div class="user-header-image">
+                                <a href="/user_info?user_id={{post.user.id}}">
+                                    <img class="comm-img-sm" src="{{post.user.head_img_url}}">
+                                </a>
+
+                            </div>
+                            {% if post.floor_num >0 %}
+                                <div>{{post.floor_num}}条评论</div>
+                            {%else%}
+                                <div>暂无评论</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-11 post-cont-right">
+                            <div class="col-sm-12 post-title-div">
+                                <a class="" href="/post?post_id={{post.id}}&community_id={{post.community.id}}">{{post.title}}</a>
+                            </div>
+                            <div class="col-sm-12 post-desc">
+                                <p>{{post.content|safe}}</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="post-border-bottom">
+                        <span class="post-community">来自：<a class="community-name-a" href="/community?community_id={{post.community.id}}">{{post.community.name}}岛</a></span>
+                        <span class="post-community">
+                             {{post.create_time}}
+                        </span>
+                    </div>
+                </div>
+
+            </li>
+            {% endfor %}
         </ul>
 
-        <ul class="sync-pagination pagination-sm" id="index-pagination"></ul>
+        <div class="page-center"><ul class="sync-pagination pagination-sm" id="index-pagination"></ul></div>
 
         {%else%}
-          <p> 没有推荐的热门社区，请搜索。
+        <!-- <p> 没有推荐的热门帖子，请搜索。</p> -->
         {%endif%}
     </div>
-  </div>
+</div>
 
-  <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
-  <script type="text/javascript" charset="utf-8">
+<script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
    var pageNo = {{no}};
    var pageSize = {{size}};
    var totalCount = {{totalsize}};
@@ -67,9 +113,11 @@
                console.debug("current page number clicked, do nothing.");
                return;
            }
-           var url = "/indexpage?no=" + page + "&size=" + pageSize;
+           var url = "/index?no=" + page + "&size=" + pageSize;
            console.debug("pageurl:", url);
-           window.location.href = url;
+           console.log("pageSize:",pageSize);
+          window.location.href = url;
+
        }
    });
 
@@ -96,6 +144,47 @@
            post("/community_search",{"type":"query", "name":searchText});
        }
    }
-  </script>
+   var flag;
+   $('#search_input').keyup(function(){
+        $('.search-div').find('ul.dropdown-menu').remove();
+        $('.search-div').removeClass('index_open');
+        clearTimeout(flag);
+        flag = setTimeout(find_match_community(),500)
+   })
+
+   function find_match_community(){
+        var name = $('#search_input').val();
+        if(name.trim()!=""){
+            $.ajax({
+                url:'/find_match_community',
+                type:'get',
+                data:{
+                    name:name
+                    },
+                dataType:'json',
+                timeout:5000,
+                success:function(data){
+                    if(data.comm_list !=null && data.comm_list.length>0){
+                        communities = data.comm_list;
+                         drop_menu='<ul class="dropdown-menu">'
+                      for(var i =0;i<communities.length;i++){
+                        drop_menu =drop_menu +'<li><a href="/community?community_id='+communities[i].id+'">'+communities[i].name+'</a></li>'
+                      }
+                      drop_menu =drop_menu+'</ul>'
+                      $('#search_input').after(drop_menu);
+                      $('.search-div').addClass('index_open');
+                    }
+                }
+            })
+
+
+        }
+
+
+
+
+   }
+
+</script>
 
 {% endblock %}

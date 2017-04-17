@@ -104,3 +104,19 @@ def select_by_user_num(page_no, num_per_page):
     paginate = Community.query.order_by(desc(Community.user_num)).paginate(page_no, num_per_page, False)
     print paginate
     return paginate
+
+def select_by_name(name,page_no, num_per_page):
+    paginate = Community.query.filter(Community.name.like(name+'%')).paginate(page_no, num_per_page, False)
+    return paginate
+
+def to_json(object):
+    if isinstance(object,Community):
+        return{
+            'id':object.id,
+            'name':object.name,
+            'describe':object.describe,
+            'head_img_url':object.head_img_url,
+            'user_num':object.user_num,
+            'post_num':object.post_num,
+            'create_user_id':object.create_user_id
+        }

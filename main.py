@@ -44,7 +44,7 @@ def default():
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
         private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-        return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
+        return render_template('index.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
                                private_unread_count=private_unread_count,\
                                count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good,\
                                totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1,\
@@ -127,6 +127,12 @@ def community_index():
     return render_template('community_index.html',count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
                            private_unread_count=private_unread_count,messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
+
+@app.route('/find_match_community',methods=['GET'])
+# @interceptor(login_required=True)
+def find_match_community():
+   comm_list = mod_community.find_match_community(request)
+   return jsonify(comm_list=comm_list)
 
 @app.route('/community_search', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
@@ -560,7 +566,7 @@ def good_post_list():
     messages_unread_num=0
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return render_template('good_post_list.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
+    return render_template('index.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
                            private_unread_count=private_unread_count, count_comment=count_comment, count_reply=count_reply,\
                            count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
                            totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1,\

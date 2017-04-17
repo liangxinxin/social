@@ -1023,7 +1023,7 @@ h3 {
 }
 
 /* community_search_result.html  end*/
-/* good_post_list.html start*/
+/* index.html start*/
 .index-post-main-div{
     text-align:left;
     width:90%;
@@ -1095,7 +1095,7 @@ h3 {
     margin-right:15px;
     float:right;
     text-align:left;
-    width:100px;
+    width:125px;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -1138,8 +1138,27 @@ h3 {
 .page-center{
  text-align:center;
 }
+.index_open .dropdown-menu{
+    display:block;
+    width:88%;
+    margin-right:15px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    left:65px;
 
-/*good_post_list.html end*/
+
+}
+.index_open .dropdown-menu>li>a{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 3px 10px;
+}
+
+/*index.html end*/
 /* common css start*/
  .no_border:{
     border:none;
