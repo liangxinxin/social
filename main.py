@@ -497,6 +497,13 @@ def get_good_friends():
     return jsonify(friends=friends,no=page_no,size=num_perpage,totalsize=friends_total)
 # user_info end
 
+@app.route('/community_owned',methods=['GET','post'])
+# @interceptor(login_required=True)
+def get_community_owned():
+    print 'get_community_owned'
+    communities, page_no, num_perpage, communities_total = mod_user.community_owned(request)
+    return jsonify(communities=communities,no=page_no,size=num_perpage,totalsize=communities_total)
+
 @app.route('/regist', methods=['GET', 'POST'])
 def regist():
     print "now begin verify"

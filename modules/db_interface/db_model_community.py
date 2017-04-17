@@ -12,6 +12,7 @@ class Community(db.Model):
     user_num = db.Column(db.Integer, unique=False)
     post_num = db.Column(db.Integer, unique=False)
     create_user_id = db.Column(db.Integer, unique=False)
+    owner_user_id = db.Column(db.Integer, unique=False)
     create_time = db.Column(db.DateTime, unique=False)
     last_update_time = db.Column(db.DateTime, unique=False)
     posts = db.relationship('Post', backref='community',lazy='dynamic')
@@ -84,6 +85,10 @@ def select_by_name_paging(name,page_no,num_perpage):
     paginate=Community.query.filter(Community.name.like(filter_string)).order_by(desc(Community.post_num)).paginate(page_no,num_perpage,False)
     return paginate
 
+def select_by_owner_id_paging(owner_id,page_no,num_perpage):
+    paginate=Community.query.filter(Community.owner_user_id==owner_id).paginate(page_no,num_perpage,False)
+    return paginate
+
 # return paginate
 def select_all_paging(page_no,num_perpage):
     if page_no < 1:
@@ -104,3 +109,18 @@ def select_by_user_num(page_no, num_per_page):
     paginate = Community.query.order_by(desc(Community.user_num)).paginate(page_no, num_per_page, False)
     print paginate
     return paginate
+
+def to_json(object):
+    if isinstance(object, Community):
+        return {
+            'id':object.id,
+            'name':object.name,
+            'user_num':object.user_num,
+            'post_num':object.post_num,
+            'describe': object.describe,
+            'head_img_url':object.head_img_url,
+            'create_user_idi':object.create_user_id,
+            'create_time':object.create_time
+        }
+    else:
+        return {} 
