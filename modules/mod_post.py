@@ -226,9 +226,11 @@ def post_info(request):
     reply_user_list = []
     like_user_list =[]
     for reply in reply_data.items:
+        # add by lxx,like user start 2017-04-17
         user_dict={}
         user_dict[reply.id]=select_like_user(reply.id)
         like_user_list.append(user_dict)
+        # add by lxx,like user end
         user = db_model_user.select_by_id(reply.create_user_id)
         reply_user_list.append(user)
     community = db_model_community.select_by_id(community_id)
@@ -237,7 +239,7 @@ def post_info(request):
       best_reply=None
     best_reply_user=None
     if best_reply != None:
-      best_reply_user=db_model_user.select_by_id(reply.create_user_id)
+        best_reply_user=db_model_user.select_by_id(reply.create_user_id)
     print "post data:", post_data, "reply data:", reply_data
     def get_reply_like_count(reply):
         reply_id = reply.id
