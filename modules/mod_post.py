@@ -224,7 +224,6 @@ def post_info(request):
     post_user = db_model_user.select_by_id(post_data.create_user_id)
     reply_data = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id)
     reply_user_list = []
-    like_user_list =[]
     like_user_dict = {}
     for reply in reply_data.items:
         # add by lxx,like user start 2017-04-17
