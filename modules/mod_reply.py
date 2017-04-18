@@ -115,8 +115,8 @@ def reply_like_changed(request):
         reply_id = request.args.get("replyid")
         mod_type = request.args.get("modtype")
         reply = db_model_reply.select_by_id(reply_id)
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
         if mod_type == "add":
-            ISOTIMEFORMAT = '%Y-%m-%d %X'
             create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
             db_model_reply_like_stat.insert(reply_id, user_id, create_time)
             db_model_message.insert_praise_reply(user_id, reply_id)
@@ -130,9 +130,10 @@ def reply_like_changed(request):
             action_detail_info=json.dumps(action_content, ensure_ascii = False),\
             create_time=create_time) 
         else:
+            last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
             db_model_reply_like_stat.remove(reply_id, user_id)
             reply.like_num -= 1
-            db_model_reply.update_like_num(reply_id, reply.like_num)
+            db_model_reply.update_like_num(reply_id, reply.like_num,last_update_time)
 
 
 def get_reply_by_post(request):
