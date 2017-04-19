@@ -171,17 +171,37 @@ def add_relation(request):
     relation_user = db_model_user.select_by_id(relation_user_id)
 
     data = db_model_user_relation.select_by_user_id(user_id, relation_user_id)
+    relation_data =  db_model_user_relation.select_by_user_id(relation_user_id,user_id)
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    if data != None:
-        db_model_user_relation.update(user_id, relation_user_id, has_relation, update_time)
-    else:
+    #update by lxx,2017-04-19 start
+    if data == None :
+        each_attention = False
+        if relation_data and relation_data.is_relation:
+            each_attention = True
         create_time = update_time
         print 'user_id', user_id, 'relation_user_id', relation_user_id
-        db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time)
-        #write message
-        db_model_message.insert_follow(user_id,relation_user_id)
-
+        db_model_user_relation.insert(user_id, relation_user_id, has_relation, create_time, update_time,each_attention)
+        if each_attention:
+            relation_data.each_attention = each_attention
+            relation_data.create_time = create_time
+            db_model_user_relation.update(relation_data)
+        # write message
+        db_model_message.insert_follow(user_id, relation_user_id)
+    elif data and relation_data:
+        data.is_relation = True
+        if data.is_relation and relation_data.is_relation:
+            data.each_attention = True
+            data.update_time = update_time
+            relation_data.each_attention =True
+            relation_data.update_time = update_time
+            db_model_user_relation.update(data)
+            db_model_user_relation.update(relation_data)
+    else:
+        data.is_relation = True
+        data.update_time = update_time
+        db_model_user_relation.update(data)
+    #end
     print "record action of follow user"
     action_content={}
     action_content['user_id']=user_id
@@ -198,17 +218,29 @@ def add_relation(request):
     print "now update user by_attention_num", relation_user.by_attention_num
     db_model_user.update_user(relation_user)
 
-def update_relation(request):
+def update_relation(request):#cancel
     print "now update user relation"
     # update  is_relation = 1
     user_id = session.get('userinfo')['id']
     login_user = db_model_user.select_by_id(user_id)
     relation_user_id = request.form.get("relation_user_id", 0)
-    relation_user=db_model_user.select_by_id(relation_user_id)
+    user=db_model_user.select_by_id(relation_user_id)
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    db_model_user_relation.update(user_id, relation_user_id, cancel_relation, update_time)
-    
+
+    #cancel attention ,update by lxx,2017-04-19 start
+    user_relation = db_model_user_relation.select_by_user_id(user_id,relation_user_id)
+    if user_relation.is_relation:
+        user_relation.is_relation = False
+        user_relation.update_time = update_time
+        if user_relation.each_attention:
+            user_relation.each_attention = False
+            relation_user = db_model_user_relation.select_by_user_id(relation_user_id,user_id)
+            relation_user.each_attention =False
+            relation_user.update_time = update_time
+            db_model_user_relation.update(relation_user)
+        db_model_user_relation.update(user_relation)
+    #end
     print "record action of cancel follow user"
     action_content={}
     action_content['user_id']=user_id
@@ -222,9 +254,9 @@ def update_relation(request):
     db_model_user.update_user(login_user)
     print "now update user attention_num", login_user.attention_num
 
-    relation_user.by_attention_num = relation_user.by_attention_num -1
-    print "now update user by_attention_num",relation_user.by_attention_num
-    db_model_user.update_user(relation_user)
+    user.by_attention_num = user.by_attention_num -1
+    print "now update user by_attention_num",user.by_attention_num
+    db_model_user.update_user(user)
 
 
 def select_relation_user_id(request):

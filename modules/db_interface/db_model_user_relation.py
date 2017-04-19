@@ -9,8 +9,8 @@ class UserRelation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     relation_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),unique=False)
-    is_relation = db.Column(db.Integer, unique=False)
-    each_attention =db.Column(db.Integer,unique=False)
+    is_relation = db.Column(db.Boolean, unique=False)
+    each_attention =db.Column(db.Boolean,unique=False,default=False)
     create_time = db.Column(db.DateTime, unique=False)
     update_time = db.Column(db.DateTime, unique=False)
 
@@ -28,11 +28,7 @@ def create_table():
     db.create_all()
 
 
-def insert(user_id, relation_user_id, is_relation,create_time, update_time):
-    each_attention = False
-    data = select_by_user_id(relation_user_id,user_id)
-    if data!=None and data.is_relation==1:
-        each_attention=1
+def insert(user_id, relation_user_id, is_relation,create_time, update_time,each_attention=False):
     insert = UserRelation(user_id=user_id, relation_user_id=relation_user_id, is_relation=is_relation,
                           each_attention=each_attention,create_time=create_time, update_time=update_time)
     db.session.add(insert)
@@ -47,16 +43,11 @@ def select_by_relation(user_id, relation_user_id,is_relation):
     data = UserRelation.query.filter_by(user_id=user_id, relation_user_id=relation_user_id,is_relation=is_relation).first()
     return data
 
-def update(user_id, relation_user_id, is_relation,update_time):
-    row = select_by_user_id(user_id, relation_user_id)
-    data = select_by_user_id(relation_user_id,user_id)
-    each_attention=0
-    if data != None:
-        if is_relation ==1 and data.is_relation==1:
-            each_attention = 1
-    row.is_relation = is_relation
-    row.each_attention= each_attention
-    row.update_time = update_time
+def update(userRelation):
+    row = UserRelation.query.get(userRelation.id)
+    row.is_relation = userRelation.is_relation
+    row.each_attention= userRelation.each_attention
+    row.update_time = userRelation.update_time
     db.session.commit()
 
 

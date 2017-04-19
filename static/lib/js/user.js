@@ -339,14 +339,14 @@ function load_post(currPageNo){
                         <span class="col-sm-6">'+post.create_time+'</span>\
                         <a href="javascript:void(0)" onclick="load_post_reply('+post.id+')"><i class="glyphicon glyphicon-comment"></i><span class="u_post_comment">&nbsp;评论\
                         <i class="floor_num">'
-                        if(post.floor_num>0)
+                        if(post.floor_num>0){
                             post_html_text=post_html_text+post.floor_num
+                         }
                         post_html_text = post_html_text+'</i></span></a>\
                         <a class="delete_p_btn" href="javascript:void(0)" onclick="deletePost('+post.id+')">删除\
                         </div>\
-                        </div>\
-                        </div>\
                         </div>'
+
                     }
                     $('.user_post').html(post_html_text)
                 }
@@ -367,7 +367,7 @@ function deletePost(postid) {
             data: data,
             success: function(data) {
                 if (data.result== 0) {
-                    window.location.reload();
+                    $('#post_container').find('#post_'+postid).remove();
                 } else {
                     alert('删除失败')
                 }
