@@ -203,7 +203,7 @@ def community_create():
 @app.route('/community', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community():
-    model, user_list, community, has_join, page_no, real_num, num_perpage = mod_post.service(request)
+    model, user_list, community, has_join, page_no,total_page,num_perpage = mod_post.service(request)
     print 'has_join:', has_join
     post_num = len(model.items)
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
@@ -214,8 +214,8 @@ def community():
         if messages_unread != None:
             messages_unread_num=len(messages_unread)
         return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items,\
-            user_list=user_list, community=community, has_join=has_join, page_no=page_no,\
-            real_num=real_num,num_perpage=num_perpage,\
+            user_list=user_list, community=community, has_join=has_join, page_no=page_no, \
+            total_page=total_page,num_perpage=num_perpage,\
             count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
             private_unread_count=private_unread_count,\
             messages_unread=messages_unread,messages_unread_num=messages_unread_num)

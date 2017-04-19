@@ -204,7 +204,8 @@ def query_post_in_community(request):
     community = db_model_community.select_by_id(community_id)
     # return select value
     paginate.items = formate_post_time(paginate.items)
-    return paginate, user_list, community, has_join, page_no, len(paginate.items), num_perpage
+    total_page = paginate.pages
+    return paginate, user_list, community, has_join, page_no,total_page, num_perpage
 
 
 def post_info(request):
