@@ -367,7 +367,7 @@ function deletePost(postid) {
             data: data,
             success: function(data) {
                 if (data.result== 0) {
-                    window.location.reload();
+                    $('#post_container').find('#post_'+postid).remove();
                 } else {
                     alert('删除失败')
                 }
