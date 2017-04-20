@@ -1,0 +1,108 @@
+{% extends 'commons/_proto.html' %}
+
+{% block body %}
+
+<!--{% include 'commons/navbar_toutiao.html' %}-->
+
+<div class="singup-wrap">
+<div id="create_user_wrap" class="row div-signup">
+  <form id="create_user_info">
+    <h3 class="form-signup-heading">完善信息，以便他人更好的认识你</h3> 
+
+    <div id="user_name_div" class="form-group row">
+      <label class="col-sm-3 col-form-label" for="user_name_input">名字(昵称)：</label>
+      <div class="col-sm-6">
+        <input type="text" id="user_name_input" class="form-control" onblur="return check_user_name()"/>
+      </div>
+    </div>
+
+    <div id="user_label_div" class="form-group row">
+      <label class="col-sm-3 col-form-label" for="user_label_input">自我标签：</label>
+      <div class="col-sm-6">
+        <input type="text" id="user_label_input" class="form-control"/>
+      </div>
+    </div>
+
+    <div id="fill_user_info" class="form-group row col-sm-6 col-sm-offset-3 signup-submit-div">
+      <button onclick="return fill_user_info()" class="btn btn-primary btn-lg btn-block">完成</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<script type="text/javascript">
+ function post(URL, PARAMS) {
+     var temp = document.createElement("form");
+     temp.action = URL;
+     temp.method = "post";
+     temp.style.display = "none";
+     for (var x in PARAMS) {
+         var opt = document.createElement("textarea");
+         opt.name = x;
+         opt.value = PARAMS[x];
+         temp.appendChild(opt);
+     }
+     document.body.appendChild(temp);
+     temp.submit();
+     return temp;
+ }
+
+ function check_user_name() {
+   var name=document.getElementById('user_name_input').value;
+   data={};
+   data['name']=name;
+   data['type']='check_user_name';
+   $.ajax({
+     type:'POST',
+     url:'/check_user_name',
+     data:data,
+     dataType:'json',
+     success:function(data) {
+       if (data['succ'] != 0) {
+         alert('该用户名已经被占用，请换一个:)');
+         document.getElementById('user_name_input').value="";
+       } else {
+       }
+     },
+     error:function(xhr,type){
+       alert('用户名验证没有返回结果');
+     }
+   });
+   return false;
+ }
+
+ function fill_user_info() {
+     var name= document.getElementById("user_name_input").value;
+     var label = document.getElementById("user_label_input").value;
+     if (name == "") {
+         alert("请输入名字(昵称)");
+         return false;
+     }
+     if (label == "") {
+         alert("请输入简介");
+         return false;
+     }
+     var data={};
+     data['type']='modify';
+     data['name']=name;
+     data['label']=label;
+     //data['mobile']='15010096403';
+     {% if session.get('userinfo') %}
+     data['mobile']={{session.get('userinfo')['mobile']}};
+     {% endif %}
+     $.ajax({
+         type:'POST',
+         url:'/modify_user',
+         data:data,
+         dataType:'json',
+         success:function(data) {
+             window.location.href="/index";
+         },
+         error:function(xhr,type) {
+             alert('create user fail!');
+         }
+     });
+     return false;
+ }
+</script>
+{% endblock %}

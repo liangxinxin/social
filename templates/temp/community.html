@@ -1,0 +1,284 @@
+{% extends 'commons/_proto.html' %}
+
+{% block body %}
+  <!--<div id="navbar" class="navbar_style" >-->
+    <!--{% include 'commons/navbar_toutiao.html' %}-->
+  <!--</div>-->
+  <input id="community_id" type="hidden" style="display:none" value={{community.id}}></input>
+  <div class="community-main-div">
+    <div id="community_wrapper" >
+      <div id="community_head" class="card_top_wrap">
+        <div id="community_head_left" class="card_info">
+          <div id="community_img" class="card_image">
+            <a href="/community?community_id={{community.id}}">
+              <img class="comm-img-bg"  src="{{community.head_img_url}}">
+            </a>
+          </div>
+          <div id="community_title" class="card_title">
+            <a class="card_title_name" title="" href="/community?community_id={{community.id}}">{{community.name}}岛</a>
+            <span class="card_num_wrap">
+              <span class="card_num_label">成员：</span>
+              <span id="join_user_num" class="card_num">{{community.user_num}}</span>
+              <span class="card_num_label">贴子：</span>
+              <span class="card_num">{{community.post_num}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="card_button_wrap">
+          {% if session.get('userinfo') %}
+            {% if has_join and has_join==True %}
+              <button id="join_community" style="display:none" onclick="join_community()">加入</button>
+              <button id="left_community" onclick="left_community()">退出</button>
+            {% else %}
+              <button id="join_community" onclick="join_community()">加入</button>
+              <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
+            {% endif %}
+            {% if session.get('userinfo')['id']== community.create_user_id %}
+              <a class="card_community_modify" href="/community_info?id={{community.id}}" style="margin-left:30px;">
+                修改社区
+              </a>
+            {% endif %}
+          {% else %}
+            <button id="join_community" onclick="join_community()">加入</button>
+            <button id="left_community" style="display:none"  onclick="left_community()">退出</button>
+          {% endif %}
+        </div>
+      </div>
+      <div id="community_post" style="text-align:left; height:auto; background:#FFF">
+        {% if object_list and user_list%}
+          {%for i in range(post_num)%}
+            <div class="post_item_wrap">
+              <div class="post_item">
+                <div class="post_item_left_wraper">
+                  <div class="post_user_face">
+                    <a href="/user_info?user_id={{user_list[i].id}}">
+                      <img class="comm-img-sm" src="{{user_list[i].head_img_url}}">
+                    </a>
+                  </div>
+                  <div class="post_reply_count_wraper">
+                    <a class="post_reply_count">
+                      <span>{{object_list[i].floor_num|safe}}</span>
+                      <!--<span>152</span>-->
+                    </a>
+                  </div>
+                </div>
+                <div class="post_content_wrap">
+                  <div class="post_title">
+                    <a class="post_title_font" href="/post?post_id={{object_list[i].id}}&community_id={{community.id}}">{{object_list[i].title|safe}}</a>
+                  </div>
+                  <div class="post_content">
+                    <!--<a style="color:inherit" href=""><p>{{object_list[i].content|safe}}</p></a>-->
+                    <p class="post_content_char">{{object_list[i].content|safe}}</p>
+                  </div>
+                </div>
+                <div class="post_foot_wrap"><span class="time_desc">{{object_list[i].create_time}}</span></div>
+              </div>
+            </div>
+          {%endfor%}
+        {% endif %}
+      </div>
+      <div class="pagination">
+        {% if page_no and page_no > 1%}
+        <ul>
+        {% if page_no and page_no > 1%}
+        <li><a href="javascript:" onclick=pre_page({{page_no}})>上一页</a></li>
+        {% endif%}
+        <li><a href="#">{{page_no}}</a></li>
+        {% if real_num and num_perpage and real_num >=num_perpage%}
+          <li><a href="javascript:" onclick=next_page({{page_no}})>下一页</a></li>
+        {% endif%}
+        </ul>
+        {% endif%}
+      </div>
+      <div id="publish_post" class="poster_container">
+        <div id="publish_post_header" class="poster_header">
+          <a class="post_header_info">发新贴</a>
+        </div>
+        <div id="div_publish_post_title" class="poster_title">
+          <div class="col-sm-10">
+            <input type="hidden" id="submit" value="true">
+            <input onfocus="remove_match()" id="input_publish_post_title" class="post-title-input" type="text" placeholder="标题" />
+          </div>
+        </div>
+        <div id="div_publish_post_content" class="poster_content">
+          <!--<div class="col-sm-10">-->
+            <!--<textarea id="input_publish_post_content" class="poster-content-area"></textarea>-->
+          <!--</div>-->
+          <div class="div_post_input ">
+            {% include 'input.html' %}
+          </div>
+        </div>
+        <div id="div_button_publish_post" class="poster_publish_container">
+          {% if session.get('userinfo') %}
+            <button id="button_publish_post" class="btn btn-primary" onclick="publish_post()"> 发表</button>
+          {% else %}
+            <button id="button_publish_post" class="btn btn-primary" onclick="publish_post_no_login()"> 发表</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+ //var obj=document.getElementById("button_publish_post");
+ //obj.onclick=function() {
+ //  publish_post();
+ //}
+
+ function remove_match(){
+    $('#button_publish_post').removeAttr('disabled')
+    <!--$('#div_publish_post_title').find('ul.dropdown-menu').remove();-->
+    $('#submit').val('true');
+ }
+var flag;
+$('#input_publish_post_title').keyup(function(){
+     clearTimeout(flag);
+       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+       //只要有输入则不执行keyup事件
+      flag = setTimeout(function(){
+       //这里面就是调用的请求
+          find_match_post();
+        }, 500);
+
+})
+ function find_match_post(){
+        var title = $('#input_publish_post_title').val();
+        $('input#input_publish_post_title~ul').remove();
+        if (title.trim()!=""){
+            $.ajax({
+              url:'/find_match_post',
+              type:'get',
+              dataType:'json',
+              async:false,
+              data:{
+                title:title
+              },
+              timeout:5000,
+              success:function(data){
+                  posts = data.post_list
+                  if (posts !=null && posts.length>0){
+                      drop_menu='<ul class="dropdown-menu"><li><a style="color:#337ab7;" class="match_info" href="#">已有类似的帖子,不能再次发表,请点击查看</a></li>'
+                      for(var i =0;i<posts.length;i++){
+                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'">'+posts[i].title+'</a></li>'
+                      }
+                      drop_menu =drop_menu+'</ul>'
+                      $('#submit').val('false');
+                      $('#input_publish_post_title').after(drop_menu);
+                      $('#div_publish_post_title').addClass('open');
+                      $('#button_publish_post').attr('disabled','disabled')
+                  }else{
+                    $('#button_publish_post').removeAttr('disabled')
+                  }
+              }
+
+            })
+        }
+ }
+ function publish_post() {
+    <!--find_match_post();-->
+     var is_submit =  $('#submit').val()
+     if(is_submit=='true'){
+     //get title
+       var title=document.getElementById("input_publish_post_title").value;
+       //get content
+       var content=$('#editor').html();
+       if (title==""){
+          alert('标题不能为空');
+          return;
+       }
+       if(content.trim()=="" || content==null || content.length==0){
+          alert('内容不能为空');
+          return;
+       }
+       var id=document.getElementById("community_id").value;
+       //post request for save post
+       {% if session.get('userinfo') %}
+       post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":{{session.get('userinfo')['id']}},"community_id":id});
+       {%else%}
+       post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":1,"community_id":id});
+       {%endif%}
+     }
+ }
+ function publish_post_no_login() {
+     alert('您需要登录后才能发帖哦！');
+ }
+ function post(URL, PARAMS) {
+     var temp = document.createElement("form");
+     temp.action = URL;
+     temp.method = "post";
+     temp.style.display = "none";
+     for (var x in PARAMS) {
+         var opt = document.createElement("textarea");
+         opt.name = x;
+         opt.value = PARAMS[x];
+         temp.appendChild(opt);
+     }
+     document.body.appendChild(temp);
+     temp.submit();
+     return temp;
+ }
+ function search() {
+     post("/search",{"query":document.getElementById("search_input").value});
+ }
+ function join_community() {
+     {% if session.get('userinfo') %}
+     user_id={{session.get('userinfo')['id']}};
+     community_id={{community.id}};
+     var data={};
+     data['action']='join';
+     data['user_id']=user_id;
+     data['community_id']=community_id;
+     $.ajax({
+         type:'POST',
+         url:'/user_community',
+         data:data,
+         dataType:'json',
+         success:function(data) {
+             alert('加入社区成功!');
+             document.getElementById('join_user_num').innerHTML=data['user_num'];
+             document.getElementById('join_community').style.display='none';
+             document.getElementById('left_community').style.display='block';
+         },
+         error:function(xhr,type){
+             alert('加入社区失败!');
+         }
+     })
+     {%else%}
+     alert('登录后才能加入社区哦！');
+     {%endif%}
+ }
+ function left_community() {
+     {% if session.get('userinfo') %}
+     user_id={{session.get('userinfo')['id']}};
+     community_id={{community.id}};
+     var data={};
+     data['action']='left';
+     data['user_id']=user_id;
+     data['community_id']=community_id;
+     $.ajax({
+         type:'POST',
+         url:'/user_community',
+         data:data,
+         dataType:'json',
+         success:function(data) {
+             alert('您已离开社区!');
+             document.getElementById('join_user_num').innerHTML=(data['user_num']);
+             document.getElementById('join_community').style.display='block';
+             document.getElementById('left_community').style.display='none';
+         },
+         error:function(xhr,type){
+             alert('离开社区失败!');
+         }
+     })
+     {%else%}
+     alert('登录后才能离开社区哦！');
+     {%endif%}
+ }
+ function pre_page(page_no) {
+     window.location="/community?community_id="+({{community.id}}).toString()+"&page_no="+({{page_no}}-1).toString();
+ }
+ function next_page(page_no) {
+     window.location="/community?community_id="+({{community.id}}).toString()+"&page_no="+({{page_no}}+1).toString();
+ }
+</script>
+{% endblock %}

@@ -1,300 +1,251 @@
-{% extends 'commons/_proto.html' %}
-{% from 'commons/upload.html' import macro_upload_js_css %}
-{% from 'commons/upload.html' import macro_upload %}
-{% block head %}
-{{ macro_upload_js_css() }}
-{% endblock %}
-{% block body %}
-<!--<div id="navbar" class="navbar_style">-->
-<!--{% include 'commons/navbar_toutiao.html' %}-->
-<!--</div>-->
-<div class="d1" >
-    <div class="d2" >
-        <div class="d3" ></div>
-    </div>
-</div>
-<div class="container" id="crop-avatar" style="width:90%">
-    {% if user_info %}
-    <div class="all_backgroud">
-        <div class="user_info_wrap">
-            <div id="user_face" class="user_info_face_div avatar-view">
-                <a href="JavaScript:void(0)"><img class="comm-img-bg" src="{{user_info.head_img_url}}" alt="用户头像"></a>
-            </div>
-            <div id="user_name" class="user_info_name_div ">
-                <div class="show_name">
-                    <p class="user_info_name_p">{{user_info.name}}</p>
-                    <a onclick="to_edit_name()" class="user_edit">编辑</a>
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="../static/stylesheets/core.css" />
+    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+</head>
+
+<body>
+    <div id="header" class="bg-white">
+        <div class="container ">
+            <div class="site-brand">
+                <div class="logo-brand">
+                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
                 </div>
             </div>
-            <div id="user_label" class="user_info_professional_div">
-                <div class="show_label">
-                    <p class="user_info_professional_p">
-                        {%if user_info.label%}
-                        {{user_info.label}}
-                        {%else%}
-                         用一句话介绍一下自己吧
-                        {%endif%}
-                    </p>
-                    <a onclick="to_edit_label()" class="user_edit">编辑</a>
+            <div class="top-search">
+                <div class="search-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="icon-search"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div>
-                {% if user_info.id!=session.get('userinfo')['id'] %}
-                <a class="user_btn user_sendmsg_btn" href="/private_message?to_user_id={{user_info.id}}">发私信</a>
-                {%endif%}
+            <ul class="top-nav">
+                <li><a href="j-index.html">资讯</a></li>
+                <li class="active"><a href="good_post_list.html">社区</a></li>
+            </ul>
+            <div class="right-control">
+                <ul class="user-nav list-unstyled">
+                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
+                        <ul class="dropdown-menu ">
+                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
+                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
+                            <li><a href=" "><span>回复</span></a></li>
+                            <li><a href=" "><span>关注</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="login hidden"><a href="template.html">登录</a></li>
+                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
+                        <ul class="dropdown-menu ">
+                            <li><a href=" "><span>我的主页</span></a></li>
+                            <li><a href=" "><span>退出</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <input id="type" name="text" value="user" type="hidden">
-            {% if user_info.id ==session.get('userinfo')['id'] %}
-            {{ macro_upload()}}
-            {%endif%}
-
         </div>
     </div>
-    <div id="user" class="col-sm-12 u_page_title"><a href="user_info?user_id={{user_info.id}}">个人主页</a></div>
-    <div id="post_container" class="col-sm-12 no_m_p">
-        <div class="user_post_wrap col-sm-8">
-            <div class="col-sm-12 user_post"></div>
-            <div class="page-center">
-                <ul class="sync-pagination pagination-sm" id="user-post-pagination"></ul>
+    <div class="divider solid "></div>
+    <div id="body ">
+        <div class="container ">
+            <div class="blk-2x"></div>
+            <div class="divider solid "></div>
+            <div class="my-header">
+                <div class="img">
+                    <a href="#photo" data-toggle="modal"><img src="../static/images/photo.png"></a>
+                </div>
+                <div class="content">
+                    <h4>hongleifu<a href="#modal" data-toggle="modal"><i class="icon-pencil"></i></a></h4>
+                    <p>一壶浊酒喜相逢，古今多少事，滚滚长江东逝水，浪花淘尽英雄。</p>
+                </div>
+                <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
             </div>
-        </div>
-        <div class="user_friend_wrap">
-            <div class="col-sm-12 f_title ">好友列表</div>
-            <div class="col-sm-12 friend_content"></div>
-            <!--<div class="page-center"><ul class="sync-pagination pagination-sm" id="friend-pagination"></ul></div>-->
-        </div>
-        <div class="user_friend_wrap">
-            <div class="col-sm-12 f_title ">社区列表</div>
-            <div class="col-sm-12 community_own_content"></div>
-            <!--<div class="page-center"><ul class="sync-pagination pagination-sm" id="friend-pagination"></ul></div>-->
+            <div class="divider solid "></div>
+            <div class="blk-2x"></div>
+            <div class="divider solid "></div>
+            <div class="cards md">
+                <div class="mian-container">
+                    <div class="blk-1x"></div>
+                    <div class="media-content my-list">
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">理财小白如何理财？</a></h4>
+                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">个人理财有哪些基本原理和方法？</a></h4>
+                                <p>夫妻使用同一银行账户;尽早设立遗嘱 最后还想补充一点,个人理财当中80%是行为,只有20%是各种知识和算计.上面的内容,百分比也好,复利计算也好,都不是绝对的,也并不高深.理财当中最难的…</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">如何读懂财经新闻？</a></h4>
+                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">商机情报：分享已成为消费方式，90后新社交显现</a></h4>
+                                <p>在出门打车靠滴滴，出国旅行订房靠Airbnb的时代，分享经济正在渗透各个领域，已逐渐变成了年轻一代的新消费方式。</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">消费金融走出同质化的“七字诀”</a></h4>
+                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h4><a href="#">银行与金融科技公司抢的是什么？用户、资本？都不是！</a></h4>
+                                <p>经过几十年的发展，任何一个行业都容易产生一种刻板印象</p>
+                                <div class="block-bar">
+                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <div class="control-right">
+                                        <div class="row-1x">
+                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blk-2x"></div>
+                    <ul class="pagination">
+                        <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
+                    </ul>
+                </div>
+                <div class="side-container">
+                    <ul class="list-menu list-unstyled">
+                        <li class="active"><a href="user_info.html">我的帖子</a><span class="badge">12</span></li>
+                        <li><a href="user_community.html">创建的社区</a><span class="badge">12</span></li>
+                        <li><a href="user_community_followed.html">加入的社区</a><span class="badge">12</span></li>
+                        <li><a href="user_comments.html">我的评论</a><span class="badge">12</span></li>
+                        <li><a href="user_on_my_comments.html">评论我的</a><span class="badge">12</span></li>
+                        <li><a href="user_followed.html">我关注的</a><span class="badge">128</span></li>
+                        <li><a href="user_follow.html">关注我的</a><span class="badge">128</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="divider solid "></div>
         </div>
     </div>
-    <div id="friend_container" class="col-sm-12 u_friend_container">
-        <div class="col-sm-12 user_friend_blv">
-            <div class="friend_title col-sm-12">
-                {% if user_info.id ==session.get('userinfo')['id'] %}
-                我的好友
-                {%else%}
-                他的好友
-                {%endif%}
+    <div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-md">
+            <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+                <div class="modal-body clearfix relative">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="hongleifu">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="" class="form-control">一壶浊酒喜相逢，古今多少事，滚滚长江东逝水，浪花淘尽英雄。</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="justified2-2">
+                        <li>
+                            <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-lg btn-block">确定</button>
+                        </li>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-12 friend_content"></div>
-        </div>
-        <div class="col-sm-12 page-center">
-            <ul class="sync-pagination pagination-sm" id="user-friend-pagination"></ul>
         </div>
     </div>
-</div>
+    <div class="modal modal-book-content" id="photo" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-md">
+            <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+                <div class="modal-body clearfix relative">
+                    <ul class="base-tab list-unstyled text-center">
+                        <li class="active"><a href="#m1" data-toggle="tab">本地上传</a></li>
+                        <li><a href="#m2" data-toggle="tab">系统头像</a></li>
+                    </ul>
+                    <div class="photo-container tab-pane active" id="m1">
+                        <div style="padding: 50px; text-align: center;">上传图片区域</div>
+                    </div>
+                    <div class="photo-container tab-pane" id="m2">
+                        <div class="photo-list photo">
+                            <span class="active"><img src="../static/images/user/img1.jpg"></span><span><img src="../static/images/user/img2.jpg"></span><span><img src="../static/images/user/img3.jpg"></span><span><img src="../static/images/user/img4.jpg"></span><span><img src="../static/images/user/img5.jpg"></span><span><img src="../static/images/user/img6.jpg"></span><span><img src="../static/images/user/img7.jpg"></span><span><img src="../static/images/user/img8.jpg"></span><span><img src="../static/images/user/img9.jpg"></span><span><img src="../static/images/user/img10.jpg"></span><span><img src="../static/images/user/img11.jpg"></span><span><img src="../static/images/user/img12.jpg"></span><span><img src="../static/images/user/img13.jpg"></span><span><img src="../static/images/user/img14.jpg"></span><span><img src="../static/images/user/img15.jpg"></span><span><img src="../static/images/user/img16.jpg"></span><span><img src="../static/images/user/img17.jpg"></span><span><img src="../static/images/user/img18.jpg"></span><span><img src="../static/images/user/img19.jpg"></span><span><img src="../static/images/user/img20.jpg"></span><span><img src="../static/images/user/img21.jpg"></span><span><img src="../static/images/user/img22.jpg"></span><span><img src="../static/images/user/img23.jpg"></span><span><img src="../static/images/user/img24.jpg"></span><span><img src="../static/images/user/img25.jpg"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="justified2-2">
+                        <li>
+                            <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-lg btn-block">确定</button>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer ">
+        <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
+    </div>
+    <script src="../static/lib/jquery-1.8.1.min.js "></script>
+    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+</body>
 
-
-<link href="/try/bootstrap/twitter-bootstrap-v2/docs/assets/css/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="stylesheets/community/user.css">
-
-{%endif%}
-</div>
-<script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
-<script src="lib/js/user.js" type="text/javascript"></script>
-<script type="text/javascript">
-//init data
-var defaultPage=1;
-var fPageNo=1;
-var pageNo=1;
-var pageSize=10,fPageSize = 10;
-var totalPages=0,fTotalPages = 0;
-var login_userid=0;
-
-var user_id={{user_info.id}};
-//load_more_friends(1)
-var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
-{% if session.get('userinfo') %}
-     login_userid={{session.get('userinfo')['id']}};
-     if(login_userid!={{user_info.id}}){
-       $('a.user_sendmsg_btn').before(select_relation());
-     }
-{%endif%}
-load_friends(1);
-load_post(1);
-load_community_owned(1);
-init();
-
-
-
-// init end
-function likeReply(replyId) {
-   if(login_userid>0){
-       var countElementId = "count-" + replyId;
-       var linkElementId = "link-" + replyId;
-       var isliked = $("#isliked-" + replyId).val();
-       var modType = "";
-       var count = $("#" + countElementId).text();
-       // add by lxx
-       if (count=="" || isNaN(parseInt(count))){
-           count=0;
-       }
-       if (isliked == "True" || isliked=="true") {
-           var countNum = parseInt(count) - 1;
-           if(countNum==0){
-             $("#" + countElementId).text("");
-           }else{
-            $("#" + countElementId).text("" + countNum);
-            }
-           $("#" + linkElementId).addClass("reply-liked-no");
-           $("#isliked-" + replyId).val("False");
-           modType="remove";
-       } else {
-           var countNum = parseInt(count) + 1;
-           $("#" + countElementId).text("" + countNum);
-           $("#" + linkElementId).removeClass("reply-liked-no");
-           $("#isliked-" + replyId).val("True");
-           modType="add";
-       }
-
-       var url = "/reply_like_status_change?replyid=" + replyId + "&modtype=" + modType;
-       console.debug("isliked: ", isliked, "url: ", url);
-       $.get(url, function(data) {
-           console.debug("data:", data);
-       });
-    }else{
-       alert("需要登陆才能点赞！");
-    }
-
-   }
-
-
-
-
-function add_relation(){
-    {% if session.get('userinfo') %}
-        $.ajax({
-             type:'POST',
-             url:'/add_relation',
-             data:{
-                 relation_user_id:user_id,
-                 is_relation:0
-             },
-             dataType:'json',
-             success:function(data) {
-                var a = '<a  class="user_btn user_relation_btn"  onclick="cancel_relation()">已关注</a>'
-                $('a.user_relation_btn').remove();
-                $('a.user_sendmsg_btn').before(a);
-             },
-             error:function(xhr,type){
-                 alert('操作失败!');
-             }
-         })
-    {%else%}
-        alert('请先登录')
-    {%endif%}
-}
-function cancel_relation(){
-    if(login_userid>0){
-        $.ajax({
-             type:'POST',
-             url:'/cancel_relation',
-             data:{
-                user_id:login_userid,
-                relation_user_id:user_id
-             },
-             dataType:'json',
-             success:function(data) {
-                alert('您已取消关注！')
-                var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
-                $('a.user_relation_btn').remove();
-                $('a.user_sendmsg_btn').before(a);
-
-             },
-             error:function(xhr,type){
-                 alert('操作失败!');
-             }
-         })
-    }
-}
-
-
-
-
-function select_relation(){
-    var a = '<a  class="user_btn user_relation_btn" onclick="add_relation()">关注</a>'
-        if(login_userid>0){
-             $.ajax({
-                    type:'POST',
-                    url:'/select_relation',
-                    data:{
-                        user_id:login_userid,
-                        relation_user_id:user_id
-                    },
-                    async:false,
-                    dataType:'json',
-                    success:function(data) {
-                        if(data.is_relation==1){
-                            a = '<a  class="user_btn user_relation_btn" onclick="cancel_relation()">已关注</a>'
-                        }
-                    }
-             })
-        }
-    return a;
-}
-
-function init(){
-    //edit
-    if(login_userid=={{user_info.id}}){
-        $('#user_name').mouseover(function () {
-             $('.show_name').addClass('edit')
-        })
-        $('#user_name').mouseout(function(){
-             $('.show_name').removeClass('edit')
-        })
-        $('#user_label').mouseover(function () {
-             $('.show_label').addClass('edit')
-        })
-        $('#user_label').mouseout(function(){
-             $('.show_label').removeClass('edit')
-        })
-    }
-
-    if(totalPages>0){
-        $('#user-post-pagination').twbsPagination({
-           startPage: pageNo,
-           totalPages: totalPages,
-           first: '首页',
-           prev: '前一页',
-           next: '下一页',
-           last: '末页',
-           onPageClick: function (evt, page) {
-               if (page == pageNo) {
-                   console.debug("current page number clicked, do nothing.");
-                   return;
-               }
-              load_post(page);
-              window.location.hash="#user";//定位到列表头部
-           }
-        });
-    }//post info end
-
-
-    if(fTotalPages>0){
-        // more friends start
-        $('#user-friend-pagination').twbsPagination({
-           startPage: fPageNo,
-           totalPages: fTotalPages,
-           first: '首页',
-           prev: '前一页',
-           next: '下一页',
-           last: '末页',
-           onPageClick: function (evt, page) {
-               if (page == fPageNo) {
-                   console.debug("current page number clicked, do nothing.");
-                   return;
-               }
-               load_more_friends(page)
-              window.location.hash="#user";//定位到列表头部
-
-
-           }
-        });
-    }
-}
-
-</script>
-{% endblock %}
+</html>

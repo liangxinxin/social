@@ -1,127 +1,175 @@
-{% extends 'commons/_proto.html' %}
+<!doctype html>
+<html>
 
-{% block body %}
-<!--{% include 'commons/navbar_toutiao.html' %}-->
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="../static/stylesheets/core.css" />
+    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+</head>
 
-
-<div class="col-sm-12">
-    <div class="message_container">
-        <div class="message_type_nav col-sm-12">
-            <ul>
-                <li class="type_reply"><a href="javascript:void(0)" onclick="getMessage(3)">评论
-                {% if count_reply %}
-                  <span class="circle_sm">{{count_reply}}</span>
-                {% endif %}
-                </a></li>
-                <li class="type_like"><a href="javascript:void(0)" onclick="getMessage(2)">赞
-                {% if count_do_good %}
-                  <span class="circle_sm">{{count_do_good}}</span>
-                {% endif %}
-                </a></li>
-                <li class="type_comment"><a href="javascript:void(0)" onclick="getMessage(4)">回复
-                {% if count_comment %}
-                  <span class="circle_sm">{{count_comment}}</span>
-                {% endif %}
-                </a></li>
-                <li class="type_guanzhu"><a href="javascript:void(0)" onclick="getMessage(1)" style="border:none;">关注
-                {% if count_guanzhu %}
-                  <span class="circle_sm">{{count_guanzhu}}</span>
-                {% endif %}
-                </a></li>
+<body>
+    <div id="header" class="bg-white">
+        <div class="container ">
+            <div class="site-brand">
+                <div class="logo-brand">
+                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
+                </div>
+            </div>
+            <div class="top-search">
+                <div class="search-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="icon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="top-nav">
+                <li><a href="j-index.html">资讯</a></li>
+                <li class="active"><a href="good_post_list.html">社区</a></li>
             </ul>
+            <div class="right-control">
+                <ul class="user-nav list-unstyled">
+                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
+                        <ul class="dropdown-menu ">
+                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
+                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
+                            <li><a href=" "><span>回复</span></a></li>
+                            <li><a href=" "><span>关注</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="login hidden"><a href="template.html">登录</a></li>
+                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
+                        <ul class="dropdown-menu ">
+                            <li><a href=" "><span>我的主页</span></a></li>
+                            <li><a href=" "><span>退出</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        {%if message_type==1%}
-            {% include 'guanzhu_message.html' %}
-        {%elif message_type==2%}
-            {% include 'like_message.html' %}
-        {%elif message_type==3%}
-            {% include 'reply_message.html' %}
-        {%elif message_type==4%}
-            {% include 'comment_message.html' %}
-        {%endif%}
-
     </div>
-</div>
+    <div class="divider solid "></div>
+    <div id="body ">
+        <div class="container ">
+            <div class="blk-2x"></div>
+            <div class="divider solid "></div>
+            <div class="cards md">
+                <ul class="base-tab">
+                    <li class="active"><a href="#m1" data-toggle="tab">评论</a></li>
+                    <li><a href="#m2" data-toggle="tab">赞</a></li>
+                    <li><a href="#m3" data-toggle="tab">回复</a></li>
+                    <li><a href="#m4" data-toggle="tab">关注</a></li>
+                </ul>
+            </div>
+            <div class="divider solid "></div>
+            <div class="blk-2x"></div>
+            <div class="divider solid "></div>
+            <div class="cards md">
+                <div class="mian-container">
+                    <div class="blk-1x"></div>
+                    <div class="tab-pane message media active" id="m1">
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                                <p>同意景玺龙的看法</p>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">评论帖子：</span>如何读懂财经新闻？</div>
+                        </div>
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                                <p>文章不错</p>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">评论帖子：</span>商机情报：分享已成为消费方式，90后新社交显现</div>
+                        </div>
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                                <p>分析很细腻</p>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">评论帖子：</span>如何读懂财经新闻？</div>
+                        </div>
+                        <div class="blk-2x"></div>
+                        <ul class="pagination">
+                            <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane message media " id="m2">
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">赞评论：</span>金融平台打黑这是必须的</div>
+                        </div>
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">赞评论：</span>国家要出台新的金融规则</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane message media " id="m3">
+                        <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
 
-<script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf-8">
-    var type = $('#type').val();
-    var message_type = $('#messagetype').val();
-   var pageNo = {{no}};
-   var pageSize = {{size}};
-   var totalCount = {{totalsize}};
-   console.debug("page:", pageNo, pageSize, totalCount);
+                                <div class="block-bar">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                </div>
+                                 <p>^^^^</p>
+                            </div>
 
-   var totalPages = Math.ceil(totalCount/pageSize);
-   if(message_type==1){
-        $('li.type_guanzhu').css('background','#f2f4f7');
-        $('.message_type_nav>li:not(li.type_like)').css('background','#fff');
-   }else if(message_type==2){
-        $('li.type_like').css('background','#f2f4f7');
-        $('.message_type_nav>li:not(li.type_like)').css('background','#fff');
-   }else if(message_type==3){
-        $('li.type_reply').css('background','#f2f4f7');
-        $('.message_type_nav>li:not(li.type_reply)').css('background','#fff');
-   }else if(message_type==4){
-        $('li.type_comment').css('background','#f2f4f7');
-        $('.message_type_nav>li:not(li.type_comment)').css('background','#fff');
+                            <div class="blockquote"><span class="text-muted">回复评论：</span>金融平台打黑这是必须的</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane message media " id="m4">
+                       <div class="item">
+                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="content">
 
-   }
+                                <div class="block-bar followed">
+                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span><span class="p">关注了我</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-container">
+                </div>
+            </div>
+            <div class="divider solid "></div>
+        </div>
+    </div>
+    <div id="footer ">
+        <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
+    </div>
+    <script src="../static/lib/jquery-1.8.1.min.js "></script>
+    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+</body>
 
-    function getMessage(type_param){
-        pageNo=1;
-        pageSize=10;
-        message_type=type_param
-
-        var url = "/message?type="+type+"&message_type="+message_type+"&no=" + pageNo + "&size=" + pageSize;
-        console.debug("pageurl:", url);
-        post("/message",{"type":type,"message_type":message_type,"no":pageNo,"size":pageSize});
-    }
-
-   $('.sync-pagination').twbsPagination({
-       startPage: pageNo,
-       totalPages: totalPages,
-       first: '首页',
-       prev: '前一页',
-       next: '下一页',
-       last: '末页',
-       onPageClick: function (evt, page) {
-           if (page == pageNo) {
-               console.debug("current page number clicked, do nothing.");
-               console.log(page)
-            console.log(pageNo)
-               return;
-           }
-           var url = "/message?type="+type+"&message_type="+message_type+"&no=" + page + "&size=" + pageSize;
-           console.debug("pageurl:", url);
-           window.location.href = url;
-       }
-   });
-
-   function post(URL, PARAMS) {
-       var temp = document.createElement("form");
-       temp.action = URL;
-       temp.method = "get";
-       temp.style.display = "none";
-       for (var x in PARAMS) {
-           var opt = document.createElement("textarea");
-           opt.name = x;
-           opt.value = PARAMS[x];
-           temp.appendChild(opt);
-       }
-       document.body.appendChild(temp);
-       temp.submit();
-       return temp;
-   }
-
-   function search() {
-       var searchText = $("#search_input").val(); //document.getElementById("search_input").value
-       console.debug("searchText:", searchText);
-       if (searchText && searchText.trim()) {
-           post("/community_search",{"type":"query", "name":searchText});
-       }
-   }
-
-</script>
-
-{% endblock %}
+</html>
