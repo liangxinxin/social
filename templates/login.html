@@ -73,10 +73,11 @@
                         <button type="submit" class="btn btn-md btn-primary btn-block">登录</button>
                     </div>
                     <small>还没有帐号？<a href="register.html">马上注册</a></small>
-                    
+                    {%if msg %}
                     <div class="blk-2x"></div>
-                    <div class="text-danger">手机号错误</div>
+                    <div class="text-danger">{{msg}}</div>
                     <div class="blk-6x"></div>
+                    {%endif %}
                 </form>
             </div>
             <div class="divider solid "></div>
