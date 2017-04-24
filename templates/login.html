@@ -5,53 +5,12 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
 </head>
 
 <body>
-    <div id="header" class="bg-white">
-        <div class="container ">
-            <div class="site-brand">
-                <div class="logo-brand">
-                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
-                </div>
-            </div>
-            <div class="top-search">
-                <div class="search-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary"><i class="icon-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ul class="top-nav">
-                <li><a href="j-index.html">资讯</a></li>
-                <li class="active"><a href="good_post_list.html">社区</a></li>
-            </ul>
-            <div class="right-control">
-                <ul class="user-nav list-unstyled">
-                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
-                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
-                            <li><a href=" "><span>回复</span></a></li>
-                            <li><a href=" "><span>关注</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="login hidden"><a href="template.html">登录</a></li>
-                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span>我的主页</span></a></li>
-                            <li><a href=" "><span>退出</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
@@ -61,22 +20,23 @@
             <div class="box-sm pull-right">
                 <div class="blk-6x"></div>
                 <div class="heading"><span>欢迎来到金融岛！</span></div>
-                <form name="form">
-                <div class="form-group">
-                        <input type="text" placeholder="手机号" class="form-control">
+                <form method='POST' name="form">
+                    <div class="form-group">
+                        <input type="text" placeholder="手机号或用户名" name="name" id="name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" placeholder="密码" class="form-control">
+                        <input type="password" placeholder="密码" name="password" id="password" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-md btn-primary btn-block">登录</button>
                     </div>
                     <small>还没有帐号？<a href="register.html">马上注册</a></small>
-                    
+                    {%if msg %}
                     <div class="blk-2x"></div>
-                    <div class="text-danger">手机号错误</div>
+                    <div class="text-danger">{{msg}}</div>
                     <div class="blk-6x"></div>
+                    {%endif %}
                 </form>
             </div>
             <div class="divider solid "></div>
@@ -86,8 +46,8 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
 </body>
 
 </html>
