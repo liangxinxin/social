@@ -516,6 +516,8 @@ def get_community_owned():
 
 @app.route('/regist', methods=['GET', 'POST'])
 def regist():
+    if request.method == 'GET':
+      return render_template('regist.html')
     print "now begin verify"
     result = mod_verify.service(request)
     print result['succ']
@@ -524,11 +526,6 @@ def regist():
       result,user_info = mod_user.service(request)
     print "now begin return regist result"
     return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
-    #return json_result
-   # print jsonify(succ='0',code='1',message='hehe')
-   # print jsonify(succ=result['succ'],code=result['code'],message=result['message'])
-   # return jsonify(succ='0')
-   # return jsonify(succ=result['succ'],code=result['code'],message=result['message'])
 
 @app.route('/modify_user', methods=['GET', 'POST'])
 def modify_user():
