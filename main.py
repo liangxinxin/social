@@ -517,7 +517,7 @@ def get_community_owned():
 @app.route('/regist', methods=['GET', 'POST'])
 def regist():
     if request.method == 'GET':
-      return render_template('regist.html')
+      return render_template('register.html')
     print "now begin verify"
     result = mod_verify.service(request)
     print result['succ']
