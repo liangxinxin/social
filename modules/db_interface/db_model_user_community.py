@@ -2,9 +2,9 @@
 from flask import Flask
 import MySQLdb
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc
+from sqlalchemy import desc,func
 from db_connect import db
- 
+
 class UserCommunity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=False)
@@ -56,3 +56,12 @@ def select_all_paging(page_no,num_per_page):
         page_no = 1
     paginate = UserCommunity.query.order_by(desc(UserCommunity.id)).paginate(page_no,num_per_page,False)
     return paginate
+
+
+def select_join_community(page_no,num_per_page,userid):
+    paginate = UserCommunity.query.filter_by(user_id = userid).paginate(page_no,num_per_page,False)
+    return paginate
+
+def select_all_join_community_id(userid):
+    data = db.session.query(UserCommunity.community_id).filter_by(user_id = userid).group_by(UserCommunity.user_id).all()
+    return data

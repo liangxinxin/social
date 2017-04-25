@@ -30,34 +30,36 @@ def service(request):
 
 
 def upload_head_image(request):
-    user_id = session.get('userinfo')['id']
+    user_id = 16 #session.get('userinfo')['id']
     type = request.form.get("type")  # user/community
     print os.getcwd()
     curPath = os.getcwd()
-    uploadPath = curPath + '/static/images/' + type + '/'
     oriFileName = request.form.get('filename').encode('utf-8')
     isDefault = request.form.get('isDefault').encode('utf-8')
-
     community_id = request.form.get('community_id', 0)
-    print 'type' + type
+    ISOTIMEFORMAT = '%Y-%m-%d %X'
+    update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+    print 'type',type
     result = {}
-    if isDefault == '1':
-        savePath = default_path + type + '/default/' + oriFileName
+    if isDefault=='true':
+        savePath = default_path + type + '/' + oriFileName
         if type == 'user':
             db_model_user.save_head_image(user_id, savePath)
-        elif type == 'community':
-            db_model_community.save_head_image(community_id, savePath)
+        elif type == 'shequ':
+            db_model_community.save_head_image(community_id, savePath,update_time)
         message = "success"
-        result = {"message": message, "code": 0}
+        result = {"message": message, "code": 0,"data":savePath}
     else:
+        uploadPath = curPath + '/static/images/upload/' + type + '/'
         header = "data:image"
         curTime = int(time.time())  # time.mktime(datetime.datetime.now().timetuple())
         fileType = oriFileName[-4:]
         rand1 = random.randint(0, 900) + 100
         rand2 = random.randint(0, 90) + 10
+        print 'random',rand1, rand2
         # curTime = time.mktime(datetime.datetime.now().timetuple())
         fileName = '%s%s%s%s' % (curTime, rand1, rand2, fileType)
-        savePath = default_path + type + '/' + fileName
+        savePath = default_path +'upload/'+ type + '/' + fileName
         print(fileName)
         image = request.form.get('image').encode('utf-8')
         imageArr = image.split(",")
@@ -74,13 +76,13 @@ def upload_head_image(request):
                 out.close()
                 if type == 'user':
                     db_model_user.save_head_image(user_id, savePath)
-                elif type == 'community':
-                    db_model_community.save_head_image(community_id, savePath)
+                elif type == 'shequ':
+                    db_model_community.save_head_image(community_id, savePath, update_time)
                 message = "success"
-                result = {"message": message, "code": 0}
+                result = {"message": message, "code": 0,"data":savePath}
                 print("upload success")
             except Exception, e:
-                result = {"message": message, "code": 1}
+                result = {"message": message, "code": 1,"data":''}
 
     return result
 

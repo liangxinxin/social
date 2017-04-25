@@ -16,33 +16,33 @@
   function CropAvatar($element) {
     this.$container = $element;
 
-    this.$avatarView = this.$container.find('.avatar-view');
-    this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = this.$container.find('#avatar-modal');
+    this.$avatarView = $("a[href='#photo']") // click this to open upload page
+    this.$avatar = this.$avatarView.find('img'); // the old shequ img
+    this.$avatarModal = this.$container.find('.modal-body');
     this.$loading = this.$container.find('.loading');
+    this.$avatarSave = this.$container.find('#save');
+    this.$avatarCancel = this.$container.find('#cancel');
+    this.$avatarClose = this.$container.find('a.close');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
     this.$avatarSrc = this.$avatarForm.find('.avatar-src');
     this.$avatarData = this.$avatarForm.find('.avatar-data');
     this.$avatarInput = this.$avatarForm.find('.avatar-input');
-    this.$avatarSave = this.$avatarForm.find('.avatar-save');
     this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+    this.$avatarUploadBtn = this.$avatarForm.find('#choose');
+    this.$avatarCommendBtn =this.$avatarForm.find("a[href=#m2]");
 
     this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
     this.$commendPreview = this.$avatarModal.find('.commend-preview');
+    this.$avatarCommendwrapper =this.$avatarModal.find('.photo-list');
 
 
-    this.$avatarCloseBtns = this.$avatarForm.find('.avatar-close');
-    this.$avatarUploadBtn = this.$avatarForm.find('#choose');
-    this.$avatarCommendBtn =this.$avatarForm.find('#avatar-commend-title');
-    this.$avatarLocalBtn =this.$avatarForm.find('#avatar-local-up');
-    this.$avatarCommendwrapper =this.$avatarForm.find('.avatar-wrapper-commend');
+    this.$avatarLocalBtn =this.$container.find("a[href=#m1]");
     this.$avatarbody = this.$avatarModal.find('.avatar-body');
     this.isCommendBlock = false;
-    this.type = $("input#type").val();
-
+    this.type = $("input[name=type]").val();
     this.init();
 
   }
@@ -66,70 +66,49 @@
       if (!this.support.formData) {
         this.initIframe();
       }
-      this.$avatarLocalBtn.click();
+
       this.$avatarInput.val("")
       this.initTooltip();
       this.initModal();
       this.getDefaultImage();//初始化默认图片
-      this.$avatarCommImg =this.$avatarModal.find(".image-li>a>img");//系统推荐图片
-      this.$avatarCommendBtn.css("color","#666");
-      this.$avatarLocalBtn.css("color","#317ef3");
+      this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
       this.addListener();
+
 
 
     },
     uploadImage:function(){
-
         this.$avatarInput.click();
-
-    },
-    getCommend:function(){
-        this.$avatarbody.css("display","none");
-        this.$avatarCommendwrapper.css("display","block");
-        this.$avatarCommendBtn.css("color","#317ef3");
-        this.$avatarLocalBtn.css("color","#666");
-        this.isCommendBlock = true;
-    },
-    getLocal:function(){
-        this.$avatarbody.css("display","block");
-        this.$avatarCommendwrapper.css("display","none");
-        this.$avatarCommendBtn.css("color","#666");
-        this.$avatarLocalBtn.css("color","#317ef3");
-        this.isCommendBlock = false;
-
+        this.isCommendBlock = false; //to record the submit is commend or upload
     },
     cleanUpSelected:function(){
         this.$commendPreview.empty().html('');
-        $("li.image-li *").removeClass("select")
-        $("li.image-li *").removeClass("selected-img")
+        this.$avatarCommendwrapper.find('span.active').removeClass('active');
+        console.log('cleanUpSelected')
     },
     cleanUploadData:function(){
         this.$avatarWrapper.html("");
         this.$avatarInput.val("");
-        this.initPreview();
         this.active = false;
+        console.log('cleanUploadData')
     },
     selected:function(e){
-         $("li.image-li *").not(e.target).attr("class","");
-         $(e.target).next("span").attr("class","select");
-         $(e.target).addClass("selected-img");
-         var url = $(e.target).attr("src");
-         this.$commendPreview.empty().html('<img src="' + url + '">');
-         // 如果有上传图片数据  清除
+         this.$avatarCommendwrapper.find('span').not($(e.target).parent()).attr("class","");
+         $($(e.target).parent()).attr("class","active");
+         this.isCommendBlock = true;
          this.cleanUploadData();
 
     },
     addListener: function () {
       this.$avatarView.on('click', $.proxy(this.click, this));
       this.$avatarInput.on('change', $.proxy(this.change, this));
-      this.$avatarForm.on('submit', $.proxy(this.submit, this));
+      this.$avatarSave.on('click', $.proxy(this.submit, this));
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
       // add by lxx clear image data
-       this.$avatarCloseBtns.on('click', $.proxy(this.close, this));
        this.$avatarUploadBtn.on('click',$.proxy(this.uploadImage, this));
-       this.$avatarCommendBtn.on('click', $.proxy(this.getCommend, this));
-       this.$avatarLocalBtn.on('click', $.proxy(this.getLocal, this));
-       this.$avatarCommImg.on('click',$.proxy(this.selected, this));
+        this.$avatarCommImg.on('click',$.proxy(this.selected, this));
+        this.$avatarCancel.on('click', $.proxy(this.close, this));
+        this.$avatarClose.on('click', $.proxy(this.close, this));
 
     },
 
@@ -147,7 +126,20 @@
 
     initPreview: function () {
       var url = this.$avatar.attr('src');
-      this.$avatarPreview.empty().html('<img src="' + url + '">');
+      this.$avatarModal.find('ul.base-tab>li.active').removeClass('active');
+      this.$avatarLocalBtn.click();
+      // select the choosen img
+      if (url.indexOf('upload') !=-1){
+        this.$avatarPreview.empty().html('<img src="' + url + '">');
+      }else{
+        this.$avatarCommendwrapper.find('span').each(function(){
+            console.log($(this).find('img').attr('src'))
+            if($.trim(url) ==$(this).find('img').attr('src')){
+            $(this).addClass('active');
+        }
+      });
+      }
+
     },
 
     initIframe: function () {
@@ -193,13 +185,15 @@
     },
 
     click: function () {
-      this.$avatarModal.modal('show');
+     // this.$avatarModal.modal('show');
       this.initPreview();
+      //alert('click')
+
       //this.init();
     },
 
     change: function () {
-        this.cleanUpSelected();//清除 选中数据
+      this.cleanUpSelected();//清除 选中数据
       var files,
           file;
       if (this.support.datauri) {
@@ -235,7 +229,7 @@
 
       if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
          alert('请先选择图片')
-        return false;
+         return false;
       }
 
       if (this.support.formData) {
@@ -305,8 +299,8 @@
 
         var url = this.$avatarForm.attr('action'),
         _this = this;
-        if(this.type=='community'){
-            data.append('community_id',$("input#type").attr('name'));
+        if(this.type=='shequ'){
+            data.append('community_id',community_id);
         }
         data.append('type',this.type);//user提交，还是community
         console.log(data)
@@ -356,16 +350,13 @@
     },
 
     submitDone: function (data) {
-      console.log(data);
       if(data.code===0){
-        $("div.success").fadeToggle(500,function(){
-            $('.avatar-close').click();
-            window.location.reload();
-
-        })
-        return ;
+       $('#photo').find('.close').click();
+       $("a[href='#photo']").find('img').attr('src',data['data']);
+       return ;
       }else if(data.code===1){
-          $("div.fail").fadeToggle(500);
+            alert('上传失败！')
+//          $("div.fail").fadeToggle(500);
           return;
       }
       if ($.isPlainObject(data) && data.code === 0) {
@@ -404,17 +395,6 @@
       this.stopCropper();
       this.$avatarModal.modal('hide');
     },
-
-    alert: function (msg) {
-      var $alert = [
-            '<div class="alert alert-danger avater-alert">',
-              '<button type="button" class="close" data-dismiss="alert">&times;</button>',
-              msg,
-            '</div>'
-          ].join('');
-
-      this.$avatarUpload.after($alert);
-    },
     convertToData:function(url, canvasdata, cropdata,data) {
         var cropw = cropdata.width; // 剪切的宽
         var croph = cropdata.height; // 剪切的宽
@@ -436,7 +416,7 @@
                 var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
 
                data.append('image',base64);
-               data.append('isDefault',0);//isDefault :true 使用系统默认的
+               data.append('isDefault',false);//isDefault :true 使用系统默认的
                this.callback(data)	  // 回调base64字符串
         }else{
             img.onload = function() {
@@ -447,14 +427,15 @@
                 var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
                 img.onload = null;
                 data.append('image',base64);
-                data.append('isDefault',0);//isDefault :true 使用系统默认的
+                data.append('isDefault',false);//isDefault :true 使用系统默认的
                 this.callback(data);  // 回调base64字符串
             }
         }
 
     },
     getBase64Image:function (data) {
-       var  selectedImage = this.$avatarModal.find('.selected-img');
+
+       var  selectedImage = this.$avatarCommendwrapper.find('span.active>img');
        if(typeof(selectedImage)=="undefined"){
            alert('请先选择图片');
            return false;
@@ -479,7 +460,7 @@
                 var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
 
                data.append('image',base64);
-               data.append('isDefault',1);//isDefault :true 使用系统默认的
+               data.append('isDefault',true);//isDefault :true 使用系统默认的
                this.callback(data);	  // 回调base64字符串
         }else{
             img.onload = function() {
@@ -487,7 +468,7 @@
                 var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
                 img.onload = null;
                 data.append('image',base64);
-                data.append('isDefault',1);//isDefault :true 使用系统默认的
+                data.append('isDefault',true);//isDefault :true 使用系统默认的
                 this.callback(data);	  // 回调base64字符串
             }
         }
@@ -505,20 +486,20 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
+                var community_url = $("a[href='#photo']").find('img').attr('src')
+
                     this.recommendimage =$('.recommend-image');
                     var imgs = [];
                     var res =data.result;
                     for(var i=0;i<res.length;i++){
                         this.image= [
-                            '<li class="image-li" >',
-                              '<a><img src="'+res[i].imgsrc+'"/>',
-                              '<span class="no-select"></span>',
-                             '</a>',
-                             '</li>'
+                             '<span >',
+                             '<img src="'+res[i].imgsrc+'"/></span>'
                              ].join('');
                         imgs.push(this.image)
                     }
-                    $('.recommend-image>ul').empty().html(imgs);
+
+                    $('.photo-list').html(imgs)
                 },
                 error: function (data) {
                     alert('加载默认图片出错！')
@@ -528,9 +509,7 @@
   };
 
   $(function () {
-
-
-return new CropAvatar($('#crop-avatar'));
+    return new CropAvatar($('#photo'));
   });
 
 });
