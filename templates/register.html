@@ -5,53 +5,12 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
 </head>
 
 <body>
-    <div id="header" class="bg-white">
-        <div class="container ">
-            <div class="site-brand">
-                <div class="logo-brand">
-                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
-                </div>
-            </div>
-            <div class="top-search">
-                <div class="search-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary"><i class="icon-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ul class="top-nav">
-                <li><a href="j-index.html">资讯</a></li>
-                <li class="active"><a href="good_post_list.html">社区</a></li>
-            </ul>
-            <div class="right-control">
-                <ul class="user-nav list-unstyled">
-                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
-                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
-                            <li><a href=" "><span>回复</span></a></li>
-                            <li><a href=" "><span>关注</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="login hidden"><a href="template.html">登录</a></li>
-                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span>我的主页</span></a></li>
-                            <li><a href=" "><span>退出</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
@@ -60,30 +19,34 @@
             <div class="cards user-form">
             <div class="box-sm pull-right">
                 <div class="blk-6x"></div>
-                <div class="heading"><span>欢迎来到金融岛！</span></div>
+                <div class="heading"><span>注册新用户</span></div>
                 <form name="form">
-                <div class="form-group">
-                        <input type="text" placeholder="手机号" class="form-control">
+                    <div class="form-group">
+                        {% if mobile %}
+                        <input type="text" id="user_mobile_phone_input" value="{{mobile}}" class="form-control">
+                        {% else %}
+                        <input type="text" id="user_mobile_phone_input" placeholder="手机号" class="form-control" onblur="return check_mobile()"/>
+                        {% endif %}
                     </div>
                     <div class="form-group">
                     <div class="input-group">
-
-                        <input type="text" placeholder="验证码" class="form-control">
-                        <div class="input-group-btn"><button class="btn btn-default">发送验证码</button></div>
+                        <input type="text" placeholder="验证码" id="user_mobile_verify_code_input" class="form-control">
+                        <div class="input-group-btn"><button id="button_send_sms_code" onclick="return send_sms_code()" class="btn btn-default">发送验证码</button>
+                        </div>
                     </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" placeholder="密码" class="form-control">
+                        <input type="password" placeholder="密码" id="user_password_input"  class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" placeholder="再次输入密码" class="form-control">
+                        <input type="password" placeholder="再次输入密码" id="user_password_input_repeat"  class="form-control">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-md btn-primary btn-block">注册</button>
+                        <button type="submit" onclick="return regist()"  class="btn btn-md btn-primary btn-block">注册</button>
                     </div>
-                    <small class="pull-right"><a href="#" class="text-info">忘记密码？</a></small><small>已有帐号？<a href="login.html">马上登录</a></small>
+                    <small class="pull-right"><a href="#" class="text-info">忘记密码？</a></small><small>已有帐号？<a href="/login">马上登录</a></small>
                     <div class="blk-2x"></div>
-                    <div class="text-danger">手机号错误</div>
+                    <div class="text-danger" id="msg"></div>
                     <div class="blk-6x"></div>
                 </form>
             </div>
@@ -94,8 +57,98 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
 </body>
+<script type="text/javascript">
+ function check_mobile() {
+   var mobile=document.getElementById('user_mobile_phone_input').value;
+   data={};
+   data['mobile']=mobile;
+   data['type']='verify';
+   $.ajax({
+     type:'POST',
+     url:'/check_mobile',
+     data:data,
+     dataType:'json',
+     success:function(data) {
+       if (data['succ'] != 0) {
+         document.getElementById('user_mobile_phone_input').value="";
+         document.getElementById('msg').innerHTML="手机号格式错误";
+       } else {
+         document.getElementById('msg').innerHTML="";
+       }
+     },
+     error:function(xhr,type){
+       alert('mobile verify is not pass');
+     }
+   });
+   return false;
+ }
+ function check_password_and_repeat() {
+   var password=document.getElementById('user_password_input').value;
+   var password_repeat=document.getElementById('user_password_input_repeat').value;
+   if (password_repeat != password) {
+     alert('两次输入密码不一致');
+     document.getElementById('msg').innerHTML="两次输入密码不一致";
+     document.getElementById('user_password_input').value="";
+     document.getElementById('user_password_input_repeat').value="";
+   } else {
+     document.getElementById('msg').innerHTML="";
+   }
+   return false;
+ }
+function regist() {
+     var mobile = document.getElementById("user_mobile_phone_input").value;
+     var sms_code = document.getElementById("user_mobile_verify_code_input").value;
+     var password = document.getElementById("user_password_input").value;
+     var password_repeat = document.getElementById("user_password_input_repeat").value;
+     if (mobile == "") {
+         document.getElementById('msg').innerHTML="请输入手机号";
+         return false;
+     }
+     if (sms_code == "") {
+         document.getElementById('msg').innerHTML="请输入手机验证码";
+         return false;
+     }
+     if (password == "") {
+         document.getElementById('msg').innerHTML="请输入密码";
+         return false;
+     }
+     if (password_repeat == "") {
+         document.getElementById('msg').innerHTML="请再次输入密码";
+         return false;
+     }
+     var data={};
+     data['type']='create';
+     data['mobile']=mobile;
+     data['sms_code']=sms_code;
+     data['password']=password;
+     data['password_repeat']=password_repeat;
+     $.ajax({
+         type:'POST',
+         url:'/regist',
+         data:data,
+         dataType:'json',
+         success:function(data) {
+            if (data['succ'] != 0) {
+              //alert('该手机号已经注册或者短信验证码不正确');
+              document.getElementById('msg').innerHTML="该手机号已经注册或者短信验证码不正确";
+            } else {
+              window.location.href="/user_create_step_2";
+            }
+         },
+         error:function(xhr,type) {
+             alert("phone or verify_code is not correct!");
+             //window.location.href="/user_create_step_2";
+         }
+     });
+     return false;
+ }
+ function send_sms_code() {
+   alert('验证码已发送，如果未收到可填写 123456');
+   return false;
+}
+</script>
 
 </html>

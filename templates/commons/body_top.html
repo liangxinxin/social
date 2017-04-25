@@ -1,0 +1,106 @@
+<div id="header" class="bg-white">
+    <div class="container ">
+        <div class="site-brand">
+            <div class="logo-brand">
+                <a href="index.html"><img src="../images/logo.png" alt="金融岛"></a>
+            </div>
+        </div>
+        <div class="top-search">
+            <div class="search-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="搜索社区和帖子" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary"><i class="icon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="top-nav">
+            <li><a href="j-index.html">资讯</a></li>
+            <li class="active"><a href="good_post_list.html">社区</a></li>
+        </ul>
+        <div class="right-control">
+            <ul class="user-nav list-unstyled">
+                {% if messages_unread %}
+                <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
+                    <ul class="dropdown-menu ">
+                        <li><a href=" ">
+                            {% if count_reply %}
+                            <span class="badge">{{count_reply}}</span>
+                            {% endif %}
+                            <span>评论</span>
+                            </a>
+                        </li>
+                        <li><a href=" ">
+                            {% if count_do_good %}
+                            <span class="badge">{{count_do_good}}</span>
+                            {% endif %}
+                            <span>赞</span>
+                            </a>
+                        </li>
+                        <li><a href=" ">
+                            {% if count_comment %}
+                            <span class="badge">{{count_comment}}</span>
+                            {% endif %}
+                            <span>回复</span>
+                            </a>
+                        </li>
+                        <li><a href=" ">
+                            {% if count_guanzhu %}
+                            <span class="badge">{{count_guanzhu}}</span>
+                            {% endif %}
+                           <span>关注</span>
+                           </a>
+                        </li>
+                        <li><a href=" ">
+                            {% if private_unread_count %}
+                            <span class="badge">{{private_unread_count}}</span>
+                            {% endif %}
+                           <span>私信</span>
+                           </a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                {% endif %}
+                <li class="register dropdown-toggle">
+                    {% if session.get('userinfo') %}
+                    <a id="a_login" data-toggle="dropdown" href="#">{{session.get('userinfo')['name']}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu" id="logined_memu">
+                        <li><a href="/user_info?user_id={{ session.get('userinfo')['id'] }}"><span>我的主页</span></a></li>
+                        <li><a href="#" onclick="return to_log_out()"><span>退出</span></a></li>
+                    </ul>
+                    <a href="#" onclick="to_log_in()" id="a_login_unlogined" style="display:none">登录&注册</a>
+                    {% else %}
+                    <a href="#" onclick="to_log_in()" id="a_login_unlogined">登录&注册</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" >
+  function to_log_out() {
+    data={};
+    $.ajax({
+      type:'POST',
+      url:'/logout',
+      data:data,
+      dataType:'json',
+      success:function(data){
+        if (data['succ']==0){
+          document.getElementById("logined_memu").style.display="none";
+          document.getElementById("a_login").style.display="none";
+          document.getElementById("a_login_unlogined").style.display="block";
+        }
+      },
+      error:function(xhr,type) {
+      }
+    });
+    return false;
+  }
+  function to_log_in() {
+     var cur_url=this.location.href;
+     window.location.href="/login?next_url="+cur_url;
+ }
+</script>

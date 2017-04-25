@@ -10,55 +10,14 @@
 </head>
 
 <body>
-    <div id="header" class="bg-white">
-        <div class="container ">
-            <div class="site-brand">
-                <div class="logo-brand">
-                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
-                </div>
-            </div>
-            <div class="top-search">
-                <div class="search-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary"><i class="icon-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ul class="top-nav">
-                <li><a href="j-index.html">资讯</a></li>
-                <li class="active"><a href="good_post_list.html">社区</a></li>
-            </ul>
-            <div class="right-control">
-                <ul class="user-nav list-unstyled">
-                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
-                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
-                            <li><a href=" "><span>回复</span></a></li>
-                            <li><a href=" "><span>关注</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="login hidden"><a href="template.html">登录</a></li>
-                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span>我的主页</span></a></li>
-                            <li><a href=" "><span>退出</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
             <div class="my-header">
-                <div class="img">
+                <div class="img im">
                     <a href="#photo" data-toggle="modal"><img src="../static/images/photo.png"></a>
                 </div>
                 <div class="content">
