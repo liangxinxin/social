@@ -419,7 +419,7 @@ def user_create():
 
 @app.route('/user_create_step_2', methods=['GET', 'POST'])
 def user_create_step_2():
-    return render_template('user_create_step2.html')
+    return render_template('user_create_step_2.html')
 
 @app.route('/do_user_create', methods=['GET', 'POST'])
 def do_user_create():
