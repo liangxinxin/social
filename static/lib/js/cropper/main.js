@@ -60,21 +60,24 @@
     close:function(){
        this.cleanUploadData();
        this.cleanUpSelected();
-    } ,
+    },
     init: function () {
       this.support.datauri = this.support.fileList && this.support.blobURLs;
       if (!this.support.formData) {
         this.initIframe();
       }
-
       this.$avatarInput.val("")
       this.initTooltip();
       this.initModal();
       this.getDefaultImage();//初始化默认图片
       this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
       this.addListener();
-
-
+      //shequ or user
+      this.$avatarModal.find('.preview').addClass(this.type)
+      if (this.type=='shequ'){
+        this.$avatarModal.find('.preview').find('p.lg').text('100*78')
+        this.$avatarModal.find('.preview').find('p.md').text('50*39')
+      }
 
     },
     uploadImage:function(){
@@ -263,11 +266,17 @@
       } else {
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
+        var ratio = 1;
+        if(this.type=='shequ'){
+            ratio=100/78;
+        }
         this.$img.cropper({
-          aspectRatio: 1,
+          aspectRatio: ratio,
           preview: this.$avatarPreview.selector,
           strict: false,
           crop: function (data) {
+
+          console.log(data.height)
             var json = [
                   '{"x":' + data.x,
                   '"y":' + data.y,

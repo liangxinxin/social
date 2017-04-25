@@ -7,11 +7,12 @@
   overflow: hidden;
 }
 
-.avatar-upload label {
+.preview label {
   display: block;
   float: left;
   clear: left;
   width: 100px;
+  margin:5px;
 }
 
 .avatar-upload input {
@@ -33,7 +34,7 @@
   max-width: 100%;
 }
 
-.avatar-preview,.commend-preview{
+.avatar-preview{
   float: left;
   border: 1px solid #eee;
   border-radius: 4px;
@@ -41,30 +42,50 @@
   overflow: hidden;
 }
 
-.avatar-preview:hover,.commend-preview:hover{
+.avatar-preview:hover{
   border-color: #ccf;
   box-shadow: 0 0 5px rgba(0,0,0,.15);
 }
 
-.avatar-preview img,.commend-preview img{
+.avatar-preview img{
   width: 100%;
  text-algin:center;
 }
 
-.preview-lg {
-  height: 100px;
+.user .preview-lg {
   width: 100px;
+  height:100px;
   margin-top: 15px;
 }
 
-.preview-md {
+.user .preview-md {
   margin-left:25px;
   margin-top:10px;
   height: 50px;
   width: 50px;
 }
 
-.preview-sm {
+.user .preview-sm {
+  margin-left:35px;
+  margin-top:10px;
+  height: 30px;
+  width: 30px;
+}
+
+.shequ .preview-lg {
+  width: 100px;
+  height:78px;
+  margin-top: 15px;
+}
+
+.shequ .preview-md {
+  margin-left:25px;
+  margin-top:10px;
+  width: 50px;
+  height: 39px;
+}
+
+.shequ .preview-sm {
   margin-left:35px;
   margin-top:10px;
   height: 30px;
@@ -81,8 +102,9 @@
     color: #808080;
     float:left;
     width:100px;
-    height:25px;
+    height:50px;
     font-size:12px;
+    line-height:50px;
 }
 
 #choose{

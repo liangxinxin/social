@@ -101,7 +101,7 @@ function loadCommunityPost(page_no){
     data['type'] = 'getpost';
     data['community_id'] = community_id;
     data['page_no'] = page_no;
-    data['num_page'] = num_page;
+    data['num_perpage'] = num_page;
     $.ajax({
         type: 'get',
         url: '/get_community_post',
