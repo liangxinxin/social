@@ -84,13 +84,11 @@
     cleanUpSelected:function(){
         this.$commendPreview.empty().html('');
         this.$avatarCommendwrapper.find('span.active').removeClass('active');
-        console.log('cleanUpSelected')
     },
     cleanUploadData:function(){
         this.$avatarWrapper.html("");
         this.$avatarInput.val("");
         this.active = false;
-        console.log('cleanUploadData')
     },
     selected:function(e){
          this.$avatarCommendwrapper.find('span').not($(e.target).parent()).attr("class","");
@@ -133,7 +131,6 @@
         this.$avatarPreview.empty().html('<img src="' + url + '">');
       }else{
         this.$avatarCommendwrapper.find('span').each(function(){
-            console.log($(this).find('img').attr('src'))
             if($.trim(url) ==$(this).find('img').attr('src')){
             $(this).addClass('active');
         }
@@ -303,7 +300,6 @@
             data.append('community_id',community_id);
         }
         data.append('type',this.type);//user提交，还是community
-        console.log(data)
 		// 回调后的函数处理
 		    $.ajax(url, {
                 type: 'post',
