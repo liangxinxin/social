@@ -52,6 +52,131 @@ $('#update').click(function(){
 
 
 })
+function remove_match(){
+    $('#button_publish_post').removeAttr('disabled')
+    <!--$('#div_publish_post_title').find('ul.dropdown-menu').remove();-->
+    $('#submit').val('true');
+ }
+var flag;
+$('#input_publish_post_title').keyup(function(){
+    console.log('keyup')
+     clearTimeout(flag);
+       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+       //只要有输入则不执行keyup事件
+      flag = setTimeout(function(){
+       //这里面就是调用的请求
+          find_match_post();
+        }, 500);
+
+})
+ function find_match_post(){
+        var title = $('#input_publish_post_title').val();
+        $('input#input_publish_post_title~ul').remove();
+        if (title.trim()!=""){
+            $.ajax({
+              url:'/find_match_post',
+              type:'get',
+              dataType:'json',
+              async:false,
+              data:{
+                title:title
+              },
+              timeout:5000,
+              success:function(data){
+                  posts = data.post_list
+                  if (posts !=null && posts.length>0){
+                      drop_menu='<ul class="dropdown-menu"><li><a style="color:#337ab7;" class="match_info" href="#">已有类似的帖子,不能再次发表,请点击查看</a></li>'
+                      for(var i =0;i<posts.length;i++){
+                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'">'+posts[i].title+'</a></li>'
+                      }
+                      drop_menu =drop_menu+'</ul>'
+                      console.log(drop_menu)
+                      $('#submit').val('false');
+                      $('#input_publish_post_title').after(drop_menu);
+                      $('.post-input').addClass('open');
+                      $('#button_publish_post').attr('disabled','disabled')
+                  }else{
+                    $('#button_publish_post').removeAttr('disabled')
+                  }
+              }
+
+            })
+        }
+ }
+
+ $('a#summit-post').click(function(){
+     var is_submit =  $('#submit').val()
+     if(is_submit=='true'){
+     //get title
+       var title=document.getElementById("input_publish_post_title").value;
+       //get content
+       var content=$('#editor').html();
+       if (title==""){
+          alert('标题不能为空');
+          return;
+       }
+       if(content.trim()=="" || content==null || content.length==0){
+          alert('内容不能为空');
+          return;
+       }
+       user_id = 2;
+       //post request for save post
+       if(user_id>0){
+        post1("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
+       }else{
+        alert('您需要登录后才能发帖哦！');
+       }
+     }
+
+
+ })
+function post(a,b){
+    console.log(a)
+}
+
+ function post1(URL, PARAMS) {
+
+     var temp = document.createElement("form");
+     temp.action = URL;
+     temp.method = "post";
+     temp.style.display = "none";
+     for (var x in PARAMS) {
+         var opt = document.createElement("textarea");
+         opt.name = x;
+         opt.value = PARAMS[x];
+         temp.appendChild(opt);
+     }
+     document.body.appendChild(temp);
+     temp.submit();
+     return temp;
+ }
+function publish_post() {
+    <!--find_match_post();-->
+     var is_submit =  $('#submit').val()
+     if(is_submit=='true'){
+     //get title
+       var title=document.getElementById("input_publish_post_title").value;
+       //get content
+       var content=$('#editor').html();
+       if (title==""){
+          alert('标题不能为空');
+          return;
+       }
+       if(content.trim()=="" || content==null || content.length==0){
+          alert('内容不能为空');
+          return;
+       }
+       var id=document.getElementById("community_id").value;
+       //post request for save post
+       if(user_id>0){
+        post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
+       }else{
+        alert('您需要登录后才能发帖哦！');
+       }
+     }
+ }
+
+
 function load_commend_community(){
     var data = {}
     data['community_id'] = community_id;
