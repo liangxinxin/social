@@ -18,7 +18,6 @@ function initData(){
 $('#update').click(function(){
    var name =  $('input[name=cname]').val()
    var desc = $('textarea[name=cdesc]').val()
-   console.log(name)
    if ($.trim(name)==''){
        alert('请填写社区名')
    }
@@ -59,7 +58,6 @@ function remove_match(){
  }
 var flag;
 $('#input_publish_post_title').keyup(function(){
-    console.log('keyup')
      clearTimeout(flag);
        //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
        //只要有输入则不执行keyup事件
@@ -90,7 +88,6 @@ $('#input_publish_post_title').keyup(function(){
                         drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'">'+posts[i].title+'</a></li>'
                       }
                       drop_menu =drop_menu+'</ul>'
-                      console.log(drop_menu)
                       $('#submit').val('false');
                       $('#input_publish_post_title').after(drop_menu);
                       $('.post-input').addClass('open');
@@ -119,10 +116,9 @@ $('#input_publish_post_title').keyup(function(){
           alert('内容不能为空');
           return;
        }
-       user_id = 2;
        //post request for save post
        if(user_id>0){
-        post1("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
+        postRequest("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
        }else{
         alert('您需要登录后才能发帖哦！');
        }
@@ -130,11 +126,8 @@ $('#input_publish_post_title').keyup(function(){
 
 
  })
-function post(a,b){
-    console.log(a)
-}
 
- function post1(URL, PARAMS) {
+ function postRequest(URL, PARAMS) {
 
      var temp = document.createElement("form");
      temp.action = URL;
