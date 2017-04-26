@@ -205,31 +205,6 @@ def community_create():
 def community():
     community, has_join = mod_community.service(request)
     return render_template('community.html',has_join=has_join,community=community)
-    # model, user_list, community, has_join, page_no,num_perpage = mod_post.service(request)
-    # print 'has_join:', has_join
-    # post_num = len(model.items)
-    # private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-    # page_no_community, page_size_community, community_recommend_list = mod_community.select_hot_commend_community(request)
-    # if model != None and community != None:
-    #     messages_unread=mod_user.get_unread_message_from_session()
-    #     messages_unread_num = 0
-    #     if messages_unread != None:
-    #         messages_unread_num=len(messages_unread)
-    #     return jsonify(post_list=model.items, page_no=page_no,post_num=post_num,)
-    #     # return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items,\
-    #     #     user_list=user_list, community=community, has_join=has_join, page_no=page_no, \
-    #     #     num_perpage=num_perpage,\
-    #     #     count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-    #     #     private_unread_count=private_unread_count,community_recommend_list=community_recommend_list,\
-    #     #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
-    # else:
-    #     #    return render_template('community.html', community=community)
-    #     messages_unread=mod_user.get_unread_message_from_session()
-    #     messages_unread_num = 0
-    #     if messages_unread != None:
-    #         messages_unread_num=len(messages_unread)
-    #     return render_template('community_index.html',\
-    #         messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/get_community_post', methods=['GET'])
@@ -289,7 +264,7 @@ def post_publish():
 
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return redirect(url_for('community', community_id=community.id))
+    return redirect(url_for('community', id=community.id,type='query'))
     # return render_template('community.html', paginate=model, post_num=post_num,\
     #     object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
     #     private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
