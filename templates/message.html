@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
 </head>
 
 <body>
@@ -16,12 +16,36 @@
         <div class="container ">
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
-            <div class="cards md">
-                <ul class="base-tab">
-                    <li class="active"><a href="#m1" data-toggle="tab">评论</a></li>
-                    <li><a href="#m2" data-toggle="tab">赞</a></li>
-                    <li><a href="#m3" data-toggle="tab">回复</a></li>
-                    <li><a href="#m4" data-toggle="tab">关注</a></li>
+            <div class="cards md" >
+                <ul class="base-tab" id="message_ul">
+                    <li  id="li_message_follow">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getMessage(1)">关注
+                        {% if count_guanzhu %}
+                            <span class="circle_sm">{{count_guanzhu}}</span>
+                        {% endif %}
+                        </a>
+                    </li>
+                    <li  id="li_message_do_good">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getMessage(2)">赞
+                        {% if count_do_good %}
+                            <span class="circle_sm">{{count_do_good}}</span>
+                        {% endif %}
+                        </a>
+                    </li>
+                    <li id="li_message_reply">
+                        <a href="javascript:void(0)" data-toggle="tab"  onclick="getMessage(3)">回复
+                        {% if count_comment %}
+                            <span class="circle_sm">{{count_comment}}</span>
+                        {% endif %}
+                        </a>
+                    </li>
+                    <li id="li_message_comment">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getMessage(4)">评论
+                        {% if count_reply %}
+                            <span class="circle_sm">{{count_reply}}</span>
+                        {% endif %}
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="divider solid "></div>
@@ -30,37 +54,52 @@
             <div class="cards md">
                 <div class="mian-container">
                     <div class="blk-1x"></div>
-                    <div class="tab-pane message media active" id="m1">
+                    <div class="tab-pane message media active" id="m4">
+                    {% if message_type==4 %}
+                        {% if unread_num>0 and no==1 %}
+                        <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
+                        {% for message in unread_list %}
                         <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="photo"><a href="/user_info?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                    <a href="/user_info?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
-                                <p>同意景玺龙的看法</p>
+                                <p>{{message.comment.content|safe}}</p>
                             </div>
-                            <div class="blockquote"><span class="text-muted">评论帖子：</span>如何读懂财经新闻？</div>
+                            <div class="blockquote">
+                                {% if message.comment.parent %}
+                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                            {% else %}
+                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                {%endif%}
+                            </div>
                         </div>
+                        {% endfor %}
+                        {%endif%}
+                        {% if read_num > 0 %}
+                            <div class="read_mess_list col-sm-12">已读消息</div>
+                        {%elif unread_num==0 and read_num==0%}
+                            <div class="read_mess_list col-sm-12">暂无消息</div>
+                        {%endif%}
+                        {% for message in read_list %}
                         <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="photo"><a href="/user_info?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                    <a href="/user_info?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
-                                <p>文章不错</p>
+                                <p>{{message.comment.content|safe}}</p>
                             </div>
-                            <div class="blockquote"><span class="text-muted">评论帖子：</span>商机情报：分享已成为消费方式，90后新社交显现</div>
-                        </div>
-                        <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
-                            <div class="content">
-                                <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
-                                </div>
-                                <p>分析很细腻</p>
+                            <div class="blockquote">
+                                {% if message.comment.parent %}
+                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                            {% else %}
+                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                {%endif%}
                             </div>
-                            <div class="blockquote"><span class="text-muted">评论帖子：</span>如何读懂财经新闻？</div>
                         </div>
+                        {% endfor %}
                         <div class="blk-2x"></div>
                         <ul class="pagination">
                             <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
@@ -71,51 +110,121 @@
                             <li><a href="#">5</a></li>
                             <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
                         </ul>
+                    {% endif %}
                     </div>
                     <div class="tab-pane message media " id="m2">
+                    {% if message_type==2 %}
+                        {% if unread_num>0 and no==1 %}
+                        {% for message in unread_list%}
                         <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                             </div>
-                            <div class="blockquote"><span class="text-muted">赞评论：</span>金融平台打黑这是必须的</div>
+                            <div class="blockquote"><span class="text-muted">赞了你的回帖：</span>
+                                <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
+                                </a>
+                            </div>
                         </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% if read_num > 0 %}
+                            <div class="read_mess_list col-sm-12">已读消息</div>
+                        {%elif unread_num==0 and read_num==0%}
+                            <div class="read_mess_list col-sm-12">暂无消息</div>
+                        {%endif%}
+                        {% for message in read_list %}
                         <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                             </div>
-                            <div class="blockquote"><span class="text-muted">赞评论：</span>国家要出台新的金融规则</div>
+                            <div class="blockquote"><span class="text-muted">赞了你的回帖：</span>
+                                <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
+                                </a>
+                            </div>
                         </div>
+                        {% endfor %}
+                    {% endif %}
                     </div>
                     <div class="tab-pane message media " id="m3">
+                    {% if message_type==3 %}
+                        {% if unread_num>0 and no==1 %}
+                        <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
+                        {% for message in unread_list%}
                         <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
-
                                 <div class="block-bar">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span>
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
-                                 <p>^^^^</p>
+                                 <p>{{message.comment.content|safe}}</p>
                             </div>
-
-                            <div class="blockquote"><span class="text-muted">回复评论：</span>金融平台打黑这是必须的</div>
+                            <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
+                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
+                            </div>
                         </div>
-                    </div>
-                    <div class="tab-pane message media " id="m4">
-                       <div class="item">
-                            <div class="photo"><img src="../static/images/photo.png"></div>
+                        {% endfor %}
+                        {%endif%}
+                        {% if read_num > 0 %}
+                            <div class="read_mess_list col-sm-12">已读消息</div>
+                        {%elif unread_num==0 and read_num==0%}
+                            <div class="read_mess_list col-sm-12">暂无消息</div>
+                        {%else%}
+                        {%endif%}
+                        {% for message in read_list%}
+                        <div class="item">
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
-
+                                <div class="block-bar">
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                </div>
+                                 <p>{{message.comment.content|safe}}</p>
+                            </div>
+                            <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
+                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <div class="tab-pane message media " id="m1">
+                    {%if message_type==1%}
+                        {% if unread_num>0 and no==1 %}
+                        <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
+                        {% for message in unread_list%}
+                        <div class="item">
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="content">
                                 <div class="block-bar followed">
-                                    <a href="#"><span>景玺龙</span></a><span class="offset-1x">4月7日 10:01</span><span class="p">关注了我</span>
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        {%endif%} 
+                        {% if read_num > 0 %}
+                            <div class="read_mess_list col-sm-12">已读消息</div>
+                        {%elif unread_num==0 and read_num==0%}
+                            <div class="read_mess_list col-sm-12">暂无消息</div>
+                        {%endif%}
+                        {% for message in read_list%}
+                        <div class="item">
+                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="content">
+                                <div class="block-bar followed">
+                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                     </div>
                 </div>
                 <div class="side-container">
@@ -127,8 +236,62 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
+    <script type="text/javascript">
+      var type = $('#type').val();
+      var message_type = $('#messagetype').val();
+
+      function clearAllClassInUl() {
+        var ul_target=document.getElementById("message_ul");
+        var li_list = ul_target.getElementsByTagName("li");
+        for (var i=0;i<li_list.length;++i){
+          li_list[i].className="";
+        }
+      }
+      function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "get";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+      }
+      function getMessage(type_param){
+        pageNo=1;
+        pageSize=10;
+        message_type=type_param;
+        type="message_all";
+
+        var url = "/message?type="+type+"&message_type="+message_type+"&no=" + pageNo + "&size=" + pageSize;
+        console.debug("pageurl:", url);
+        post("/message",{"type":type,"message_type":message_type,"no":pageNo,"size":pageSize});
+      } 
+    </script>
+
+    <script type="text/javascript">
+        {%if message_type==1%}
+           clearAllClassInUl();
+           document.getElementById("li_message_follow").className="active"; 
+        {%elif message_type==2%}
+           clearAllClassInUl();
+           document.getElementById("li_message_do_good").className="active"; 
+        {%elif message_type==3%}
+           clearAllClassInUl();
+           document.getElementById("li_message_reply").className="active"; 
+        {%elif message_type==4%}
+           clearAllClassInUl();
+           document.getElementById("li_message_comment").className="active"; 
+        {%endif%}
+    </script>
+
 </body>
 
 </html>
