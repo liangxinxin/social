@@ -326,8 +326,9 @@ def good_friends(request):
 
     return json_user,page_no,num_perpage,paginate.total
 
-def community_owned(request):
+def community_create(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     login_user_id=0
     print 'into community owned user_id:',user_id
     if session.get('userinfo') != None:
@@ -336,10 +337,10 @@ def community_owned(request):
     num_perpage = int(request.args.get("size", default_num_perpage))
     paginate = db_model_community.select_by_owner_id_paging(user_id,page_no, num_perpage)
     print 'total community',paginate.total
-    community_json=[]
+    community_list=[]
     for item in paginate.items:
-        community_json.append(db_model_community.to_json(item))
-    return community_json,page_no,num_perpage,paginate.total
+        community_list.append(item)
+    return community_list,page_no,num_perpage,paginate.total,view_user_info
 
 
 def update_user(request):
