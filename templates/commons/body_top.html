@@ -68,7 +68,7 @@
                     {% if session.get('userinfo') %}
                     <a id="a_login" data-toggle="dropdown" href="#">{{session.get('userinfo')['name']}}<b class="caret"></b></a>
                     <ul class="dropdown-menu" id="logined_memu">
-                        <li><a href="/user_info?user_id={{ session.get('userinfo')['id'] }}"><span>我的主页</span></a></li>
+                        <li><a href="/user_info_post?user_id={{ session.get('userinfo')['id'] }}"><span>我的主页</span></a></li>
                         <li><a href="#" onclick="return to_log_out()"><span>退出</span></a></li>
                     </ul>
                     <a href="#" onclick="to_log_in()" id="a_login_unlogined" style="display:none">登录&注册</a>

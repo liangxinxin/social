@@ -480,8 +480,20 @@ def user_info():
 @app.route('/user_info_post', methods=['GET'])
 def user_info_post():
     print 'user_info_post start'
-    post_list, page_no, num_perpage, total= mod_user.get_user_post(request)
-    return jsonify(post_list=post_list,no=page_no,size=num_perpage,totalsize=total)
+    post_list, page_no, num_perpage, total,view_user_info= mod_user.get_user_post(request)
+    #friends, page_no, num_perpage, friends_total = mod_user.good_friends(request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    return render_template('user_info_post.html',\
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count, \
+                           messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
+                           post_list=post_list,no=page_no,size=num_perpage,totalsize=total,\
+                           view_user_info=view_user_info)
+    #return jsonify(post_list=post_list,no=page_no,size=num_perpage,totalsize=total)
 
 
 

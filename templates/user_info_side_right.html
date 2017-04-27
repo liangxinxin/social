@@ -1,0 +1,13 @@
+<div class="side-container">
+    {% if view_user_info %}
+    <ul class="list-menu list-unstyled">
+        <li class="active"><a href="/user_info_post?user_id={{view_user_info.id}}">我的帖子</a><span class="badge">12</span></li>
+        <li><a href="user_info_community_create?user_id={{view_user_info.id}}">创建的社区</a><span class="badge">12</span></li>
+        <li><a href="user_info_community_join?user_id={{view_user_info.id}}">加入的社区</a><span class="badge">12</span></li>
+        <li><a href="user_comments.html">我的评论</a><span class="badge">12</span></li>
+        <li><a href="user_on_my_comments.html">评论我的</a><span class="badge">12</span></li>
+        <li><a href="user_followed.html">我关注的</a><span class="badge">128</span></li>
+        <li><a href="user_follow.html">关注我的</a><span class="badge">128</span></li>
+    </ul>
+    {% endif %}
+</div>

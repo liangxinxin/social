@@ -153,6 +153,7 @@ def query_user_info(request):
 
 def get_user_post(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     page_no = int(request.args.get("no", default_page_no))
     num_perpage = int(request.args.get("size", default_num_perpage))
     paginate = db_model_post.select_all_by_user(page_no,num_perpage,user_id)
@@ -160,7 +161,7 @@ def get_user_post(request):
     for post in paginate.items:
         post.create_time = time_format.timestampFormat(post.create_time)
         post_list.append(db_model_post.to_json(post))
-    return post_list,page_no,num_perpage,paginate.total
+    return post_list,page_no,num_perpage,paginate.total,view_user_info
 
 def add_relation(request):
     print "now create user relation"
