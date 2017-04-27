@@ -160,7 +160,7 @@ def get_user_post(request):
     post_list = []
     for post in paginate.items:
         post.create_time = time_format.timestampFormat(post.create_time)
-        post_list.append(db_model_post.to_json(post))
+        post_list.append(post)
     return post_list,page_no,num_perpage,paginate.total,view_user_info
 
 def add_relation(request):

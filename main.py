@@ -477,7 +477,7 @@ def user_info():
                            count_do_good=count_do_good,private_unread_count=private_unread_count, \
                            messages_unread=messages_unread, messages_unread_num=messages_unread_num)
 
-@app.route('/user_info_post', methods=['GET'])
+@app.route('/user_info_post', methods=['GET','POST'])
 def user_info_post():
     print 'user_info_post start'
     post_list, page_no, num_perpage, total,view_user_info= mod_user.get_user_post(request)
