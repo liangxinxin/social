@@ -33,11 +33,14 @@ def service(request):
         else:
             print "error request:", request
     elif request.method == 'GET':
+        type = request.args.get("type")
         communit_id = request.args.get("community_id", 0)
         post_id = request.args.get("post_id", 0)
         if post_id != 0:
             return post_info(request)
-        if communit_id != 0:
+        # if communit_id != 0:
+        #     return query_post_in_community(request)
+        if type =='getpost':
             return query_post_in_community(request)
 
 
@@ -186,26 +189,13 @@ def query_post_in_community(request):
     num_perpage = int(request.args.get("num_perpage", default_num_perpage))
     # select post indb
     paginate = db_model_post.select_all_paging(page_no, num_perpage, community_id)
-    print "now data:", paginate.items
-
-    user_list = []
-    for post in paginate.items:
-        user = db_model_user.select_by_id(post.create_user_id)
-        user_list.append(user)
-
-    has_join = False
-    if session.get('userinfo'):
-        user_id = session.get('userinfo')['id']
-        info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
-        print " query user_community:", "user_id:", user_id, "community_id:", community_id
-        if info != None:
-            has_join = True
-    # select communit info in db
-    community = db_model_community.select_by_id(community_id)
     # return select value
     paginate.items = formate_post_time(paginate.items)
-    total_page = paginate.pages
-    return paginate, user_list, community, has_join, page_no,total_page, num_perpage
+    post_list = []
+    for item in paginate.items:
+        post_list.append(db_model_post.to_json(item))
+    paginate.items = post_list
+    return paginate, page_no, num_perpage
 
 
 def post_info(request):

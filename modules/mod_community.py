@@ -1,19 +1,18 @@
 #coding=utf8
-import sys
-import pycurl
-import cStringIO
 import json
-import urllib 
-import urllib2 
-import httplib 
-import time 
-from db_interface import db_model_post
-from db_interface import db_model_community
+import time
+
+from flask import session
+
 from db_interface import db_model_action
 from db_interface import db_model_action_type
+from db_interface import db_model_community
+from db_interface import db_model_post
+from db_interface import db_model_user_community
 
 default_page_no = 1
 default_num_perpage = 20
+hot_num_perage = 4
 default_community_id = 1
 
 def service(request):
@@ -25,9 +24,46 @@ def service(request):
       return query_community(request)
     elif service_type == "publish":
       return publish_community(request)
+    elif service_type == 'update':
+      return  update_community(request)
+
   elif request.method == 'GET':
-    print "get!"
-    return query_community(request)
+    type = request.args.get("type")
+    print 'type',type
+    if type =='commend_community':
+      return select_hot_commend_community(request)
+    elif type =='query':
+      return get_community_info(request)
+    else:
+      return query_community(request)
+
+
+
+def update_community(request):
+    id = request.form.get("id")
+    name = request.form.get("name")
+    desc = request.form.get("desc")
+    community = db_model_community.select_by_id(id)
+    result={}
+    try:
+      if community :
+        community.name = name
+        community.describe = desc
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
+        community.create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+        db_model_community.update(community)
+        result['code'] = 0
+        result['message'] = 'success'
+      else:
+        result['code'] = 1
+        result['message'] = 'community is null'
+    except Exception,e:
+      print Exception,":",e
+      result['code'] = 1
+      result['message'] = 'fail'
+    return result
+
+
 
 def query_community(request):
   print " now query community by name!"
@@ -51,8 +87,13 @@ def get_community_info(request):
   print " now query community info by id!"
   id = request.args.get("id",default_community_id)
   community=db_model_community.select_by_id(id)
-
-  return community
+  has_join = False
+  if session.get('userinfo'):
+    user_id = session.get('userinfo')['id']
+    info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=id)
+    if info != None:
+      has_join = True
+  return community,has_join
 
 def publish_community(request):
   print "publish community request"
@@ -100,16 +141,29 @@ def get_hot_communities_total_num():
   else:
     return len(data.items)
   
-    
-def select_good_community(request):
-   # page_no = int(request.args.get("no", default_page_no))
-   # num_perpage = int(request.args.get("size", default_num_perpage))
-    page_no = 1
-    num_perpage=4 
 
-    # select db
-    paginate = db_model_community.select_by_user_num(page_no, num_perpage)
-    return page_no,num_perpage,paginate.items 
+def select_hot_commend_community(request):
+    current_community_id = int(request.args.get('community_id',0))
+    comm_ids = [current_community_id]
+    page_no = request.args.get('page_no',default_page_no)
+    num_page = request.args.get('num_page',hot_num_perage)
+    if session.get('userinfo') and current_community_id:# commend_community
+      user_id = session.get('userinfo')['id']
+      #select join communty
+      community_list = db_model_user_community.select_all_join_community_id(user_id)
+      if community_list:
+        map(lambda x: int(x), community_list[0])
+        comm_ids = list(set(comm_ids+list(map(lambda x: int(x), community_list[0]))))
+      commend_list = db_model_community.select_commend_community(page_no,hot_num_perage,comm_ids)
+    else:# hot_community
+      paginate = db_model_community.select_by_user_num(default_page_no,hot_num_perage,current_community_id)
+      commend_list = paginate.items
+    commend_list_new = []
+    for item in commend_list:
+      commend_list_new.append(db_model_community.to_json(item))
+    return page_no,num_page,commend_list_new
+
+
 
 def find_match_community(request):
   name = request.args.get('name')

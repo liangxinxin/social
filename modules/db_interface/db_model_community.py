@@ -96,19 +96,26 @@ def select_all_paging(page_no,num_perpage):
     paginate = Community.query.order_by(desc(Community.id)).paginate(page_no,num_perpage,False)
     return paginate
 
-def save_head_image(id,imageUrl):
+def save_head_image(id,imageUrl,update_time):
     row = Community.query.get(id)
     row.head_img_url = imageUrl
+    row.last_update_time = update_time
     db.session.commit()
 
 # return paginate
-def select_by_user_num(page_no, num_per_page):
+def select_by_user_num(page_no, num_per_page,id):
     print 'no:', page_no, 'num:', num_per_page
     if page_no < 1:
         page_no = 1
-    paginate = Community.query.order_by(desc(Community.user_num)).paginate(page_no, num_per_page, False)
+    paginate = Community.query.filter(Community.id != id).order_by(desc(Community.user_num)).paginate(page_no, num_per_page, False)
     print paginate
     return paginate
+
+def select_commend_community(page_no,num_perpage,ids):
+
+    paginate = Community.query.filter(Community.id.notin_(ids)).order_by(desc(Community.user_num)).paginate(page_no, num_perpage, False)
+    return paginate.items
+
 
 
 def to_json(object):

@@ -38,7 +38,7 @@ def default():
     for post_new in post_list:
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
-    page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
+    page_no_community, page_size_community, community_recommend_list = mod_community.select_hot_commend_community(request)
     messages_unread = mod_user.get_unread_message_from_session()
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     if messages_unread != None:
@@ -203,30 +203,29 @@ def community_create():
 @app.route('/community', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community():
-    model, user_list, community, has_join, page_no,total_page,num_perpage = mod_post.service(request)
-    print 'has_join:', has_join
-    post_num = len(model.items)
-    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    community, has_join = mod_community.service(request)
+    return render_template('community.html',has_join=has_join,community=community)
 
-    if model != None and community != None:
-        messages_unread=mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-        return render_template('community.html', paginate=model, post_num=post_num, object_list=model.items,\
-            user_list=user_list, community=community, has_join=has_join, page_no=page_no, \
-            total_page=total_page,num_perpage=num_perpage,\
-            count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-            private_unread_count=private_unread_count,\
-            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
-    else:
-        #    return render_template('community.html', community=community)
-        messages_unread=mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-        return render_template('community_index.html',\
-            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+
+@app.route('/get_community_post', methods=['GET'])
+def get_community_post():
+    print 'get_community_post'
+    model,page_no, num_perpage = mod_post.service(request)
+    total= model.total
+    print 'get_community_post rersult total',total
+    return jsonify(post_list=model.items, page_no=page_no, total=total)
+
+@app.route('/get_commend_community', methods=['GET'])
+def get_commend_community():
+    page_no, num_page, commend_list = mod_community.select_hot_commend_community(request)
+    print 'get_commend_community','total',len(commend_list)
+    return jsonify(page_no=page_no,num_page=num_page,commend_list=commend_list)
+
+@app.route('/update_community',methods=['POST'])
+def update_community():
+    result = mod_community.service(request)
+    print 'update_community result',result['code'],result['message']
+    return jsonify(result=result['code'])
 
 @app.route('/community_info', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
@@ -265,7 +264,7 @@ def post_publish():
 
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
-    return redirect(url_for('community', community_id=community.id))
+    return redirect(url_for('community', id=community.id,type='query'))
     # return render_template('community.html', paginate=model, post_num=post_num,\
     #     object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
     #     private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
@@ -564,7 +563,7 @@ def good_post_list():
         print 'status:',post_new.status,'id',post_new.id
         post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
         post_list_new.append(post_new)
-    page_no_community, page_size_community, community_recommend_list = mod_community.select_good_community(request)
+    page_no_community, page_size_community, community_recommend_list = mod_community.select_hot_commend_community(request)
     messages_unread = mod_user.get_unread_message_from_session()
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
     messages_unread_num=0
@@ -600,9 +599,9 @@ def upload_head_image():
     print 'upload_head_image'
     result = mod_image.service(request)
     if result.get('code') == 0:
-        return jsonify(code=0, result='succ')
+        return jsonify(code=0, result='succ',data=result['data'])
     else:
-        return jsonify(code=1, result='fail')
+        return jsonify(code=1, result='fail',data='')
 
 @app.route('/get_default_image',methods=['get'])
 # @interceptor(login_required=True)
