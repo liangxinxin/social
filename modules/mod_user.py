@@ -294,6 +294,7 @@ def check_login():
 
 def good_friends(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     login_user_id=0
     print 'into good friends user_id:',user_id
     if session.get('userinfo') != None:
@@ -308,23 +309,26 @@ def good_friends(request):
 
     if login_user_id==0:
         for user_relation in paginate.items:
-            user_relation= db_model_user_relation.to_json(user_relation)
-            user_relation['is_relation']=False
+            #user_relation= db_model_user_relation.to_json(user_relation)
+            #user_relation['is_relation']=False
+            user_relation.is_relation=False
             json_user.append(user_relation)
     else:
         for user_relation in paginate.items:
             #当前登录的人是否关注个人主页好友
             login_user_relation =db_model_user_relation.select_by_relation(login_user_id,user_relation.user_id,has_relation)
-            user_relation= db_model_user_relation.to_json(user_relation)
+            #user_relation= db_model_user_relation.to_json(user_relation)
             if login_user_relation==None:
-                user_relation['is_relation'] = False
+                #user_relation['is_relation'] = False
+                user_relation.is_relation = False
             else:
-                user_relation['is_relation'] =True
+                #user_relation['is_relation'] =True
+                user_relation.is_relation =True
 
 
             json_user.append(user_relation)
 
-    return json_user,page_no,num_perpage,paginate.total
+    return json_user,page_no,num_perpage,paginate.total,view_user_info
 
 def community_create(request):
     user_id = request.args.get("user_id")

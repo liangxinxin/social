@@ -5,68 +5,20 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
 </head>
 
 <body>
-    <div id="header" class="bg-white">
-        <div class="container ">
-            <div class="site-brand">
-                <div class="logo-brand">
-                    <a href="index.html"><img src="../static/images/logo.png" alt="金融岛"></a>
-                </div>
-            </div>
-            <div class="top-search">
-                <div class="search-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索社区和帖子" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary"><i class="icon-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ul class="top-nav">
-                <li><a href="j-index.html">资讯</a></li>
-                <li class="active"><a href="good_post_list.html">社区</a></li>
-            </ul>
-            <div class="right-control">
-                <ul class="user-nav list-unstyled">
-                    <li><a data-toggle="dropdown" href="#"><i class="icon-bell active"></i></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span class="badge">5</span><span>评论</span></a></li>
-                            <li><a href=" "><span class="badge">15</span><span>赞</span></a></li>
-                            <li><a href=" "><span>回复</span></a></li>
-                            <li><a href=" "><span>关注</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="login hidden"><a href="template.html">登录</a></li>
-                    <li class="register dropdown-toggle"><a data-toggle="dropdown" href="#">hongleifu<b class="caret"></b></a>
-                        <ul class="dropdown-menu ">
-                            <li><a href=" "><span>我的主页</span></a></li>
-                            <li><a href=" "><span>退出</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
+            {% if view_user_info %}
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
-            <div class="my-header">
-                <div class="img">
-                    <a href="#"><img src="../static/images/photo.png"></a>
-                </div>
-                <div class="content">
-                    <h4>hongleifu<a href="#"><i class="icon-pencil"></i></a></h4>
-                    <p>一壶浊酒喜相逢，古今多少事，滚滚长江东逝水，浪花淘尽英雄。</p>
-                </div>
-                <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
-            </div>
+            {% include 'user_info_header.html' %}
+
             <div class="divider solid "></div>
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
@@ -74,108 +26,25 @@
                 <div class="mian-container">
                     <div class="blk-2x"></div>
                     <div class="user-list">
+                        {% for friend in friend_list %}
                         <div class="item">
                             <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
+                                <a href="user_info_post?user_id={{friend.user.id}}"><img src="{{friend.user.head_img_url}}"></a>
                             </div>
                             <div class="content">
-                                <h4><a href="#">王谢杨</a></h4>
-                                <p>望精研一业，不忘初心，得之始终</p>
+                                <h4><a href="user_info_post?user_id={{friend.user.id}}">{{friend.user.name}}</a></h4>
+                                <p>{{friend.user.label}}</p>
                                 <div class="block-bar action">
                                     <div class="row-1x">
                                         <div class="group-span-1x">
-                                            <span><em>帖子</em><b>7</b></span>
-                                            <span><em>成员</em><b>165</b></span>
+                                            <span><em>帖子数</em><b>{{friend.user.post_num}}</b></span>
+                                            <span><em>粉丝数</em><b>{{friend.user.by_attention_num}}</b></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="#">Hasuran Li</a></h4>
-                                <p>精通各类理财</p>
-                                <div class="block-bar action">
-                                    <div class="row-1x">
-                                        <div class="group-span-1x">
-                                            <span><em>帖子</em><b>18</b></span>
-                                            <span><em>成员</em><b>568</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="#">李蓉慧</a></h4>
-                                <p>自然好不过这一生。</p>
-                                <div class="block-bar action">
-                                    <div class="row-1x">
-                                        <div class="group-span-1x">
-                                            <span><em>帖子</em><b>8</b></span>
-                                            <span><em>成员</em><b>38</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="#">纪云</a></h4>
-                                <p>爱好太广泛</p>
-                                <div class="block-bar action">
-                                    <div class="row-1x">
-                                        <div class="group-span-1x">
-                                            <span><em>帖子</em><b>12</b></span>
-                                            <span><em>成员</em><b>267</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="#">王恺</a></h4>
-                                <p>投资、融资等金融服务</p>
-                                <div class="block-bar action">
-                                    <div class="row-1x">
-                                        <div class="group-span-1x">
-                                            <span><em>帖子</em><b>6158</b></span>
-                                            <span><em>成员</em><b>47846</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="#">陈晓卿</a></h4>
-                                <p>北京航空航天大学 航空宇航推进理论与工程博士在读</p>
-                                <div class="block-bar action">
-                                    <div class="row-1x">
-                                        <div class="group-span-1x">
-                                            <span><em>帖子</em><b>19</b></span>
-                                            <span><em>成员</em><b>188</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     
                     <div class="blk-2x"></div>
@@ -189,26 +58,17 @@
                         <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
                     </ul>
                 </div>
-                <div class="side-container">
-                    <ul class="list-menu list-unstyled">
-                        <li><a href="user_info.html">我的帖子</a><span class="badge">12</span></li>
-                        <li><a href="user_community.html">创建的社区</a><span class="badge">12</span></li>
-                        <li><a href="user_community_followed.html">加入的社区</a><span class="badge">12</span></li>
-                        <li><a href="user_comments.html">我的评论</a><span class="badge">12</span></li>
-                        <li><a href="user_on_my_comments.html">评论我的</a><span class="badge">12</span></li>
-                        <li><a href="user_followed.html">我关注的</a><span class="badge">128</span></li>
-                        <li class="active"><a href="user_follow.html">关注我的</a><span class="badge">128</span></li>
-                    </ul>
-                </div>
+                {% include 'user_info_side_right.html' %}
             </div>
             <div class="divider solid "></div>
+        {% endif %}
         </div>
     </div>
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
 </body>
 
 </html>
