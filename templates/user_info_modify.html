@@ -1,0 +1,58 @@
+{% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
+<div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-md">
+        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+            <div class="modal-body clearfix relative">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="input_user_name" value="{{session.get('userinfo')['name']}}">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="" id="text_user_label" class="form-control">{{view_user_info.label}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="justified2-2">
+                    <li>
+                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg btn-block">确定</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-book-content" id="photo" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-md">
+        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+            <div class="modal-body clearfix relative">
+                <ul class="base-tab list-unstyled text-center">
+                    <li class="active"><a href="#m1" data-toggle="tab">本地上传</a></li>
+                    <li><a href="#m2" data-toggle="tab">系统头像</a></li>
+                </ul>
+                <div class="photo-container tab-pane active" id="m1">
+                    <div style="padding: 50px; text-align: center;">上传图片区域</div>
+                </div>
+                <div class="photo-container tab-pane" id="m2">
+                    <div class="photo-list photo">
+                        <span class="active"><img src="../images/user/img1.jpg"></span><span><img src="../images/user/img2.jpg"></span><span><img src="../images/user/img3.jpg"></span><span><img src="../images/user/img4.jpg"></span><span><img src="../images/user/img5.jpg"></span><span><img src="../images/user/img6.jpg"></span><span><img src="../images/user/img7.jpg"></span><span><img src="../images/user/img8.jpg"></span><span><img src="../images/user/img9.jpg"></span><span><img src="../images/user/img10.jpg"></span><span><img src="../images/user/img11.jpg"></span><span><img src="../images/user/img12.jpg"></span><span><img src="../images/user/img13.jpg"></span><span><img src="../images/user/img14.jpg"></span><span><img src="../images/user/img15.jpg"></span><span><img src="../images/user/img16.jpg"></span><span><img src="../images/user/img17.jpg"></span><span><img src="../images/user/img18.jpg"></span><span><img src="../images/user/img19.jpg"></span><span><img src="../images/user/img20.jpg"></span><span><img src="../images/user/img21.jpg"></span><span><img src="../images/user/img22.jpg"></span><span><img src="../images/user/img23.jpg"></span><span><img src="../images/user/img24.jpg"></span><span><img src="../images/user/img25.jpg"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="justified2-2">
+                    <li>
+                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg btn-block">确定</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
