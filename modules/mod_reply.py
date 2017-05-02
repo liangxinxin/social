@@ -316,7 +316,6 @@ def delete_reply(request):
         post = db_model_post.select_by_id(reply.post_id)
         if post.floor_num>0:
             post.floor_num = post.floor_num-1
-        post.last_update_time = last_update_time
         db_model_post.update(post)
     except:
         result['code'] = 1

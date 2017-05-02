@@ -105,10 +105,9 @@ def select_all_paging(page_no,num_per_page):
     return paginate
 
 
-def update_floor_num(id,floor_num,last_update_time):
+def update_floor_num(id,floor_num):
     row = Reply.query.get(id)
     row.floor_num = floor_num
-    row.last_update_time = last_update_time
     db.session.commit()
 
 def update_like_num(id,like_num,last_update_time):
