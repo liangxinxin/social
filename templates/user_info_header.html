@@ -1,4 +1,6 @@
- <div class="my-header">
+<script src="../lib/jquery-1.8.1.min.js "></script>
+<div class="my-header">
+     <input name="type" type="hidden" value="user">
      <div class="img im">
          {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
          <a href="#photo" data-toggle="modal"><img src="{{view_user_info.head_img_url}}"></a>
@@ -22,3 +24,6 @@
      <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
      {% endif %}
  </div>
+{%if view_user_info.id == session.get('userinfo')['id'] %}
+{% include 'commons/upload.html' %}
+{%endif%}

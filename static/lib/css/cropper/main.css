@@ -9,8 +9,10 @@
   display: block;
   float: left;
   clear: left;
-  width: 100px;
   margin:5px;
+  text-algin:center;
+  width:80px;
+
 }
 .avatar-upload input {
   display: block;
@@ -45,15 +47,16 @@
  text-algin:center;
 }
 .user .preview-lg {
-  width: 100px;
-  height:100px;
+  width: 80px;
+  height:80px;
   margin-top: 15px;
 }
 .user .preview-md {
-  margin-left:25px;
-  margin-top:10px;
+  margin-left:15px;
   height: 50px;
   width: 50px;
+  vertical-align:middle;
+  text-align:center;
 }
 .user .preview-sm {
   margin-left:35px;
@@ -67,11 +70,13 @@
   margin-top: 15px;
 }
 .shequ .preview-md {
-  margin-left:25px;
+  margin-left:15px;
   margin-top:10px;
   width: 50px;
   height: 39px;
-}
+  vertical-align:middle;
+  text-align:center;
+ }
 .shequ .preview-sm {
   margin-left:35px;
   margin-top:10px;
@@ -86,7 +91,7 @@
 .image-desc{
     color: #808080;
     float:left;
-    width:100px;
+    width:80px;
     height:50px;
     font-size:12px;
     line-height:50px;

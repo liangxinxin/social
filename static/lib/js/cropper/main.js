@@ -8,7 +8,6 @@
     factory(jQuery);
   }
 })(function ($) {
-
   'use strict';
 
   var console = window.console || { log: function () {} };
@@ -126,6 +125,7 @@
     },
 
     initPreview: function () {
+      this.$avatar = this.$avatarView.find('img');
       var url = this.$avatar.attr('src');
       this.$avatarModal.find('ul.base-tab>li.active').removeClass('active');
       this.$avatarLocalBtn.click();
@@ -133,6 +133,7 @@
       if (url.indexOf('upload') !=-1){
         this.$avatarPreview.empty().html('<img src="' + url + '">');
       }else{
+      this.$avatarPreview.empty();
         this.$avatarCommendwrapper.find('span').each(function(){
             if($.trim(url) ==$(this).find('img').attr('src')){
             $(this).addClass('active');
@@ -483,6 +484,7 @@
     },
     getDefaultImage:function () { //type:user获取人的默认头像，community：社区默认头像
         var url = '/get_default_image?type='+this.type;
+        var type = this.type;
         $.ajax(url, {
                 type: 'get',
                 data: "",
@@ -491,20 +493,33 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                var community_url = $("a[href='#photo']").find('img').attr('src')
+                    if(type=='shequ'){
+                        //var community_url = $("a[href='#photo']").find('img').attr('src')
+                        //this.recommendimage =$('.recommend-image');
+                        var imgs = [];
+                        var res =data.result;
+                        for(var i=0;i<res.length;i++){
+                            this.image= [
+                                 '<span >',
+                                 '<img src="'+res[i].imgsrc+'"/></span>'
+                                 ].join('');
+                            imgs.push(this.image)
+                        }
+                    $('.photo-list').addClass('shequ');
+                    }else if(type=='user'){
+                        var imgs = [];
+                        var res =data.result;
+                        for(var i=0;i<res.length;i++){
+                            this.image= [
+                                 '<span >',
+                                 '<img src="'+res[i].imgsrc+'"/></span>'
+                                 ].join('');
+                            imgs.push(this.image)
+                        }
 
-                    this.recommendimage =$('.recommend-image');
-                    var imgs = [];
-                    var res =data.result;
-                    for(var i=0;i<res.length;i++){
-                        this.image= [
-                             '<span >',
-                             '<img src="'+res[i].imgsrc+'"/></span>'
-                             ].join('');
-                        imgs.push(this.image)
+                    $('.photo-list').addClass('photo');
                     }
-
-                    $('.photo-list').html(imgs)
+                   $('.photo-list').html(imgs);
                 },
                 error: function (data) {
                     alert('加载默认图片出错！')

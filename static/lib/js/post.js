@@ -339,7 +339,7 @@ function loadReply(page_no){
             var best_reply_wrap ='';
             var best_reply_comment='';
             var reply_wrap ='';
-            var = false;isBest
+            var isBest= false;
             if(best_reply!=null && page_no == 1){
                 var best_reply_comments = best_reply.comments;
                 if(best_reply_comments!=null){

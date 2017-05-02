@@ -30,7 +30,7 @@ def service(request):
 
 
 def upload_head_image(request):
-    user_id = 16 #session.get('userinfo')['id']
+    user_id = session.get('userinfo')['id']
     type = request.form.get("type")  # user/community
     print os.getcwd()
     curPath = os.getcwd()
