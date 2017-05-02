@@ -1,0 +1,24 @@
+ <div class="my-header">
+     <div class="img im">
+         {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
+         <a href="#photo" data-toggle="modal"><img src="{{view_user_info.head_img_url}}"></a>
+         {% else %}
+         <a href="#" data-toggle="modal"><img src="{{view_user_info.head_img_url}}"></a>
+         {% endif %}
+     </div>
+     <div class="content">
+         {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
+         <h4>{{view_user_info.name}}<a href="#modal" data-toggle="modal"><i class="icon-pencil"></i></a></h4>
+         <p>{{view_user_info.label}}</p>
+         {% else %}
+         <h4>{{view_user_info.name}}<a href="#" data-toggle="modal"><i class="icon-pencil"></i></a></h4>
+         <p>{{view_user_info.label}}</p>
+         {% endif %}
+     </div>
+     {% if view_user_info and not session.get('userinfo')%}
+     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
+     {% endif %}
+     {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
+     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
+     {% endif %}
+ </div>
