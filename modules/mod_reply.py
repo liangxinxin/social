@@ -14,6 +14,7 @@ from db_interface import db_model_post
 from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
+from db_interface import db_model_comment
 
 default_page_no = 1
 default_num_perpage = 10
@@ -28,6 +29,9 @@ def service(request):
         else:
             print "error request:", request
     elif request.method == 'GET':
+        type = request.args.get("type")
+        if type =='query_best':
+            return get_best_reply_by_post(request)
         print "hehe,the request is:", request
 
 
@@ -38,102 +42,166 @@ def service(request):
 #    if post_id != 0:
 #      return post_info(request)
 
-def publish_reply(request):
-    print "publish reply request"
-    content = request.form.get("content")
-    create_user_id = long(request.form.get("create_user_id", 0))
-    post_id = request.form.get("post_id", 0)
-    community_id = request.form.get("community_id", 0)
-
-    ISOTIMEFORMAT = '%Y-%m-%d %X'
-    create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    post_data = db_model_post.select_by_id(post_id)
-    if post_data == None:
-        return None, None, None, None, None, None, None, None, None, None
-    floor = post_data.floor_num + 1
-    post_data.floor_num += 1
-    db_model_post.update(post_data)
-
-    floor_num = 0
-    like_num = 0
-    status = 0
-    last_update_time = create_time
-    post_user = db_model_user.select_by_id(post_data.create_user_id)
-    path_type = 'reply'
-    content = mod_base64.base64_hander(content, path_type)
-
-    print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
-    # insert to db
-    insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
-    if insert != None and (create_user_id != post_data.create_user_id):
-        db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
-    print "now insert to db"
-
-    print "record action of create reply"
-    action_content = {}
-    action_content['reply_id'] = insert.id
-    db_model_action.insert(user_id=create_user_id, \
-                           action_type_id=db_model_action_type.get_type_id('create_reply'), \
-                           action_detail_info=json.dumps(action_content, ensure_ascii=False), \
-                           create_time=create_time)
-      
-    # select db
-    paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)
-    print "now data:", paginate.items
-    reply_user_list = []
-    for reply in paginate.items:
-        user = db_model_user.select_by_id(reply.create_user_id)
-        reply_user_list.append(user)
-
-    community = db_model_community.select_by_id(community_id)
-
-    def get_reply_like_count(reply):
-        reply_id = reply.id
-        count = db_model_reply_like_stat.get_reply_like_count(reply_id)
-        return (reply_id, count)
-
-    def is_reply_liked(reply):
-        reply_id = reply.id
-        if session.get('userinfo'):
-            user_id = session.get('userinfo')['id']
-            is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
-            return (reply_id, is_liked)
-        else:
-            return (reply_id, False)
-
-    liked_by_user = dict(map(is_reply_liked, paginate.items))
-    like_stats = dict(map(get_reply_like_count, paginate.items))
-    # return select value
-    return post_data, post_user, paginate, reply_user_list, community, default_page_no, len(
-        paginate.items), default_num_perpage, like_stats, liked_by_user
+# def publish_reply(request):
+#     print "publish reply request"
+#     content = request.form.get("content")
+#     create_user_id = long(request.form.get("create_user_id", 0))
+#     post_id = request.form.get("post_id", 0)
+#     community_id = request.form.get("community_id", 0)
+#
+#     ISOTIMEFORMAT = '%Y-%m-%d %X'
+#     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+#     post_data = db_model_post.select_by_id(post_id)
+#     if post_data == None:
+#         return None, None, None, None, None, None, None, None, None, None
+#     floor = post_data.floor_num + 1
+#     post_data.floor_num += 1
+#     db_model_post.update(post_data)
+#
+#     floor_num = 0
+#     like_num = 0
+#     status = 0
+#     last_update_time = create_time
+#     post_user = db_model_user.select_by_id(post_data.create_user_id)
+#     path_type = 'reply'
+#     content = mod_base64.base64_hander(content, path_type)
+#
+#     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
+#     # insert to db
+#     insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
+#     if insert != None and (create_user_id != post_data.create_user_id):
+#         db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
+#     print "now insert to db"
+#
+#     print "record action of create reply"
+#     action_content = {}
+#     action_content['reply_id'] = insert.id
+#     db_model_action.insert(user_id=create_user_id, \
+#                            action_type_id=db_model_action_type.get_type_id('create_reply'), \
+#                            action_detail_info=json.dumps(action_content, ensure_ascii=False), \
+#                            create_time=create_time)
+#
+#     # select db
+#     paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)
+#     print "now data:", paginate.items
+#     reply_user_list = []
+#     for reply in paginate.items:
+#         user = db_model_user.select_by_id(reply.create_user_id)
+#         reply_user_list.append(user)
+#
+#     community = db_model_community.select_by_id(community_id)
+#
+#     def get_reply_like_count(reply):
+#         reply_id = reply.id
+#         count = db_model_reply_like_stat.get_reply_like_count(reply_id)
+#         return (reply_id, count)
+#
+#     def is_reply_liked(reply):
+#         reply_id = reply.id
+#         if session.get('userinfo'):
+#             user_id = session.get('userinfo')['id']
+#             is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
+#             return (reply_id, is_liked)
+#         else:
+#             return (reply_id, False)
+#
+#     liked_by_user = dict(map(is_reply_liked, paginate.items))
+#     like_stats = dict(map(get_reply_like_count, paginate.items))
+#     # return select value
+#     return post_data, post_user, paginate, reply_user_list, community, default_page_no, len(
+#         paginate.items), default_num_perpage, like_stats, liked_by_user
 
 
 def reply_like_changed(request):
     if session.get('userinfo'):
         print "user's info-------------------\n", session.get('userinfo')
         user_id = session.get('userinfo')['id']
-        reply_id = request.args.get("replyid")
-        mod_type = request.args.get("modtype")
+        reply_id = request.form.get("reply_id")
+        mod_type = request.form.get("mod_type")
         reply = db_model_reply.select_by_id(reply_id)
-        ISOTIMEFORMAT = '%Y-%m-%d %X'
-        if mod_type == "add":
-            create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-            db_model_reply_like_stat.insert(reply_id, user_id, create_time)
-            db_model_message.insert_praise_reply(user_id, reply_id)
-            reply.like_num += 1
-            db_model_reply.update_like_num(reply_id, reply.like_num,create_time)
-            print "record action of like reply"
-            action_content={}
-            action_content['reply_id']=reply.id
-            db_model_action.insert(user_id=user_id,\
-            action_type_id=db_model_action_type.get_type_id('praise_reply'),\
-            action_detail_info=json.dumps(action_content, ensure_ascii = False),\
-            create_time=create_time) 
+        result={}
+        result['code']=0
+        if reply :
+            ISOTIMEFORMAT = '%Y-%m-%d %X'
+            if mod_type == "add":
+                create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+                db_model_reply_like_stat.insert(reply_id, user_id, create_time)
+                db_model_message.insert_praise_reply(user_id, reply_id)
+                reply.like_num += 1
+                db_model_reply.update_like_num(reply_id, reply.like_num,create_time)
+                print "record action of like reply"
+                action_content={}
+                action_content['reply_id']=reply.id
+                db_model_action.insert(user_id=user_id,\
+                action_type_id=db_model_action_type.get_type_id('praise_reply'),\
+                action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+                create_time=create_time)
+            else:
+                last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+                db_model_reply_like_stat.remove(reply_id, user_id)
+                print ' remove reply_like_stat id',reply_id,'user_id',user_id
+                reply.like_num -= 1
+                db_model_reply.update_like_num(reply_id, reply.like_num,last_update_time)
+
+            result['code'] = 0
+            result['message'] = 'success'
+            result['like_num'] = reply.like_num
         else:
-            last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-            db_model_reply_like_stat.remove(reply_id, user_id)
-            reply.like_num -= 1
-            db_model_reply.update_like_num(reply_id, reply.like_num,last_update_time)
+            result['code'] = 1
+            result['message'] = 'reply is null'
+
+        return result
+
+def get_best_reply_by_post(request):
+    login_user_id = 0
+    like_user_dict = {}
+    reply_list = []
+    best_reply=[]
+    like_user_dict = {}
+    # this is load comment
+    comment_page_no = 1
+    page_no = int(request.args.get("page_no", default_page_no))
+    num_perpage = int(request.args.get("num_perpage", default_num_perpage))#回帖加载条数
+    comment_num_perpage = int(request.args.get("comment_num_perpage", default_num_perpage))#回复加载条数
+    if session.get('userinfo'):
+        login_user_id = session.get('userinfo')['id']
+    post_id = request.args.get("post_id")
+    best_reply = db_model_reply.select_best_by_post_id(post_id)
+    if best_reply != None:
+        like_user_dict[best_reply.id] = select_like_user(best_reply.id)
+
+        paginate = db_model_reply.select_except_best_id(page_no, num_perpage, post_id,best_reply.id)
+        best_reply.last_update_time = time_format.timestampFormat(best_reply.last_update_time)
+        best_reply_comment_paginate= best_reply.comments.filter(db_model_comment.Comment.status==0).paginate(page_no,comment_num_perpage,False)
+        best_comment = []
+        for comment in best_reply_comment_paginate.items:
+            comment.create_time = time_format.timestampFormat(comment.create_time)
+            best_comment.append(db_model_comment.to_json(comment))
+        is_like_best = db_model_reply_like_stat.is_reply_liked_by_user(best_reply.id, login_user_id)
+        best_reply = db_model_reply.to_json(best_reply)
+        best_reply['like_user'] = select_like_user(best_reply['id'])
+        best_reply['comments'] = best_comment
+        best_reply['is_like'] = is_like_best
+    else:
+        paginate = db_model_reply.select_except_best_id(page_no, num_perpage, post_id)
+    for reply in paginate.items:
+        is_like = db_model_reply_like_stat.is_reply_liked_by_user(reply.id, login_user_id)
+        reply.last_update_time =time_format.timestampFormat(reply.last_update_time)
+        comment_list =[]
+        comment_paginate= reply.comments.filter(db_model_comment.Comment.status==0).paginate(comment_page_no,comment_num_perpage,False)
+        for comment in comment_paginate.items:
+            comment.create_time = time_format.timestampFormat(comment.create_time)
+            comment_list.append(db_model_comment.to_json(comment))
+        reply = db_model_reply.to_json(reply)
+        reply['like_user'] = select_like_user(reply['id'])
+        reply['comments']=comment_list
+        reply['islike']=is_like
+        reply_list.append(reply)
+    total = paginate.total
+    total_page = paginate.pages
+
+    return reply_list,best_reply,like_user_dict,page_no,num_perpage,total_page,total
+
 
 
 def get_reply_by_post(request):
@@ -145,46 +213,69 @@ def get_reply_by_post(request):
     post = db_model_post.select_by_id(post_id)
     page_no = int(request.args.get("no", default_page_no))
     num_perpage = int(request.args.get("size", default_num_perpage))
-    paginate = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id)
+    paginate = db_model_reply.select_except_best_id(page_no, num_perpage, post_id)
     reply_list=[]
     for reply in paginate.items:
         is_like = db_model_reply_like_stat.is_reply_liked_by_user(reply.id, login_user_id)
         reply.create_time =time_format.timestampFormat(reply.create_time)
         reply = db_model_reply.to_json(reply)
-        reply['is_like']=is_like
+        reply['islike']=is_like
         reply_list.append(reply)
     return reply_list,page_no,num_perpage,paginate.total
 
 
 
-def publish_reply_in_UserInfo(request):
-    data = json.loads(request.form.get("data"))
-    content = data["content"]
-    create_user_id = long(data["create_user_id"])
-    post_id = data["post_id"]
-    community_id = request.args.get("community_id", 0)
+def publish_reply(request):
+    if session.get('userinfo'):
+        create_user_id = int(session.get('userinfo')['id'])
+        content = request.form.get("content")
+        post_id = int(request.form.get("post_id"))
+        has_best = request.form.get("has_best")
+        community_id = int(request.form.get("community_id", 0))
+        num_perpage = int(request.form.get("num_perpage", default_num_perpage))
 
-    ISOTIMEFORMAT = '%Y-%m-%d %X'
-    create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    post_data = db_model_post.select_by_id(post_id)
-    floor = post_data.floor_num + 1
-    post_data.floor_num += 1
-    db_model_post.update(post_data)
-    floor_num = 0
-    like_num = 0
-    is_like = False
-    status = 0
-    last_update_time = create_time
-    print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
-    # insert to db
-    db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
-    reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
-    if reply != None and (create_user_id != post_data.create_user_id):
-        db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
-    print "now insert to db"
-    reply.create_time= time_format.timestampFormat(reply.create_time)
-    reply= db_model_reply.to_json(reply)
-    return reply, post_data.floor_num
+        ISOTIMEFORMAT = '%Y-%m-%d %X'
+        create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
+        post_data = db_model_post.select_by_id(post_id)
+        floor = post_data.floor_num + 1
+        post_data.floor_num += 1
+        db_model_post.update(post_data)
+        floor_num = 0
+        like_num = 0
+        status = 0
+        last_update_time = create_time
+        print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
+        # insert to db
+        db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
+        reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
+        if reply != None and (create_user_id != post_data.create_user_id):
+            db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
+            print "record action of create reply"
+            action_content = {}
+            action_content['reply_id'] = reply.id
+            db_model_action.insert(user_id=create_user_id, \
+                                   action_type_id=db_model_action_type.get_type_id('create_reply'), \
+                                   action_detail_info=json.dumps(action_content, ensure_ascii=False), \
+                                   create_time=create_time)
+        print "now insert to db"
+        reply.create_time= time_format.timestampFormat(reply.create_time)
+        reply= db_model_reply.to_json(reply)
+        common_replycount = post_data.floor_num
+        replycount = post_data.floor_num
+        total_page =0
+        if common_replycount <=num_perpage:
+            total_page=1
+            return reply, common_replycount, total_page
+
+        if has_best=='true':
+            common_replycount = common_replycount-1
+        if common_replycount % num_perpage == 0:
+            total_page = common_replycount / num_perpage
+        else:
+            total_page = common_replycount / num_perpage + 1
+
+        return reply, replycount,common_replycount,total_page
+
 
 
 
@@ -232,27 +323,11 @@ def delete_reply(request):
     return result
 
 
-# def query_post_in_community(request):
-#  community_id = request.args.get("community_id",default_community_id)
-#  print " now query post in communit id:",community_id
-#  page_no = request.args.get("page_no",default_page_no)
-#  num_perpage = request.args.get("num_perpage",default_num_perpage)
-#  #select db
-#  paginate=db_model_post.select_all_paging(page_no,num_perpage,community_id)
-#  print "now data:",paginate.items
-#
-#  #return select value
-#  return paginate,community_id
-
-# def post_info(request):
-#  post_id = request.args.get("post_id",default_community_id)
-#  print " now query post in communit id:",post_id
-#  page_no = request.args.get("page_no",default_page_no)
-#  num_perpage = request.args.get("num_perpage",default_num_perpage)
-#  #select db
-#  post_data=db_model_post.select_by_id(post_id)
-#  reply_data=db_model_reply.select_paging_by_post_id(post_id,page_no,num_perpage)
-#  print "now data:",post_data
-#
-#  #return select value
-#  return post_data,reply_data
+def select_like_user(reply_id):
+    num_perpage = 10
+    paginate = db_model_reply_like_stat.like_user(reply_id, default_page_no, num_perpage)
+    user_list = []
+    for item in paginate.items:
+        user = db_model_user.select_by_id(item.user_id)
+        user_list.append(db_model_user.to_json(user))
+    return user_list

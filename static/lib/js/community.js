@@ -6,6 +6,7 @@ function initData(){
    var callback = function(page_no){
        loadCommunityPost(page_no)
    }
+
    $("#page").initPage(num_page,total,page_no,callback);
 }
  $('#u-cancel').click(function(){
@@ -85,7 +86,7 @@ $('#input_publish_post_title').keyup(function(){
                   if (posts !=null && posts.length>0){
                       drop_menu='<ul class="dropdown-menu"><li><a style="color:#337ab7;" class="match_info" href="#">已有类似的帖子,不能再次发表,请点击查看</a></li>'
                       for(var i =0;i<posts.length;i++){
-                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'">'+posts[i].title+'</a></li>'
+                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'&type=postInfo">'+posts[i].title+'</a></li>'
                       }
                       drop_menu =drop_menu+'</ul>'
                       $('#submit').val('false');
@@ -188,7 +189,7 @@ function load_commend_community(){
             for(var i=0;i<commend_list.length;i++){
                 community = commend_list[i]
                 commend_wrap =commend_wrap+'<div class="community-block">\
-                                       <div class="img"><img src="../images/img.png"></div>\
+                                       <div class="img"><img src="'+community.head_img_url+'"></div>\
                                        <div class="content">\
                                            <h4><a href="#">'+community.name+'</a></h4>\
                                            <p>'+community.describe+'</p>\
@@ -239,7 +240,7 @@ function loadCommunityPost(page_no){
                                                 <img src="'+user.head_img_url+'"></a>\
                                         </div>\
                                         <div class="content">\
-                                            <h4><a href="/post?post_id='+post.id+'&community_id='+post.community_id+'">'+post.title+'</a>\
+                                            <h4><a href="/post?id='+post.id+'&type=postInfo"'+post.title+'</a>\
                                             </h4>\
                                             <p>'+post.content+'</p>\
                                             <div class="block-bar">\
@@ -306,7 +307,7 @@ $('#join').click(function() {
             dataType: 'json',
             timeout: 5000,
             success: function(data) {
-                alert('加入社区成功!');
+                alert('成功加入社区!');
                 $('.comm_user_num').text(data['user_num']);
                 $('#join').addClass('hide');
                 $('#left').removeClass('hide');

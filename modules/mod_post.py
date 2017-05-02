@@ -36,12 +36,14 @@ def service(request):
         type = request.args.get("type")
         communit_id = request.args.get("community_id", 0)
         post_id = request.args.get("post_id", 0)
-        if post_id != 0:
-            return post_info(request)
+        # if post_id != 0:
+        #     return post_info(request)
         # if communit_id != 0:
         #     return query_post_in_community(request)
         if type =='getpost':
             return query_post_in_community(request)
+        elif type=='postInfo':
+            return post_info(request)
 
 
 def find_match_post(request):
@@ -199,54 +201,59 @@ def query_post_in_community(request):
 
 
 def post_info(request):
-    post_id = request.args.get("post_id", default_post_id)
-    community_id = request.args.get("community_id", default_community_id)
-    page_no = int(request.args.get("page_no", default_page_no))
-    num_perpage = int(request.args.get("num_perpage", default_num_perpage))
-    print " now query post info---- post_id:", post_id, " community_id: ", community_id, " page no:", page_no, " num_perpage:", num_perpage
+    post_id = request.args.get("id", default_post_id)
+    #community_id = request.args.get("community_id", default_community_id)
+    #page_no = int(request.args.get("page_no", default_page_no))
+    #num_perpage = int(request.args.get("num_perpage", default_num_perpage))
+    #print " now query post info---- post_id:", post_id, " community_id: ", community_id, " page no:", page_no, " num_perpage:", num_perpage
 
     # select db
-    post_data = db_model_post.select_by_id(post_id)
-    post_user = db_model_user.select_by_id(post_data.create_user_id)
-    reply_data = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id)
-    reply_user_list = []
-    like_user_dict = {}
-    for reply in reply_data.items:
-        # add by lxx,like user start 2017-04-17
-        like_user_dict[reply.id] = select_like_user(reply.id)
-        # add by lxx,like user end
-        user = db_model_user.select_by_id(reply.create_user_id)
-        reply_user_list.append(user)
-    community = db_model_community.select_by_id(community_id)
-    best_reply = db_model_reply.select_best_by_post_id(post_id)
-    if best_reply != None and best_reply.like_num < 3:
-        best_reply = None
-    best_reply_user = None
-    if best_reply != None:
-        best_reply_user = db_model_user.select_by_id(reply.create_user_id)
-        like_user_dict[reply.id] = select_like_user(reply.id)
-    print "post data:", post_data, "reply data:", reply_data
+    post= db_model_post.select_by_id(post_id)
+    if post:
+        post.create_time = time_format.timestampFormat(post.create_time)
 
-    def get_reply_like_count(reply):
-        reply_id = reply.id
-        count = db_model_reply_like_stat.get_reply_like_count(reply_id)
-        return (reply_id, count)
+    # best_reply = db_model_reply.select_best_by_post_id(post_id)
+    # like_user_dict = {}
+    # best_reply_id =0
+    # if best_reply != None:
+    #     # best_reply_user = db_model_user.select_by_id(reply.create_user_id)
+    #     like_user_dict[best_reply.id] = select_like_user(best_reply.id)
+    #     best_reply_id = best_reply.id
+    # reply_data = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id,best_reply_id)
+    # total = reply_data.total
+    # total_page = reply_data.pages
+    # reply_list =[]
+    # for reply in reply_data.items:
+    #     # add by lxx,like user start 2017-04-17
+    #     like_user_dict[reply.id] = select_like_user(reply.id)
+    #     # add by lxx,like user end
+    #     #user = db_model_user.select_by_id(reply.create_user_id)
+    #     reply.last_update_time = time_format.timestampFormat(reply.last_update_time)
+    #    # reply['like_user']=select_like_user(reply.id)
+    #     reply_list.append(reply)
+    #     #reply_user_list.append(user)
+    # #community = db_model_community.select_by_id(community_id)
+    #
+    #
+    # # def get_reply_like_count(reply):
+    # #     reply_id = reply.id
+    # #     count = db_model_reply_like_stat.get_reply_like_count(reply_id)
+    # #     return (reply_id, count)
+    #
+    # def is_reply_liked(reply):
+    #     reply_id = reply.id
+    #     if session.get('userinfo'):
+    #         user_id = session.get('userinfo')['id']
+    #         is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
+    #         return (reply_id, is_liked)
+    #     else:
+    #         return (reply_id, False)
 
-    def is_reply_liked(reply):
-        reply_id = reply.id
-        if session.get('userinfo'):
-            user_id = session.get('userinfo')['id']
-            is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
-            return (reply_id, is_liked)
-        else:
-            return (reply_id, False)
-
-    liked_by_user = dict(map(is_reply_liked, reply_data.items))
-    like_stats = dict(map(get_reply_like_count, reply_data.items))
+    #liked_by_user = dict(map(is_reply_liked, reply_data.items))
+    #like_stats = dict(map(get_reply_like_count, reply_data.items))
 
     # return select value
-    return post_data, post_user, reply_data, like_user_dict, reply_user_list, community, page_no, len( \
-        reply_data.items), num_perpage, like_stats, liked_by_user, best_reply, best_reply_user
+    return post
 
 
 def select_good_post(request):
@@ -276,11 +283,4 @@ def select_goodpost_all():
     return len(paginate.items)
 
 
-def select_like_user(reply_id):
-    num_perpage = 10
-    paginate = db_model_reply_like_stat.like_user(reply_id, default_page_no, num_perpage)
-    user_list = []
-    for item in paginate.items:
-        user = db_model_user.select_by_id(item.user_id)
-        user_list.append(db_model_user.to_json(user))
-    return user_list
+

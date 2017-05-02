@@ -21,6 +21,10 @@ $.fn.extend({
             currentPage=1;
         }
         page.setPageListCount(listCount,currentPage,fun);
+//        listCount = parseInt(listCount);
+//        currentPage = parseInt(currentPage);
+//        page.initWithUl(listCount,currentPage);
+//        page.initPageEvent(listCount,fun);
 
     }
 });

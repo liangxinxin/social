@@ -5,8 +5,10 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../lib/bootstrap/wysiwyg/index.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
+    <script src="../lib/jquery-1.8.1.min.js "></script>
 </head>
 
 <body>
@@ -23,16 +25,16 @@
                     <div class="media-content post-detail">
                         <div class="item">
                             <div class="photo">
-                                <a href="#"><img src="../static/images/photo.png"></a>
+                                <a href="#"><img src="../images/photo.png"></a>
                             </div>
                             <div class="content">
-                                <h4><a href="#">理财小白如何理财？</a></h4>
-                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
+                                <h4><a href="#">{{post.name}}</a></h4>
+                                <p>{{post.content|safe}}</p>
                                 <div class="block-bar">
-                                    <span><a href="#">景玺龙</a></span>
+                                    <span><a href="#">{{post.user.name}}</a></span>
                                     <div class="control-right">
                                         <div class="row-1x">
-                                            <div class="group-span-1x"><span>4月7日 10:01</span><span>来自：<a href="#">财经论坛</a></span><span>36条评论</span></div>
+                                            <div class="group-span-1x"><span>{{post.create_time}}</span><span>来自：<a href="#">{{post.community.name}}</a></span><span>{{post.reply_num}}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -41,121 +43,37 @@
                         <div class="solid divider"></div>
                     </div>
                     <div class="post-list">
-                        <div class="item">
-                            <div class="photo">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <div class="block-bar">
-                                    <span><a href="#">万小祭</a></span>
-                                    <span>10分钟前</span>
-                                </div>
-                                <p>经过几十年的发展，任何一个行业都容易产生一种刻板印象</p>
-                                <div class="block-bar action">
-                                    <span><a href="#">回复</a></span>
-                                    <div class="right-control">
-                                        <span class="like"><a href="#"><i class="icon-like"></i></a>5676</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="photo">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <div class="block-bar">
-                                    <span><a href="#">何沛宽</a></span>
-                                    <span>10分钟前</span>
-                                </div>
-                                <p>分析很细腻</p>
-                                <div class="block-bar action">
-                                    <span><a href="#">回复</a></span>
-                                    <div class="right-control">
-                                        <span class="like"><a href="#"><i class="icon-like"></i></a>23</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="photo">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <div class="block-bar">
-                                    <span><a href="#">薛洪言</a></span>
-                                    <span>10分钟前</span>
-                                </div>
-                                <p>金融平台打黑这是必须的</p>
-                                <div class="block-bar action">
-                                    <span><a href="#">回复</a></span><span class="drop-toggle"><a href="#">1条回复 <i class="icon-arrow-down"></i></a></span>
-                                    <div class="right-control">
-                                        <span class="like"><a href="#"><i class="icon-like"></i></a>5676</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="photo">
-                                <a href="#"><img src="../static/images/photo.png"></a>
-                            </div>
-                            <div class="content">
-                                <div class="block-bar">
-                                    <span><a href="#">景玺龙</a></span>
-                                    <span>10分钟前</span>
-                                </div>
-                                <p>经过几十年的发展，任何一个行业都容易产生一种刻板印象</p>
-                                <div class="block-bar action">
-                                    <span><a href="#">回复</a></span><span class="drop-toggle"><a href="#">1条回复 <i class="icon-arrow-up"></i></a></span>
-                                    <div class="right-control">
-                                        <span class="like"><a href="#"><i class="icon-like"></i></a>5676</span>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="photo">
-                                        <a href="#"><img src="../static/images/photo.png"></a>
-                                    </div>
-                                    <div class="content">
-                                        <div class="block-bar">
-                                            <span><a href="#">李东旭</a></span>
-                                            <span>3分钟前</span>
-                                        </div>
-                                        <p>赞同</p>
-                                        <div class="block-bar action">
-                                            <span><a href="#">回复</a></span><span class="drop-toggle"></span>
-                                            <div class="right-control">
-                                                <span class="like"><a href="#"><i class="icon-like"></i></a>1</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="blk-3x"></div>
-                    <ul class="pagination">
-                        <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
-                    </ul>
+                     <ul id="page" class="pagination" maxshowpageitem="5" >
+                     </ul>
+                    <div class="post-input">
+                    <h4>发表回复</h4>
+                    <!--{% include 'input.html' %}-->
+                    <a id="summit-reply"  class="submit">提交</a>
+                </div>
                 </div>
                 <div class="side-container">
                     <div class="community-block">
-                        <div class="img"><img src="../static/images/img.png"></div>
+                        <div class="img"><img src="{{post.community.name}}"></div>
                         <div class="content">
-                            <h4><a href="#">今日金融</a></h4>
-                            <p>在社会经济生活，银行、证券或保险业者从市场主体募集资金，并投资</p>
+                            <h4><a href="#">{{post.community.name}}</a></h4>
+                            <p>{{post.community.desc}}</p>
                         </div>
                         <div class="blk-1x"></div>
                         <div class="divider solid"></div>
                         <div class="block-bar">
-                            <div class="span"><em>帖子</em><b>6158</b></div>
-                            <div class="span"><em>成员</em><b>47846</b></div>
-                            <div class="span"><a href="#" class="btn btn-default"><i>+</i>加入</a></div>
+                            <div class="span"><em>帖子</em><b>{{post.community.post_num}}</b></div>
+                            <div class="span"><em>成员</em><b>{{post.community.user_num}}</b></div>
+                            <div class="span">
+                                {%if has_join%}
+                                <a id="join" href="javascript:void(0)" class="btn btn-default hide"><i>+</i>加入</a>
+                                <a id="left" href="javascript:void(0)" class="btn btn-default"><i>-</i>离开</a>
+                                {%else%}
+                                <a id="join" href="javascript:void(0)" class="btn btn-default"><i>+</i>加入</a>
+                                <a id="left" href="javascript:void(0)" class="btn btn-default hide"><i>-</i>离开</a>
+                                {%endif%}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,8 +85,24 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/js/post.js"></script>
+    <script src="../lib/js/page/page.js"></script>
 </body>
 
 </html>
+<script type="text/javascript">
+    var user_id = 0;
+    var post_id = {{post.id}}
+    var community_id = {{post.community.id}}
+    var num_perpage = 10;
+    var page_no = 1;
+    var total = {{post.floor_num}};
+    initData();
+    function getLoginInfo(){
+        {% if session.get('userinfo')%}
+            user_id = {{session.get('userinfo')['id']}};
+        {%endif%}
+    }
+</script>
