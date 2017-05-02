@@ -573,26 +573,20 @@ def check_user_name():
 def forget_password():
     return render_template('find_password.html')
 
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET'])
+def index():
+    count = mod_post.service(request)
+    return render_template('index.html',total=count)
+
+@app.route('/get_hot_post', methods=['GET'])
 def good_post_list():
-    page_no, page_size, post_list = mod_post.select_good_post(request)
-    total_size = mod_post.select_goodpost_all()
-    post_list_new=[]
-    for post_new in post_list:
-        print 'status:',post_new.status,'id',post_new.id
-        post_new.last_update_time=time_format.timestampFormat(post_new.last_update_time)
-        post_list_new.append(post_new)
-    page_no_community, page_size_community, community_recommend_list = mod_community.select_hot_commend_community(request)
-    messages_unread = mod_user.get_unread_message_from_session()
-    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-    messages_unread_num=0
-    if messages_unread != None:
-        messages_unread_num=len(messages_unread)
-    return render_template('index.html', post_list=post_list_new, num=len(post_list), no=page_no, size=page_size, \
-                           private_unread_count=private_unread_count, count_comment=count_comment, count_reply=count_reply,\
-                           count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-                           totalsize=total_size,messages_unread=messages_unread,messages_unread_num=messages_unread_num,flag=1,\
-                           community_recommend_list=community_recommend_list)
+    page_no, num_perpage, post_list, total= mod_post.service(request)
+    return jsonify(page_no=page_no,num_perpage=num_perpage,post_list=post_list,total=total)
+
+@app.route('/get_hot_community', methods=['GET'])
+def get_hot_community():
+    page_no, num_perpage, commend_list= mod_community.service(request)
+    return jsonify(page_no=page_no,num_perpage=num_perpage,commend_list=commend_list)
 
 @app.route('/add_relation',methods=['POST'])
 # @interceptor(login_required=True)

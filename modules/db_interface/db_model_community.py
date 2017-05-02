@@ -114,7 +114,7 @@ def select_by_user_num(page_no, num_per_page,id):
 def select_commend_community(page_no,num_perpage,ids):
 
     paginate = Community.query.filter(Community.id.notin_(ids)).order_by(desc(Community.user_num)).paginate(page_no, num_perpage, False)
-    return paginate.items
+    return paginate
 
 
 

@@ -99,6 +99,7 @@
     var num_perpage = 10;
     var page_no = 1;
     var total = {{post.floor_num}};
+    getLoginInfo();
     initData();
     function getLoginInfo(){
         {% if session.get('userinfo')%}

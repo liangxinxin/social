@@ -154,10 +154,10 @@ def select_hot_commend_community(request):
       if community_list:
         map(lambda x: int(x), community_list[0])
         comm_ids = list(set(comm_ids+list(map(lambda x: int(x), community_list[0]))))
-      commend_list = db_model_community.select_commend_community(page_no,hot_num_perage,comm_ids)
+        paginate = db_model_community.select_commend_community(page_no,hot_num_perage,comm_ids)
     else:# hot_community
       paginate = db_model_community.select_by_user_num(default_page_no,hot_num_perage,current_community_id)
-      commend_list = paginate.items
+    commend_list = paginate.items
     commend_list_new = []
     for item in commend_list:
       commend_list_new.append(db_model_community.to_json(item))

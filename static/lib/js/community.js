@@ -1,7 +1,7 @@
 //初始化页面
 function initData(){
    getLoginInfo();
-   loadCommunityPost(1);
+   //loadCommunityPost(1);
    load_commend_community();
    var callback = function(page_no){
        loadCommunityPost(page_no)

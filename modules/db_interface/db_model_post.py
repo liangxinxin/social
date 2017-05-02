@@ -128,6 +128,12 @@ def select_post_by_floor_num(page_no, num_per_page):
     print paginate
     return paginate
 
+# return paginate
+def select_post_num():
+    count = Post.query.filter(Post.status == 0).order_by(desc(Post.floor_num)).count();
+    print 'post count',count
+    return count
+
 
 # return paginate
 def select_all_by_user(page_no, num_per_page, user_id):

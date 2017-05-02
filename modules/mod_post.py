@@ -34,16 +34,14 @@ def service(request):
             print "error request:", request
     elif request.method == 'GET':
         type = request.args.get("type")
-        communit_id = request.args.get("community_id", 0)
-        post_id = request.args.get("post_id", 0)
-        # if post_id != 0:
-        #     return post_info(request)
-        # if communit_id != 0:
-        #     return query_post_in_community(request)
         if type =='getpost':
             return query_post_in_community(request)
         elif type=='postInfo':
             return post_info(request)
+        elif type == 'hot':
+            return select_good_post(request)
+        else:
+            return select_goodpost_num()
 
 
 def find_match_post(request):
@@ -193,10 +191,6 @@ def query_post_in_community(request):
     paginate = db_model_post.select_all_paging(page_no, num_perpage, community_id)
     # return select value
     paginate.items = formate_post_time(paginate.items)
-    post_list = []
-    for item in paginate.items:
-        post_list.append(db_model_post.to_json(item))
-    paginate.items = post_list
     return paginate, page_no, num_perpage
 
 
@@ -257,30 +251,35 @@ def post_info(request):
 
 
 def select_good_post(request):
-    page_no = int(request.args.get("no", default_page_no))
-    num_perpage = int(request.args.get("size", default_num_perpage))
-
+    max_number = 1000;
+    page_no = int(request.args.get("page_no", default_page_no))
+    num_perpage = int(request.args.get("num_perpage", default_num_perpage))
+    if page_no > (max_number/num_perpage):
+        page_no = (max_number/num_perpage)
     # select db
     paginate = db_model_post.select_post_by_floor_num(page_no, num_perpage)
-    post_list_new = formate_post_time(paginate.items)
-    print len(post_list_new)
-    return page_no, num_perpage, post_list_new
+    post_list = formate_post_time(paginate.items)
+    if paginate.total>max_number:
+        total =max_number
+    else:
+        total = paginate.total
+    return page_no, num_perpage, post_list,total
 
 
 def formate_post_time(post_list):
     post_list_new = []
     for post_new in post_list:
         post_new.create_time = time_format.timestampFormat(post_new.create_time)
-        post_list_new.append(post_new)
-    print len(post_list_new)
+        post_list_new.append(db_model_post.to_json(post_new))
     return post_list_new
 
 
-def select_goodpost_all():
+def select_goodpost_num():
     max_number = 1000;
-    paginate = db_model_post.select_post_by_floor_num(1, max_number)
-    print paginate
-    return len(paginate.items)
+    count = db_model_post.select_post_num()
+    if count>max_number:
+        count =max_number
+    return count
 
 
 
