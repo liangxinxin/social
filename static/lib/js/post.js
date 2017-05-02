@@ -98,13 +98,20 @@ function summitHuifu(){
                 if(data.code==0){
                     comment = data.comment;
                     var comment_html = getCommentHtml(comment);
-                    var reply_num = $('#item_'+reply_id).find('input.hide-reply-num').val();
                     $('#item_'+reply_id).find('div.comment-wrap').append(comment_html);
-                    reply_num =parseInt(reply_num)+1;
-                    $('#item_'+reply_id).find('a.reply-num>span').text(reply_num);
+                    var old_reply_num = $('#item_'+reply_id).find('input.hide-reply-num').val();
+                    var reply_num =parseInt(old_reply_num)+1;
+                    if(old_reply_num==0){
+                        var reply_num_html='<span class="drop-toggle"><a class="reply-num" onClick="showComments('+reply_id+')" href="javascript:void(0)"><span>'+reply_num+'</span>条回复 <i class="icon-arrow-up"></i></a></span>';
+                        $('#item_'+reply_id).find('span.reply-btn-span').after(reply_num_html)
+                    }else{
+                        $('#item_'+reply_id).find('a.reply-num>span').text(reply_num);
+                    }
+                    $('#item_'+reply_id).find('input.hide-reply-num').val(reply_num);
                     //showComments(reply_id);
-                     $('#item_'+reply_id).find('div.comment-wrap').removeClass('hide');
+                    $('#item_'+reply_id).find('div.comment-wrap').removeClass('hide');
                     $('#item_'+reply_id).find('div.huifu').remove();
+
                 }else{
                     alert('回复失败!')
                 }
@@ -149,11 +156,16 @@ function showComments(reply_id){
 }
 function getCommentHtml(comment){
     var comment_wrap='';
-    user = comment.user;
+    var user = comment.user;
+    var is_delete ='';
     if(comment.parent_id>0){
         content='<span>回复<a href="#">'+comment.touser.name+'</a></span>：'+comment.content;
     }else{
         content = comment.content;
+    }
+    if(user_id==comment.create_user_id){
+        is_delete ='<span><a onClick="deleteComment('+comment.reply_id+','+comment.id+')" href="javascript:void(0)">删除</a></span>';
+
     }
     comment_wrap='<div id="comment_'+comment.id+'" class="item">\
                     <div class="photo">\
@@ -167,6 +179,7 @@ function getCommentHtml(comment){
                         <p>'+content+'</p>\
                         <div class="block-bar action">\
                             <span><a onClick="doHuifu('+comment.reply_id+','+comment.id+')" href="javascript:void(0)">回复</a></span>\
+                            '+is_delete+'\
                             <div class="right-control">\
                                 <span class="like"><a href="#"><i class="icon-like"></i></a>1</span>\
                             </div>\
@@ -213,26 +226,20 @@ function moreComment(replyId){
 
 }
 
-function getReplyHtml(reply,comment_wrap,isBest){
+function getReplyHtml(reply,comment_wrap){
     var like_num ='';
     var reply_wrap='';
     var comment_num='';
     var more_comment='';
     var user = reply.user;
     var comment_page_no =1;
+    var is_delete ='';
     if (reply.like_num > 0){
       like_num = reply.like_num.toString();
     }
     var is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
                 <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
-    var best_desc ='';
-    if(isBest){
-       best_desc ='<span>最佳回帖</span>'
-       reply_wrap+=best_desc;
-    }else{
-
-    }
     if(reply.floor_num>0){
         comment_num='<span class="drop-toggle"><a class="reply-num" onClick="showComments('+reply.id+')" href="javascript:void(0)"><span>'+reply.floor_num+'</span>条回复 <i class="icon-arrow-up"></i></a></span>';
     }
@@ -241,9 +248,13 @@ function getReplyHtml(reply,comment_wrap,isBest){
         <input class="comment_page_no" type="hidden" value ="'+comment_page_no+'"></span>';
     }
     if(reply.islike){
-        var is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
+        is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
                 <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
+    }
+    if(user_id==reply.create_user_id){
+        is_delete ='<span><a onClick="deleteReply('+reply.id+')" href="javascript:void(0)">删除</a></span>';
+
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
             <input class="hide-reply-num" type="hidden" value ="'+reply.floor_num+'">\
@@ -257,7 +268,8 @@ function getReplyHtml(reply,comment_wrap,isBest){
                 </div>\
                 <p>'+reply.content+'</p>\
                 <div class="block-bar action">\
-                    <span><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
+                    <span class="reply-btn-span"><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
+                    '+is_delete+'\
                     <div class="right-control">\
                         '+is_like+'\
                         </span>\
@@ -271,6 +283,64 @@ function getReplyHtml(reply,comment_wrap,isBest){
         </div>';
     return reply_wrap;
 }
+
+function deleteReply(reply_id){
+    if (confirm('你确定删除这条回帖吗？其下的回复也将会被删除')) {
+        var data ={
+            data:JSON.stringify({
+                "reply_id":reply_id
+            })
+        }
+        $.ajax({
+            url:'delete_reply',
+            type:'POST',
+            dataType:'json',
+            data:data,
+            timeout:5000,
+            success:function(data){
+                if(data.result==0){
+                    $('.post-list').find('#item_'+reply_id).remove();
+                }else{
+                    alert('删除失败')
+                }
+            }
+        })
+
+    }
+}
+
+function deleteComment(reply_id,comment_id){
+     if (confirm('你确定删除这条回复吗?')) {
+        var data={
+            data:JSON.stringify({
+                "comment_id":comment_id
+            })
+        }
+        $.ajax({
+            url:'delete_comment',
+            type:'POST',
+            dataType:'json',
+            data:data,
+            timeout:5000,
+            success:function(data){
+                if(data.result==0){
+                    var reply_num =  $('#item_'+reply_id).find('input.hide-reply-num').val();
+                    reply_num =  parseInt(reply_num)-1;
+                    if(reply_num==0){
+                         $('#item_'+reply_id).find('span.drop-toggle').remove();
+                    }
+                    $('#item_'+reply_id).find('input.hide-reply-num').val(reply_num);
+                    $('#item_'+reply_id).find('a.reply-num>span').text(reply_num);
+                    $('#item_'+reply_id).find('#comment_'+comment_id).remove();
+
+                }else{
+                    alert('删除失败！')
+                }
+
+            }
+        })
+     }
+ }
 
 function doGood(reply_id){
     if (user_id > 0) {
@@ -348,7 +418,8 @@ function loadReply(page_no){
                     }
                 }
                 isBest= true;
-                best_reply_wrap = getReplyHtml(best_reply,best_reply_comment,isBest);
+                best_reply_wrap+='<span>最佳回帖</span>'
+                best_reply_wrap+= getReplyHtml(best_reply,best_reply_comment);
             }
             if(isBest){
                 reply_wrap+='<span>其它回帖</span>'
@@ -364,7 +435,7 @@ function loadReply(page_no){
                     reply_comment +=getCommentHtml(reply_comments[j]);
                    }
                 }
-               reply_wrap += getReplyHtml(reply,reply_comment,isBest)
+               reply_wrap += getReplyHtml(reply,reply_comment)
             }
 
             if (page_no==1){
