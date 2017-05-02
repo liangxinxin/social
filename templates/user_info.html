@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
 </head>
 
 <body>
@@ -14,18 +14,10 @@
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
+            {% if view_user_info %}
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
-            <div class="my-header">
-                <div class="img im">
-                    <a href="#photo" data-toggle="modal"><img src="../static/images/photo.png"></a>
-                </div>
-                <div class="content">
-                    <h4>hongleifu<a href="#modal" data-toggle="modal"><i class="icon-pencil"></i></a></h4>
-                    <p>一壶浊酒喜相逢，古今多少事，滚滚长江东逝水，浪花淘尽英雄。</p>
-                </div>
-                <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
-            </div>
+            {% include 'user_info_header.html' %}
             <div class="divider solid "></div>
             <div class="blk-2x"></div>
             <div class="divider solid "></div>
@@ -33,90 +25,22 @@
                 <div class="mian-container">
                     <div class="blk-1x"></div>
                     <div class="media-content my-list">
+                        {% for post in post_list %}
                         <div class="item">
                             <div class="content">
-                                <h4><a href="#">理财小白如何理财？</a></h4>
-                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
+                                <h4><a href="/post?post_id={{post.id}}&community_id={{post.community.id}}">{{post.title}}</a></h4>
+                                <p>{{post.content}}</p>
                                 <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
+                                    <span><a href="#">{{post.create_time}}</a></span>
                                     <div class="control-right">
                                         <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
+                                            <div class="group-span-1x"><span>来自：<a href="/community?community_id={{post.community.id}}">{{post.community.name}}</a></span><span><a href="#"><em>回复</em></a><b>{{post.floor_num}}</b></span><span><a href="#" onclick="deletePost({{post.id}})">删除</a></span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="content">
-                                <h4><a href="#">个人理财有哪些基本原理和方法？</a></h4>
-                                <p>夫妻使用同一银行账户;尽早设立遗嘱 最后还想补充一点,个人理财当中80%是行为,只有20%是各种知识和算计.上面的内容,百分比也好,复利计算也好,都不是绝对的,也并不高深.理财当中最难的…</p>
-                                <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
-                                    <div class="control-right">
-                                        <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <h4><a href="#">如何读懂财经新闻？</a></h4>
-                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
-                                <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
-                                    <div class="control-right">
-                                        <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <h4><a href="#">商机情报：分享已成为消费方式，90后新社交显现</a></h4>
-                                <p>在出门打车靠滴滴，出国旅行订房靠Airbnb的时代，分享经济正在渗透各个领域，已逐渐变成了年轻一代的新消费方式。</p>
-                                <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
-                                    <div class="control-right">
-                                        <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <h4><a href="#">消费金融走出同质化的“七字诀”</a></h4>
-                                <p>但经济是做出来的.七、多关注一些有立场、有态度的杂志.比如因为价格让我深恶痛绝的哈佛商业评论,但是我不得不买,就是因为这本杂志,更多的时候,是在讲事实,讲科技,而不是吹牛逼.八、财经…</p>
-                                <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
-                                    <div class="control-right">
-                                        <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <h4><a href="#">银行与金融科技公司抢的是什么？用户、资本？都不是！</a></h4>
-                                <p>经过几十年的发展，任何一个行业都容易产生一种刻板印象</p>
-                                <div class="block-bar">
-                                    <span><a href="#">4月7日 10:01</a></span>
-                                    <div class="control-right">
-                                        <div class="row-1x">
-                                            <div class="group-span-1x"><span>来自：<a href="#">财经论坛</a></span><span><a href="#"><em>评论</em></a><b>36</b></span><span><a href="#">删除</a></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="blk-2x"></div>
                     <ul class="pagination">
@@ -129,19 +53,10 @@
                         <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
                     </ul>
                 </div>
-                <div class="side-container">
-                    <ul class="list-menu list-unstyled">
-                        <li class="active"><a href="user_info.html">我的帖子</a><span class="badge">12</span></li>
-                        <li><a href="user_community.html">创建的社区</a><span class="badge">12</span></li>
-                        <li><a href="user_community_followed.html">加入的社区</a><span class="badge">12</span></li>
-                        <li><a href="user_comments.html">我的评论</a><span class="badge">12</span></li>
-                        <li><a href="user_on_my_comments.html">评论我的</a><span class="badge">12</span></li>
-                        <li><a href="user_followed.html">我关注的</a><span class="badge">128</span></li>
-                        <li><a href="user_follow.html">关注我的</a><span class="badge">128</span></li>
-                    </ul>
-                </div>
+                {% include 'user_info_side_right.html' %}
             </div>
             <div class="divider solid "></div>
+        {% endif %}
         </div>
     </div>
     <div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
@@ -183,7 +98,7 @@
                     </div>
                     <div class="photo-container tab-pane" id="m2">
                         <div class="photo-list photo">
-                            <span class="active"><img src="../static/images/user/img1.jpg"></span><span><img src="../static/images/user/img2.jpg"></span><span><img src="../static/images/user/img3.jpg"></span><span><img src="../static/images/user/img4.jpg"></span><span><img src="../static/images/user/img5.jpg"></span><span><img src="../static/images/user/img6.jpg"></span><span><img src="../static/images/user/img7.jpg"></span><span><img src="../static/images/user/img8.jpg"></span><span><img src="../static/images/user/img9.jpg"></span><span><img src="../static/images/user/img10.jpg"></span><span><img src="../static/images/user/img11.jpg"></span><span><img src="../static/images/user/img12.jpg"></span><span><img src="../static/images/user/img13.jpg"></span><span><img src="../static/images/user/img14.jpg"></span><span><img src="../static/images/user/img15.jpg"></span><span><img src="../static/images/user/img16.jpg"></span><span><img src="../static/images/user/img17.jpg"></span><span><img src="../static/images/user/img18.jpg"></span><span><img src="../static/images/user/img19.jpg"></span><span><img src="../static/images/user/img20.jpg"></span><span><img src="../static/images/user/img21.jpg"></span><span><img src="../static/images/user/img22.jpg"></span><span><img src="../static/images/user/img23.jpg"></span><span><img src="../static/images/user/img24.jpg"></span><span><img src="../static/images/user/img25.jpg"></span>
+                            <span class="active"><img src="../images/user/img1.jpg"></span><span><img src="../images/user/img2.jpg"></span><span><img src="../images/user/img3.jpg"></span><span><img src="../images/user/img4.jpg"></span><span><img src="../images/user/img5.jpg"></span><span><img src="../images/user/img6.jpg"></span><span><img src="../images/user/img7.jpg"></span><span><img src="../images/user/img8.jpg"></span><span><img src="../images/user/img9.jpg"></span><span><img src="../images/user/img10.jpg"></span><span><img src="../images/user/img11.jpg"></span><span><img src="../images/user/img12.jpg"></span><span><img src="../images/user/img13.jpg"></span><span><img src="../images/user/img14.jpg"></span><span><img src="../images/user/img15.jpg"></span><span><img src="../images/user/img16.jpg"></span><span><img src="../images/user/img17.jpg"></span><span><img src="../images/user/img18.jpg"></span><span><img src="../images/user/img19.jpg"></span><span><img src="../images/user/img20.jpg"></span><span><img src="../images/user/img21.jpg"></span><span><img src="../images/user/img22.jpg"></span><span><img src="../images/user/img23.jpg"></span><span><img src="../images/user/img24.jpg"></span><span><img src="../images/user/img25.jpg"></span>
                         </div>
                     </div>
                 </div>
@@ -203,8 +118,34 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
+    <script>
+    function deletePost(postid) {
+        if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
+            var data = {
+                data: JSON.stringify({
+                    "post_id": postid
+                })
+            }
+            $.ajax({
+                url: '/delete_post',
+                type: 'POST',
+                data: data,
+                success: function(data) {
+                    if (data.result== 0) {
+                        window.location.reload();
+                    } else {
+                        alert('删除失败')
+                    }
+                },
+                error: function(data) {
+                    alert('删除失败')
+                }
+            })
+        }
+    }
+    </script>
 </body>
 
 </html>

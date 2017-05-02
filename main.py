@@ -444,13 +444,71 @@ def user_info():
                            count_do_good=count_do_good,private_unread_count=private_unread_count, \
                            messages_unread=messages_unread, messages_unread_num=messages_unread_num)
 
-@app.route('/user_info_post', methods=['GET'])
+@app.route('/user_info_post', methods=['GET','POST'])
 def user_info_post():
     print 'user_info_post start'
-    post_list, page_no, num_perpage, total= mod_user.get_user_post(request)
-    return jsonify(post_list=post_list,no=page_no,size=num_perpage,totalsize=total)
+    post_list, page_no, num_perpage, total,view_user_info= mod_user.get_user_post(request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    user_info_type='post'
+    print 'user_info_type',user_info_type
+    return render_template('user_info_post.html',\
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count, \
+                           messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
+                           post_list=post_list,no=page_no,size=num_perpage,totalsize=total,\
+                           view_user_info=view_user_info,user_info_type=user_info_type)
+    #return jsonify(post_list=post_list,no=page_no,size=num_perpage,totalsize=total)
 
+@app.route('/user_info_community_create', methods=['GET','POST'])
+def user_info_community_create():
+    print 'user_info_community_owned start'
+    community_list, page_no, num_perpage, total,view_user_info = mod_user.community_create(request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    user_info_type='community_create'
+    return render_template('user_info_community_create.html',\
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count, \
+                           messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
+                           community_list=community_list,no=page_no,size=num_perpage,totalsize=total,\
+                           view_user_info=view_user_info,user_info_type=user_info_type)
 
+@app.route('/user_info_friend', methods=['GET','POST'])
+def user_info_friend():
+    print 'user_info_friend start'
+    friend_list, page_no, num_perpage, total,view_user_info = mod_user.good_friends(request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    user_info_type='friend'
+    return render_template('user_info_friend.html',\
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count, \
+                           messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
+                           friend_list=friend_list,no=page_no,size=num_perpage,totalsize=total,\
+                           view_user_info=view_user_info,user_info_type=user_info_type)
+
+#@app.route('/good_friends',methods=['GET','post'])
+## @interceptor(login_required=True)
+#def get_good_friends():
+#    print 'get_good_friends'
+#    return jsonify(friends=friends,no=page_no,size=num_perpage,totalsize=friends_total)
+
+@app.route('/community_owned',methods=['GET','post'])
+# @interceptor(login_required=True)
+def get_community_owned():
+    print 'get_community_owned'
+    communities, page_no, num_perpage, communities_total = mod_user.community_owned(request)
+    return jsonify(communities=communities,no=page_no,size=num_perpage,totalsize=communities_total)
 
 @app.route('/get_post_reply', methods=['GET'])
 def user_info_get_reply():
@@ -473,12 +531,6 @@ def get_good_friends():
     return jsonify(friends=friends,no=page_no,size=num_perpage,totalsize=friends_total)
 # user_info end
 
-@app.route('/community_owned',methods=['GET','post'])
-# @interceptor(login_required=True)
-def get_community_owned():
-    print 'get_community_owned'
-    communities, page_no, num_perpage, communities_total = mod_user.community_owned(request)
-    return jsonify(communities=communities,no=page_no,size=num_perpage,totalsize=communities_total)
 
 @app.route('/regist', methods=['GET', 'POST'])
 def regist():

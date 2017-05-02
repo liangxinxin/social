@@ -153,14 +153,15 @@ def query_user_info(request):
 
 def get_user_post(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     page_no = int(request.args.get("no", default_page_no))
     num_perpage = int(request.args.get("size", default_num_perpage))
     paginate = db_model_post.select_all_by_user(page_no,num_perpage,user_id)
     post_list = []
     for post in paginate.items:
         post.create_time = time_format.timestampFormat(post.create_time)
-        post_list.append(db_model_post.to_json(post))
-    return post_list,page_no,num_perpage,paginate.total
+        post_list.append(post)
+    return post_list,page_no,num_perpage,paginate.total,view_user_info
 
 def add_relation(request):
     print "now create user relation"
@@ -293,6 +294,7 @@ def check_login():
 
 def good_friends(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     login_user_id=0
     print 'into good friends user_id:',user_id
     if session.get('userinfo') != None:
@@ -307,26 +309,30 @@ def good_friends(request):
 
     if login_user_id==0:
         for user_relation in paginate.items:
-            user_relation= db_model_user_relation.to_json(user_relation)
-            user_relation['is_relation']=False
+            #user_relation= db_model_user_relation.to_json(user_relation)
+            #user_relation['is_relation']=False
+            user_relation.is_relation=False
             json_user.append(user_relation)
     else:
         for user_relation in paginate.items:
             #当前登录的人是否关注个人主页好友
             login_user_relation =db_model_user_relation.select_by_relation(login_user_id,user_relation.user_id,has_relation)
-            user_relation= db_model_user_relation.to_json(user_relation)
+            #user_relation= db_model_user_relation.to_json(user_relation)
             if login_user_relation==None:
-                user_relation['is_relation'] = False
+                #user_relation['is_relation'] = False
+                user_relation.is_relation = False
             else:
-                user_relation['is_relation'] =True
+                #user_relation['is_relation'] =True
+                user_relation.is_relation =True
 
 
             json_user.append(user_relation)
 
-    return json_user,page_no,num_perpage,paginate.total
+    return json_user,page_no,num_perpage,paginate.total,view_user_info
 
-def community_owned(request):
+def community_create(request):
     user_id = request.args.get("user_id")
+    view_user_info = db_model_user.select_by_id(user_id)
     login_user_id=0
     print 'into community owned user_id:',user_id
     if session.get('userinfo') != None:
@@ -335,10 +341,10 @@ def community_owned(request):
     num_perpage = int(request.args.get("size", default_num_perpage))
     paginate = db_model_community.select_by_owner_id_paging(user_id,page_no, num_perpage)
     print 'total community',paginate.total
-    community_json=[]
+    community_list=[]
     for item in paginate.items:
-        community_json.append(db_model_community.to_json(item))
-    return community_json,page_no,num_perpage,paginate.total
+        community_list.append(item)
+    return community_list,page_no,num_perpage,paginate.total,view_user_info
 
 
 def update_user(request):
