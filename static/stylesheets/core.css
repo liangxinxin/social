@@ -1096,7 +1096,7 @@ color: #A89D89; }
 .post-list .block-bar a { color: #A89D89 }
 .post-list .block-bar a:hover { color: #B69364 }
 .post-list .block-bar .like { position: relative; top: -2px; }
-.post-list .block-bar .like i { font-size: 1.6rem; position: relative; top: 2px; }
+.post-list .block-bar .like i { font-size: 1.6rem; position: relative; top: 2px;}
 .post-list .block-bar.action { height: 20px; line-height: 20px; }
 .post-list .block-bar.action .drop-toggle { padding-left: 10px; }
 .post-list .block-bar.action .drop-toggle i { position: relative; top: 1px; }

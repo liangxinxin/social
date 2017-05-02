@@ -27,6 +27,7 @@ def select_recent_user(request):
                     count = db_model_private_message.select_unread_by_each_user(user.id,user_id)
                     unread_count_list.append(int(count))
                     user_list.append(user)
+                user_list.fiter()
         if len(unread_count_list)>0:
             unread_count_list[0]=0 #第一个人不显示红色标注的未读消息条数
         user_num = len(user_list)

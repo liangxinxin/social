@@ -5,7 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from db_connect import db
 import  db_model_user
- 
+import  db_model_comment
+
 class Reply(db.Model):
     __tablename__='reply'
     id = db.Column(db.Integer, primary_key=True)
@@ -82,14 +83,18 @@ def delete(id):
 
 def select_paging_by_post_id(page_no,num_per_page,post_id):
     print 'no:',page_no,'num:',num_per_page,'post id:',post_id
-    if page_no < 1:
-        page_no = 1
     paginate = Reply.query.filter(Reply.post_id==post_id,Reply.status==0).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
     return paginate
 
+def select_except_best_id(page_no,num_per_page,post_id,best_reply_id):
+    print 'no:',page_no,'num:',num_per_page,'post id:',post_id
+    paginate = Reply.query.filter(Reply.post_id==post_id,Reply.status==0,Reply.id!=best_reply_id).order_by(Reply.create_time).paginate(page_no,num_per_page,False)
+    return paginate
+
+
 def select_best_by_post_id(post_id):
     print 'post id:',post_id
-    best_reply = Reply.query.filter(Reply.post_id==post_id,Reply.status==0).order_by(desc(Reply.like_num)).first()
+    best_reply = Reply.query.filter(Reply.post_id==post_id,Reply.status==0,Reply.like_num>=3).order_by(desc(Reply.like_num)).first()
     return best_reply
 
 # return paginate
@@ -125,6 +130,7 @@ def to_json(object):
             'create_time':object.create_time,
             'status':object.status,
             'last_update_time':object.last_update_time,
-            'user':db_model_user.to_json(object.user)
+            'user':db_model_user.to_json(object.user),
+            'comments':db_model_comment.to_json(object.comments)
 
         }

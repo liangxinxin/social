@@ -1,8 +1,9 @@
 # coding=utf-8
 
 from sqlalchemy import desc, func
-import db_model_user
 from db_connect import db
+import db_model_user
+import  db_model_community
 
 
 class Post(db.Model):
@@ -146,6 +147,7 @@ def to_json(object):
             'content': object.content,
             'create_user_id': object.create_user_id,
             'user': db_model_user.to_json(object.user),
+            'community':db_model_community.to_json(object.community),
             'community_id': object.community_id,
             'floor_num': object.floor_num,
             'create_time': object.create_time,

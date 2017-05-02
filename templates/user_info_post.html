@@ -28,7 +28,7 @@
                         {% for post in post_list %}
                         <div class="item">
                             <div class="content">
-                                <h4><a href="/post?post_id={{post.id}}&community_id={{post.community_id}}">{{post.title}}</a></h4>
+                                <h4><a href="/post?post_id={{post.id}}&">{{post.title}}</a></h4>
                                 <p>{{post.content}}</p>
                                 <div class="block-bar">
                                     <span><a href="#">{{post.create_time}}</a></span>
@@ -63,7 +63,6 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../lib/jquery-1.8.1.min.js "></script>
     <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
     <script type="text/javascript" >
     function deletePost(postid) {

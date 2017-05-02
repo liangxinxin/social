@@ -271,61 +271,47 @@ def post_publish():
     #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
-@app.route('/post', methods=['GET', 'POST'])
+@app.route('/post', methods=['GET'])
 # @interceptor(login_required=True)
 def post():
-    post_data, post_user, reply_data,like_user_dict, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user,\
-        best_reply,best_reply_user = mod_post.post_info(request)
-    reply_num = len(reply_data.items)
-    total_page = reply_data.pages
-    
-    reply_data_new=[]
-    if reply_data == None:
-      reply_data_new=None
+    post =  mod_post.service(request)
+    if post:
+        return render_template('post.html',post=post)
     else:
-        for reply in reply_data.items:
-           reply.last_update_time=time_format.timestampFormat(reply.last_update_time)
-           reply_data_new.append(reply)
-    if page_no > total_page and total_page>0:
-        default_num_perpage = 10
-        post_id = request.args.get("post_id")
-        community_id = request.args.get("community_id")
-        page_no = total_page
-        num_perpage = int(request.args.get("num_perpage",default_num_perpage))
-        return redirect(url_for('post', post_id = post_id,community_id=community_id, num_perpage=num_perpage, page_no = page_no))
+        msg='页面找不到了'
+        redirect(url_for('error',msg=''))
+    return render_template('error.html', msg=msg)
+    # post, reply_list, total, total_page, like_user_dict, page_no, num_perpage, best_reply= mod_post.post_info(request)
+    # if page_no > total_page and total_page>0:
+    #     default_num_perpage = 10
+    #     post_id = request.args.get("post_id")
+    #     community_id = request.args.get("community_id")
+    #     page_no = total_page
+    #     num_perpage = int(request.args.get("num_perpage",default_num_perpage))
+    #     return redirect(url_for('post', post_id = post_id,community_id=community_id, num_perpage=num_perpage, page_no = page_no))
+    #
+    # #  print model
+    # private_unread_count=0
+    # count_comment=0
+    # count_reply=0
+    # count_guanzhu=0
+    # count_do_good=0
+    # messages_unread=mod_user.get_unread_message_from_session()
+    # messages_unread_num = 0
+    # if messages_unread != None:
+    #     messages_unread_num=len(messages_unread)
+    #     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    # # like_user_list 点赞用户
+    # print 'reply total',total
+    # return render_template('post.html',post=post, reply_list=reply_list,total=total,
+    #                        like_user_dict=like_user_dict,page_no=page_no,num_perpage=num_perpage, best_reply=best_reply)
 
-    #  print model
-    private_unread_count=0
-    count_comment=0
-    count_reply=0
-    count_guanzhu=0
-    count_do_good=0
-    if reply_data_new == None:
-        messages_unread=mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-            private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-
-        return render_template('post.html', post_data=post_data, post_user=post_user, community=community, \
-                               messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
-                               count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good)
-    else:
-        messages_unread=mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-            private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-        # like_user_list 点赞用户
-
-        return render_template('post.html', post_data=post_data, post_user=post_user,like_user_dict=like_user_dict, reply_num=reply_num, \
-                               reply_list=reply_data_new,total_page=total_page,private_unread_count=private_unread_count, \
-                               reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num, \
-                               num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user, \
-                               messages_unread=messages_unread,messages_unread_num=messages_unread_num, \
-                               count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
-                               count_do_good=count_do_good,best_reply=best_reply,best_reply_user=best_reply_user)
-
+#show reply and best in post.html
+@app.route('/get_best_reply',methods=['GET'])
+def get_best_reply():
+    reply_list, best_reply, like_user_dict, page_no, num_perpage,total_page, total = mod_reply.service(request)
+    return jsonify(reply_list=reply_list, best_reply=best_reply, like_user_dict=like_user_dict,
+                       page_no=page_no, num_perpage=num_perpage, total=total )
 
 @app.route('/delete_post', methods=['POST'])
 # @interceptor(login_required=True)
@@ -345,28 +331,9 @@ def find_match_post():
 @app.route('/reply_publish', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def reply_publish():
-    login_flag = mod_user.check_login()
-    post_data, post_user, reply_data, reply_user_list, community, page_no, real_num, num_perpage, like_stats, liked_by_user=mod_reply.service(request)
-    if post_data == None:
-        return redirect('/index')
-      
-    reply_num = len(reply_data.items)
-    total_page = reply_data.pages
-    messages_unread=mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-    if messages_unread != None:
-        messages_unread_num=len(messages_unread)
+    reply, replycount, common_replycount, total_page=mod_reply.service(request)
+    return jsonify(reply=reply,replycount=replycount,common_replycount=common_replycount,total_page=total_page)
 
-    # upd by lxx,redirect to post by pageno;  post is method name
-    return redirect(url_for('post',post_id=post_data.id,page_no=total_page,community_id=post_data.community_id))
-
-    # return render_template('post.html', post_data=post_data, post_user=post_user, reply_num=reply_num,\
-    #     reply_list=reply_data.items, total_page=total_page, \
-    #     reply_user_list=reply_user_list, community=community, page_no=page_no, real_num=real_num,\
-    #     count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-    #     num_perpage=num_perpage, like_stats=like_stats, liked_by_user=liked_by_user,\
-    #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 @app.route('/update_reply', methods=['POST'])
 # @interceptor(login_required=True)
@@ -387,8 +354,8 @@ def delete_reply():
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def reply_like():
-    mod_reply.reply_like_changed(request)
-    return jsonify(res="status-changed")
+    result = mod_reply.reply_like_changed(request)
+    return jsonify(code=result['code'],like_num=result['like_num'])
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -670,16 +637,16 @@ def get_default_image():
 # @interceptor(login_required=True)
 def get_comment():
     print 'get_comment'
-    paginate = mod_comment.query_by_reply_id(request)
-    return jsonify(result=paginate.items,has_next=paginate.has_next)
+    paginate = mod_comment.service(request)
+    return jsonify(comment_list=paginate.items,has_next=paginate.has_next)
 
 @app.route('/publish_comment',methods=['post'])
 # @interceptor(login_required=True)
 def publish_comment():
     print 'publish_comment'
     result = mod_comment.service(request)
-    print 'publish_comment result:code '+str(result.get('code'))+' message: '+result.get('message')
-    return jsonify(result)
+    print 'publish_comment result:code ',result['code'],' message: ',result['message']
+    return jsonify(code=result['code'],comment=result['comment'])
 
 @app.route('/delete_comment',methods=['post'])
 # @interceptor(login_required=True)

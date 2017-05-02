@@ -1,356 +1,438 @@
+//初始化页面
+var callback = function(page_no){
+       loadReply(page_no)
+   }
+function initData(){
+   getLoginInfo();
+   //loadReply(1)
 
-$('.say_word').hover(function() {
-		$(this).addClass('say_word_border');
-      },function(){
-        $(this).removeClass('say_word_border');
-      });
-      function sayWrapFocus(replyid){
-        var say_block = $('#say_block_'+replyid)
-        say_block.find('div.say_wrap').addClass('say_word_border');
-      }
-      function sayWrapBlur(replyid){
-        var say_block = $('#say_block_'+replyid)
-        say_block.find('div.say_wrap').removeClass('say_word_border');
-      }
-
-    function huifu(replyid,commentid,userid){
-       if(login){
-          var say_block = $('#say_block_'+replyid)
-          say_block.slideDown("fast",function(){
-             var comment_wrap = $('.comment_wrap_'+commentid);
-             var say_block = $('#say_block_'+replyid);
-             var user = comment_wrap.find('div.comment-content').find('a.username');
-             var username=user.html();
-             // publish something to reply or comment.
-             say_block.find('input.pubtype').val('comment');
-             say_block.find('input.cuid').val(userid);
-             var input_comm = '<input class="cid" type="hidden" value="'+commentid+'">';
-             say_block.append(input_comm);
-             say_block.find('.say_content').val('回复'+username+':');
-             say_block.find('.say_content').focus();
-             //$("div[id^='say_block']:not(div#say_block_"+replyid+")").slideUp("fast",function(){});
-          });
-        }else{
-            alert('请登录后回复！')
-        }
-
-
-    }
-
-
-      //日期格式化
-      function getDate(convertDate) {
-          var date = new Date(convertDate);
-          Y = date.getFullYear() + '-';
-          M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date
-                  .getMonth() + 1)
-                  + '-';
-          D = date.getDate() <10 ? '0' + date.getDate()+' ' : date.getDate()+' ';
-          h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date
-                  .getHours()
-                  + ':';
-          m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date
-                  .getMinutes()
-                  + ':';
-          s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date
-                  .getSeconds();
-          return Y + M + D + h + m + s;
-      }
-
-
-
-      //click say
-      function sayWord(replyid){
-
-        if(login){
-          var say_block = $('#say_block_'+replyid)
-          say_block.slideToggle("fast",function(){
-            //清除回复框中的内容
-            var say_content = say_block.find('.say_content');
-            say_content.val('');
-            say_content.focus();
-            var publishType = say_block.find('input.pub_type');
-            publishType.val('reply');
-           // $("div[id^='say_block']:not(div#say_block_"+replyid+")").slideUp("fast",function(){});
-          });
-        }else{
-            alert('请登录后回复!');
-        }
-      }
-      function joinHtml(comment,replyid){
-          var create_time =getDate(comment.create_time)
-          var user = comment.user;
-          var touser = comment.touser
-          var content =comment.content;
-          if(comment.parent_id>0){
-            content='<span>回复<a href="#">'+touser.name+'</a></span>：'+comment.content;
-          }
-          var btn_delete ='';
-          if(user.id==userid){
-            btn_delete='<a class="btn_delete" href="javascript:void(0)" onclick="deleteComment('+replyid+','+comment.id+')">删除</a>'
-          }
-          var comment= ['<div class="comment_wrap comment_wrap_'+comment.id+' col-sm-12">',
-              '<div class="comment-head-img">',
-              '<a href="/user_info?user_id='+user.id+'"><img class="comm-img-ss" src="'+user.head_img_url+'"></a>',
-              '</div>',
-                '<div class="comment-content"><a class="username" href="/user_info?user_id='+user.id+'">'+user.name+'</a><span>&nbsp;:&nbsp;</span>',
-                content,
-                '</div>',
-                '<div class="comment-foot"><span class="col-sm-10">'+create_time+'</span>',
-                '<a class="btn_comment" href="javascript:void(0)" onclick="huifu('+replyid+','+comment.id+','+user.id+')">回复</a>',
-                btn_delete,
-                '</div></div>'
-               ].join('');
-          return comment;
-      }
-      //提交回复
-       function  publishComment(replyid){
-          if(!login){
-            alert('请登录后回复!')
-            return false;
-          }
-          var community_id = $('input#community_id').val();
-          var post_id = $('input#post_id').val();
-          var say_block = $('#say_block_'+replyid)
-          var content = say_block.find('.say_content').val();
-          var parentid = 0 ;
-          var touid = 0;
-          if(content==''|| content==null){
-              alert('内容不能为空!');
-              return false;
-          }
-          var indexOf = content.indexOf(':');
-          if(indexOf!=-1){
-            content = content.substring(indexOf+1,content.length);
-            var publishType = say_block.find('input.pubtype').val();
-            if(publishType=='comment'){
-              parentid = say_block.find('input.cid').val(); //comment id
-              touid = say_block.find('input.cuid').val();//to comment user id
-            }
-          }else{
-            touid = say_block.find('input.ruid').val(); // to reply user id
-          }
-           var url='/publish_comment?replyid='+replyid+'&touid='+touid+'&content='+content+'&parentid='+parentid+'&communityid='+community_id+'&postid='+post_id;
-             $.ajax(url,{
-                type: 'post',
-                data: '',
-                async:false,
-                dataType: 'json',
-                success:function (data) {
-                  if(data.code==0){
-                      comment = joinHtml(data.comment,replyid)
-                      $('.comment_body_'+replyid).find('div.comment_container').append(comment);
-                      $('.say_content').val('');
-                      var num = parseInt($('#comment_num_'+replyid).text());
-                      $('#comment_num_'+replyid).text((num+1));
-                      $('.say_content').val('');
-                  }else{
-                      alert('回复失败')
-                  }
-                },
-                error: function (data) {
-                  alert('error')
-                }
-          });
-      }
-      //查询回复信息
-      function getComment(replyid){
-          var is_show = $('.comment_body_'+replyid).css('display');
-          if(is_show=='block'){
-              $('.comment_body_'+replyid).slideUp('500');
-              return;
-          }
-          var page_no=1;
-          $('.comment_body_'+replyid).find('.comment_container').html('');
-          var length = sendAjax(replyid,page_no);
-          if(!login){
-             $("div[id^='say_block']").css('display','none');//未登录时不显示 输入框。
-          }
-          if(login || length>0){
-            $('.comment_body_'+replyid).slideDown('fast');
-          }else if(!login && length==0){
-            alert('请登录后回复！')
-          }
-
-      }
-
-      function more_comment(replyid,page_no){
-           $('.comment_body_'+replyid).find('div.more_comment').remove();
-           var page_no =page_no+1;
-           sendAjax(replyid,page_no);
-
-      }
-      function sendAjax(replyid,page_no){
-           var url='/get_comment?replyid='+replyid+'&page_no='+page_no;
-           var datalen = 0;
-           $.ajax(url,{
-              type: 'get',
-              data: '',
-              async:false,
-              dataType: 'json',
-              success:function (data) {
-                  var res =data.result;
-                  datalen = res.length;
-                  if(datalen==0 ){
-                      return datalen;
-                  }
-                  var comments = [];
-                  for(var i=0;i<res.length;i++){
-                      comment = joinHtml(res[i],replyid);
-                      comments.push(comment);
-                  }
-                  $('.say_content').val('');
-                  $('.comment_body_'+replyid).find('div.comment_container').append(comments);
-                  if(data.has_next){
-                      var more = $('.comment_body_'+replyid).find('div.more_comment')
-                      if(typeof(more)!='undefined'){
-                         more.remove();
-                      }
-                      var more ='<div class="more_comment col-sm-3"><a href="javascript:void(0)" onclick="more_comment('+replyid+','+page_no+')"><span id=more_'+replyid+'>查看更多</span></a></div>'
-                      $('.comment_body_'+replyid).find('div.comment_container').after(more);
-                  }
-
-                },
-                error: function (data) {
-                    alert('error')
-                }
-        });
-        return datalen;
-      }
-
-       function deleteComment(replyid,commentid){
-    var data={
-        data:JSON.stringify({
-            "comment_id":commentid
-        })
-    }
-    $.ajax({
-        url:'delete_comment',
-        type:'POST',
-        dataType:'json',
-        data:data,
-        timeout:5000,
-        success:function(data){
-            if(data.result==0){
-               var reply_num = parseInt($('#comment_num_'+replyid).text());
-                if(reply_num>0){
-                    reply_num = reply_num-1
-                    $('#comment_num_'+replyid).text(reply_num);
-                }
-                $('.comment_body_'+replyid).find('div.comment_container').find('div.comment_wrap_'+commentid).remove();
-            }
-
-        }
-    })
- }
-
-
-function deleteReply(replyid){
-    if (confirm('你确定删除这条回帖吗')) {
-        var data ={
-            data:JSON.stringify({
-                "reply_id":replyid
-            })
-        }
+    $("#page").initPage(num_perpage,total,page_no,callback);
+}
+function post(URL, PARAMS) {
+   var temp = document.createElement("form");
+   temp.action = URL;
+   temp.method = "post";
+   temp.style.display = "none";
+   for (var x in PARAMS) {
+       var opt = document.createElement("textarea");
+       opt.name = x;
+       opt.value = PARAMS[x];
+       temp.appendChild(opt);
+   }
+   document.body.appendChild(temp);
+   temp.submit();
+   return temp;
+}
+$('#summit-reply').click(function(){
+       var content=$('#editor').html();
+       if(user_id>0){
+        var data = {};
+        data['type'] = 'publish';
+        data['post_id'] = post_id;
+        data['content'] = content;
+        data['community_id'] = community_id;
+        data['num_perpage'] = num_perpage;
+        data['has_best'] = true;
         $.ajax({
-            url:'delete_reply',
-            type:'POST',
-            dataType:'json',
-            data:data,
-            timeout:5000,
-            success:function(data){
-                if(data.result==0){
-                    window.location.reload();
-                }else{
-                    alert('删除失败')
-                }
-            }
-        })
-
-    }
-}
-
-function cancelUpd(replyid){
-    $('#here_'+replyid).find('.reply_content').removeClass('a_hide')
-    $('#here_'+replyid).find('.update_content').removeClass('a_hide').empty();
-    $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_show').addClass('a_hide');
-    $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_hide').addClass('a_show');
-    $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_show').addClass('a_hide');
-    $('#here_'+replyid).find('.upd_btn>.delete').removeClass('a_hide').addClass('a_show');
-}
-
-function update(replyid){
-   $('.upd_btn>a.cancel.a_show').each(function(){
-     $(this).click();
-   });
-   $('#here_'+replyid).find('.upd_btn>.upd').removeClass('a_show').addClass('a_hide');
-   $('#here_'+replyid).find('.upd_btn>.cancel').removeClass('a_hide').addClass('a_show');
-   $('#here_'+replyid).find('.upd_btn>.submitupd').removeClass('a_hide').addClass('a_show');
-   $('#here_'+replyid).find('.upd_btn>.delete').removeClass('a_show').addClass('a_hide');
-   var content = $('#here_'+replyid).find('.reply_content').find('p').html();
-   $('#update').focus();
-   $('#update').html(content);
-   var container = $('.update_reply').html();
-   $('#here_'+replyid).find('.reply_content').addClass('a_hide')
-   $('#here_'+replyid).find('.update_content').removeClass('a_hide')
-   $('#here_'+replyid).find('.update_content').html(container)
-
-
-}
-
-function submitUpdate(replyid){
-    var content = $('#here_'+replyid).find('#update').html();
-    var data = {
-        data: JSON.stringify({
-            "reply_id": replyid,
-            "content":content
-        })
-    }
-    $.ajax({
-        url: '/update_reply',
-        type: 'POST',
-        data: data,
-        timeout:5000,
-        success: function(data) {
-            if (data.result== 0) {
-                $('#here_'+replyid).find('#update').remove();
-                $('#here_'+replyid).find('.reply_content>a>p').empty().html(content);
-                cancelUpd(replyid);
-            } else {
-                alert('修改失败')
-            }
-        },
-        error: function(data) {
-            alert('修改失败')
-        }
-    })
-
-}
-
-
-function deletePost() {
-    if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
-        var postid = $('#post_id').val();
-        var data = {
-            data: JSON.stringify({
-                "post_id": postid
-            })
-        }
-        $.ajax({
-            url: '/delete_post',
             type: 'POST',
+            url: '/reply_publish',
             data: data,
-            timeout:5000,
+            dataType: 'json',
+            timeout: 5000,
             success: function(data) {
-                if (data.result== 0) {
-                    window.location = "/index";
-                } else {
-                    alert('删除失败')
+                if (data.reply !=null && data.total_page!=null){
+                    total_page = data.total_page;
+                    $("#page").initPage(num_perpage,data.common_replycount,data.total_page,callback);
+                    $('#editor').empty();
+                }else{
+                    alert('回复失败!');
                 }
             },
-            error: function(data) {
-                alert('删除失败')
+            error: function(xhr, type) {
+                alert('回复失败!');
             }
         })
+    } else {
+        alert('登录后才能回复哦！');
+    }
+})
+//when click huifu
+function getHuifuHtml(reply_id,comment_id){
+    var huifu = '<div class="huifu">\
+                    <div class="input-huifu" contenteditable="true">\
+                                <input type="hidden" class="rid" value="'+reply_id+'">\
+                                <input type="hidden" class="cid" value="'+comment_id+'">\
+                                <input type="text"   class="input-content" value="" >\
+                    </div>\
+                    <span ><a id="huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
+                 </div>';
+    return huifu;
+}
+function summitHuifu(){
+
+    var reply_id = $('div.huifu').find('input.rid').val();
+    var comment_id = $('div.huifu').find('input.cid').val();
+    var content = $('div.huifu').find('input.input-content').val();
+    var index_huifi = content.indexOf('回复');
+    var index = content.indexOf(':');
+    if(index_huifi!=-1 && index!=-1){
+        content = content.substring(index+1,content.length)
+    }
+    if($.trim(content)==''){
+        alert('您还没有填写回复内容')
+        return;
+    }
+    if (reply_id!=''){
+        var data = {};
+        data['type'] = 'publish';
+        data['reply_id'] = reply_id;
+        data['comment_id'] = comment_id;
+        data['community_id'] = community_id;
+        data['content'] = content;
+        $.ajax({
+            type: 'POST',
+            url: '/publish_comment',
+            data: data,
+            dataType: 'json',
+            success: function(data) {
+                if(data.code==0){
+                    comment = data.comment;
+                    var comment_html = getCommentHtml(comment);
+                    var reply_num = $('#item_'+reply_id).find('input.hide-reply-num').val();
+                    $('#item_'+reply_id).find('div.comment-wrap').append(comment_html);
+                    reply_num =parseInt(reply_num)+1;
+                    $('#item_'+reply_id).find('a.reply-num>span').text(reply_num);
+                    //showComments(reply_id);
+                     $('#item_'+reply_id).find('div.comment-wrap').removeClass('hide');
+                    $('#item_'+reply_id).find('div.huifu').remove();
+                }else{
+                    alert('回复失败!')
+                }
+            },
+            error: function(xhr, type) {
+                alert('回复失败!');
+            }
+        })
+
+    }
+
+}
+function doHuifu(reply_id,comment_id){
+    if(user_id>0){
+        var huifu_input = getHuifuHtml(reply_id,comment_id);
+        $('div.huifu').remove();
+        $('#item_'+reply_id).append(huifu_input);
+        $('#item_'+reply_id).find('input.input-content').focus();
+        var name = '';
+        if(comment_id !=undefined && comment_id!=''){
+           name=$('#comment_'+comment_id).find('div.content').find('a.name').text();
+           $('#item_'+reply_id).find('input.input-content').val('回复'+name+':');
+        }
+    }else{
+        alert('登录后才能回复哦！')
     }
 }
+function doHuifuReply(reply_id){
+
+    if(user_id>0){
+        var huifu_input = getHuifuHtml(reply_id,0);
+        $('div.huifu').remove();
+        $('#item_'+reply_id).append(huifu_input);
+        $('#item_'+reply_id).find('input.input-content').focus();
+    }else{
+        alert('登录后才能回复哦！')
+    }
+}
+function showComments(reply_id){
+    $('#item_'+reply_id).find('div.comment-wrap').toggleClass('hide');
+
+}
+function getCommentHtml(comment){
+    var comment_wrap='';
+    user = comment.user;
+    if(comment.parent_id>0){
+        content='<span>回复<a href="#">'+comment.touser.name+'</a></span>：'+comment.content;
+    }else{
+        content = comment.content;
+    }
+    comment_wrap='<div id="comment_'+comment.id+'" class="item">\
+                    <div class="photo">\
+                        <a href="#"><img src="'+user.head_img_url+'"></a>\
+                    </div>\
+                    <div class="content">\
+                        <div class="block-bar">\
+                            <span><a class="name"  href="#">'+user.name+'</a></span>\
+                            <span>'+comment.create_time+'</span>\
+                        </div>\
+                        <p>'+content+'</p>\
+                        <div class="block-bar action">\
+                            <span><a onClick="doHuifu('+comment.reply_id+','+comment.id+')" href="javascript:void(0)">回复</a></span>\
+                            <div class="right-control">\
+                                <span class="like"><a href="#"><i class="icon-like"></i></a>1</span>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>';
+    return comment_wrap;
+}
+
+function moreComment(replyId){
+    var comment_page_no = $('#item_'+replyId).find('input.comment_page_no').val();
+    var next_page_no = parseInt(comment_page_no)+1;
+    var data = {};
+    data['type'] = 'query';
+    data['reply_id'] = replyId;
+    data['page_no'] = next_page_no;
+    data['num_perpage'] = num_perpage;
+    $.ajax({
+        type: 'GET',
+        url: '/get_comment',
+        data: data,
+        dataType: 'json',
+        timeout: 5000,
+        success: function(data) {
+           var comment_list = data.comment_list;
+           var has_next = data.has_next;
+           if(comment_list.length>0){
+               var more_comment ='';
+               for(var i=0;i<comment_list.length;i++){
+                   more_comment+=getCommentHtml(comment_list[i]);
+               }
+           }
+           $('#item_'+replyId).find('div.comment-wrap').append(more_comment)
+           if(has_next){
+                $('#item_'+replyId).find('input.comment_page_no').val(next_page_no);
+           }else{
+                $('#item_'+replyId).find('span.more-comment').remove();
+           }
+        },
+        error: function(xhr, type) {
+            alert('加载失败!');
+        }
+    })
+
+}
+
+function getReplyHtml(reply,comment_wrap,isBest){
+    var like_num ='';
+    var reply_wrap='';
+    var comment_num='';
+    var more_comment='';
+    var user = reply.user;
+    var comment_page_no =1;
+    if (reply.like_num > 0){
+      like_num = reply.like_num.toString();
+    }
+    var is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
+                <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
+                <span class="like-num">'+like_num+'</span>';
+    var best_desc ='';
+    if(isBest){
+       best_desc ='<span>最佳回帖</span>'
+       reply_wrap+=best_desc;
+    }else{
+
+    }
+    if(reply.floor_num>0){
+        comment_num='<span class="drop-toggle"><a class="reply-num" onClick="showComments('+reply.id+')" href="javascript:void(0)"><span>'+reply.floor_num+'</span>条回复 <i class="icon-arrow-up"></i></a></span>';
+    }
+    if(reply.floor_num>num_perpage){
+        more_comment ='<span class="more-comment"><a href="javascript:void(0)" onClick="moreComment('+reply.id+')">查看更多</a>\
+        <input class="comment_page_no" type="hidden" value ="'+comment_page_no+'"></span>';
+    }
+    if(reply.islike){
+        var is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
+                <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
+                <span class="like-num">'+like_num+'</span>';
+    }
+    reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
+            <input class="hide-reply-num" type="hidden" value ="'+reply.floor_num+'">\
+            <div class="photo">\
+                <a href="#"><img src="'+user.head_img_url+'"></a>\
+            </div>\
+            <div class="content">\
+                <div class="block-bar">\
+                    <span><a href="#">'+reply.user.name+'</a></span>\
+                    <span>'+reply.last_update_time+'</span>\
+                </div>\
+                <p>'+reply.content+'</p>\
+                <div class="block-bar action">\
+                    <span><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
+                    <div class="right-control">\
+                        '+is_like+'\
+                        </span>\
+                    </div>\
+                </div>\
+                <div class="comment-wrap hide">\
+                '+comment_wrap+'\
+                '+more_comment+'\
+                </div>\
+            </div>\
+        </div>';
+    return reply_wrap;
+}
+
+function doGood(reply_id){
+    if (user_id > 0) {
+        var mod_type = ''
+        var is_like = $('#like-'+reply_id).val();
+        if (is_like=='true'){
+            mod_type = 'add';
+        }else{
+            mod_type = 'remove';
+        }
+        var data = {};
+        data['type'] = 'like';
+        data['reply_id'] = reply_id;
+        data['mod_type'] = mod_type;
+        $.ajax({
+            type: 'POST',
+            url: '/reply_like_status_change',
+            data: data,
+            dataType: 'json',
+            //timeout: 5000,
+            success: function(data){
+                if(data.code==0){
+                    var like_num = data.like_num;
+                    if(mod_type == 'add'){
+                         $('#like-'+reply_id).val("false");
+                    }else{
+                         $('#like-'+reply_id).val("true");
+                    }
+                    if(like_num>0){
+                        $('#item_'+reply_id).find('span.like-num').text(like_num);
+                    }else{
+                        $('#item_'+reply_id).find('span.like-num').text('');
+                    }
+                    // something todo
+                }else{
+                    alert(' 操作失败！')
+                }
+            },
+            error: function(xhr, type) {
+                alert('操作失败!');
+            }
+        })
+    } else {
+        alert('登录后才能点赞哦！');
+    }
+
+}
+function loadReply(page_no){
+    var data = {};
+    data['type'] = 'query_best';
+    data['post_id'] = post_id;
+    data['page_no'] = page_no;
+    data['num_perpage'] = num_perpage;
+    data['comment_num_perpage'] = num_perpage;
+    $.ajax({
+        type: 'get',
+        url: '/get_best_reply',
+        data: data,
+        dataType: 'json',
+        timeout: 5000,
+        async:false,
+        success: function(data) {
+            var reply_list = data.reply_list;
+            var best_reply = data.best_reply;
+            var best_reply_like ='';
+            var best_reply_wrap ='';
+            var best_reply_comment='';
+            var reply_wrap ='';
+            var isBest= false;
+            if(best_reply!=null && page_no == 1){
+                var best_reply_comments = best_reply.comments;
+                if(best_reply_comments!=null){
+                    for(var i=0;i< best_reply_comments.length ;i++){
+                        best_reply_comment+=getCommentHtml(best_reply_comments[i]);
+                    }
+                }
+                isBest= true;
+                best_reply_wrap = getReplyHtml(best_reply,best_reply_comment,isBest);
+            }
+            if(isBest){
+                reply_wrap+='<span>其它回帖</span>'
+            }
+            isBest= false;
+            for(var i=0;i<reply_list.length;i++){
+                var reply = reply_list[i];
+                var user = reply_list[i].user;
+                var reply_comments = reply_list[i].comments;
+                var reply_comment='';
+                if(reply_comments.length>0){
+                   for(var j=0;j<reply_comments.length;j++){
+                    reply_comment +=getCommentHtml(reply_comments[j]);
+                   }
+                }
+               reply_wrap += getReplyHtml(reply,reply_comment,isBest)
+            }
+
+            if (page_no==1){
+                $('.post-list').html(best_reply_wrap+reply_wrap);
+            }else{
+                $('.post-list').html(reply_wrap);
+            }
+            total = data.total;
+            page_no=data.page_no;
+            total_page = data.total_page;
+
+        },
+        error: function(xhr, type) {
+        }
+    })
+}
+// click left
+$('#left').click(function() {
+    if (user_id > 0) {
+        var data = {};
+        data['type'] = 'left';
+        data['user_id'] = user_id;
+        data['community_id'] = community_id;
+        $.ajax({
+            type: 'POST',
+            url: '/user_community',
+            data: data,
+            dataType: 'json',
+            timeout: 5000,
+            success: function(data) {
+                alert('您已离开社区!');
+                $('.comm_user_num').text(data['user_num']);
+                $('#left').addClass('hide');
+                $('#join').removeClass('hide');
+            },
+            error: function(xhr, type) {
+                alert('离开社区失败!');
+            }
+        })
+    } else {
+        alert('登录后才能离开社区哦！');
+    }
+
+})
+// click join
+$('#join').click(function() {
+    if (user_id > 0) {
+        var data = {};
+        data['type'] = 'join';
+        data['user_id'] = user_id;
+        data['community_id'] = community_id;
+        $.ajax({
+            type: 'POST',
+            url: '/user_community',
+            data: data,
+            dataType: 'json',
+            timeout: 5000,
+            success: function(data) {
+                alert('成功加入社区!');
+                $('.comm_user_num').text(data['user_num']);
+                $('#join').addClass('hide');
+                $('#left').removeClass('hide');
+            },
+            error: function(xhr, type) {
+                alert('加入社区失败!');
+            }
+        })
+    } else {
+        alert('登录后才能加入社区哦！');
+    }
+})
