@@ -1,4 +1,4 @@
-#editor { position: relative; max-height: 250px; padding-bottom:40px; background-color: white; border-collapse: separate; box-sizing: content-box; -webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; outline: none; text-align: left; background: #fff; padding: 5px; vertical-align: top; }
+#editor { position: relative; max-height: 250px; padding-bottom:50px; background-color: white; border-collapse: separate; box-sizing: content-box; -webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; outline: none; text-align: left; background: #fff; padding: 5px; vertical-align: top; }
 div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 .dropdown-menu a { cursor: pointer; }
 .input-area { min-height: 100px; border: 1px solid #ccc; word-break: break-all; }
@@ -14,7 +14,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .huifu { min-height: 50px; }
 .huifu span { padding-right: 50px; float: right; }
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
-.edit-toolbar{ position:relative; bottom: 35px; border-top:1px solid #D9D9D9; }
+.edit-toolbar{ position:relative; bottom: 35px; padding-left: 10px; border-top:1px solid #D9D9D9; }
 .edit-toolbar:after{ width: 100%; border-top:1px solid #D9D9D9; content: ""; }
 .edit-toolbar a{ position: relative; width: 30px; height: 30px; margin: 0 5px; text-align: center; line-height: 40px; }
 .edit-toolbar a i{ font-size: 1.1em; }
