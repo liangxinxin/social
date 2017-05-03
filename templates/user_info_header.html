@@ -18,12 +18,30 @@
          {% endif %}
      </div>
      {% if view_user_info and not session.get('userinfo')%}
-     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
+     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
      {% endif %}
      {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
-     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a href="#" class="btn btn-default">交流</a></span></div>
+     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
      {% endif %}
  </div>
 {%if view_user_info.id == session.get('userinfo')['id'] %}
 {% include 'commons/upload.html' %}
 {%endif%}
+<script type="text/javascript" >
+var user_id =0;
+getLoginInfo();
+function getLoginInfo(){
+    {% if session.get('userinfo')%}
+        user_id = {{session.get('userinfo')['id']}};
+    {%endif%}
+}
+$('#chat').click(function(){
+    if(user_id>0){
+        window.open('/private_message?to_user_id='+{{view_user_info.id}})
+    }else{
+        alert('登录后才能交流哦')
+    }
+})
+
+
+</script>

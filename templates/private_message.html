@@ -5,55 +5,40 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../static/stylesheets/core.css" />
-    <link rel="stylesheet" href="../static/stylesheets/iconfont.css" />
+    <link rel="stylesheet" href="../stylesheets/core.css" />
+    <link rel="stylesheet" href="../stylesheets/iconfont.css" />
+    <link href="lib/css/qq.face.css" rel="stylesheet">
 </head>
 
 <body>
     {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
+        {%if to_user%}
+            <input id="chatWith" type="hidden" value="{{to_user.id}}"/>
+        {% else %}
+             <input id="chatWith" type="hidden" value="{{user_list[0].id}}"/>
+        {%endif%}
         <div class="webim">
             <div class="friend-container">
                 <div class="container-scroll" style="height:100%;">
                     <ul class="friend-list">
-                        <li class="active">
-                            <span><img src="../static/images/user/img1.jpg"></span><span>薛洪言</span>
+                        {%if to_user%}
+                            <li id="u_{{to_user.id}}" onclick="getHistoryMessage({{to_user.id}})">
+                                <span><img src="{{to_user.head_img_url}}"></span><span>{{to_user.name}}</span>
+                            </li>
+                        {%endif%}
+                        {% if user_list and unread_count_list%}
+                        {% for i in range(user_num)%}
+                        <li id="u_{{user_list[i].id}}" onclick="getHistoryMessage({{user_list[i].id}})">
+                            <span><img src="{{user_list[i].head_img_url}}"></span>
+                            <span>{{user_list[i].name}}</span>
+                            {%if unread_count_list[i] %}
+                            <span class="circle_sm">{{unread_count_list[i]}}</span>
+                            {%endif%}
                         </li>
-                        <li>
-                            <span><img src="../static/images/user/img8.jpg"></span><span>何沛宽</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img12.jpg"></span><span>万小祭</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img18.jpg"></span><span>景玺龙</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img1.jpg"></span><span>薛洪言</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img8.jpg"></span><span>何沛宽</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img12.jpg"></span><span>万小祭</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img18.jpg"></span><span>景玺龙</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img1.jpg"></span><span>薛洪言</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img8.jpg"></span><span>何沛宽</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img12.jpg"></span><span>万小祭</span>
-                        </li>
-                        <li>
-                            <span><img src="../static/images/user/img18.jpg"></span><span>景玺龙</span>
-                        </li>
-                       
+                        {% endfor %}
+                        {% endif%}
                     </ul>
                 </div>
             </div>
@@ -61,78 +46,78 @@
         <div class="chat-container">
             <div class="chat">
                 <div class="container-scroll" style="height:100%;">
-                <div class="chat-date">2017-4-20</div>
+                <div class="chat-date">{{today}}</div>
                     <ul>
-                        <li class="chat-mine">
-                            <div class="chat-user"><img src="../static/images/user/img1.jpg" /></div>
-                            <div class="chat-content">
-                                患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！
-                            </div>
-                        </li>
-                        <li>
-                            <div class="chat-user"><img src="../static/images/user/img8.jpg" /></div>
-                            <div class="chat-content">
-                                thythyt
-                            </div>
-                        </li>
-                        <li class="chat-mine">
-                            <div class="chat-user"><img src="../static/images/user/img1.jpg" /></div>
-                            <div class="chat-content">
-                                患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！
-                            </div>
-                        </li>
-                        <li>
-                            <div class="chat-user"><img src="../static/images/user/img8.jpg" /></div>
-                            <div class="chat-content">
-                                thythyt
-                            </div>
-                        </li>
-                        <li class="chat-mine">
-                            <div class="chat-user"><img src="../static/images/user/img1.jpg" /></div>
-                            <div class="chat-content">
-                                患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！
-                            </div>
-                        </li>
-                        <li>
-                            <div class="chat-user"><img src="../static/images/user/img8.jpg" /></div>
-                            <div class="chat-content">
-                                thythyt
-                            </div>
-                        </li>
-                        <li class="chat-mine">
-                            <div class="chat-user"><img src="../static/images/user/img1.jpg" /></div>
-                            <div class="chat-content">
-                                患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！
-                            </div>
-                        </li>
-                        <li>
-                            <div class="chat-user"><img src="../static/images/user/img8.jpg" /></div>
-                            <div class="chat-content">
-                                thythyt
-                            </div>
-                        </li>
-                        <li class="chat-mine">
-                            <div class="chat-user"><img src="../static/images/user/img1.jpg" /></div>
-                            <div class="chat-content">
-                                患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！
-                            </div>
-                        </li>
-                        <li>
-                            <div class="chat-user"><img src="../static/images/user/img8.jpg" /></div>
-                            <div class="chat-content">
-                                thythyt
-                            </div>
-                        </li>
+                        <!--<li class="chat-mine">-->
+                            <!--<div class="chat-user"><img src="../images/user/img1.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="chat-user"><img src="../images/user/img8.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--thythyt-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="chat-mine">-->
+                            <!--<div class="chat-user"><img src="../images/user/img1.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="chat-user"><img src="../images/user/img8.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--thythyt-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="chat-mine">-->
+                            <!--<div class="chat-user"><img src="../images/user/img1.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="chat-user"><img src="../images/user/img8.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--thythyt-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="chat-mine">-->
+                            <!--<div class="chat-user"><img src="../images/user/img1.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="chat-user"><img src="../images/user/img8.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--thythyt-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="chat-mine">-->
+                            <!--<div class="chat-user"><img src="../images/user/img1.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--患者，今年50岁，长期经受风湿病的折磨，常常不能晚上不能睡觉，这是昨天做的检查，麻烦大夫给判断一下在日常生活中需要注意的问题。谢谢！-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="chat-user"><img src="../images/user/img8.jpg" /></div>-->
+                            <!--<div class="chat-content">-->
+                                <!--thythyt-->
+                            <!--</div>-->
+                        <!--</li>-->
                     </ul>
                 </div>
             </div>
             <div class="chat-footer">
-                <div class="chat-tool"><span><i class="icon-face"></i></span><span class="pull-right"><i class="icon-history"></i></span></div>
+                <div class="chat-tool"><span class="emotion"><i class="icon-face"></i></span><span class="pull-right"><i class="icon-history"></i></span></div>
                 <div class="chat-textarea">
-                    <textarea></textarea>
+                    <div contenteditable="true" id="smile-editor"></div>
                 </div>
                 <div class="chat-action">
-                    <button class="btn btn-primary">发送</button>
+                    <button id="send" class="btn btn-primary">发送</button>
                 </div>
             </div>
         </div>
@@ -142,10 +127,14 @@
     <div id="footer ">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
-    <script src="../static/lib/jquery-1.8.1.min.js "></script>
-    <script src="../static/lib/bootstrap/js/bootstrap.min.js "></script>
-    <script src="../static/lib/jquery.nicescroll.min.js "></script>
+    <script src="../lib/jquery-1.8.1.min.js "></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="../lib/jquery.nicescroll.min.js "></script>
+    <script src="../lib/js/privatemessage.js "></script>
     <script>
+
+    var to_user_id =$('#chatWith').val();
+    var user_id = 0;
     $(function() {
         $(".container-scroll").niceScroll({
             cursorborder: "",
@@ -162,8 +151,39 @@
             }
         });
         $(".container-scroll").getNiceScroll().resize();
+        // add by lxx.smile start
+        $('.emotion').qqFace({
+
+            id : 'facebox',
+
+            assign:'smile-editor',
+
+            path:'images/arclist/'	//表情存放的路径
+
+        });
+
     });
+    function replace_em(str){
+
+            str = str.replace(/\</g,'&lt;');
+
+            str = str.replace(/\>/g,'&gt;');
+
+            str = str.replace(/\n/g,'<br/>');
+
+            str = str.replace(/\[em_([0-9]*)\]/g,'<img style="vertical-align: left; text-align: left;" src="images/arclist/$1.gif" border="0" />');
+
+            return str;
+
+    }//smile end
+    function getLoginInfo(){
+            {% if session.get('userinfo')%}
+                user_id = {{session.get('userinfo')['id']}};
+            {%endif%}
+    }
+    initData();
     </script>
+    <script type="text/javascript" src="lib/js/jquery.qqFace.js"></script>
 </body>
 
 </html>

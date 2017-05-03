@@ -9,29 +9,52 @@ from db_interface import  db_model_action_type
 
 default_page_no=1
 default_num_perpage = 10
+
+
+def service(request):
+    if request.method =='POST':
+        type = request.form.get('type')
+        if type == 'send':
+            return save_private_message(request)
+
+
+    else:
+        type = request.args.get('type')
+        if type == 'recent_user':
+            return select_recent_user(request)
+        elif type == 'new_message':
+            return select_new_message(request)
+        elif type == 'history_message':
+            return select_mess_by_user(request)
+
+
+
+
 def select_recent_user(request):
     if session.get('userinfo'):
         user_id = session.get('userinfo')['id']
         to_user_id =request.args.get('to_user_id',0)# after click private_mess btn
         user_list = [] # recent chat user
         unread_count_list = [] # unread message count
+        to_user =None
         if to_user_id>0:# have click private_mess
             to_user = db_model_user.select_by_id(to_user_id)
-            user_list.append(to_user)
-            unread_count_list.append(0)
+            #user_list.append(to_user)
+            #unread_count_list.append(0)
         num_perpage =request.args.get('num_perpage',default_num_perpage)
         to_user_list = db_model_private_message.select_recent_user(user_id,num_perpage)# 返回最近聊天的人
         for  user in to_user_list:
                 #查询未读的消息条数
-                if user not in user_list:
+                #if user not in user_list:
+                print user.id
+                if user != to_user:
                     count = db_model_private_message.select_unread_by_each_user(user.id,user_id)
                     unread_count_list.append(int(count))
                     user_list.append(user)
-                user_list.fiter()
-        if len(unread_count_list)>0:
-            unread_count_list[0]=0 #第一个人不显示红色标注的未读消息条数
+        # if len(unread_count_list)>0:
+        #     unread_count_list[0]=0 #第一个人不显示红色标注的未读消息条数
         user_num = len(user_list)
-        return user_list,unread_count_list,user_num
+        return to_user,user_list,unread_count_list,user_num
 
 
 
@@ -45,8 +68,8 @@ def select_mess_by_user(request):
         mess_list =[]
         for message in data:
             mess_list.append(db_model_private_message.to_json(message))
-            if message.has_read==False:
-                db_model_private_message.update_has_read(message.id)
+            # if message.has_read==False:
+            #     db_model_private_message.update_has_read(message.id)
         mess_list.reverse()
         return mess_list
 
@@ -87,9 +110,8 @@ def save_private_message(request):
     result={}
     if session.get('userinfo'):
         user_id = session.get('userinfo')['id']
-        param = json.loads(request.form.get('data'))
-        to_user_id = param['to_user_id']
-        content = param['content']
+        to_user_id = request.form.get('to_user_id')
+        content = request.form.get('content')
         ISOTIMEFORMAT = '%Y-%m-%d %X'
         create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
         message = db_model_private_message.insert(content,user_id,to_user_id,create_time)
