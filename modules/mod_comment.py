@@ -18,7 +18,9 @@ def service(request):
     type = request.form.get("type")
     print 'post'
     if type == 'publish':
-        return publish_comment(request);
+        return publish_comment(request)
+    elif type == 'delete':
+        return delete_comment(request)
 
   elif request.method == 'GET':
     type = request.args.get("type")
@@ -92,8 +94,7 @@ def publish_comment(request):
 def delete_comment(request):
     result = {}
     #delete
-    param = json.loads(request.form.get('data'));
-    comment_id = param['comment_id']
+    comment_id = request.form.get('comment_id')
     print 'do delete comment'
     comment = db_model_comment.select_by_id(comment_id)
     if comment == None:
