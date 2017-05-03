@@ -26,6 +26,9 @@ def service(request):
         type = request.form.get("type")
         if type == "publish":
             return publish_reply(request)
+        elif type == "delete":
+            return delete_reply(request)
+
         else:
             print "error request:", request
     elif request.method == 'GET':
@@ -300,8 +303,7 @@ def update_reply(request):
 
 def delete_reply(request):
     result = {}
-    data = json.loads(request.form.get("data"))
-    reply_id = long(data["reply_id"])
+    reply_id = long(request.form.get('reply_id'))
     reply = db_model_reply.select_by_id(reply_id)
     if reply == None:
         print 'reply is none',reply_id

@@ -27,13 +27,13 @@ function loadHotPost(page_no){
                     var user = post_list[i].user
                     hot_post_wrap+='<div class="item">\
                             <div class="photo">\
-                                <a href="user_info.html"><img src="'+user.head_img_url+'"></a>\
+                                <a href="/user_info_post?type=1&user_id='+user.id+'"><img src="'+user.head_img_url+'"></a>\
                             </div>\
                             <div class="content">\
-                                <h4><a href="post.html">'+post_list[i].title+'</a></h4>\
+                                <h4><a href="post?id='+post_list[i].id+'&type=postInfo">'+post_list[i].title+'</a></h4>\
                                 <p>'+post_list[i].content+'</p>\
                                 <div class="block-bar">\
-                                    <span><a href="#">'+user.name+'</a></span>\
+                                    <span><a href="/user_info_post?type=1&user_id='+user.id+'">'+user.name+'</a></span>\
                                     <div class="control-right">\
                                         <div class="row-1x">\
                                             <div class="group-span-1x">\
@@ -73,7 +73,7 @@ function loadHotCommunity(){
                 commend_wrap =commend_wrap+'<div class="community-block">\
                                        <div class="img"><img src="'+community.head_img_url+'"></div>\
                                        <div class="content">\
-                                           <h4><a href="#">'+community.name+'</a></h4>\
+                                           <h4><a href="community?id='+community.id+'&type=query">'+community.name+'</a></h4>\
                                            <p>'+community.describe+'</p>\
                                        </div>\
                                        <div class="blk-1x"></div>\

@@ -347,7 +347,7 @@ def reply_update():
 @app.route('/delete_reply',methods=['POST'])
 # @interceptor(login_required=True)
 def delete_reply():
-    result = mod_reply.delete_reply(request)
+    result = mod_reply.service(request)
     return jsonify(result=result['code'])
 
 
@@ -646,8 +646,8 @@ def publish_comment():
 # @interceptor(login_required=True)
 def delete_comment():
     print 'delete_comment'
-    result = mod_comment.delete_comment(request)
-    print 'delete_comment result:code '+str(result.get('code'))
+    result = mod_comment.service(request)
+    print 'delete_comment result:code ',result.get('code')
     return jsonify(result=result['code'])
 
 @app.route('/message',methods=['GET', 'POST'])

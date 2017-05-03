@@ -14,6 +14,7 @@ from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
 from db_interface import db_model_user_community
+from  db_interface import db_model_comment
 from modules import mod_base64
 from modules import mod_lcs
 from modules import time_format
@@ -40,6 +41,8 @@ def service(request):
             return post_info(request)
         elif type == 'hot':
             return select_good_post(request)
+        elif type == 'delete':
+            return delete_post(request)
         else:
             return select_goodpost_num()
 
@@ -90,8 +93,7 @@ def find_match_post(request):
 
 
 def delete_post(request):
-    param = json.loads(request.form.get('data'))
-    post_id = param["post_id"]
+    post_id = request.form.get("post_id")
     post = db_model_post.select_by_id(post_id)
     result = {}
     if post == None:
@@ -104,6 +106,17 @@ def delete_post(request):
         post.last_update_time = update_time
         db_model_post.update(post)
         result['code'] = 0
+        community = db_model_community.select_by_id(post.community_id)
+        #update community post_num
+        community.post_num -= 1
+        db_model_community.update(community)
+        #dele reply,comment
+        for reply in post.replys:
+            reply.status =1
+            for comment in reply.comments:
+                comment.status =1
+                db_model_comment.update_comment(comment)
+            db_model_reply.update(reply)
     except Exception, e:
         result['code'] = 1
         print '删除失败'

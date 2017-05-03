@@ -23,6 +23,30 @@ function post(URL, PARAMS) {
    temp.submit();
    return temp;
 }
+$('#post_del').click(function(){
+    if(confirm('你确定删除这条帖子吗?其下的评论也将被删除')){
+         var data ={}
+         data['type'] = 'delete';
+         data['post_id'] = post_id;
+        $.ajax({
+            url:'delete_post',
+            type:'POST',
+            dataType:'json',
+            data:data,
+            timeout:5000,
+            success:function(data){
+                if(data.result==0){
+                    alert('帖子已被删除')
+                    window.location.href ='/index'
+                }else{
+                    alert('删除失败')
+                }
+            }
+        })
+
+    }
+
+})
 $('#summit-reply').click(function(){
        var content=$('#editor').html();
        if(user_id>0){
@@ -159,7 +183,7 @@ function getCommentHtml(comment){
     var user = comment.user;
     var is_delete ='';
     if(comment.parent_id>0){
-        content='<span>回复<a href="#">'+comment.touser.name+'</a></span>：'+comment.content;
+        content='<span>回复<a href="user_info_post?type=1&user_id='+comment.touser.id+'">'+comment.touser.name+'</a></span>：'+comment.content;
     }else{
         content = comment.content;
     }
@@ -169,11 +193,11 @@ function getCommentHtml(comment){
     }
     comment_wrap='<div id="comment_'+comment.id+'" class="item">\
                     <div class="photo">\
-                        <a href="#"><img src="'+user.head_img_url+'"></a>\
+                        <a href="user_info_post?type=1&user_id='+user.id+'"><img src="'+user.head_img_url+'"></a>\
                     </div>\
                     <div class="content">\
                         <div class="block-bar">\
-                            <span><a class="name"  href="#">'+user.name+'</a></span>\
+                            <span><a class="name"  href="user_info_post?type=1&user_id='+user.id+'">'+user.name+'</a></span>\
                             <span>'+comment.create_time+'</span>\
                         </div>\
                         <p>'+content+'</p>\
@@ -259,11 +283,11 @@ function getReplyHtml(reply,comment_wrap){
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
             <input class="hide-reply-num" type="hidden" value ="'+reply.floor_num+'">\
             <div class="photo">\
-                <a href="#"><img src="'+user.head_img_url+'"></a>\
+                <a href="user_info_post?type=1&user_id='+user.id+'"><img src="'+user.head_img_url+'"></a>\
             </div>\
             <div class="content">\
                 <div class="block-bar">\
-                    <span><a href="#">'+reply.user.name+'</a></span>\
+                    <span><a href="user_info_post?type=1&user_id='+user.id+'">'+reply.user.name+'</a></span>\
                     <span>'+reply.last_update_time+'</span>\
                 </div>\
                 <p>'+reply.content+'</p>\
@@ -286,11 +310,9 @@ function getReplyHtml(reply,comment_wrap){
 
 function deleteReply(reply_id){
     if (confirm('你确定删除这条回帖吗？其下的回复也将会被删除')) {
-        var data ={
-            data:JSON.stringify({
-                "reply_id":reply_id
-            })
-        }
+        var data ={}
+        data['type']='delete';
+        data['reply_id'] = reply_id;
         $.ajax({
             url:'delete_reply',
             type:'POST',
@@ -311,11 +333,9 @@ function deleteReply(reply_id){
 
 function deleteComment(reply_id,comment_id){
      if (confirm('你确定删除这条回复吗?')) {
-        var data={
-            data:JSON.stringify({
-                "comment_id":comment_id
-            })
-        }
+        var data={}
+        data['type']='delete';
+        data['comment_id'] = comment_id;
         $.ajax({
             url:'delete_comment',
             type:'POST',
@@ -421,7 +441,7 @@ function loadReply(page_no){
                 best_reply_wrap+='<span>最佳回帖</span>'
                 best_reply_wrap+= getReplyHtml(best_reply,best_reply_comment);
             }
-            if(isBest){
+            if(isBest&&reply_list.length>0){
                 reply_wrap+='<span>其它回帖</span>'
             }
             isBest= false;
