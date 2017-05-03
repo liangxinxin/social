@@ -38,7 +38,7 @@
                                                 {%if post.create_user_id==session.get('userinfo')['id']%}
                                                 <span><a id="post_del" href="javascript:void(0)">删除</a></span>
                                                 {%endif%}
-                                                <span>{{post.create_time}}</span><span>来自：<a href="#">{{post.community.name}}</a></span><span>{{post.reply_num}}</span></div>
+                                                <span>{{post.create_time}}</span><span>来自：<a href="/community?id={{post.community.id}}&type=query">{{post.community.name}}</a></span><span>{{post.reply_num}}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -59,9 +59,9 @@
                 </div>
                 <div class="side-container">
                     <div class="community-block">
-                        <div class="img"><img src="{{post.community.name}}"></div>
+                        <div class="img"><a href="/community?id={{post.community.id}}&type=query"><img src="{{post.community.head_img_url}}"></a></div>
                         <div class="content">
-                            <h4><a href="#">{{post.community.name}}</a></h4>
+                            <h4><a href="/community?id={{post.community.id}}&type=query">{{post.community.name}}</a></h4>
                             <p>{{post.community.desc}}</p>
                         </div>
                         <div class="blk-1x"></div>
