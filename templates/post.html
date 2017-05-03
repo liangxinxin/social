@@ -25,13 +25,13 @@
                     <div class="media-content post-detail">
                         <div class="item">
                             <div class="photo">
-                                <a href="#"><img src="../images/photo.png"></a>
+                                <a href="/user_info_post?user_id={{post.user.id}}"><img src="{{post.user.head_img_url}}"></a>
                             </div>
                             <div class="content">
                                 <h4><a href="#">{{post.title}}</a></h4>
                                 <p>{{post.content|safe}}</p>
                                 <div class="block-bar">
-                                    <span><a href="#">{{post.user.name}}</a></span>
+                                    <span><a href="/user_info_post?user_id={{post.user.id}}">{{post.user.name}}</a></span>
                                     <div class="control-right">
                                         <div class="row-1x">
                                             <div class="group-span-1x">
