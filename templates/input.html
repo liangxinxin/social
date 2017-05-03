@@ -10,10 +10,7 @@
     <link rel="apple-touch-icon" href="//mindmup.s3.amazonaws.com/lib/img/apple-touch-icon.png"/>
     <link rel="shortcut icon" href="http://mindmup.s3.amazonaws.com/lib/img/favicon.ico">
     <link href="lib/bootstrap/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
-    <link href="lib/bootstrap/wysiwyg/bootstrap-combined.no-icons.min.css"  rel="stylesheet">
-    <link href="lib/bootstrap/wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="lib/css/qq.face.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
     <script src="lib/bootstrap/wysiwyg/external/jquery.hotkeys.js"></script>
     <script src="lib/bootstrap/wysiwyg/external/google-code-prettify/prettify.js"></script>
     <link href="lib/bootstrap/wysiwyg/index.css" rel="stylesheet">
@@ -21,19 +18,20 @@
     <script src="lib/bootstrap/wysiwyg/bootstrap-wysiwyg.js"></script>
 </head>
 <body>
-<div class="btn-toolbar" style="margin-bottom:0;" data-role="editor-toolbar" data-target="#editor">
+
+
+     <div id="editor" class="input-area">
+     </div>
+     <div class="btn-toolbar" style="margin-bottom:0;" data-role="editor-toolbar" data-target="#editor">
     <div class="btn-group">
-        <a class="btn btn_emotion" ><span class="emotion"><img style="width:20px;height:20px;" src="http://jinrongdao.com:6100/images/smile.png"></span></a>
-         <a class="btn" style="position:relative;"  title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
-        <input type="file"  accept="images/*" id="descripitionImg"  data-target="#pictureBtn" data-edit="insertImage" multiple
-          class="input-hide" >
+        <a class="btn_emotion" ><span class="emotion"><i class="icon-face"></i></span></a>
+         <a class="btn relative" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-img"></i><input type="file"  accept="images/*" id="descripitionImg"  data-target="#pictureBtn" data-edit="insertImage" multiple
+          class="input-hide" ></a>
+
         <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
     </div>
 
 </div>
-
-     <div id="editor" class="input-area">
-     </div>
 
 <script>
  // add by lxx.smile start
