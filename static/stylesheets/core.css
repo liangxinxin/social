@@ -594,6 +594,7 @@ button { border: none; cursor: pointer; }
 .btn.disabled, .text.disabled { opacity: .5 !important; cursor: text; }
 .btn-apply { border: 1px solid #e83308; background: #e83308; }
 .btn-apply:focus, .btn-apply:hover { border: 1px solid #cc2f16; background: #cc2f16; }
+.btn-group{}
 
 /*---------------------
     6. dropmenu

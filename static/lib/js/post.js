@@ -88,7 +88,7 @@ function getHuifuHtml(reply_id,comment_id){
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
                                 <input type="text"   class="input-content" value="" >\
                     </div>\
-                    <span ><a id="huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
+                    <span ><a id="huifu-btn" class="text-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
                  </div>';
     return huifu;
 }
