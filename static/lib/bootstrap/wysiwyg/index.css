@@ -21,3 +21,4 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .edit-toolbar a input{ width: 30px; height: 30px; }
 .edit-toolbar a.btn{ color: #000; }
 .edit-toolbar a:hover.btn,.post-input a:hover.submit{ color: #B69364; }
+
