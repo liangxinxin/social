@@ -106,6 +106,7 @@ jQuery.fn.extend({
 		var id = $(this).attr('id')
 		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
+        $("#"+id).focus();//插入表情后，光标定位在表情后
 
 	} 
 });

@@ -54,7 +54,7 @@
                     <div class="post-input">
                     <h4>发表回复</h4>
                     {% include 'input.html' %}
-                    <a id="summit-reply"  class="submit">提交</a>
+                    <!--<a id="summit-reply"  class="submit">提交</a>-->
                 </div>
                 </div>
                 <div class="side-container">
@@ -108,6 +108,7 @@
     function getLoginInfo(){
         {% if session.get('userinfo')%}
             user_id = {{session.get('userinfo')['id']}};
+            $('#submmit-btn').removeClass('disabled');
         {%endif%}
     }
 </script>

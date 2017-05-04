@@ -186,7 +186,8 @@ def get_best_reply_by_post(request):
         best_reply['comments'] = best_comment
         best_reply['is_like'] = is_like_best
     else:
-        paginate = db_model_reply.select_except_best_id(page_no, num_perpage, post_id)
+        paginate = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id)
+
     for reply in paginate.items:
         is_like = db_model_reply_like_stat.is_reply_liked_by_user(reply.id, login_user_id)
         reply.last_update_time =time_format.timestampFormat(reply.last_update_time)
@@ -263,21 +264,20 @@ def publish_reply(request):
         print "now insert to db"
         reply.create_time= time_format.timestampFormat(reply.create_time)
         reply= db_model_reply.to_json(reply)
-        common_replycount = post_data.floor_num
         replycount = post_data.floor_num
         total_page =0
-        if common_replycount <=num_perpage:
+        if replycount <=num_perpage:
             total_page=1
-            return reply, common_replycount, total_page
+            return reply,replycount,total_page
 
         if has_best=='true':
-            common_replycount = common_replycount-1
-        if common_replycount % num_perpage == 0:
-            total_page = common_replycount / num_perpage
+            replycount = replycount-1
+        if replycount % num_perpage == 0:
+            total_page = replycount / num_perpage
         else:
-            total_page = common_replycount / num_perpage + 1
+            total_page = replycount / num_perpage + 1
 
-        return reply, replycount,common_replycount,total_page
+        return reply,replycount,total_page
 
 
 

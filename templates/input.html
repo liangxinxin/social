@@ -12,6 +12,7 @@
     <link href="lib/bootstrap/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
     <link href="lib/css/qq.face.css" rel="stylesheet">
     <link href="lib/css/index.css" rel="stylesheet" />
+    <link href="lib/css/index.css" rel="stylesheet" />
     <script src="lib/bootstrap/wysiwyg/external/jquery.hotkeys.js"></script>
     <script src="lib/bootstrap/wysiwyg/external/google-code-prettify/prettify.js"></script>
     <link href="lib/bootstrap/wysiwyg/index.css" rel="stylesheet">
@@ -26,11 +27,11 @@
      <div class="btn-toolbar" style="margin-bottom:0;" data-role="editor-toolbar" data-target="#editor">
     <div class="btn-group edit-toolbar">
         <a><span class="emotion"><i class="icon-face"></i></span></a>
-         <a title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-img"></i><input type="file"  accept="images/*" id="descripitionImg"  data-target="#pictureBtn" data-edit="insertImage" multiple class="input-hide" ></a>
+         <a  id="pictureBtn"><i class="icon-img"></i><input type="file"  accept="images/*" id="descripitionImg"  data-target="#pictureBtn" data-edit="insertImage" multiple class="input-hide" ></a>
 
         <a data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
     </div>
-    <a href="#" class="submit disabled">提交</a>
+    <a id="submmit-btn" href="javascript:void(0)" class="submit disabled">提交</a>
 
 </div>
 </div>

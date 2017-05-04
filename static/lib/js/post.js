@@ -47,35 +47,35 @@ $('#post_del').click(function(){
     }
 
 })
-$('#summit-reply').click(function(){
+$('#submmit-btn').click(function(){
        var content=$('#editor').html();
        if(user_id>0){
-        var data = {};
-        data['type'] = 'publish';
-        data['post_id'] = post_id;
-        data['content'] = content;
-        data['community_id'] = community_id;
-        data['num_perpage'] = num_perpage;
-        data['has_best'] = true;
-        $.ajax({
-            type: 'POST',
-            url: '/reply_publish',
-            data: data,
-            dataType: 'json',
-            timeout: 5000,
-            success: function(data) {
-                if (data.reply !=null && data.total_page!=null){
-                    total_page = data.total_page;
-                    $("#page").initPage(num_perpage,data.common_replycount,data.total_page,callback);
-                    $('#editor').empty();
-                }else{
+            var data = {};
+            data['type'] = 'publish';
+            data['post_id'] = post_id;
+            data['content'] = content;
+            data['community_id'] = community_id;
+            data['num_perpage'] = num_perpage;
+            data['has_best'] = true;
+            $.ajax({
+                type: 'POST',
+                url: '/reply_publish',
+                data: data,
+                dataType: 'json',
+                timeout: 5000,
+                success: function(data) {
+                    if (data.reply !=null && data.total_page!=null){
+                        total_page = data.total_page;
+                        $("#page").initPage(num_perpage,data.replycount,data.total_page,callback);
+                        $('#editor').empty();
+                    }else{
+                        alert('回复失败!');
+                    }
+                },
+                error: function(xhr, type) {
                     alert('回复失败!');
                 }
-            },
-            error: function(xhr, type) {
-                alert('回复失败!');
-            }
-        })
+            })
     } else {
         alert('登录后才能回复哦！');
     }
