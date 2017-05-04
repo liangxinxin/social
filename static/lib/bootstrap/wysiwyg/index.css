@@ -3,7 +3,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .dropdown-menu a { cursor: pointer; }
 .input-area { min-height: 100px; word-break: break-all; }
 .btn-group .input-hide { z-index: 1000; opacity: 0; position: absolute; top: 0; left: 0; width: 30px; height: 30px; cursor: pointer; overflow: hidden}
-.post-input { min-height: 100px; height: auto; width: 100%; }
+.post-input { min-height: 100px; height: auto; width: 100%; margin-top: 10px; }
 .post-input h4{ margin-bottom: 10px; }
 .post-input a.submit { float: right; cursor: pointer; display: inline-block; height: 30px; line-height: 30px; padding: 0 10px; }
 .post-title-input { width: 100%; height: 20px; }
@@ -27,4 +27,4 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .edit-toolbar a:hover.btn,.editor .submit:hover{ color: #B69364; }
 .editor .submit{ position: absolute; bottom: 3px; right: 10px; display: inline-block; height: 30px; line-height: 30px; padding: 0 10px; background: transparent; }
 .editor .submit.disabled,.editor .submit[disabled]{ opacity: .65 !important; cursor:not-allowed; background: transparent;}
-.editor .submit.disabled:hover,.editor .submit[disabled]:hover{ opacity: .65 !important; color: #000;}
+.editor .submit.disabled:hover,.editor .submit[disabled]:hover{ color: #000;}
