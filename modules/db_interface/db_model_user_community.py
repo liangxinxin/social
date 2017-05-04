@@ -65,3 +65,7 @@ def select_join_community(page_no,num_per_page,userid):
 def select_all_join_community_id(userid):
     data = db.session.query(UserCommunity.community_id).filter_by(user_id = userid).group_by(UserCommunity.user_id).all()
     return data
+
+def select_user_joined_community(user_id,page_no,num_perpage):
+    paginate = UserCommunity.query.filter_by(user_id = user_id).paginate(page_no,num_perpage,False)
+    return paginate
