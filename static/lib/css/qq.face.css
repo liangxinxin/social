@@ -4,6 +4,6 @@
 .qqFace table td img:hover { border: 1px #0066cc solid; }
 #show { width: 770px; margin: 20px auto; background: #fff; padding: 5px; border: 1px solid #DDD; vertical-align: top; }
 #editor img{vertical-align: left;}
-.emotion{display:inline-block;height:26px;width:35px;}
+.emotion{display:inline-block;}
 #smile-editor{display: block;width: 100%;padding: 10px;height: 100%;line-height: 20px;border: none;overflow: auto;resize: none;background: 0 0;outline:none;}
 

@@ -1,4 +1,4 @@
-#editor { position: relative; max-height: 250px; padding:5px 5px 150px; background-color: white; border-collapse: separate; box-sizing: content-box;  outline: none; text-align: left; background: #fff;vertical-align: top; }
+#editor { position: relative; max-height: 250px; padding:5px 5px 50px; background-color: white; border-collapse: separate; box-sizing: content-box;  outline: none; text-align: left; background: #fff;vertical-align: top; }
 div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 .dropdown-menu a { cursor: pointer; }
 .input-area { min-height: 100px; word-break: break-all; }
@@ -15,11 +15,11 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .huifu span { padding-right: 50px; float: right; }
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
 .editor{ position: relative; border: 1px solid #ccc; }
-.edit-toolbar{ position:absolute; bottom: 0; padding-left: 10px; border-top:1px solid #D9D9D9; }
+.edit-toolbar{ position:absolute; bottom: 0; border-top:1px solid #D9D9D9; width: 100%; }
 .edit-toolbar:after{ width: 100%; border-top:1px solid #D9D9D9; content: ""; }
 .edit-toolbar a{ position: relative; width: 30px; height: 30px; margin: 0 5px; text-align: center; line-height: 40px; }
 .edit-toolbar a i{ font-size: 1.1em; }
-.edit-toolbar a .emotion i{ position: relative; top: -1px; font-size: 1.2; }
+.edit-toolbar a .emotion i{ position: relative; top: 1px; font-size: 1.3em; }
 .edit-toolbar a input{ width: 30px; height: 30px; }
 .edit-toolbar a.btn{ color: #000; }
 .edit-toolbar a:hover.btn,.editor .submit:hover{ color: #B69364; }
