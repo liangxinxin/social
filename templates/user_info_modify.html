@@ -18,11 +18,48 @@
                         <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block">确定</button>
+                        <button class="btn btn-primary btn-lg btn-block" onclick="save_user_info()">确定</button>
                     </li>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function save_user_info(){
+        var user_name = document.getElementById("input_user_name").value;
+        if (user_name.trim()==''){
+            alert('昵称不能为空')
+            return;
+        }
+        var user_label = document.getElementById("text_user_label").value;
+        if (user_label.trim()==''){
+            alert('简介不能为空')
+            return;
+        }
+        var data={};
+        data['user_name']=user_name;
+        data['user_label']=user_label;
+        $.ajax({
+                 type:'POST',
+                 url:'/update_user',
+                 data:data,
+                 dataType:'json',
+                 timeout:5000,
+                 success:function(data) {
+                        if(data.result==0){
+                            $('.h_user_name').text(user_name);
+                            $('.p_user_label').text(user_label);
+                            window.location.reload();
+                        }else{
+                            alert('保存失败!');
+                        }
+                 },
+                 error:function(xhr,type){
+                     alert('保存失败!');
+                 }
+        })
+
+    }
+</script>
 {% endif %}
