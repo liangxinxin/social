@@ -18,10 +18,10 @@
          {% endif %}
      </div>
      {% if view_user_info and not session.get('userinfo')%}
-     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
+     <div  id="user_info_right_control" class="right-control"><a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat" style="display:none"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
      {% endif %}
      {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
-     <div class="right-control"><a href="#" class="btn btn-default"><i>+</i>关注</a><span class="offset-1x"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
+     <div id="user_info_right_control" class="right-control"><a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
      {% endif %}
  </div>
 {%if view_user_info and session.get('userinfo') and view_user_info.id == session.get('userinfo')['id'] %}
@@ -42,6 +42,101 @@ $('#chat').click(function(){
         alert('登录后才能交流哦')
     }
 })
-
-
 </script>
+{% if view_user_info %}
+<script type="text/javascript" >
+    function add_relation(){
+        {% if session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
+        $.ajax({
+             type:'POST',
+             url:'/add_relation',
+             data:{
+                 relation_user_id:{{view_user_info.id}},
+                 is_relation:0
+             },
+             dataType:'json',
+             success:function(data) {
+               // var a = '<a id="a_follow" href="#" class="btn btn-default" onclick="cancel_relation()" ><i>-</i>取消关注</a>';
+               // $('#a_follow').remove();
+               // $('#chat').before(a);
+                //document.getElementById("span_chat").style.display="block";
+                //document.getElementById("a_follow").innerHTML="取消关注";
+                //document.getElementById("a_follow").onclick=function(){cancel_relation()};
+                select_relation();
+             },
+             error:function(xhr,type){
+                 alert('操作失败!');
+             }
+         })
+         {% else %}
+         alert('登录后才能关注哦!');
+         {% endif %}
+    }
+</script>
+{% endif %}
+{% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
+<script type="text/javascript" >
+    function cancel_relation(){
+        if({{session.get('userinfo')['id']}}>0){
+            $.ajax({
+                 type:'POST',
+                 url:'/cancel_relation',
+                 data:{
+                    user_id:{{session.get('userinfo')['id']}},
+                    relation_user_id:{{view_user_info.id}}
+                 },
+                 dataType:'json',
+                 success:function(data) {
+                    alert('您已取消关注！');
+                    //var a = '<a id="a_follow" href="#" class="btn btn-default" onclick="add_relation()" ><i>+</i>关注</a>';
+                    //$('#a_follow').remove();
+                    //$('#chat').before(a);
+                   // document.getElementById("a_follow").innerHTML="关注";
+                   // document.getElementById("a_follow").onclick=function(){add_relation()};
+                   // document.getElementById("span_chat").style.display="none";
+                    select_relation();
+                 },
+                 error:function(xhr,type){
+                     alert('操作失败!');
+                 }
+             })
+        }
+    }
+    function select_relation(){
+        //var a = '<a id="a_follow" href="#" class="btn btn-default" onclick="add_relation()" ><i>+</i>关注</a>';
+        if({{session.get('userinfo')['id']}}>0){
+             $.ajax({
+                    type:'POST',
+                    url:'/select_relation',
+                    data:{
+                        user_id:{{session.get('userinfo')['id']}},
+                        relation_user_id:{{view_user_info.id}}
+                    },
+                    async:false,
+                    dataType:'json',
+                    success:function(data) {
+                        if(data.is_relation==1){
+                            // right_html='<a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat" style="display:none"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span>';
+                            // document.getElementById("user_info_right_control").innerHTML=right_html;
+                             //document.getElementById("span_chat").style.display="block";
+                             document.getElementById("a_follow").innerHTML="取消关注";
+                             document.getElementById("a_follow").onclick=function(){cancel_relation()};
+                             //a = '<a id="a_follow" href="#" class="btn btn-default" onclick="cancel_relation()" ><i>-</i>取消关注</a>';
+                        } else {
+                            // right_html='<a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span>';
+                            // document.getElementById("user_info_right_control").innerHTML=right_html;
+                            //document.getElementById("span_chat").style.display="none";
+                            document.getElementById("a_follow").innerHTML="关注";
+                            document.getElementById("a_follow").onclick=function(){add_relation()};
+                        }
+                    }
+             })
+        }
+        return true;
+    } 
+</script>
+<script type="text/javascript" >
+    //$('#chat').before(select_relation());
+    select_relation();
+</script>
+{% endif %}

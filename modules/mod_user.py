@@ -171,6 +171,7 @@ def add_relation(request):
     relation_user_id = request.form.get("relation_user_id")
     relation_user = db_model_user.select_by_id(relation_user_id)
 
+    print "login_user_id-------------------",user_id,'relation_user_id',relation_user_id
     data = db_model_user_relation.select_by_user_id(user_id, relation_user_id)
     relation_data =  db_model_user_relation.select_by_user_id(relation_user_id,user_id)
     ISOTIMEFORMAT = '%Y-%m-%d %X'
@@ -265,6 +266,7 @@ def select_relation_user_id(request):
     # select db
     user_id = session.get('userinfo')['id']
     relation_user_id = request.form.get("relation_user_id", 0)
+    print "user_id:---------------------------------",type(user_id),"relation_user_id",relation_user_id
     user_relation = db_model_user_relation.select_by_user_id(user_id, relation_user_id)
     if user_relation != None:
         return user_relation.is_relation
