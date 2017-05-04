@@ -1072,7 +1072,7 @@ color: #A89D89; }
 .community-block .block-bar .span b { display: block; color: #917049; letter-spacing: 1px; }
 .community-block .block-bar .span:first-child:after { display: inline-block; position: absolute; top: 5px; right: 0; height: 24px; width: 1px; background: #ededed; content: "" }
 .community-block .img { float: left; width: 100px; height: 78px; }
-.community-block .img img { width: 100%; }
+.community-block .img img { width: 100%; max-height: 78px; }
 .community-block .content { overflow: hidden; padding-left: 10px; }
 .community-block .content h4 { font-weight: normal; margin: 3px 0; }
 .community-block .content h4 a { color: #917049 }
