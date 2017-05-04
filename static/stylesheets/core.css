@@ -1088,7 +1088,7 @@ color: #A89D89; }
 .media-content.post-list .photo { position: relative; top: 5px; float: left; width: 60px; }
 .media-content.post-list .photo img { width: 60px !important; height: 60px; border: 1px solid #eee; border-radius: 50%; }
 .post-list { }
-.post-list .item { padding: 10px 0 10px 30px; border-bottom: 1px solid #ededed; }
+.post-list .item { position: relative; padding: 10px 0 10px 30px; border-bottom: 1px solid #ededed; }
 .post-list .item .content .item { padding: 0; border: 0; }
 .post-list .photo { position: relative; top: 5px; float: left; width: 30px; }
 .post-list .photo img { width: 30px !important; height: 30px; border: 1px solid #eee; border-radius: 50%; }
@@ -1201,9 +1201,9 @@ color: #A89D89; }
 .chat .chat-user img { width: 40px; height: 40px; border-radius: 50%; }
 .chat .chat-content { position: relative; line-height: 22px; margin-top: 25px; padding: 8px 15px; background-color: #eee; border-radius: 3px; color: #333; word-break: break-all; }
 .chat .chat-content:after { content: ''; position: absolute; left: -10px; top: 13px; width: 0; height: 0; border-style: solid dashed dashed; border-color: #eee transparent transparent; overflow: hidden; border-width: 10px; }
-.chat .chat-mine { padding-left: 0; padding-right: 60px; position: relative; margin-bottom: 10px; }
+.chat .chat-mine { padding-left: 0; padding-right: 60px; position: relative; margin-bottom: 10px; text-align: right; }
 .chat .chat-mine .chat-user { left: auto; right: 3px; }
-.chat .chat-mine .chat-content { background-color: #b69364; color: #fff; }
+.chat .chat-mine .chat-content { display: inline-block;background-color: #b69364; color: #fff; text-align: left; margin-top: 0 !important; }
 .chat .chat-mine .chat-content:after { left: auto; right: -10px; border-top-color: #b69364; }
 .chat-date { text-align: center; background: #f7f7f7; height: 30px; line-height: 30px; color: #b69364 }
 .chat-footer { border-top: 1px solid #eee; }
@@ -1261,3 +1261,4 @@ color: #A89D89; }
     top: 15px;
     right: -40px;
 }
+.best-like{ background: url(../images/besk-like.png); background-size: 80px 80px; width: 80px; height: 80px; position: absolute;  right: 25%; top: 0; }
