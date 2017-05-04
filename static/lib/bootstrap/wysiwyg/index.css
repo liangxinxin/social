@@ -10,11 +10,11 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .open .dropdown-menu { display: block !important; width: 96%; margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relatve; }
 .open .dropdown-menu>li>a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .input-huifu { width: 100%; min-height: 25px; height: auto; padding: 0 0 0 40px; outline: none; }
-.input-huifu .input-content {border:1px solid #ccc; overflow: hidden; min-height: 32px; line-height: 1.5; margin-right: 60px; }
+.input-huifu .input-content {border:1px solid #ccc; overflow: hidden; min-height: 32px; line-height: 1.5; margin-right: 70px; }
 .input-huifu .input-content:focus{ outline: 0; border:1px solid #917049; }
 .huifu-btn{ float: right; width: 60px; height: 32px; padding: 5px 10px; text-align: center; border:1px solid #ccc; }
 .huifu a {}
-.huifu { padding-right: 100px;}
+.huifu {}
 .huifu span { display:block; float: right; }
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
 .editor{ position: relative; border: 1px solid #ccc; }
