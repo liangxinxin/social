@@ -83,7 +83,7 @@ $('#submmit-btn').click(function(){
 //when click huifu
 function getHuifuHtml(reply_id,comment_id){
     var huifu = '<div class="huifu">\
-                    <a id="huifu-btn" class="btn huifu-btn disabled" onClick="summitHuifu()" href="javascript:void(0)">提交</a>\
+                    <a id="huifu-btn" class="btn huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a>\
                     <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
@@ -96,7 +96,7 @@ function summitHuifu(){
 
     var reply_id = $('div.huifu').find('input.rid').val();
     var comment_id = $('div.huifu').find('input.cid').val();
-    var content = $('div.huifu').find('input.input-content').val();
+    var content = $('div.huifu').find('div.input-content').html();
     var index_huifi = content.indexOf('回复');
     var index = content.indexOf(':');
     if(index_huifi!=-1 && index!=-1){
@@ -153,11 +153,11 @@ function doHuifu(reply_id,comment_id){
         var huifu_input = getHuifuHtml(reply_id,comment_id);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
-        $('#item_'+reply_id).find('input.input-content').focus();
+        $('#item_'+reply_id).find('div.input-content').focus();
         var name = '';
         if(comment_id !=undefined && comment_id!=''){
            name=$('#comment_'+comment_id).find('div.content').find('a.name').text();
-           $('#item_'+reply_id).find('input.input-content').val('回复'+name+':');
+           $('#item_'+reply_id).find('div.input-content').html('回复'+name+':');
         }
     }else{
         alert('登录后才能回复哦！')
@@ -169,7 +169,7 @@ function doHuifuReply(reply_id){
         var huifu_input = getHuifuHtml(reply_id,0);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
-        $('#item_'+reply_id).find('input.input-content').focus();
+        $('#item_'+reply_id).find('div.input-content').focus();
     }else{
         alert('登录后才能回复哦！')
     }
@@ -280,7 +280,11 @@ function getReplyHtml(reply,comment_wrap){
     }
     if(reply.islike){
         is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
-                <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like-o"></i></a>\
+                <span class="like-num">'+like_num+'</span>';
+    }else{
+        is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
     }
     if(user_id==reply.create_user_id){
@@ -441,13 +445,16 @@ function doGood(reply_id){
                     var like_num = data.like_num;
                     if(mod_type == 'add'){
                          $('#like-'+reply_id).val("false");
+
                     }else{
                          $('#like-'+reply_id).val("true");
                     }
                     if(like_num>0){
                         $('#item_'+reply_id).find('span.like-num').text(like_num);
+                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like-o');
                     }else{
                         $('#item_'+reply_id).find('span.like-num').text('');
+                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like-o').addClass('icon-like');
                     }
                     // something todo
                 }else{
