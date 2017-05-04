@@ -83,7 +83,7 @@ $('#summit-reply').click(function(){
 //when click huifu
 function getHuifuHtml(reply_id,comment_id){
     var huifu = '<div class="huifu">\
-                    <div class="input-huifu" contenteditable="true">\
+                    <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
                                 <div class="input-content" contenteditable="true"></div>\
