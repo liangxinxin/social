@@ -495,7 +495,7 @@ def user_info_friend():
                            count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
                            count_do_good=count_do_good,private_unread_count=private_unread_count, \
                            messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
-                           friend_list=friend_list,no=page_no,size=num_perpage,totalsize=total,\
+                           friend_list=friend_list,no=page_no,size=num_perpage,total_size=total,\
                            view_user_info=view_user_info,user_info_type=user_info_type)
 
 #@app.route('/good_friends',methods=['GET','post'])
