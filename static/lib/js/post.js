@@ -280,7 +280,7 @@ function getReplyHtml(reply,comment_wrap){
     }
     if(reply.islike){
         is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
-                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like-o"></i></a>\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
     }else{
         is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
@@ -445,16 +445,17 @@ function doGood(reply_id){
                     var like_num = data.like_num;
                     if(mod_type == 'add'){
                          $('#like-'+reply_id).val("false");
-
+                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like');
                     }else{
                          $('#like-'+reply_id).val("true");
+                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like');
                     }
                     if(like_num>0){
                         $('#item_'+reply_id).find('span.like-num').text(like_num);
-                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like-o');
+
                     }else{
                         $('#item_'+reply_id).find('span.like-num').text('');
-                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like-o').addClass('icon-like');
+
                     }
                     // something todo
                 }else{
