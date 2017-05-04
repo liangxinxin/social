@@ -21,7 +21,7 @@ default_post_id = 0
 def service(request):
   print "enter do user_community  service"
   if request.method == 'POST':
-    type=request.form.get("action")
+    type=request.form.get("type")
     if type == "join":
       return user_join_community(request)
     elif type == "left":
@@ -29,6 +29,10 @@ def service(request):
     else:
       print "error request:",request
   elif request.method == 'GET':
+    type = request.args.get("type")
+    if type == 'joined':
+      return find_community_user_join(request)
+    else:
       return "to do in soon after" 
 
 def user_join_community(request):
@@ -84,4 +88,18 @@ def user_left_community(request):
   community.user_num=community.user_num-1
   db_model_community.update(community)
   return community.user_num
-#  rt=jsonify(result="succ",name=name,mobile=mobile) 
+#  rt=jsonify(result="succ",name=name,mobile=mobile)
+
+
+def find_community_user_join(request):
+   community_list = []
+   user_id = request.args.get("user_id")
+   page_no = int(request.args.get('no',default_page_no))
+   num_perpage = int(request.args.get('size',default_num_perpage))
+   data = db_model_user_community.select_user_joined_community(user_id,page_no,num_perpage)
+   totalCount = data.total
+   totalPages = data.pages
+   for item in data.items:
+    community = db_model_community.select_by_id(item.community_id)
+    community_list.append(db_model_community.to_json(community))
+   return community_list,page_no,num_perpage,totalCount,totalPages
