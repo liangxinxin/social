@@ -1193,8 +1193,8 @@ color: #A89D89; }
 .friend-list li:hover { background: #f7f7f7; }
 .friend-list li.active { background: #ededed; }
 .friend-list li>span:first-child { float: left; display: inline-block; width: 40px; height: 40px; margin-right: 10px; vertical-align: middle; }
-.friend-list li>span img { display: block; width: 100px; border-radius: 50%; }
-.friend-list li>span+span{ display: block; overflow: hidden; text-overflow:ellipsis; white-space: nowrap; width: 100%; height: 40px; line-height: 40px;}
+.friend-list li>span img { display: block; width: 100%; border-radius: 50%; }
+.friend-list li>span+span{ display: block; overflow: hidden; text-overflow:ellipsis; white-space: nowrap; width: 100px; height: 40px; line-height: 40px;}
 .chat { height: 472px; }
 .chat ul { position: relative; padding: 0 30px; }
 .chat li { list-style: none; position: relative; font-size: 0; margin-bottom: 20px; padding-left: 60px; font-size: 1.4rem; text-align: justify; }
