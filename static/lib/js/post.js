@@ -47,35 +47,35 @@ $('#post_del').click(function(){
     }
 
 })
-$('#summit-reply').click(function(){
+$('#submmit-btn').click(function(){
        var content=$('#editor').html();
        if(user_id>0){
-        var data = {};
-        data['type'] = 'publish';
-        data['post_id'] = post_id;
-        data['content'] = content;
-        data['community_id'] = community_id;
-        data['num_perpage'] = num_perpage;
-        data['has_best'] = true;
-        $.ajax({
-            type: 'POST',
-            url: '/reply_publish',
-            data: data,
-            dataType: 'json',
-            timeout: 5000,
-            success: function(data) {
-                if (data.reply !=null && data.total_page!=null){
-                    total_page = data.total_page;
-                    $("#page").initPage(num_perpage,data.common_replycount,data.total_page,callback);
-                    $('#editor').empty();
-                }else{
+            var data = {};
+            data['type'] = 'publish';
+            data['post_id'] = post_id;
+            data['content'] = content;
+            data['community_id'] = community_id;
+            data['num_perpage'] = num_perpage;
+            data['has_best'] = true;
+            $.ajax({
+                type: 'POST',
+                url: '/reply_publish',
+                data: data,
+                dataType: 'json',
+                timeout: 5000,
+                success: function(data) {
+                    if (data.reply !=null && data.total_page!=null){
+                        total_page = data.total_page;
+                        $("#page").initPage(num_perpage,data.replycount,data.total_page,callback);
+                        $('#editor').empty();
+                    }else{
+                        alert('回复失败!');
+                    }
+                },
+                error: function(xhr, type) {
                     alert('回复失败!');
                 }
-            },
-            error: function(xhr, type) {
-                alert('回复失败!');
-            }
-        })
+            })
     } else {
         alert('登录后才能回复哦！');
     }
@@ -83,7 +83,7 @@ $('#summit-reply').click(function(){
 //when click huifu
 function getHuifuHtml(reply_id,comment_id){
     var huifu = '<div class="huifu">\
-                    <a id="huifu-btn" class="btn huifu-btn disabled" onClick="summitHuifu()" href="javascript:void(0)">提交</a>\
+                    <a id="huifu-btn" class="btn huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a>\
                     <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
@@ -96,7 +96,7 @@ function summitHuifu(){
 
     var reply_id = $('div.huifu').find('input.rid').val();
     var comment_id = $('div.huifu').find('input.cid').val();
-    var content = $('div.huifu').find('input.input-content').val();
+    var content = $('div.huifu').find('div.input-content').html();
     var index_huifi = content.indexOf('回复');
     var index = content.indexOf(':');
     if(index_huifi!=-1 && index!=-1){
@@ -153,11 +153,11 @@ function doHuifu(reply_id,comment_id){
         var huifu_input = getHuifuHtml(reply_id,comment_id);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
-        $('#item_'+reply_id).find('input.input-content').focus();
+        $('#item_'+reply_id).find('div.input-content').focus();
         var name = '';
         if(comment_id !=undefined && comment_id!=''){
            name=$('#comment_'+comment_id).find('div.content').find('a.name').text();
-           $('#item_'+reply_id).find('input.input-content').val('回复'+name+':');
+           $('#item_'+reply_id).find('div.input-content').html('回复'+name+':');
         }
     }else{
         alert('登录后才能回复哦！')
@@ -169,13 +169,19 @@ function doHuifuReply(reply_id){
         var huifu_input = getHuifuHtml(reply_id,0);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
-        $('#item_'+reply_id).find('input.input-content').focus();
+        $('#item_'+reply_id).find('div.input-content').focus();
     }else{
         alert('登录后才能回复哦！')
     }
 }
 function showComments(reply_id){
     $('#item_'+reply_id).find('div.comment-wrap').toggleClass('hide');
+    console.log($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide'))
+    if($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide')){
+        $('#item_'+reply_id).find('a.reply-num').find('i').removeClass('icon-arrow-down').addClass('icon-arrow-up');
+    }else{
+        $('#item_'+reply_id).find('a.reply-num').find('i').removeClass('icon-arrow-up').addClass('icon-arrow-down');
+    }
 
 }
 function getCommentHtml(comment){
@@ -258,6 +264,7 @@ function getReplyHtml(reply,comment_wrap){
     var user = reply.user;
     var comment_page_no =1;
     var is_delete ='';
+    var is_update =''
     if (reply.like_num > 0){
       like_num = reply.like_num.toString();
     }
@@ -273,11 +280,16 @@ function getReplyHtml(reply,comment_wrap){
     }
     if(reply.islike){
         is_like = '<input type="hidden" id="like-'+reply.id+'" value="false">\
-                <a onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like-o"></i></a>\
+                <span class="like-num">'+like_num+'</span>';
+    }else{
+        is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
     }
     if(user_id==reply.create_user_id){
         is_delete ='<span><a onClick="deleteReply('+reply.id+')" href="javascript:void(0)">删除</a></span>';
+        is_update ='<span><a onClick="toUpdate('+reply.id+')" href="javascript:void(0)">修改</a></span>';
 
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
@@ -294,6 +306,7 @@ function getReplyHtml(reply,comment_wrap){
                 <div class="block-bar action">\
                     <span class="reply-btn-span"><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
                     '+is_delete+'\
+                    '+is_update+'\
                     <div class="right-control">\
                         '+is_like+'\
                         </span>\
@@ -307,7 +320,53 @@ function getReplyHtml(reply,comment_wrap){
         </div>';
     return reply_wrap;
 }
+function toUpdate(reply_id){
+    var content = $('#item_'+reply_id).find('div.content').find('p');
+    $(content).addClass('hide');
+    $('.update-reply').removeClass('hide')
+    $(content).after($('.update-reply'));
+    $('.update-reply').find('input#param').val(String(reply_id));
+    $('div.update-reply').find('div#update').focus();
+    $('div.update-reply').find('div#update').html($(content).html());
 
+}
+function cancelUpdate(){
+    $('.post-list').before($('.update-reply').addClass('hide'));
+    var reply_id = $('.update-reply').find('input#param').val();
+    $('#item_'+reply_id).find('div.content').find('p').removeClass('hide');
+    $('div.update-reply').find('input#param').val(0);
+}
+function doUpdate(){
+    var content = $('div.update-reply').find('div#update').html();
+    if($.trim(content)==''){
+        alert('内容不能为空！');
+        return;
+    }
+    var reply_id = $('.update-reply').find('input#param').val();
+    var data = {}
+    data['type']='update';
+    data['reply_id']=reply_id;
+    data['content']=content;
+    $.ajax({
+        url: '/update_reply',
+        type: 'POST',
+        data: data,
+        timeout:5000,
+        success: function(data) {
+            if (data.result== 0) {
+                $('.post-list').before($('.update-reply').addClass('hide'));
+                $('#item_'+reply_id).find('div.content').find('p').html(content);
+                cancelUpdate();
+            } else {
+                alert('修改失败')
+            }
+        },
+        error: function(data) {
+            alert('修改失败')
+        }
+    })
+
+}
 function deleteReply(reply_id){
     if (confirm('你确定删除这条回帖吗？其下的回复也将会被删除')) {
         var data ={}
@@ -386,13 +445,16 @@ function doGood(reply_id){
                     var like_num = data.like_num;
                     if(mod_type == 'add'){
                          $('#like-'+reply_id).val("false");
+
                     }else{
                          $('#like-'+reply_id).val("true");
                     }
                     if(like_num>0){
                         $('#item_'+reply_id).find('span.like-num').text(like_num);
+                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like-o');
                     }else{
                         $('#item_'+reply_id).find('span.like-num').text('');
+                        $('#item_'+reply_id).find('a.like>i').removeClass('icon-like-o').addClass('icon-like');
                     }
                     // something todo
                 }else{

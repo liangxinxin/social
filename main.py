@@ -332,8 +332,8 @@ def find_match_post():
 @app.route('/reply_publish', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def reply_publish():
-    reply, replycount, common_replycount, total_page=mod_reply.service(request)
-    return jsonify(reply=reply,replycount=replycount,common_replycount=common_replycount,total_page=total_page)
+    reply, replycount,total_page=mod_reply.service(request)
+    return jsonify(reply=reply,replycount=replycount,total_page=total_page)
 
 
 @app.route('/update_reply', methods=['POST'])

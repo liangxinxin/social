@@ -147,6 +147,7 @@ def select_hot_commend_community(request):
     comm_ids = [current_community_id]
     page_no = request.args.get('page_no',default_page_no)
     num_page = request.args.get('num_page',hot_num_perage)
+    commend_list =[]
     if session.get('userinfo') and current_community_id:# commend_community
       user_id = session.get('userinfo')['id']
       #select join communty
@@ -155,6 +156,8 @@ def select_hot_commend_community(request):
         map(lambda x: int(x), community_list[0])
         comm_ids = list(set(comm_ids+list(map(lambda x: int(x), community_list[0]))))
         paginate = db_model_community.select_commend_community(page_no,hot_num_perage,comm_ids)
+      else:
+        paginate = db_model_community.select_by_user_num(default_page_no, hot_num_perage, current_community_id)
     else:# hot_community
       paginate = db_model_community.select_by_user_num(default_page_no,hot_num_perage,current_community_id)
     commend_list = paginate.items

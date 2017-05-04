@@ -6,7 +6,7 @@ function initData(){
    var callback = function(page_no){
        loadCommunityPost(page_no)
    }
-
+   $('#editor').html('');
    $("#page").initPage(num_page,total,page_no,callback);
 }
  $('#u-cancel').click(function(){
@@ -54,23 +54,23 @@ $('#update').click(function(){
 })
 function remove_match(){
     $('#button_publish_post').removeAttr('disabled')
-    <!--$('#div_publish_post_title').find('ul.dropdown-menu').remove();-->
+    $('.suggest-container').addClass('hide')
     $('#submit').val('true');
  }
 var flag;
-$('#input_publish_post_title').keyup(function(){
-     clearTimeout(flag);
-       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
-       //只要有输入则不执行keyup事件
-      flag = setTimeout(function(){
-       //这里面就是调用的请求
-          find_match_post();
-        }, 500);
+$('#post_title').keyup(function(){
+//     clearTimeout(flag);
+//       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+//       //只要有输入则不执行keyup事件
+//      flag = setTimeout(function(){
+//       //这里面就是调用的请求
+//          find_match_post();
+//        }, 500);
 
 })
  function find_match_post(){
-        var title = $('#input_publish_post_title').val();
-        $('input#input_publish_post_title~ul').remove();
+        var title = $('#post_title').val();
+        $('input#post_title~ul').remove();
         if (title.trim()!=""){
             $.ajax({
               url:'/find_match_post',
@@ -90,9 +90,10 @@ $('#input_publish_post_title').keyup(function(){
                       }
                       drop_menu =drop_menu+'</ul>'
                       $('#submit').val('false');
-                      $('#input_publish_post_title').after(drop_menu);
-                      $('.post-input').addClass('open');
-                      $('#button_publish_post').attr('disabled','disabled')
+                      $('#post_title').after(drop_menu);
+                      $('.suggest-container').removeClass('hide')
+                     // $('.post-input').addClass('open');
+                      $('a#submmit-btn').addClass('disabled');
                   }else{
                     $('#button_publish_post').removeAttr('disabled')
                   }
@@ -102,14 +103,14 @@ $('#input_publish_post_title').keyup(function(){
         }
  }
 
- $('a#summit-post').click(function(){
-     var is_submit =  $('#submit').val()
+ $('a#submmit-btn').click(function(){
+     var is_submit =  $('input#submit').val()
      if(is_submit=='true'){
      //get title
-       var title=document.getElementById("input_publish_post_title").value;
+       var title=$("input#post_title").val();
        //get content
        var content=$('#editor').html();
-       if (title==""){
+       if ($.trim(title)==""||$.trim(title)=='标题'){
           alert('标题不能为空');
           return;
        }
@@ -144,31 +145,31 @@ $('#input_publish_post_title').keyup(function(){
      temp.submit();
      return temp;
  }
-function publish_post() {
-    <!--find_match_post();-->
-     var is_submit =  $('#submit').val()
-     if(is_submit=='true'){
-     //get title
-       var title=document.getElementById("input_publish_post_title").value;
-       //get content
-       var content=$('#editor').html();
-       if (title==""){
-          alert('标题不能为空');
-          return;
-       }
-       if(content.trim()=="" || content==null || content.length==0){
-          alert('内容不能为空');
-          return;
-       }
-       var id=document.getElementById("community_id").value;
-       //post request for save post
-       if(user_id>0){
-        post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
-       }else{
-        alert('您需要登录后才能发帖哦！');
-       }
-     }
- }
+//function publish_post() {
+//    <!--find_match_post();-->
+//     var is_submit =  $('#submit').val()
+//     if(is_submit=='true'){
+//     //get title
+//       var title=document.getElementById("post_title").value;
+//       //get content
+//       var content=$('#editor').html();
+//       if (title==""){
+//          alert('标题不能为空');
+//          return;
+//       }
+//       if(content.trim()=="" || content==null || content.length==0){
+//          alert('内容不能为空');
+//          return;
+//       }
+//       var id=document.getElementById("community_id").value;
+//       //post request for save post
+//       if(user_id>0){
+//        post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
+//       }else{
+//        alert('您需要登录后才能发帖哦！');
+//       }
+//     }
+// }
 
 
 function load_commend_community(){
@@ -240,7 +241,7 @@ function loadCommunityPost(page_no){
                                                 <img src="'+user.head_img_url+'"></a>\
                                         </div>\
                                         <div class="content">\
-                                            <h4><a href="/post?id='+post.id+'&type=postInfo"'+post.title+'</a>\
+                                            <h4><a href="/post?id='+post.id+'&type=postInfo">'+post.title+'</a>\
                                             </h4>\
                                             <p>'+post.content+'</p>\
                                             <div class="block-bar">\
