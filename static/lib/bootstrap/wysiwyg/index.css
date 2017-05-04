@@ -12,8 +12,8 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .input-huifu { width: 100%; min-height: 25px; height: auto; padding: 0 0 0 40px; outline: none; }
 .input-huifu .input-content {border:1px solid #ccc; overflow: hidden; min-height: 32px; line-height: 1.5; margin-right: 50px; }
 .input-huifu .input-content:focus{ outline: 0; border:1px solid #917049; }
-.huifu-btn{ float: right; width: 80px; text-align: center; border:1px solid #ccc; }
-.huifu a { cursor: pointer; padding: 2px; border-radius: 3px; border: 1px solid #ccc; }
+.huifu-btn{ float: right; width: 80px; height: 32px; padding: 5px 10px; text-align: center; border:1px solid #ccc; }
+.huifu a {}
 .huifu { padding-right: 100px;}
 .huifu span {float: right; }
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
