@@ -4,7 +4,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .input-area { min-height: 100px; word-break: break-all; }
 .btn-group .input-hide { z-index: 1000; opacity: 0; position: absolute; top: 0; left: 0; width: 30px; height: 30px; cursor: pointer; overflow: hidden}
 .post-input { min-height: 100px; height: auto; width: 100%; margin-top: 10px; }
-.post-input h4{ margin-bottom: 10px; }
+.post-input h4{ margin-bottom: 10px; font-weight: normal; }
 .post-input a.submit { float: right; cursor: pointer; display: inline-block; height: 30px; line-height: 30px; padding: 0 10px; }
 .post-title-input { width: 100%; height: 20px; }
 .open .dropdown-menu { display: block !important; width: 96%; margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relatve; }
