@@ -86,7 +86,7 @@ function getHuifuHtml(reply_id,comment_id){
                     <div class="input-huifu" contenteditable="true">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
-                                <div class="input-content" contenteditable="true"  >\
+                                <div class="input-content" contenteditable="true"></div>\
                     </div>\
                     <span ><a id="huifu-btn" class="text-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
                  </div>';
