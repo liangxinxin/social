@@ -83,7 +83,7 @@ $('#summit-reply').click(function(){
 //when click huifu
 function getHuifuHtml(reply_id,comment_id){
     var huifu = '<div class="huifu">\
-                    <span ><a id="huifu-btn" class="text-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
+                    <span ><a id="huifu-btn" class="btn btn-default disabled" onClick="summitHuifu()" href="javascript:void(0)">提交</a></span>\
                     <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
