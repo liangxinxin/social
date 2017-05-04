@@ -14,6 +14,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .input-huifu .input-content:focus{ outline: 0; border:1px solid #917049; }
 .huifu-btn{ float: right; width: 60px; height: 32px; padding: 5px 10px; text-align: center; border:1px solid #ccc; background: #fff; color: #A89D89; position: relative; left: -1px;}
 .huifu-btn.btn.disabled,.huifu-btn.btn[disabled]{opacity: .65 !important; background:#fff !important; }
+.huifu-btn.btn.disabled:hover,.huifu-btn.btn[disabled]:hover{color: #A89D89;}
 .huifu-btn.btn:hover{ opacity: 1; color: #B69364; }
 .huifu a {display:block; float: right;}
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
