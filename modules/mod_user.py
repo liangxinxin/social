@@ -354,17 +354,18 @@ def update_user(request):
         try:
             userid= int(session.get('userinfo')['id'])
             user = db_model_user.select_by_id(userid)
-            param = json.loads(request.form.get('data'))
-            type = param['type']
-            if type=='name':
-                username = param['username']
-                user.name = username
-            elif type=='label':
-                label = param['label']
-                user.label=label
+            #type = param['type']
+            #if type=='name':
+            username = request.form.get('user_name')
+            user.name = username
+            label = request.form.get('user_label')
+            user.label=label
+            print 'after modify',user.name,user.label
             db_model_user.update_user(user)
-            result['code']=0
-            result['message'] = 'success'
+            session['userinfo'] = {'name': user.name, 'id': user.id}
+            result['succ']='0'
+            result['code']='0'
+            result['message']='update user info succ!'
         except Exception,e:
             result['code'] = 1
             result['message'] = 'exception'
@@ -373,5 +374,5 @@ def update_user(request):
         result['code'] = 1
         request['message'] = 'user not login'
 
-    print 'type',type,'code',result['code'],'message',result['message']
+    #print 'type',type,'code',result['code'],'message',result['message']
     return result
