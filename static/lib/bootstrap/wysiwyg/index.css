@@ -15,7 +15,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .huifu-btn{ float: right; width: 80px; height: 32px; padding: 5px 10px; text-align: center; border:1px solid #ccc; }
 .huifu a {}
 .huifu { padding-right: 100px;}
-.huifu span { display:block; float: right; }
+.huifu span { display:block; float: right; position: relative; top: 5px; }
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
 .editor{ position: relative; border: 1px solid #ccc; }
 .editor img{ max-width: 600px; }
