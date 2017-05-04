@@ -236,7 +236,7 @@ function loadCommunityPost(page_no){
                 user=post_list[i].user
                 post_wrap=post_wrap+ '<div class="item">\
                                         <div class="photo">\
-                                            <a href="/user_info?user_id='+user.id+'">\
+                                            <a href="/user_info_post?user_id='+user.id+'">\
                                                 <img src="'+user.head_img_url+'"></a>\
                                         </div>\
                                         <div class="content">\
