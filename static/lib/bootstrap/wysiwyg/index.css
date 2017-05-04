@@ -13,7 +13,7 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .input-huifu .input-content {border:1px solid #ccc; overflow: hidden; min-height: 32px; line-height: 1.3; margin-right: 70px; padding:5px; }
 .input-huifu .input-content:focus{ outline: 0; border:1px solid #917049; }
 .huifu-btn{ float: right; width: 60px; height: 32px; padding: 5px 10px; text-align: center; border:1px solid #B69364; background: #fff; color: #B69364; position: relative; left: -1px;}
-.huifu-btn.btn.disabled.huifu-btn.btn[disabled]{opacity: .65 !important; background: #fff !important; }
+.huifu-btn.btn.disabled,.huifu-btn.btn[disabled]{opacity: .65 !important; background:#fff !important; }
 .huifu-btn.btn:hover{ opacity: 1; }
 .huifu a {display:block; float: right;}
 .comment-wrap .more-comment { font-size: 12px; margin-left: 35px; padding: 5px; }
