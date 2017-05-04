@@ -17,6 +17,7 @@ from modules import mod_user
 from modules import mod_user_community
 from modules import mod_verify
 from modules import time_format
+import time
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -675,16 +676,15 @@ def get_message():
 @app.route('/private_message',methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def private_message():
-   login_flag = mod_user.check_login()
-   if not login_flag:
-       return redirect('/index')
-   private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
-       request)
-   user_list,unread_count_list,user_num = mod_private_message.select_recent_user(request)
-
-   return render_template('private_message.html',user_list=user_list,unread_count_list=unread_count_list,user_num=user_num, \
-                          private_unread_count=private_unread_count, count_comment=count_comment, \
-                          count_reply=count_reply, count_guanzhu=count_guanzhu, count_do_good=count_do_good)
+   # login_flag = mod_user.check_login()
+   # if not login_flag:
+   #     return redirect('/index')
+   # private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+   #     request)
+   to_user, user_list, unread_count_list, user_num= mod_private_message.select_recent_user(request)
+   ISOTIMEFORMAT = '%Y-%m-%d'
+   today = time.strftime(ISOTIMEFORMAT, time.localtime())
+   return render_template('private_message.html',today=today,to_user=to_user,user_list=user_list,unread_count_list=unread_count_list,user_num=user_num)
 
 
 @app.route('/save_message',methods=['GET', 'POST'])
@@ -696,14 +696,14 @@ def saveMessage():
 @app.route('/get_new_message',methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def newMessage():
-   data = mod_private_message.select_new_message(request)
+   data = mod_private_message.service(request)
    return jsonify(result=data)
 
 # to do  点击人后加载此用户聊天信息
-@app.route('/get_user_message',methods=['GET', 'POST'])
+@app.route('/get_history_message',methods=['GET'])
 # @interceptor(login_required=True)
-def getUserMessage():
-    mess_list = mod_private_message.select_mess_by_user(request)
+def getHistoryMessage():
+    mess_list = mod_private_message.service(request)
     return jsonify(result=mess_list)
 
 

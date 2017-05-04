@@ -26,3 +26,4 @@ div[data-role="editor-toolbar"] { -webkit-user-select: none; -moz-user-select: n
 .editor .control-right{ bottom:-35px; }
 .editor .submit{ display: inline-block; height: 30px; line-height: 30px; padding: 0 10px; }
 .editor .submit.disabled,.editor .submit[disabled]{ opacity: .65 !important; cursor:not-allowed;}
+.edit-toolbar a:hover.btn,.post-input a:hover.submit{ color: #B69364; }
