@@ -403,6 +403,7 @@ def user_community():
     community_user_num = mod_user_community.service(request)
     return jsonify(user_num=community_user_num)
 
+
 @app.route('/message_reply_post', methods=['GET', 'POST'])
 def message_reply_post():
     post_data,post_user,reply_data,reply_user = mod_message.service(request)
@@ -480,6 +481,24 @@ def user_info_community_create():
                            messages_unread=messages_unread, messages_unread_num=messages_unread_num,\
                            community_list=community_list,no=page_no,size=num_perpage,totalsize=total,\
                            view_user_info=view_user_info,user_info_type=user_info_type)
+
+
+# community the user join
+@app.route('/user_info_community_join', methods=['GET'])
+def user_info_community_join():
+    view_user_info = mod_user.service(request)
+    user_info_type = 'community_join'
+    return render_template('user_community_followed.html',view_user_info=view_user_info,user_info_type=user_info_type)
+
+
+# community the user join
+@app.route('/community_joined', methods=['GET'])
+def community_joined():
+    community_list, page_no, num_perpage, totalCount, totalPages= mod_user_community.service(request)
+    user_info_type = 'community_join'
+    return jsonify(community_list=community_list,user_info_type=user_info_type,
+                           no=page_no, size=num_perpage, totalCount=totalCount, totalPages=totalPages)
+
 
 @app.route('/user_info_friend', methods=['GET','POST'])
 def user_info_friend():
