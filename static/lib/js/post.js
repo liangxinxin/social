@@ -493,7 +493,7 @@ function loadReply(page_no){
                     }
                 }
                 isBest= true;
-                best_reply_wrap+='<span>最佳回帖</span>'
+                best_reply_wrap+='<div class="best-like"></div>'
                 best_reply_wrap+= getReplyHtml(best_reply,best_reply_comment);
             }
             if(isBest&&reply_list.length>0){
