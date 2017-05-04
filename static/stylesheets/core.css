@@ -1127,7 +1127,7 @@ color: #A89D89; }
 .my-list.media-content .content { padding: 0; }
 .community .item { padding: 15px 0; border-bottom: 1px solid #ededed }
 .community .img { position: relative; top: 8px; float: left; width: 100px; height: 78px; }
-.community .img img { width: 100%; }
+.community .img img { width: 100%; max-height: 78px; }
 .community .content { overflow: hidden; padding-left: 20px; }
 .community .content h4 { font-weight: normal; margin: 3px 0; font-size: 1.6rem; }
 .community .content h4, .community-header .content h4 a { color: #917049 }
