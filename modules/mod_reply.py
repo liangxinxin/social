@@ -28,6 +28,8 @@ def service(request):
             return publish_reply(request)
         elif type == "delete":
             return delete_reply(request)
+        elif type =='update':
+            return update_reply(request)
 
         else:
             print "error request:", request
@@ -37,82 +39,6 @@ def service(request):
             return get_best_reply_by_post(request)
         print "hehe,the request is:", request
 
-
-# communit_id=request.args.get("community_id",0)
-#    post_id=request.args.get("post_id",0)
-#    if communit_id != 0:
-#      return query_post_in_community(request)
-#    if post_id != 0:
-#      return post_info(request)
-
-# def publish_reply(request):
-#     print "publish reply request"
-#     content = request.form.get("content")
-#     create_user_id = long(request.form.get("create_user_id", 0))
-#     post_id = request.form.get("post_id", 0)
-#     community_id = request.form.get("community_id", 0)
-#
-#     ISOTIMEFORMAT = '%Y-%m-%d %X'
-#     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-#     post_data = db_model_post.select_by_id(post_id)
-#     if post_data == None:
-#         return None, None, None, None, None, None, None, None, None, None
-#     floor = post_data.floor_num + 1
-#     post_data.floor_num += 1
-#     db_model_post.update(post_data)
-#
-#     floor_num = 0
-#     like_num = 0
-#     status = 0
-#     last_update_time = create_time
-#     post_user = db_model_user.select_by_id(post_data.create_user_id)
-#     path_type = 'reply'
-#     content = mod_base64.base64_hander(content, path_type)
-#
-#     print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
-#     # insert to db
-#     insert = db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
-#     if insert != None and (create_user_id != post_data.create_user_id):
-#         db_model_message.insert_reply_post(create_user_id, post_id, insert.id)
-#     print "now insert to db"
-#
-#     print "record action of create reply"
-#     action_content = {}
-#     action_content['reply_id'] = insert.id
-#     db_model_action.insert(user_id=create_user_id, \
-#                            action_type_id=db_model_action_type.get_type_id('create_reply'), \
-#                            action_detail_info=json.dumps(action_content, ensure_ascii=False), \
-#                            create_time=create_time)
-#
-#     # select db
-#     paginate = db_model_reply.select_paging_by_post_id(default_page_no, default_num_perpage, post_id)
-#     print "now data:", paginate.items
-#     reply_user_list = []
-#     for reply in paginate.items:
-#         user = db_model_user.select_by_id(reply.create_user_id)
-#         reply_user_list.append(user)
-#
-#     community = db_model_community.select_by_id(community_id)
-#
-#     def get_reply_like_count(reply):
-#         reply_id = reply.id
-#         count = db_model_reply_like_stat.get_reply_like_count(reply_id)
-#         return (reply_id, count)
-#
-#     def is_reply_liked(reply):
-#         reply_id = reply.id
-#         if session.get('userinfo'):
-#             user_id = session.get('userinfo')['id']
-#             is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
-#             return (reply_id, is_liked)
-#         else:
-#             return (reply_id, False)
-#
-#     liked_by_user = dict(map(is_reply_liked, paginate.items))
-#     like_stats = dict(map(get_reply_like_count, paginate.items))
-#     # return select value
-#     return post_data, post_user, paginate, reply_user_list, community, default_page_no, len(
-#         paginate.items), default_num_perpage, like_stats, liked_by_user
 
 
 def reply_like_changed(request):
@@ -229,6 +155,7 @@ def get_reply_by_post(request):
 
 
 
+
 def publish_reply(request):
     if session.get('userinfo'):
         create_user_id = int(session.get('userinfo')['id'])
@@ -284,9 +211,8 @@ def publish_reply(request):
 
 def update_reply(request):
     result = {}
-    data = json.loads(request.form.get("data"))
-    content = data["content"]
-    reply_id = long(data["reply_id"])
+    content = request.form.get("content")
+    reply_id = request.form.get("reply_id")
     reply = db_model_reply.select_by_id(reply_id)
     if reply == None:
         print 'reply is none',reply_id

@@ -176,6 +176,12 @@ function doHuifuReply(reply_id){
 }
 function showComments(reply_id){
     $('#item_'+reply_id).find('div.comment-wrap').toggleClass('hide');
+    console.log($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide'))
+    if($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide')){
+        $('#item_'+reply_id).find('a.reply-num').find('i').removeClass('icon-arrow-down').addClass('icon-arrow-up');
+    }else{
+        $('#item_'+reply_id).find('a.reply-num').find('i').removeClass('icon-arrow-up').addClass('icon-arrow-down');
+    }
 
 }
 function getCommentHtml(comment){
@@ -258,6 +264,7 @@ function getReplyHtml(reply,comment_wrap){
     var user = reply.user;
     var comment_page_no =1;
     var is_delete ='';
+    var is_update =''
     if (reply.like_num > 0){
       like_num = reply.like_num.toString();
     }
@@ -278,6 +285,7 @@ function getReplyHtml(reply,comment_wrap){
     }
     if(user_id==reply.create_user_id){
         is_delete ='<span><a onClick="deleteReply('+reply.id+')" href="javascript:void(0)">删除</a></span>';
+        is_update ='<span><a onClick="toUpdate('+reply.id+')" href="javascript:void(0)">修改</a></span>';
 
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
@@ -294,6 +302,7 @@ function getReplyHtml(reply,comment_wrap){
                 <div class="block-bar action">\
                     <span class="reply-btn-span"><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
                     '+is_delete+'\
+                    '+is_update+'\
                     <div class="right-control">\
                         '+is_like+'\
                         </span>\
@@ -307,7 +316,53 @@ function getReplyHtml(reply,comment_wrap){
         </div>';
     return reply_wrap;
 }
+function toUpdate(reply_id){
+    var content = $('#item_'+reply_id).find('div.content').find('p');
+    $(content).addClass('hide');
+    $('.update-reply').removeClass('hide')
+    $(content).after($('.update-reply'));
+    $('.update-reply').find('input#param').val(String(reply_id));
+    $('div.update-reply').find('div#update').focus();
+    $('div.update-reply').find('div#update').html($(content).html());
 
+}
+function cancelUpdate(){
+    $('.post-list').before($('.update-reply').addClass('hide'));
+    var reply_id = $('.update-reply').find('input#param').val();
+    $('#item_'+reply_id).find('div.content').find('p').removeClass('hide');
+    $('div.update-reply').find('input#param').val(0);
+}
+function doUpdate(){
+    var content = $('div.update-reply').find('div#update').html();
+    if($.trim(content)==''){
+        alert('内容不能为空！');
+        return;
+    }
+    var reply_id = $('.update-reply').find('input#param').val();
+    var data = {}
+    data['type']='update';
+    data['reply_id']=reply_id;
+    data['content']=content;
+    $.ajax({
+        url: '/update_reply',
+        type: 'POST',
+        data: data,
+        timeout:5000,
+        success: function(data) {
+            if (data.result== 0) {
+                $('.post-list').before($('.update-reply').addClass('hide'));
+                $('#item_'+reply_id).find('div.content').find('p').html(content);
+                cancelUpdate();
+            } else {
+                alert('修改失败')
+            }
+        },
+        error: function(data) {
+            alert('修改失败')
+        }
+    })
+
+}
 function deleteReply(reply_id){
     if (confirm('你确定删除这条回帖吗？其下的回复也将会被删除')) {
         var data ={}
