@@ -389,6 +389,7 @@ a img, img { border: none; }
 .right-control em, .right-control i { font-style: normal; }
 .right-control i { position: relative; top: 1px; padding-right: 5px; font-size: 14px; }
 .right-control span.active a { color: #e83308; }
+.right-control span.like-num {width:50px;display:inline-block;}
 .panel-border { border: 1px solid #eee; }
 .box-sm.center { }
 .box-sm { padding: 0 50px; width: 360px; background: #fff\9; background: rgba(255, 255, 255, .8); }
@@ -1100,7 +1101,7 @@ color: #A89D89; }
 .post-list .block-bar.action { height: 20px; line-height: 20px; }
 .post-list .block-bar.action .drop-toggle { padding-left: 10px; }
 .post-list .block-bar.action .drop-toggle i { position: relative; top: 1px; }
-.post-list .content { overflow: hidden; padding-left: 10px; }
+.post-list .content { overflow: hidden; padding-left: 10px; position:relative; }
 .post-list .content p { padding: 0 0; font-size: 1.3rem; line-height: 1.6; }
 .post-list.on-user .item { padding: 10px 0; }
 .post-list.on-user .photo { display: inline-block; position: relative; top: 5px; float: none; width: 20px; height: 20px; margin-right: 5px; }
@@ -1147,7 +1148,7 @@ color: #A89D89; }
 .user-list .item { padding: 15px 0; border-bottom: 1px solid #ededed }
 .user-list .img { position: relative; top: 0px; float: left; width: 50px; height: 50px; }
 .user-list .img img { width: 100%; border: 1px solid #eee; border-radius: 50%; }
-.user-list .content { overflow: hidden; padding-left: 20px; }
+.user-list .content { overflow: hidden; padding-left: 20px;}
 .user-list .content h4 { font-weight: normal; margin: 3px 0; font-size: 1.6rem; }
 .user-list .content h4, .user-list .content h4 a { color: #917049 }
 .user-list .content h4, .user-list .content h4 a { color: #917049 }
@@ -1262,4 +1263,4 @@ color: #A89D89; }
     top: 15px;
     right: -40px;
 }
-.best-like{ background: url(../images/best-like.png); background-size: 80px 80px; width: 80px; height: 80px; position: absolute;  right: 25%; top: 0; }
+.best-like{ background: url(../images/best-like.png);background-size: 80px 80px; width: 80px; height: 80px; position: absolute;  right: 5%; bottom:20px;z-index:1000; }

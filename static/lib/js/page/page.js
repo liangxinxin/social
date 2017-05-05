@@ -3,6 +3,9 @@
  */
 $.fn.extend({
     "initPage":function(pagelistcount,listCount,currentPage,fun){
+        if(listCount==0){
+            return;
+        }
         var maxshowpageitem = $(this).attr("maxshowpageitem");
         if(maxshowpageitem!=null&&maxshowpageitem>0&&maxshowpageitem!=""){
             page.maxshowpageitem = maxshowpageitem;
@@ -21,11 +24,6 @@ $.fn.extend({
             currentPage=1;
         }
         page.setPageListCount(listCount,currentPage,fun);
-//        listCount = parseInt(listCount);
-//        currentPage = parseInt(currentPage);
-//        page.initWithUl(listCount,currentPage);
-//        page.initPageEvent(listCount,fun);
-
     }
 });
 var  page = {

@@ -7,6 +7,7 @@ function initData(){
        loadCommunityPost(page_no)
    }
    $('#editor').html('');
+   $('#post_title').val('');
    $("#page").initPage(num_page,total,page_no,callback);
 }
  $('#u-cancel').click(function(){
@@ -52,20 +53,22 @@ $('#update').click(function(){
 
 
 })
+
 function remove_match(){
-    $('#button_publish_post').removeAttr('disabled')
-    $('.suggest-container').addClass('hide')
-    $('#submit').val('true');
+    $('.post-suggest-container').find('.match-post').empty();
+    $('.post-suggest-container').addClass('hide')
+    $('button#submmit-btn').removeAttr("disabled");
+    $('div#editor').attr('contenteditable','true');
  }
 var flag;
 $('#post_title').keyup(function(){
-//     clearTimeout(flag);
-//       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
-//       //只要有输入则不执行keyup事件
-//      flag = setTimeout(function(){
-//       //这里面就是调用的请求
-//          find_match_post();
-//        }, 500);
+     clearTimeout(flag);
+       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+       //只要有输入则不执行keyup事件
+     flag = setTimeout(function(){
+       //这里面就是调用的请求
+        find_match_post();
+     }, 500);
 
 })
  function find_match_post(){
@@ -82,20 +85,20 @@ $('#post_title').keyup(function(){
               },
               timeout:5000,
               success:function(data){
-                  posts = data.post_list
+                  var posts = data.post_list;
+                  var match_post ='';
+
                   if (posts !=null && posts.length>0){
-                      drop_menu='<ul class="dropdown-menu"><li><a style="color:#337ab7;" class="match_info" href="#">已有类似的帖子,不能再次发表,请点击查看</a></li>'
                       for(var i =0;i<posts.length;i++){
-                        drop_menu =drop_menu +'<li><a href="/post?post_id='+posts[i].id+'&type=postInfo">'+posts[i].title+'</a></li>'
+                        match_post =match_post +'<li><a href="/post?post_id='+posts[i].id+'&type=postInfo">'+posts[i].title+'</a></li>'
                       }
-                      drop_menu =drop_menu+'</ul>'
                       $('#submit').val('false');
-                      $('#post_title').after(drop_menu);
-                      $('.suggest-container').removeClass('hide')
-                     // $('.post-input').addClass('open');
-                      $('a#submmit-btn').addClass('disabled');
+                      $('.match-post').empty().html(match_post);
+                      $('.post-suggest-container').removeClass('hide')
+                      $('button#submmit-btn').attr('disabled','true');
+                      $('div#editor').removeAttr('contenteditable');
                   }else{
-                    $('#button_publish_post').removeAttr('disabled')
+                    remove_match();
                   }
               }
 
@@ -103,10 +106,10 @@ $('#post_title').keyup(function(){
         }
  }
 
- $('a#submmit-btn').click(function(){
-     var is_submit =  $('input#submit').val()
-     if(is_submit=='true'){
+ $('button#submmit-btn').click(function(e){
      //get title
+
+     e.preventDefault();
        var title=$("input#post_title").val();
        //get content
        var content=$('#editor').html();
@@ -124,7 +127,6 @@ $('#post_title').keyup(function(){
        }else{
         alert('您需要登录后才能发帖哦！');
        }
-     }
 
 
  })

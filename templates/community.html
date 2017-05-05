@@ -67,7 +67,17 @@
                     <h4>标题</h4>
                     <input type="hidden" id="submit" value="true">
                     <input onfocus="remove_match()" id="post_title" class="post-title-input" type="text" placeholder="标题" />
-
+                    <div class="post-suggest-container hide">
+                    <div class="post-suggest">
+                        <div class="item">
+                            <div class="heading">类似的帖子</div>
+                            <div class="body">
+                                <ul class="s-community match-post">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% include 'input.html' %}
                 </div>
             </div>

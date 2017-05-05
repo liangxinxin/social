@@ -83,7 +83,7 @@ $('#submmit-btn').click(function(){
 //when click huifu
 function getHuifuHtml(reply_id,comment_id){
     var huifu = '<div class="huifu">\
-                    <a id="huifu-btn" class="btn huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</a>\
+                    <button id="huifu-btn" class="btn huifu-btn" onClick="summitHuifu()" href="javascript:void(0)">提交</button>\
                     <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
@@ -210,9 +210,6 @@ function getCommentHtml(comment){
                         <div class="block-bar action">\
                             <span><a onClick="doHuifu('+comment.reply_id+','+comment.id+')" href="javascript:void(0)">回复</a></span>\
                             '+is_delete+'\
-                            <div class="right-control">\
-                                <span class="like"><a href="#"><i class="icon-like"></i></a>1</span>\
-                            </div>\
                         </div>\
                     </div>\
                 </div>';
@@ -256,7 +253,7 @@ function moreComment(replyId){
 
 }
 
-function getReplyHtml(reply,comment_wrap){
+function getReplyHtml(reply,comment_wrap,isBest){
     var like_num ='';
     var reply_wrap='';
     var comment_num='';
@@ -265,6 +262,7 @@ function getReplyHtml(reply,comment_wrap){
     var comment_page_no =1;
     var is_delete ='';
     var is_update =''
+    var is_best='';
     if (reply.like_num > 0){
       like_num = reply.like_num.toString();
     }
@@ -284,7 +282,7 @@ function getReplyHtml(reply,comment_wrap){
                 <span class="like-num">'+like_num+'</span>';
     }else{
         is_like = '<input type="hidden" id="like-'+reply.id+'" value="true">\
-                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like"></i></a>\
+                <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like-o"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
     }
     if(user_id==reply.create_user_id){
@@ -292,12 +290,16 @@ function getReplyHtml(reply,comment_wrap){
         is_update ='<span><a onClick="toUpdate('+reply.id+')" href="javascript:void(0)">修改</a></span>';
 
     }
-    reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item">\
+    if(isBest){
+        is_best = '<div class="best-like"></div>';
+    }
+    reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item" >\
             <input class="hide-reply-num" type="hidden" value ="'+reply.floor_num+'">\
             <div class="photo">\
                 <a href="user_info_post?type=1&user_id='+user.id+'"><img src="'+user.head_img_url+'"></a>\
             </div>\
             <div class="content">\
+                '+is_best+'\
                 <div class="block-bar">\
                     <span><a href="user_info_post?type=1&user_id='+user.id+'">'+reply.user.name+'</a></span>\
                     <span>'+reply.last_update_time+'</span>\
@@ -445,10 +447,10 @@ function doGood(reply_id){
                     var like_num = data.like_num;
                     if(mod_type == 'add'){
                          $('#like-'+reply_id).val("false");
-                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like');
+                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like-o').addClass('icon-like');
                     }else{
                          $('#like-'+reply_id).val("true");
-                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like');
+                         $('#item_'+reply_id).find('a.like>i').removeClass('icon-like').addClass('icon-like-o');
                     }
                     if(like_num>0){
                         $('#item_'+reply_id).find('span.like-num').text(like_num);
@@ -501,11 +503,7 @@ function loadReply(page_no){
                     }
                 }
                 isBest= true;
-                best_reply_wrap+='<div class="best-like"></div>'
-                best_reply_wrap+= getReplyHtml(best_reply,best_reply_comment);
-            }
-            if(isBest&&reply_list.length>0){
-                reply_wrap+='<span>其它回帖</span>'
+                best_reply_wrap+= getReplyHtml(best_reply,best_reply_comment,isBest);
             }
             isBest= false;
             for(var i=0;i<reply_list.length;i++){
@@ -518,7 +516,7 @@ function loadReply(page_no){
                     reply_comment +=getCommentHtml(reply_comments[j]);
                    }
                 }
-               reply_wrap += getReplyHtml(reply,reply_comment)
+               reply_wrap += getReplyHtml(reply,reply_comment,isBest)
             }
 
             if (page_no==1){
