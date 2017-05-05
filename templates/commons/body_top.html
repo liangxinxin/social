@@ -8,7 +8,7 @@
         <div class="top-search">
             <div class="search-group">
                 <div class="input-group">
-                    <input id="input_publish_post_title" type="text" class="form-control" placeholder="搜索社区和帖子" />
+                    <input id="search_input_community_post_person" type="text" class="form-control" placeholder="搜索社区和帖子" />
                     <div class="input-group-btn">
                         <button class="btn btn-primary"><i class="icon-search"></i></button>
                     </div>
@@ -95,6 +95,7 @@
     </div>
 </div>
 <!--<script src="../lib/js/search.js" ></script>-->
+<script src="../lib/jquery-1.8.1.min.js "></script>
 <script type="text/javascript" >
   function to_log_out() {
     data={};
@@ -118,5 +119,40 @@
   function to_log_in() {
      var cur_url=this.location.href;
      window.location.href="/login?next_url="+cur_url;
- }
+  }
+  $('#search_input_community_post_person').blur(function(){
+      $('.suggest-container').addClass('hide');
+  })
+  var flag;
+  $('#search_input_community_post_person').keyup(function(){
+       $('ul.s-community').html("");
+       clearTimeout(flag);
+       flag = setTimeout(find_match_community(),500)
+       $('.suggest-container').removeClass('hide');
+  })
+ 
+  function find_match_community(){
+       var name = $('#search_input_community_post_person').val();
+       if(name.trim()!=""){
+           $.ajax({
+               url:'/find_match_community',
+               type:'get',
+               data:{
+                   name:name
+                   },
+               dataType:'json',
+               timeout:5000,
+               success:function(data){
+                   if(data.comm_list !=null && data.comm_list.length>0){
+                     communities = data.comm_list;
+                     drop_menu_html=''
+                     for(var i =0;i<communities.length;i++){
+                       drop_menu_html = drop_menu_html +'<li><a href="/community?type=query&id='+communities[i].id+'">'+communities[i].name+'</a></li>'
+                     }
+                     $('ul.s-community').html(drop_menu_html);
+                   }
+               }
+           })
+       }
+  }
 </script>
