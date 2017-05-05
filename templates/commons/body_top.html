@@ -20,8 +20,8 @@
                                 <div class="body">
                                     <ul class="s-community">
                                         <li>目前还没有<span class="text-primary">金融</span>社区<span class="offset-1x"><a href="#modal" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>
-                                        <li><a href="#"><span class="img"><img src="../static/images/shequ/img1.jpg"></span><span>金融岛</span></a></li>
-                                        <li><a href="#"><span class="img"><img src="../static/images/shequ/img1.jpg"></span><span>金融理财</span></a></li>
+                                        <li><a href="#"><span class="img"><img src="../images/shequ/img1.jpg"></span><span>金融岛</span></a></li>
+                                        <li><a href="#"><span class="img"><img src="../images/shequ/img1.jpg"></span><span>金融理财</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -94,6 +94,71 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-md">
+        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+            <div class="modal-body clearfix relative">
+            <div class="content-box topic-creat">
+            <div class="pull-content img text-center"><a href="#photo" data-toggle="modal"><img src="../images/imgs.png"></a></div>
+            <div class="content">
+                                    <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="输入社区标题" >
+                    </div>
+                    <div class="form-group">
+                        <textarea name="" class="form-control" placeholder="输入社区简介，提升人气" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            <div class="modal-footer">
+                <div class="justified2-2">
+                    <li>
+                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg btn-block">创建社区</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-book-content" id="photo" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-md">
+        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+            <div class="modal-body clearfix relative">
+                <ul class="base-tab list-unstyled text-center">
+                    <li class="active"><a href="#m1" data-toggle="tab">本地上传</a></li>
+                    <li><a href="#m2" data-toggle="tab">系统图片</a></li>
+                </ul>
+                <div class="photo-container tab-pane active" id="m1">
+                    <div style="padding: 50px; text-align: center;">上传图片区域</div>
+                </div>
+                <div class="photo-container tab-pane" id="m2">
+                    <div class="photo-list shequ">
+                        <span class="active"><img src="../images/shequ/img1.jpg"></span><span><img src="../images/shequ/img2.jpg"></span><span><img src="../images/shequ/img3.jpg"></span><span><img src="../images/shequ/img4.jpg"></span><span><img src="../images/shequ/img5.jpg"></span><span><img src="../images/shequ/img6.jpg"></span><span><img src="../images/shequ/img7.jpg"></span><span><img src="../images/shequ/img8.jpg"></span><span><img src="../images/shequ/img9.jpg"></span><span><img src="../images/shequ/img10.jpg"></span><span><img src="../images/shequ/img11.jpg"></span><span><img src="../images/shequ/img12.jpg"></span><span><img src="../images/shequ/img13.jpg"></span><span><img src="../images/shequ/img14.jpg"></span><span><img src="../images/shequ/img15.jpg"></span><span><img src="../images/shequ/img16.jpg"></span><span><img src="../images/shequ/img17.jpg"></span><span><img src="../images/shequ/img18.jpg"></span><span><img src="../images/shequ/img19.jpg"></span><span><img src="../images/shequ/img20.jpg"></span><span><img src="../images/shequ/img21.jpg"></span><span><img src="../images/shequ/img22.jpg"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="justified2-2">
+                    <li>
+                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg btn-block">确定</button>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!--<script src="../lib/js/search.js" ></script>-->
 <script src="../lib/jquery-1.8.1.min.js "></script>
 <script type="text/javascript" >
@@ -121,9 +186,9 @@
      var cur_url=this.location.href;
      window.location.href="/login?next_url="+cur_url;
   }
-  $('#search_input_community_post_person').blur(function(){
-      $('.suggest-container').addClass('hide');
-  })
+//  $('#search_input_community_post_person').blur(function(){
+//      $('.suggest-container').addClass('hide');
+//  })
   var flag;
   $('#search_input_community_post_person').keyup(function(){
        $('ul.s-community').html("");
@@ -151,6 +216,9 @@
                        drop_menu_html = drop_menu_html +'<li><a href="/community?type=query&id='+communities[i].id+'">'+communities[i].name+'</a></li>'
                      }
                      $('ul.s-community').html(drop_menu_html);
+                   } else {
+                      drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a href="#modal" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                      $('ul.s-community').html(drop_menu_html);
                    }
                }
            })
