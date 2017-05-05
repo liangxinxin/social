@@ -150,6 +150,9 @@
                        drop_menu_html = drop_menu_html +'<li><a href="/community?type=query&id='+communities[i].id+'">'+communities[i].name+'</a></li>'
                      }
                      $('ul.s-community').html(drop_menu_html);
+                   } else {
+                      drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a href="#modal" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                      $('ul.s-community').html(drop_menu_html);
                    }
                }
            })
