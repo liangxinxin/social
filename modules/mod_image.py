@@ -24,12 +24,14 @@ default_path = 'http://jinrongdao.com:6100/images/'
 def service(request):
     print "enter do user create service"
     if request.method == 'POST':
+        print 'will go  upload_head_image'
         return upload_head_image(request)
     elif request.method == 'GET':
         return select_default_image(request)
 
 
 def upload_head_image(request):
+    print 'into go  upload_head_image'
     user_id = session.get('userinfo')['id']
     type = request.form.get("type")  # user/community
     print os.getcwd()
@@ -50,6 +52,7 @@ def upload_head_image(request):
         message = "success"
         result = {"message": message, "code": 0,"data":savePath}
     else:
+        print 'do upload_head_image'
         uploadPath = curPath + '/static/images/upload/' + type + '/'
         header = "data:image"
         curTime = int(time.time())  # time.mktime(datetime.datetime.now().timetuple())
@@ -57,20 +60,24 @@ def upload_head_image(request):
         rand1 = random.randint(0, 900) + 100
         rand2 = random.randint(0, 90) + 10
         print 'random',rand1, rand2
-        # curTime = time.mktime(datetime.datetime.now().timetuple())
         fileName = '%s%s%s%s' % (curTime, rand1, rand2, fileType)
         savePath = default_path +'upload/'+ type + '/' + fileName
-        print(fileName)
+        print 'savePath',savePath,
+        print 'uploadPath',uploadPath
+        print' fileName',fileName
         image = request.form.get('image').encode('utf-8')
         imageArr = image.split(",")
+        print 'imageArr[0]',imageArr[0]
         if header in imageArr[0]:
+            print 'into if'
             image = imageArr[1]
             message = "fail"
             try:
                 decodedBytes = base64.decodestring(image)
                 if not os.path.exists(uploadPath):
-                    os.makdirs(uploadPath)
+                    os.makedirs(uploadPath)
                 uploadPath = uploadPath + fileName
+                print 'will write', uploadPath
                 out = open(uploadPath, 'w')
                 out.write(decodedBytes)
                 out.close()
@@ -83,16 +90,12 @@ def upload_head_image(request):
                 print("upload success")
             except Exception, e:
                 result = {"message": message, "code": 1,"data":''}
+                print e
 
     return result
 
 
 def select_default_image():
-    # //type = request.args.get("type")
-    # if type == "user":
-    #     typeid = 0
-    # else:
-    #     typeid = 1
     user_json_result = []
     comm_json_result = []
     user_data = db_default_image.select_by_type(0, default_page_no, max_num_perpage).items
