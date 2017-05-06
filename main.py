@@ -685,13 +685,14 @@ def get_message():
         messages_unread_num = len(messages_unread)
     read_list, unread_list, total, page_no, num_perpage,message_type = mod_message.service(request)
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
-
+    
     return render_template('message.html',
-                           messages_unread_num=messages_unread_num,
-                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,
-                           count_do_good=count_do_good,private_unread_count=private_unread_count, \
-                           message_type=message_type,read_list=read_list,unread_list=unread_list,unread_num=len(unread_list),read_num=len(read_list),
-                           totalsize=total,size=num_perpage,no=page_no)
+                           messages_unread_num=messages_unread_num,\
+                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count,\
+                           message_type=message_type,read_list=read_list,unread_list=unread_list,\
+                           unread_num=len(unread_list),read_num=len(read_list),\
+                           total_size=total,size=num_perpage,no=page_no)
 
 @app.route('/private_message',methods=['GET', 'POST'])
 # @interceptor(login_required=True)
