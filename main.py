@@ -277,7 +277,8 @@ def post_publish():
 def post():
     post =  mod_post.service(request)
     if post:
-        return render_template('post.html',post=post)
+        has_join = mod_user_community.user_has_join_community(post.community_id)
+        return render_template('post.html',post=post,has_join=has_join)
     else:
         msg='页面找不到了'
         redirect(url_for('error',msg=''))

@@ -103,3 +103,13 @@ def find_community_user_join(request):
     community = db_model_community.select_by_id(item.community_id)
     community_list.append(db_model_community.to_json(community))
    return community_list,page_no,num_perpage,totalCount,totalPages
+
+def user_has_join_community(community_id):
+  has_join = False
+  if session.get('userinfo'):
+    user_id = session.get('userinfo')['id']
+    info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
+    if info != None:
+      has_join = True 
+  print "user:",user_id,"community:",community_id," join:",has_join
+  return has_join
