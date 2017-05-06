@@ -28,7 +28,7 @@
                         {% for post in post_list %}
                         <div class="item">
                             <div class="content">
-                                <h4><a href="/post?post_id={{post.id}}&">{{post.title}}</a></h4>
+                                <h4><a href="/post?id={{post.id}}&type=postInfo">{{post.title}}</a></h4>
                                 <p>{{post.content}}</p>
                                 <div class="block-bar">
                                     <span><a href="#">{{post.create_time}}</a></span>
