@@ -1,12 +1,12 @@
 //初始化页面
-var callback = function(page_no){
+var callbackPage = function(page_no){
        loadReply(page_no)
    }
 function initData(){
    getLoginInfo();
    //loadReply(1)
 
-    $("#page").initPage(num_perpage,total,page_no,callback);
+    $("#page").initPage(num_perpage,total,page_no,callbackPage);
 }
 function post(URL, PARAMS) {
    var temp = document.createElement("form");

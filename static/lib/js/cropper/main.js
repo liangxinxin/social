@@ -41,7 +41,9 @@
     this.$avatarLocalBtn =this.$container.find("a[href=#m1]");
     this.$avatarbody = this.$avatarModal.find('.avatar-body');
     this.isCommendBlock = false;
-    this.type = $("input[name=type]").val();
+    this.fromType = $("input[name=from]").val();
+    alert('asa')
+    console.log(this.fromType)
     this.init();
 
   }
@@ -61,19 +63,20 @@
        this.cleanUpSelected();
     },
     init: function () {
+    console.log('init')
       this.support.datauri = this.support.fileList && this.support.blobURLs;
       if (!this.support.formData) {
         this.initIframe();
       }
       this.$avatarInput.val("")
-      this.initTooltip();
-      this.initModal();
+      //this.initTooltip();
+      //this.initModal();
       this.getDefaultImage();//初始化默认图片
       this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
       this.addListener();
       //shequ or user
-      this.$avatarModal.find('.preview').addClass(this.type)
-      if (this.type=='shequ'){
+      this.$avatarModal.find('.preview').addClass(this.fromType)
+      if (this.fromType=='shequ' || this.fromType=='createShequ'){
         this.$avatarModal.find('.preview').find('p.lg').text('100*78')
         this.$avatarModal.find('.preview').find('p.md').text('50*39')
       }
@@ -92,7 +95,7 @@
         this.$avatarInput.val("");
         this.active = false;
     },
-    selected:function(e){
+    doSelected:function(e){
          this.$avatarCommendwrapper.find('span').not($(e.target).parent()).attr("class","");
          $($(e.target).parent()).attr("class","active");
          this.isCommendBlock = true;
@@ -106,23 +109,23 @@
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
       // add by lxx clear image data
        this.$avatarUploadBtn.on('click',$.proxy(this.uploadImage, this));
-        this.$avatarCommImg.on('click',$.proxy(this.selected, this));
+        this.$avatarCommImg.on('click',$.proxy(this.doSelected, this));
         this.$avatarCancel.on('click', $.proxy(this.close, this));
         this.$avatarClose.on('click', $.proxy(this.close, this));
 
     },
 
-    initTooltip: function () {
-      this.$avatarView.tooltip({
-        placement: 'bottom'
-      });
-    },
-
-    initModal: function () {
-      this.$avatarModal.modal({
-        show: false
-      });
-    },
+//    initTooltip: function () {
+//      this.$avatarView.tooltip({
+//        placement: 'bottom'
+//      });
+//    },
+//
+//    initModal: function () {
+//      this.$avatarModal.modal({
+//        show: false
+//      });
+//    },
 
     initPreview: function () {
       this.$avatar = this.$avatarView.find('img');
@@ -189,7 +192,7 @@
      // this.$avatarModal.modal('show');
       this.initPreview();
       //alert('click')
-
+        console.log('aa')
       //this.init();
     },
 
@@ -268,7 +271,7 @@
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
         var ratio = 1;
-        if(this.type=='shequ'){
+        if(this.fromType=='shequ' || this.fromType=='createShequ'){
             ratio=100/78;
         }
         this.$img.cropper({
@@ -276,8 +279,6 @@
           preview: this.$avatarPreview.selector,
           strict: false,
           crop: function (data) {
-
-          console.log(data.height)
             var json = [
                   '{"x":' + data.x,
                   '"y":' + data.y,
@@ -302,14 +303,14 @@
         this.active = false;
       }
     },
-    callback: function(data) {
+    callbackFun: function(data) {
 
         var url = this.$avatarForm.attr('action'),
         _this = this;
-        if(this.type=='shequ'){
+        if(this.fromType=='shequ'){
             data.append('community_id',community_id);
         }
-        data.append('type',this.type);//user提交，还是community
+        data.append('type',this.fromType);//user提交，还是community
 		// 回调后的函数处理
 		    $.ajax(url, {
                 type: 'post',
@@ -423,7 +424,7 @@
 
                data.append('image',base64);
                data.append('isDefault',false);//isDefault :true 使用系统默认的
-               this.callback(data)	  // 回调base64字符串
+               this.callbackFun(data)	  // 回调base64字符串
         }else{
             img.onload = function() {
                 this.width = imgw;
@@ -434,7 +435,7 @@
                 img.onload = null;
                 data.append('image',base64);
                 data.append('isDefault',false);//isDefault :true 使用系统默认的
-                this.callback(data);  // 回调base64字符串
+                this.callbackFun(data);  // 回调base64字符串
             }
         }
 
@@ -467,7 +468,8 @@
 
                data.append('image',base64);
                data.append('isDefault',true);//isDefault :true 使用系统默认的
-               this.callback(data);	  // 回调base64字符串
+               console.log(this.fromType)
+               this.callbackFun(data);	  // 回调base64字符串
         }else{
             img.onload = function() {
                 ctx.drawImage(this, 0, 0, this.width, this.height);
@@ -475,7 +477,8 @@
                 img.onload = null;
                 data.append('image',base64);
                 data.append('isDefault',true);//isDefault :true 使用系统默认的
-                this.callback(data);	  // 回调base64字符串
+                console.log(this.fromType)
+                this.callbackFun(data);	  // 回调base64字符串
             }
         }
 
@@ -483,8 +486,8 @@
         // return dataURL.replace("data:image/png;base64,", "");
     },
     getDefaultImage:function () { //type:user获取人的默认头像，community：社区默认头像
-        var url = '/get_default_image?type='+this.type;
-        var type = this.type;
+        var url = '/get_default_image?type='+this.fromType;
+        var type = this.fromType;
         $.ajax(url, {
                 type: 'get',
                 data: "",
@@ -493,9 +496,7 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    if(type=='shequ'){
-                        //var community_url = $("a[href='#photo']").find('img').attr('src')
-                        //this.recommendimage =$('.recommend-image');
+                    if(type=='shequ'|| type=='createShequ'){
                         var imgs = [];
                         var res =data.result;
                         for(var i=0;i<res.length;i++){
@@ -505,7 +506,8 @@
                                  ].join('');
                             imgs.push(this.image)
                         }
-                    $('.photo-list').addClass('shequ');
+                        $('.photo-list').addClass('shequ');
+                         $('.photo-list').html(imgs);
                     }else if(type=='user'){
                         var imgs = [];
                         var res =data.result;
@@ -516,10 +518,9 @@
                                  ].join('');
                             imgs.push(this.image)
                         }
-
-                    $('.photo-list').addClass('photo');
+                        $('.photo-list').addClass('photo');
+                        $('.photo-list').html(imgs);
                     }
-                   $('.photo-list').html(imgs);
                 },
                 error: function (data) {
                     alert('加载默认图片出错！')
