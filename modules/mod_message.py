@@ -78,6 +78,7 @@ def  select_comment_message(request):
       for message in unread_list:
         db_model_message.update_has_read(message.id, True)
 
+    print "query message type--------------:",message_type," num:",len(read_list.items)
     return read_list.items,unread_list,total,page_no,num_perpage,message_type
 
 

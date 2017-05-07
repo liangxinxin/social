@@ -28,13 +28,17 @@
                         {% for post in post_list %}
                         <div class="item">
                             <div class="content">
-                                <h4><a href="/post?post_id={{post.id}}&">{{post.title}}</a></h4>
+                                <h4><a href="/post?id={{post.id}}&type=postInfo">{{post.title}}</a></h4>
                                 <p>{{post.content}}</p>
                                 <div class="block-bar">
                                     <span><a href="#">{{post.create_time}}</a></span>
                                     <div class="control-right">
                                         <div class="row-1x">
+                                            {% if session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
                                             <div class="group-span-1x"><span>来自：<a href="/community?id={{post.community_id}}&type=query">{{post.community.name}}</a></span><span><a href="#"><em>回复</em></a><b>{{post.floor_num}}</b></span><span><a href="#" onclick="deletePost({{post.id}})">删除</a></span></div>
+                                            {% else %}
+                                            <div class="group-span-1x"><span>来自：<a href="/community?id={{post.community_id}}&type=query">{{post.community.name}}</a></span><span><a href="#"><em>回复</em></a><b>{{post.floor_num}}</b></span></div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

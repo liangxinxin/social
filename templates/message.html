@@ -54,8 +54,8 @@
             <div class="cards md">
                 <div class="mian-container">
                     <div class="blk-1x"></div>
-                    <div class="tab-pane message media active" id="m4">
                     {% if message_type==4 %}
+                    <div class="tab-pane message media active" id="m4">
                         {% if unread_num>0 and no==1 %}
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list %}
@@ -102,18 +102,11 @@
                         {% endfor %}
                         <div class="blk-2x"></div>
                         <ul class="pagination">
-                            <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
                         </ul>
-                    {% endif %}
                     </div>
-                    <div class="tab-pane message media " id="m2">
+                    {% endif %}
                     {% if message_type==2 %}
+                    <div class="tab-pane message media active" id="m2">
                         {% if unread_num>0 and no==1 %}
                         {% for message in unread_list%}
                         <div class="item">
@@ -149,10 +142,12 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% endif %}
+                        <ul class="pagination">
+                        </ul>
                     </div>
-                    <div class="tab-pane message media " id="m3">
+                    {% endif %}
                     {% if message_type==3 %}
+                    <div class="tab-pane message media active" id="m3">
                         {% if unread_num>0 and no==1 %}
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list%}
@@ -192,10 +187,12 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% endif %}
+                        <ul class="pagination">
+                        </ul>
                     </div>
-                    <div class="tab-pane message media " id="m1">
+                    {% endif %}
                     {%if message_type==1%}
+                    <div class="tab-pane message media active" id="m1">
                         {% if unread_num>0 and no==1 %}
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list%}
@@ -224,8 +221,10 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% endif %}
+                        <ul class="pagination">
+                        </ul>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="side-container">
                 </div>
@@ -290,6 +289,32 @@
            clearAllClassInUl();
            document.getElementById("li_message_comment").className="active"; 
         {%endif%}
+    </script>
+    <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+        var pageNo = {{no}};
+        var pageSize = {{size}};
+        var totalCount = {{total_size}};
+        var totalPages = Math.ceil(totalCount/pageSize);
+        if (totalCount>0){
+            $('.pagination').twbsPagination({
+                startPage: pageNo,
+                totalPages: totalPages,
+                first: '首页',
+                prev: '前一页',
+                next: '下一页',
+                last: '末页',
+                onPageClick: function (evt, page) {
+                    if (page == pageNo) {
+                        console.debug("current page number clicked, do nothing.");
+                        return;
+                    }
+                    var url = "message?type=message_all&message_type="+{{message_type}} + "&no=" + page + "&size=" + pageSize;
+                    console.debug("pageurl:", url);
+                    window.location.href = url;
+                }
+            });
+        }
     </script>
 
 </body>
