@@ -1,10 +1,10 @@
 //初始化页面
-var callback = function(page_no){
+var callbackPage = function(page_no){
    loadHotPost(page_no)
 }
 function initData(){
     getLoginInfo();
-    $("#page").initPage(num_perpage,total,page_no,callback);
+    $("#page").initPage(num_perpage,total,page_no,callbackPage);
     loadHotCommunity();
 }
 function loadHotPost(page_no){

@@ -3,12 +3,12 @@ function initData(){
    getLoginInfo();
    //loadCommunityPost(1);
    load_commend_community();
-   var callback = function(page_no){
+   var callbackPage = function(page_no){
        loadCommunityPost(page_no)
    }
    $('#editor').html('');
    $('#post_title').val('');
-   $("#page").initPage(num_page,total,page_no,callback);
+   $("#page").initPage(num_page,total,page_no,callbackPage);
 }
  $('#u-cancel').click(function(){
    var name = $('h4.hname').find('span').text();
@@ -72,6 +72,7 @@ $('#post_title').keyup(function(){
 
 })
  function find_match_post(){
+
         var title = $('#post_title').val();
         $('input#post_title~ul').remove();
         if (title.trim()!=""){
@@ -106,10 +107,8 @@ $('#post_title').keyup(function(){
         }
  }
 
- $('button#submmit-btn').click(function(e){
+ $('button#submmit-btn').click(function(){
      //get title
-
-     e.preventDefault();
        var title=$("input#post_title").val();
        //get content
        var content=$('#editor').html();
@@ -117,10 +116,11 @@ $('#post_title').keyup(function(){
           alert('标题不能为空');
           return;
        }
-       if(content.trim()=="" || content==null || content.length==0){
+       if($.trim(content)=="" || content==null || content.length==0){
           alert('内容不能为空');
           return;
        }
+
        //post request for save post
        if(user_id>0){
         postRequest("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});

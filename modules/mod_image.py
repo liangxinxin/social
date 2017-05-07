@@ -24,14 +24,12 @@ default_path = 'http://jinrongdao.com:6100/images/'
 def service(request):
     print "enter do user create service"
     if request.method == 'POST':
-        print 'will go  upload_head_image'
         return upload_head_image(request)
     elif request.method == 'GET':
         return select_default_image(request)
 
 
 def upload_head_image(request):
-    print 'into go  upload_head_image'
     user_id = session.get('userinfo')['id']
     type = request.form.get("type")  # user/community
     print os.getcwd()
@@ -47,7 +45,7 @@ def upload_head_image(request):
         savePath = default_path + type + '/' + oriFileName
         if type == 'user':
             db_model_user.save_head_image(user_id, savePath)
-        elif type == 'shequ':
+        else:
             db_model_community.save_head_image(community_id, savePath,update_time)
         message = "success"
         result = {"message": message, "code": 0,"data":savePath}
@@ -69,7 +67,6 @@ def upload_head_image(request):
         imageArr = image.split(",")
         print 'imageArr[0]',imageArr[0]
         if header in imageArr[0]:
-            print 'into if'
             image = imageArr[1]
             message = "fail"
             try:
@@ -77,7 +74,6 @@ def upload_head_image(request):
                 if not os.path.exists(uploadPath):
                     os.makedirs(uploadPath)
                 uploadPath = uploadPath + fileName
-                print 'will write', uploadPath
                 out = open(uploadPath, 'w')
                 out.write(decodedBytes)
                 out.close()

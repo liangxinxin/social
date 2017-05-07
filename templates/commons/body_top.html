@@ -101,9 +101,13 @@
         <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
             <div class="modal-body clearfix relative">
             <div class="content-box topic-creat">
-            <div class="pull-content img text-center"><a href="#photo" data-toggle="modal"><img src="../images/imgs.png"></a></div>
+            <div class="pull-content img text-center">
+                <a onclick="" href="#photo" data-toggle="modal">
+                    <img alt="shequ" src="../images/imgs.png">
+                    <input type="hidden" value="createShequ">
+                </a></div>
             <div class="content">
-                                    <div class="form-inline">
+                <div class="form-inline">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="输入社区标题" >
                     </div>
@@ -127,40 +131,10 @@
         </div>
     </div>
 </div>
-<div class="modal modal-book-content" id="photo" tabindex="-1" role="dialog" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-md">
-        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
-            <div class="modal-body clearfix relative">
-                <ul class="base-tab list-unstyled text-center">
-                    <li class="active"><a href="#m1" data-toggle="tab">本地上传</a></li>
-                    <li><a href="#m2" data-toggle="tab">系统图片</a></li>
-                </ul>
-                <div class="photo-container tab-pane active" id="m1">
-                    <div style="padding: 50px; text-align: center;">上传图片区域</div>
-                </div>
-                <div class="photo-container tab-pane" id="m2">
-                    <div class="photo-list shequ">
-                        <span class="active"><img src="../images/shequ/img1.jpg"></span><span><img src="../images/shequ/img2.jpg"></span><span><img src="../images/shequ/img3.jpg"></span><span><img src="../images/shequ/img4.jpg"></span><span><img src="../images/shequ/img5.jpg"></span><span><img src="../images/shequ/img6.jpg"></span><span><img src="../images/shequ/img7.jpg"></span><span><img src="../images/shequ/img8.jpg"></span><span><img src="../images/shequ/img9.jpg"></span><span><img src="../images/shequ/img10.jpg"></span><span><img src="../images/shequ/img11.jpg"></span><span><img src="../images/shequ/img12.jpg"></span><span><img src="../images/shequ/img13.jpg"></span><span><img src="../images/shequ/img14.jpg"></span><span><img src="../images/shequ/img15.jpg"></span><span><img src="../images/shequ/img16.jpg"></span><span><img src="../images/shequ/img17.jpg"></span><span><img src="../images/shequ/img18.jpg"></span><span><img src="../images/shequ/img19.jpg"></span><span><img src="../images/shequ/img20.jpg"></span><span><img src="../images/shequ/img21.jpg"></span><span><img src="../images/shequ/img22.jpg"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="justified2-2">
-                    <li>
-                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
-                    </li>
-                    <li>
-                        <button class="btn btn-primary btn-lg btn-block">确定</button>
-                    </li>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<script src="../lib/jquery-1.8.1.min.js "></script>
+{% include 'commons/upload.html' %}
 
 <!--<script src="../lib/js/search.js" ></script>-->
-<script src="../lib/jquery-1.8.1.min.js "></script>
 <script type="text/javascript" >
   function to_log_out() {
     data={};
@@ -191,13 +165,12 @@
 //  })
   var flag;
   $('#search_input_community_post_person').keyup(function(){
-       $('ul.s-community').html("");
-       clearTimeout(flag);
-       flag = setTimeout(find_match_community(),500)
+        find_match_community();
        $('.suggest-container').removeClass('hide');
   })
- 
+
   function find_match_community(){
+  console.log('find')
        var name = $('#search_input_community_post_person').val();
        if(name.trim()!=""){
            $.ajax({
@@ -224,4 +197,14 @@
            })
        }
   }
+
+  $('a[href="#photo"]').click(function(){
+    var upload_type =  $(this).find('input').val();
+    alert(upload_type)
+    $('div#photo').find('input[name="from"]').val(upload_type);
+    alert($('div#photo').find('input[name="from"]').val())
+
+
+
+  })
 </script>
