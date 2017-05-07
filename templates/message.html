@@ -69,9 +69,9 @@
                             </div>
                             <div class="blockquote">
                                 {% if message.comment.parent %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
                             {% else %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -93,9 +93,9 @@
                             </div>
                             <div class="blockquote">
                                 {% if message.comment.parent %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
                             {% else %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                  <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
-                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                <a class="comm-font-color col-sm-12" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}"
                                 id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                  <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
-                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                <a class="comm-font-color col-sm-12" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}"
                                 id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
                             </div>
                         </div>
