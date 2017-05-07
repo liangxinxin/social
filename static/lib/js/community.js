@@ -109,7 +109,6 @@ $('#post_title').keyup(function(){
 
  $('button#submmit-btn').click(function(){
      //get title
-        alert(user_id)
        var title=$("input#post_title").val();
        //get content
        var content=$('#editor').html();
@@ -117,7 +116,7 @@ $('#post_title').keyup(function(){
           alert('标题不能为空');
           return;
        }
-       if(content.trim()=="" || content==null || content.length==0){
+       if($.trim(content)=="" || content==null || content.length==0){
           alert('内容不能为空');
           return;
        }

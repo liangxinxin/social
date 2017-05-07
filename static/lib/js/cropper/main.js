@@ -42,8 +42,6 @@
     this.$avatarbody = this.$avatarModal.find('.avatar-body');
     this.isCommendBlock = false;
     this.fromType = $("input[name=from]").val();
-    alert('asa')
-    console.log(this.fromType)
     this.init();
 
   }

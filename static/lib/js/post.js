@@ -57,6 +57,10 @@ $('#submmit-btn').click(function(){
             data['community_id'] = community_id;
             data['num_perpage'] = num_perpage;
             data['has_best'] = true;
+            if($.trim(content)=="" || content==null || content.length==0){
+                  alert('内容不能为空');
+                  return;
+            }
             $.ajax({
                 type: 'POST',
                 url: '/reply_publish',
@@ -66,7 +70,7 @@ $('#submmit-btn').click(function(){
                 success: function(data) {
                     if (data.reply !=null && data.total_page!=null){
                         total_page = data.total_page;
-                        $("#page").initPage(num_perpage,data.replycount,data.total_page,callback);
+                        $("#page").initPage(num_perpage,data.replycount,data.total_page,callbackPage);
                         $('#editor').empty();
                     }else{
                         alert('回复失败!');
