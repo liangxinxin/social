@@ -10,7 +10,7 @@ import  db_model_comment
 class Reply(db.Model):
     __tablename__='reply'
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, unique=False)
+    content = db.Column(db.LargeBinary, unique=False)
     create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),unique=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'),unique=False)
     floor = db.Column(db.Integer, unique=False)
