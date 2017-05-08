@@ -91,7 +91,7 @@ function getHuifuHtml(reply_id,comment_id){
                     <div class="input-huifu">\
                                 <input type="hidden" class="rid" value="'+reply_id+'">\
                                 <input type="hidden" class="cid" value="'+comment_id+'">\
-                                <div class="input-content" contenteditable="true"></div>\
+                                <div id="input-content" class="input-content" contenteditable="true"></div>\
                     </div>\
                  </div>';
     return huifu;
@@ -152,16 +152,41 @@ function summitHuifu(){
     }
 
 }
+
+function set_focus()
+{
+    el=document.getElementById('input-content');
+    //el=el[0];  //jquery 对象转dom对象
+    el.focus();
+    if($.support.msie)
+    {
+        var range = document.selection.createRange();
+        this.last = range;
+        range.moveToElementText(el);
+        range.select();
+        document.selection.empty(); //取消选中
+    }
+    else
+    {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+}
+
 function doHuifu(reply_id,comment_id){
     if(user_id>0){
         var huifu_input = getHuifuHtml(reply_id,comment_id);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
-        $('#item_'+reply_id).find('div.input-content').focus();
         var name = '';
         if(comment_id !=undefined && comment_id!=''){
            name=$('#comment_'+comment_id).find('div.content').find('a.name').text();
            $('#item_'+reply_id).find('div.input-content').html('回复'+name+':');
+           set_focus();
         }
     }else{
         alert('登录后才能回复哦！')
