@@ -92,6 +92,7 @@ jQuery.fn.extend({
 			caretPos.text = caretPos.text.charAt(caretPos.text.length-1) == '' ? 
 			textFeildValue+'' : textFeildValue; 
 		} else if(textObj.setSelectionRange){
+
 			var rangeStart=textObj.selectionStart;
 			var rangeEnd=textObj.selectionEnd; 
 			var tempStr1=textObj.value.substring(0,rangeStart);
@@ -105,7 +106,6 @@ jQuery.fn.extend({
 		var id = $(this).attr('id')
 		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
-        $("#"+id).focus();//插入表情后，光标定位在表情后
 
 	}
 

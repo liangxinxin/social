@@ -37,7 +37,7 @@ def base64_hander(content,path_type):
                 try:
                     decodedBytes = base64.decodestring(image)
                     if not os.path.exists(upload_path):
-                        os.makdirs(upload_path)
+                        os.makedirs(upload_path)
                     upload_path = upload_path + file_name
                     out = open(upload_path, 'w')
                     out.write(decodedBytes)

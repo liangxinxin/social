@@ -17,20 +17,21 @@ class Community(db.Model):
     last_update_time = db.Column(db.DateTime, unique=False)
     posts = db.relationship('Post', backref='community',lazy='dynamic')
 
-    def __init__(self,name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
+    def __init__(self,name,user_num,post_num,describe,head_img_url,create_user_id,owner_user_id,create_time):
         self.name = name
         self.user_num = user_num
         self.post_num = post_num
         self.describe= describe
         self.head_img_url=head_img_url
         self.create_user_id=create_user_id
+        self.owner_user_id = owner_user_id
         self.create_time=create_time
 
 def create_table():
     db.create_all()
 
-def insert(name,user_num,post_num,describe,head_img_url,create_user_id,create_time):
-    insert=Community(name=name,user_num=user_num,post_num=post_num,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
+def insert(name,user_num,post_num,describe,head_img_url,create_user_id,owner_user_id,create_time):
+    insert=Community(name=name,user_num=user_num,post_num=post_num,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,owner_user_id=owner_user_id,create_time=create_time)
     db.session.add(insert)
     db.session.commit()
     return insert
@@ -63,6 +64,7 @@ def update(community):
     row.head_img_url = community.head_img_url
     row.create_user_id = community.create_user_id
     row.create_time = community.create_time
+    row.owner_user_id = community.owner_user_id
     db.session.commit()
 
 def delete(id):
@@ -128,6 +130,7 @@ def to_json(object):
             'describe': object.describe,
             'head_img_url':object.head_img_url,
             'create_user_id':object.create_user_id,
+            'owner_user_id':object.owner_user_id,
             'create_time':object.create_time
         }
     else:

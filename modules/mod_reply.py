@@ -175,6 +175,8 @@ def publish_reply(request):
         like_num = 0
         status = 0
         last_update_time = create_time
+        path_type = 'reply'
+        content = mod_base64.base64_hander(content, path_type)
         print 'create reply--- content:', content, "user_id:", create_user_id, "post_id:", post_id, "community_id", community_id
         # insert to db
         db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time,status,last_update_time)
