@@ -251,7 +251,7 @@ function loadCommunityPost(page_no){
                                                 <div class="control-right">\
                                                     <div class="row-1x">\
                                                         <div class="group-span-1x"><span>'+post.create_time+'</span>\
-                                                        <span><a href="#"><em>评论</em></a><b>'+post.floor_num+'</b></span></div>\
+                                                        <span><a href="#"><em>回复</em></a><b>'+post.floor_num+'</b></span></div>\
                                                     </div>\
                                                 </div>\
                                             </div>\
