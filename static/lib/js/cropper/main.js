@@ -18,7 +18,6 @@
     this.$avatarView = $("a[href='#photo']") // click this to open upload page
     this.$avatar = this.$avatarView.find('img'); // the old shequ img
     this.$avatarModal = this.$container.find('.modal-body');
-    this.$loading = this.$container.find('.loading');
     this.$avatarSave = this.$container.find('#save');
     this.$avatarCancel = this.$container.find('#cancel');
     this.$avatarClose = this.$container.find('a.close');
@@ -36,12 +35,13 @@
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
     this.$commendPreview = this.$avatarModal.find('.commend-preview');
     this.$avatarCommendwrapper =this.$avatarModal.find('.photo-list');
+    this.$avatarCommImg =this.$avatarModal.find("photo-list>span");//系统推荐图片
 
 
     this.$avatarLocalBtn =this.$container.find("a[href=#m1]");
     this.$avatarbody = this.$avatarModal.find('.avatar-body');
     this.isCommendBlock = false;
-    this.fromType = $("input[name=from]").val();
+    this.fromType =$("input[name=from]").val();
     this.init();
 
   }
@@ -56,36 +56,32 @@
       formData: !!window.FormData
     },
 
-    close:function(){
+    closeModal:function(){
        this.cleanUploadData();
        this.cleanUpSelected();
+       this.$avatarModal.find('ul.base-tab>li.active').removeClass('active');
+
+
     },
     init: function () {
-    console.log('init')
       this.support.datauri = this.support.fileList && this.support.blobURLs;
       if (!this.support.formData) {
         this.initIframe();
       }
       this.$avatarInput.val("")
-      //this.initTooltip();
-      //this.initModal();
-      this.getDefaultImage();//初始化默认图片
-      this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
       this.addListener();
+      //this.initTooltip();
+      this.initModal();
       //shequ or user
-      this.$avatarModal.find('.preview').addClass(this.fromType)
-      if (this.fromType=='shequ' || this.fromType=='createShequ'){
-        this.$avatarModal.find('.preview').find('p.lg').text('100*78')
-        this.$avatarModal.find('.preview').find('p.md').text('50*39')
-      }
-
+      //this.fromType = $("input[name=from]").val();
     },
     uploadImage:function(){
         this.$avatarInput.click();
+        console.log('upload')
         this.isCommendBlock = false; //to record the submit is commend or upload
     },
     cleanUpSelected:function(){
-        this.$commendPreview.empty().html('');
+        //this.$commendPreview.empty().html('');
         this.$avatarCommendwrapper.find('span.active').removeClass('active');
     },
     cleanUploadData:function(){
@@ -101,15 +97,15 @@
 
     },
     addListener: function () {
-      this.$avatarView.on('click', $.proxy(this.click, this));
+      this.$avatarView.on('click', $.proxy(this.clickImg, this));
       this.$avatarInput.on('change', $.proxy(this.change, this));
       this.$avatarSave.on('click', $.proxy(this.submit, this));
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
       // add by lxx clear image data
-       this.$avatarUploadBtn.on('click',$.proxy(this.uploadImage, this));
-        this.$avatarCommImg.on('click',$.proxy(this.doSelected, this));
-        this.$avatarCancel.on('click', $.proxy(this.close, this));
-        this.$avatarClose.on('click', $.proxy(this.close, this));
+      this.$avatarUploadBtn.on('click',$.proxy(this.uploadImage, this));
+      this.$avatarCommImg.on('click',$.proxy(this.doSelected, this));
+      this.$avatarCancel.on('click', $.proxy(this.closeModal, this));
+      this.$avatarClose.on('click', $.proxy(this.closeModal, this));
 
     },
 
@@ -118,29 +114,42 @@
 //        placement: 'bottom'
 //      });
 //    },
-//
-//    initModal: function () {
+
+    initModal: function () {
 //      this.$avatarModal.modal({
 //        show: false
 //      });
-//    },
+    },
 
     initPreview: function () {
+      this.fromType = $("input[name=from]").val();
+      if(this.fromType=='user'){
+        this.$avatarView = $('#my_header').find("a[href='#photo']")
+      }else{
+        this.$avatarView = $('#community_header').find("a[href='#photo']")
+      }
       this.$avatar = this.$avatarView.find('img');
       var url = this.$avatar.attr('src');
-      this.$avatarModal.find('ul.base-tab>li.active').removeClass('active');
+      console.log(url)
       this.$avatarLocalBtn.click();
-      // select the choosen img
+      this.getDefaultImage();//初始化默认图片
+      this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
+      this.$avatarCommImg.on('click',$.proxy(this.doSelected, this)); //给图片绑定事件
       if (url.indexOf('upload') !=-1){
         this.$avatarPreview.empty().html('<img src="' + url + '">');
       }else{
-      this.$avatarPreview.empty();
-        this.$avatarCommendwrapper.find('span').each(function(){
+          //this.$avatarPreview.empty();
+          this.$avatarCommendwrapper.find('span').each(function(){
             if($.trim(url) ==$(this).find('img').attr('src')){
             $(this).addClass('active');
-        }
-      });
+            }
+          });
       }
+      if (this.fromType=='shequ'){
+        this.$avatarModal.find('.preview').find('p.lg').text('100*78')
+        this.$avatarModal.find('.preview').find('p.md').text('50*39')
+      }
+      this.$avatarModal.find('.preview').addClass(this.fromType)
 
     },
 
@@ -186,12 +195,8 @@
       this.$avatarForm.attr('target', target).after($iframe.hide());
     },
 
-    click: function () {
-     // this.$avatarModal.modal('show');
-      this.initPreview();
-      //alert('click')
-        console.log('aa')
-      //this.init();
+    clickImg: function () {
+       this.initPreview();
     },
 
     change: function () {
@@ -262,14 +267,13 @@
 
     startCropper: function () {
       var _this = this;
-
       if (this.active) {
         this.$img.cropper('replace', this.url);
       } else {
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
         var ratio = 1;
-        if(this.fromType=='shequ' || this.fromType=='createShequ'){
+        if(this.fromType=='shequ'){
             ratio=100/78;
         }
         this.$img.cropper({
@@ -301,7 +305,7 @@
         this.active = false;
       }
     },
-    callbackFun: function(data) {
+    requestFun: function(data) {
 
         var url = this.$avatarForm.attr('action'),
         _this = this;
@@ -351,17 +355,20 @@
     },
 
     submitStart: function () {
-      this.$loading.fadeIn();
+     // this.$loading.fadeIn();
     },
 
     submitDone: function (data) {
-      if(data.code===0){
-       $('#photo').find('.close').click();
-       $("a[href='#photo']").find('img').attr('src',data['data']);
-       return ;
+      if(data.code==0){
+          if(this.fromType=='user'){
+            $('div#my_header').find("a[href='#photo']").find('img').attr('src',data['data']);
+          }else if(this.fromType=='shequ'){
+            $('div#community_header').find("a[href='#photo']").find('img').attr('src',data['data']);
+          }
+          this.$avatarClose.click();
+          return ;
       }else if(data.code===1){
             alert('上传失败！')
-//          $("div.fail").fadeToggle(500);
           return;
       }
       if ($.isPlainObject(data) && data.code === 0) {
@@ -391,7 +398,7 @@
     },
 
     submitEnd: function () {
-      this.$loading.fadeOut();
+      //this.$loading.fadeOut();
     },
 
     cropDone: function () {
@@ -422,7 +429,7 @@
 
                data.append('image',base64);
                data.append('isDefault',false);//isDefault :true 使用系统默认的
-               this.callbackFun(data)	  // 回调base64字符串
+               this.requestFun(data)	  // 回调base64字符串
         }else{
             img.onload = function() {
                 this.width = imgw;
@@ -433,19 +440,18 @@
                 img.onload = null;
                 data.append('image',base64);
                 data.append('isDefault',false);//isDefault :true 使用系统默认的
-                this.callbackFun(data);  // 回调base64字符串
+                this.requestFun(data);  // 回调base64字符串
             }
         }
 
     },
     getBase64Image:function (data) {
-
        var  selectedImage = this.$avatarCommendwrapper.find('span.active>img');
-       if(typeof(selectedImage)=="undefined"){
+       var imagePath = selectedImage.attr("src");
+       if(typeof(imagePath)=="undefined"){
            alert('请先选择图片');
            return false;
        }
-       var imagePath = selectedImage.attr("src");
        var filename = imagePath;
        if(imagePath.indexOf("/")>0)//如果包含有"/"号 从最后一个"/"号+1的位置开始截取字符串
        {
@@ -453,39 +459,13 @@
        }
         var data = new FormData(this.$avatarForm[0]);
         data.append('filename',filename);
-        var canvas = document.createElement("canvas");
-        canvas.width = selectedImage.width;
-        canvas.height = selectedImage.height;
-        var ctx = canvas.getContext("2d");
-        //ctx.drawImage(this, 0, 0, selectedImageage.width, selectedImage.height);
-        var img = new Image();
-        img.src = selectedImage.attr('src');
-        if(img.complete){
-                ctx.drawImage(img, 0, 0, selectedImage.width, selectedImage.height);
-                var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
-
-               data.append('image',base64);
-               data.append('isDefault',true);//isDefault :true 使用系统默认的
-               console.log(this.fromType)
-               this.callbackFun(data);	  // 回调base64字符串
-        }else{
-            img.onload = function() {
-                ctx.drawImage(this, 0, 0, this.width, this.height);
-                var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
-                img.onload = null;
-                data.append('image',base64);
-                data.append('isDefault',true);//isDefault :true 使用系统默认的
-                console.log(this.fromType)
-                this.callbackFun(data);	  // 回调base64字符串
-            }
-        }
-
-        //callback && callback(data)
-        // return dataURL.replace("data:image/png;base64,", "");
+        data.append('isDefault',true);
+        this.requestFun(data);
+        return;
     },
     getDefaultImage:function () { //type:user获取人的默认头像，community：社区默认头像
         var url = '/get_default_image?type='+this.fromType;
-        var type = this.fromType;
+        var tempfromType = this.fromType;
         $.ajax(url, {
                 type: 'get',
                 data: "",
@@ -494,9 +474,10 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    if(type=='shequ'|| type=='createShequ'){
+                    if(tempfromType=='shequ'|| tempfromType=='createShequ'){
                         var imgs = [];
                         var res =data.result;
+                        console.log('leng:'+res.length)
                         for(var i=0;i<res.length;i++){
                             this.image= [
                                  '<span >',
@@ -505,8 +486,8 @@
                             imgs.push(this.image)
                         }
                         $('.photo-list').addClass('shequ');
-                         $('.photo-list').html(imgs);
-                    }else if(type=='user'){
+                        $('.photo-list').html(imgs);
+                    }else if(tempfromType=='user'){
                         var imgs = [];
                         var res =data.result;
                         for(var i=0;i<res.length;i++){

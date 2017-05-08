@@ -180,25 +180,27 @@ def community_new():
 @app.route('/community_create', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community_create():
-    model, community, has_join = mod_community.service(request)
+    #model, community, has_join = mod_community.service(request)
+    result = mod_community.service(request)
     messages_unread_num = 0
     private_unread_count,count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(request)
+    return jsonify(code=result['code'],community=result['data'])
     #  print model,community_id
-    if model != None and len(model.items) > 0:
-        messages_unread=mod_user.get_unread_message_from_session()
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-        return render_template('community.html', paginate=model, object_list=model.items, community=community, \
-                               has_join=has_join,private_unread_count=private_unread_count, \
-                               count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-                               messages_unread=messages_unread,messages_unread_num=messages_unread_num)
-    else:
-        messages_unread=mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num=len(messages_unread)
-        return render_template('community.html', community=community, has_join=has_join, \
-                               messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+    # if model != None and len(model.items) > 0:
+    #     messages_unread=mod_user.get_unread_message_from_session()
+    #     if messages_unread != None:
+    #         messages_unread_num=len(messages_unread)
+    #     return render_template('community.html', paginate=model, object_list=model.items, community=community, \
+    #                            has_join=has_join,private_unread_count=private_unread_count, \
+    #                            count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
+    #                            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
+    # else:
+    #     messages_unread=mod_user.get_unread_message_from_session()
+    #     messages_unread_num = 0
+    #     if messages_unread != None:
+    #         messages_unread_num=len(messages_unread)
+    #     return render_template('community.html', community=community, has_join=has_join, \
+    #                            messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/community', methods=['GET', 'POST'])
