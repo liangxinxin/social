@@ -29,7 +29,7 @@
         <div class="content">
             <h4 class="hname"><span>{{community.name}}</span>
                 {%if community.create_user_id == session.get('userinfo')['id'] %}
-                <a href="#modal" data-toggle="modal"><i class="icon-pencil"></i></a>
+                <a href="#modal_community" data-toggle="modal"><i class="icon-pencil"></i></a>
                 {%endif%}
             </h4>
             <p class="pdesc">{{community.describe}}</p>
@@ -65,7 +65,7 @@
                 </ul>
                 <div class="post-input ">
                     <h4>发新贴</h4>
-                    <h4>标题</h4>
+                   <!-- <h4>标题</h4> -->
                     <input type="hidden" id="submit" value="true">
                     <input onfocus="remove_match()" id="post_title" class="post-title-input" type="text" placeholder="标题" />
                     <div class="post-suggest-container hide">
@@ -94,7 +94,7 @@
 <div id="footer ">
     <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
 </div>
-<div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal modal-book-content" id="modal_community" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog modal-dialog-md">
         <div class="modal-content radius-none"><a class="close" aria-hidden="true" type="button"
                                                   data-dismiss="modal">×</a>
