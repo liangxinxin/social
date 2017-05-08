@@ -190,8 +190,13 @@ def select_hot_commend_community(request):
 
 def find_match_community(request):
     name = request.args.get('name')
+    community_name = name
+    index = community_name.find('岛'.decode('utf8'))
+    if index + 1 == len(community_name):
+        community_name = community_name[:index]
+    print community_name, name
     num_perpage = 10
-    paginate = db_model_community.select_by_name_paging(name, default_page_no, num_perpage)
+    paginate = db_model_community.select_by_name_paging(community_name, default_page_no, num_perpage)
     comm_list = []
     for item in paginate.items:
         comm_list.append(db_model_community.to_json(item))
