@@ -38,7 +38,7 @@ function loadHotPost(page_no){
                                     <div class="control-right">\
                                         <div class="row-1x">\
                                             <div class="group-span-1x">\
-                                            <span>'+post_list[i].create_time+'</span><span>来自：<a href="/community?id='+community.id+'&type=query">'+community.name+'</a></span><span><a href="#"><em>评论</em></a><b>'+post_list[i].floor_num+'</b></span>\
+                                            <span>'+post_list[i].create_time+'</span><span>来自：<a href="/community?id='+community.id+'&type=query">'+community.name+'岛</a></span><span><a href="#"><em>评论</em></a><b>'+post_list[i].floor_num+'</b></span>\
                                             </div>\
                                         </div>\
                                     </div>\
@@ -74,7 +74,7 @@ function loadHotCommunity(){
                 commend_wrap =commend_wrap+'<div class="community-block">\
                                        <div class="img"><img src="'+community.head_img_url+'"></div>\
                                        <div class="content">\
-                                           <h4><a href="community?id='+community.id+'&type=query">'+community.name+'</a></h4>\
+                                           <h4><a href="community?id='+community.id+'&type=query">'+community.name+'岛</a></h4>\
                                            <p>'+community.describe+'</p>\
                                        </div>\
                                        <div class="blk-1x"></div>\

@@ -76,7 +76,7 @@ function initPageData(pageNo,pageSize,totalCount,totalPages){
                                     <a href="#"><img src="'+community.head_img_url+'"></a>\
                                </div>\
                                 <div class="content">\
-                                    <h4><a href="community?id='+community.id+'&type=query">'+community.name+'</a></h4>\
+                                    <h4><a href="community?id='+community.id+'&type=query">'+community.name+'岛</a></h4>\
                                     <p>'+community.describe+'</p>\
                                     <div class="block-bar action">\
                                         <div class="row-1x">\
