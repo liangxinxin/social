@@ -9,7 +9,7 @@ default_path = 'http://jinrongdao.com:6100/images/'
 # base64 code convert to img src
 # add by lxx 2017-04-10
 def base64_hander(content,path_type):
-    soup = BeautifulSoup(content)
+    soup = BeautifulSoup(content,"html.parser")
     trs = soup.findAll("img")
     length = len(trs)
     print os.getcwd()
@@ -46,5 +46,9 @@ def base64_hander(content,path_type):
                 except Exception, e:
                     print 'base64_hander exception !',e
     soup = str(soup).replace('</img>','')
-    print soup
     return soup
+
+
+'''  MAIN ENTRY  '''
+if __name__ == '__main__':
+    base64_hander("我还没玩过，想了解一下，大家都来说说啊",'post')
