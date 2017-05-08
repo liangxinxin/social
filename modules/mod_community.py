@@ -9,6 +9,7 @@ from db_interface import db_model_action_type
 from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_user_community
+from db_interface import db_model_user
 
 default_page_no = 1
 default_num_perpage = 20
@@ -93,7 +94,8 @@ def get_community_info(request):
     info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=id)
     if info != None:
       has_join = True
-  return community,has_join
+  create_user=db_model_user.select_by_id(community.create_user_id)
+  return community,has_join,create_user
 
 def publish_community(request):
   print "publish community request"

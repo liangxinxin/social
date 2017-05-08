@@ -204,8 +204,8 @@ def community_create():
 @app.route('/community', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def community():
-    community, has_join = mod_community.service(request)
-    return render_template('community.html',has_join=has_join,community=community)
+    community, has_join,create_user = mod_community.service(request)
+    return render_template('community.html',has_join=has_join,community=community,create_user=create_user)
 
 
 @app.route('/get_community_post', methods=['GET'])
