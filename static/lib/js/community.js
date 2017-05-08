@@ -91,7 +91,7 @@ $('#post_title').keyup(function(){
 
                   if (posts !=null && posts.length>0){
                       for(var i =0;i<posts.length;i++){
-                        match_post =match_post +'<li><a href="/post?post_id='+posts[i].id+'&type=postInfo">'+posts[i].title+'</a></li>'
+                        match_post =match_post +'<li><a href="/post?id='+posts[i].id+'&type=postInfo">'+posts[i].title+'</a></li>'
                       }
                       $('#submit').val('false');
                       $('.match-post').empty().html(match_post);

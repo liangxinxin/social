@@ -112,7 +112,7 @@ def publish_community(request):
             create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
             print "now insert new community to db"
             data = db_model_community.insert(name=name, user_num=1, post_num=0, describe=describe,
-                                             head_img_url=head_img_url, create_user_id=create_user_id,
+                                             head_img_url=head_img_url, create_user_id=create_user_id,owner_user_id=create_user_id,
                                              create_time=create_time)
             # select db
             if data == None:

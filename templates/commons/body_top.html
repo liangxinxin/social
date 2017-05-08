@@ -195,8 +195,13 @@
   }
 
   function toCreate(){
-    var name = $('#search_input_community_post_person').val()
-    $("input[name='cummunityname']").val(name);
+    if(user_id>0){
+        var name = $('#search_input_community_post_person').val()
+        $("input[name='cummunityname']").val(name);
+    }else{
+        alert('登录后才能创建社区哦！')
+        return false;
+    }
   }
 
   function to_log_in() {
@@ -239,7 +244,12 @@
                      }
                      $('ul.s-community').html(drop_menu_html);
                    } else {
-                      drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                        var drop_menu_html='';
+                      if(user_id>0){
+                        drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                      }else{
+                         drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="javascript:void(0)" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                      }
                       $('ul.s-community').html(drop_menu_html);
                    }
                }

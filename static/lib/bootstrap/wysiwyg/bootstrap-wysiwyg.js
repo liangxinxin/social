@@ -70,6 +70,7 @@
 			},
 			restoreSelection = function () {
 				var selection = window.getSelection();
+				console.log(selection);
 				if (selectedRange) {
 					try {
 						selection.removeAllRanges();
@@ -77,6 +78,7 @@
 						document.body.createTextRange().select();
 						document.selection.empty();
 					}
+
 
 					selection.addRange(selectedRange);
 				}
@@ -86,7 +88,7 @@
 				$.each(files, function (idx, fileInfo) {
 					if (/^image\//.test(fileInfo.type)) {
 						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
-							execCommand('insertimage', dataUrl);
+							document.execCommand('InsertImage', false,dataUrl);
 						}).fail(function (e) {
 							options.fileUploadError("file-reader", e);
 						});
@@ -134,7 +136,7 @@
 					}
 				});
 				toolbar.find('input[type=file][data-' + options.commandRole + ']').change(function () {
-					restoreSelection();
+					//restoreSelection();  图片按顺序加载，解决：插入表情后，图片顺序出错
 					if (this.type === 'file' && this.files && this.files.length > 0) {
 						insertFiles(this.files);
 					}

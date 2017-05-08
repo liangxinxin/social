@@ -130,7 +130,6 @@
       }
       this.$avatar = this.$avatarView.find('img');
       var url = this.$avatar.attr('src');
-      console.log(url)
       this.$avatarLocalBtn.click();
       this.getDefaultImage();//初始化默认图片
       this.$avatarCommImg =this.$avatarModal.find("#m2>.photo-list>span");//系统推荐图片
