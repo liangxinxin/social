@@ -28,10 +28,10 @@
                         {% for community in community_list %}
                         <div class="item">
                             <div class="img">
-                                <a href="/community?community_id={{community.id}}"><img src="{{community.head_img_url}}"></a>
+                                <a href="/community?community_id={{community.id}}&type=query"><img src="{{community.head_img_url}}"></a>
                             </div>
                             <div class="content">
-                                <h4><a href="/community?community_id={{community.id}}">{{community.name}}</a></h4>
+                                <h4><a href="/community?community_id={{community.id}}&type=query">{{community.name}}</a></h4>
                                 <p>{{community.describe}}</p>
                                 <div class="block-bar">
                                     <div class="row-1x">

@@ -2,7 +2,6 @@
 import json
 import time
 
-
 from flask import session
 
 from db_interface import db_model_action
@@ -10,7 +9,6 @@ from db_interface import db_model_action_type
 from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_user_community
-import  time_format
 
 default_page_no = 1
 default_num_perpage = 20
@@ -98,57 +96,37 @@ def get_community_info(request):
   return community,has_join
 
 def publish_community(request):
-  result = {}
-  if session.get('userinfo'):
-    create_user_id = session.get('userinfo')['id']
-    print "publish community request"
-    #insert to db
-    name = request.form.get("name","default")
-    describe = request.form.get("describe","finance home")
-    head_img_url = request.form.get("head_img_url","https://img3.doubanio.com/icon/g35417-1.jpg")
-    try:
-      ISOTIMEFORMAT='%Y-%m-%d %X'
-      create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
-      #db_model_community.insert(title,content,create_user_id,community_id,floor_num,create_time,last_update_time)
-      print "now insert new community to db"
-      data=db_model_community.insert(name=name,user_num=1,post_num=0,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
-      #select db
-      if data == None:
-        result['code'] = 1
-        result['message'] = 'fail'
-        result['data'] = ''
-        return result
-      else:
-        db_model_user_community.insert(create_user_id, data.id, create_time)
-        data = db_model_community.to_json(data)
-      print "community id:",data['id']
-      print "record action of create community"
-      action_content={}
-      action_content['user_id']=int(create_user_id)
-      action_content['community_id']=int(data['id'])
-      db_model_action.insert(user_id=create_user_id,\
-             action_type_id=db_model_action_type.get_type_id('create_community'),\
-             action_detail_info=json.dumps(action_content, ensure_ascii = False),\
-             create_time=create_time)
-      result['code']= 0
-      result['data'] = data
-      result['message']='success'
-    except Exception,e:
-      print e
-      result['code'] = 1
-      result['message'] = 'fail'
-      result['data'] = ''
-  else:
-    result['code'] = 1
-    result['message'] = 'fail'
-    result['data'] = ''
-    print 'user is null'
-  # paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,data.id)
-  # print "now data:",paginate.items,len(paginate.items)
-  #has_join=True
-  #return paginate,data,has_join
+  print "publish community request"
+  #insert to db
+  name = request.form.get("name","default")
+  describe = request.form.get("describe","finance home")
+  create_user_id = request.form.get("create_user_id",0)
+  head_img_url = request.form.get("head_img_url","https://img3.doubanio.com/icon/g35417-1.jpg")
+
+  ISOTIMEFORMAT='%Y-%m-%d %X'
+  create_time=time.strftime(ISOTIMEFORMAT,time.localtime())
+  #db_model_community.insert(title,content,create_user_id,community_id,floor_num,create_time,last_update_time)
+  print "now insert new community to db"
+  data=db_model_community.insert(name=name,user_num=1,post_num=0,describe=describe,head_img_url=head_img_url,create_user_id=create_user_id,create_time=create_time)
+  #select db
+  if data == None:
+    return None,0
+  print "community id:",data.id
+  
+  print "record action of create community"
+  action_content={}
+  action_content['user_id']=create_user_id
+  action_content['community_id']=data.id
+  db_model_action.insert(user_id=create_user_id,\
+         action_type_id=db_model_action_type.get_type_id('create_community'),\
+         action_detail_info=json.dumps(action_content, ensure_ascii = False),\
+         create_time=create_time)  
+ 
+  paginate=db_model_post.select_all_paging(default_page_no,default_num_perpage,data.id)
+  print "now data:",paginate.items,len(paginate.items)
+  has_join=True
+  return paginate,data,has_join 
   #return select value
-  return result
 
 def get_default_communities(page_no, page_size):
   print "get default communities:"

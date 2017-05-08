@@ -60,18 +60,18 @@
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list %}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                                 <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote">
                                 {% if message.comment.parent %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
                             {% else %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -84,18 +84,18 @@
                         {%endif%}
                         {% for message in read_list %}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.comment.user.id}}"><img src="{{message.comment.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.comment.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                                 <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote">
                                 {% if message.comment.parent %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.comment.parent.content|safe}}</a>
                             {% else %}
-                                <a  href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
+                                <a  href="/post?id={{message.post_id}}&type=postInfo&commentid={{message.comment.id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}"><span class="text-muted">评论帖子：</span>{{message.reply.content|safe}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -110,14 +110,14 @@
                         {% if unread_num>0 and no==1 %}
                         {% for message in unread_list%}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                             </div>
                             <div class="blockquote"><span class="text-muted">赞了你的回帖：</span>
-                                <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
+                                <a class="comm-font-color" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
                                 </a>
                             </div>
                         </div>
@@ -130,14 +130,14 @@
                         {%endif%}
                         {% for message in read_list %}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                             </div>
                             <div class="blockquote"><span class="text-muted">赞了你的回帖：</span>
-                                <a class="comm-font-color" href="/post?post_id={{message.post_id}}&community_id={{message.post.community_id}}#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
+                                <a class="comm-font-color" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}" id="CM_content_{{message.id}}">{{message.reply.content|safe}}
                                 </a>
                             </div>
                         </div>
@@ -152,15 +152,15 @@
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list%}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                                  <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
-                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                <a class="comm-font-color col-sm-12" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}"
                                 id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
                             </div>
                         </div>
@@ -174,15 +174,15 @@
                         {%endif%}
                         {% for message in read_list%}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span>
                                 </div>
                                  <p>{{message.comment.content|safe}}</p>
                             </div>
                             <div class="blockquote"><span class="text-muted">回复了您的帖子：</span>
-                                <a class="comm-font-color col-sm-12" href="/post?post_id={{message.post_id}}&community_id={{message.community_id}}#here_{{message.reply_id}}"
+                                <a class="comm-font-color col-sm-12" href="/post?id={{message.post_id}}&type=postInfo#here_{{message.reply_id}}"
                                 id="CM_content_{{message.id}}">{{message.post.content|safe}}</a> 
                             </div>
                         </div>
@@ -197,10 +197,10 @@
                         <div class="unread_mess_list col-sm-12">您有<span style="color:red;">{{unread_num}}</span>条未读消息</div>
                         {% for message in unread_list%}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar followed">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
                                 </div>
                             </div>
                         </div>
@@ -213,10 +213,10 @@
                         {%endif%}
                         {% for message in read_list%}
                         <div class="item">
-                            <div class="photo"><a href="/user_info?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
+                            <div class="photo"><a href="/user_info_post?user_id={{message.user.id}}"><img src="{{message.user.head_img_url}}"></a></div>
                             <div class="content">
                                 <div class="block-bar followed">
-                                    <a href="/user_info?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
+                                    <a href="/user_info_post?user_id={{message.user.id}}"><span>{{message.user.name}}</span></a><span class="offset-1x">{{message.create_time}}</span><span class="p">关注了您</span>
                                 </div>
                             </div>
                         </div>

@@ -49,6 +49,10 @@ if __name__ == '__main__':
     print 'create table start'
     print 'create table default_image...'
     db_default_image.create_table()
+    print 'create default user image...'
+    db_default_image.create_default_user_img()
+    print 'create default community image...'
+    db_default_image.create_default_community_img()
     print 'create table user_relation...'
     db_model_user_relation.create_table()
     print 'create table message_type...'
