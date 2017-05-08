@@ -83,7 +83,6 @@ jQuery.fn.extend({
 		};
 		$(this).click(initSetCaret).select(initSetCaret).keyup(initSetCaret);
 	},
-
 	insertAtCaret: function(textFeildValue){
 		var textObj = $(this).get(0);
 		textObj.value = textObj.innerHTML
@@ -106,7 +105,8 @@ jQuery.fn.extend({
 		var id = $(this).attr('id')
 		$("#"+id).focus();
         document.execCommand('InsertImage', false, $(img).attr('src'));
-        //$("#"+id).focus();//插入表情后，光标定位在表情后
+        $("#"+id).focus();//插入表情后，光标定位在表情后
 
-	} 
+	}
+
 });

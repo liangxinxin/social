@@ -1,9 +1,9 @@
-<div class="my-header">
+<div id="my_header" class="my-header">
     {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
      <div class="img im">
          <a href="#photo" data-toggle="modal">
              <img alt="user" src="{{view_user_info.head_img_url}}">
-             <input type="hidden" value="user">
+             <input name="from" type="hidden" value="user">
          </a>
      </div>
     {% else %}
@@ -27,6 +27,9 @@
      <div id="user_info_right_control" class="right-control"><a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
      {% endif %}
  </div>
+{% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
+{% include 'commons/upload.html'%}
+{%endif%}
 <script type="text/javascript" >
 var user_id =0;
 getLoginInfo();
@@ -45,6 +48,10 @@ $('#chat').click(function(){
 </script>
 {% if view_user_info %}
 <script type="text/javascript" >
+ $('a[href="#photo"]').click(function(){
+    var upload_type =  $(this).find('input').val();
+    $('div#photo').find('input[name="from"]').val(upload_type);
+  })
     function add_relation(){
         {% if session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
         $.ajax({

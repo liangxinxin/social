@@ -45,8 +45,11 @@ def upload_head_image(request):
         savePath = default_path + type + '/' + oriFileName
         if type == 'user':
             db_model_user.save_head_image(user_id, savePath)
-        else:
+        elif type == 'shequ':
             db_model_community.save_head_image(community_id, savePath,update_time)
+        elif type == 'createShequ':
+            savePath = default_path + 'shequ' + '/' + oriFileName
+        print 'upload image type',type
         message = "success"
         result = {"message": message, "code": 0,"data":savePath}
     else:

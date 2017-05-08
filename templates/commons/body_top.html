@@ -8,7 +8,7 @@
         <div class="top-search">
             <div class="search-group">
                 <div class="input-group">
-                    <input id="search_input_community_post_person" type="text" class="form-control" placeholder="搜索社区和帖子" />
+                    <input id="search_input_community_post_person" type="text" class="form-control"  placeholder="搜索社区和帖子" />
                     <div class="input-group-btn">
                         <button class="btn btn-primary"><i class="icon-search"></i></button>
                     </div>
@@ -19,9 +19,7 @@
                                 <div class="heading">社区</div>
                                 <div class="body">
                                     <ul class="s-community">
-                                        <li>目前还没有<span class="text-primary">金融</span>社区<span class="offset-1x"><a href="#modal" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>
-                                        <li><a href="#"><span class="img"><img src="../images/shequ/img1.jpg"></span><span>金融岛</span></a></li>
-                                        <li><a href="#"><span class="img"><img src="../images/shequ/img1.jpg"></span><span>金融理财</span></a></li>
+                                        <!---->
                                     </ul>
                                 </div>
                             </div>
@@ -96,23 +94,23 @@
 </div>
 
 
-<div class="modal modal-book-content" id="modal" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal modal-book-content" id="modal_new" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog modal-dialog-md">
-        <div class="modal-content radius-none"> <a class="close" aria-hidden="true" type="button" data-dismiss="modal">×</a>
+        <div class="modal-content radius-none">
             <div class="modal-body clearfix relative">
             <div class="content-box topic-creat">
             <div class="pull-content img text-center">
-                <a onclick="" href="#photo" data-toggle="modal">
-                    <img alt="shequ" src="../images/imgs.png">
+                <a  href="#photo" data-toggle="modal">
+                    <img alt="shequ" src="../images/img.png">
                     <input type="hidden" value="createShequ">
                 </a></div>
             <div class="content">
                 <div class="form-inline">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="输入社区标题" >
+                        <input name="cummunityname" type="text"  class="form-control" placeholder="输入社区标题" >
                     </div>
                     <div class="form-group">
-                        <textarea name="" class="form-control" placeholder="输入社区简介，提升人气" ></textarea>
+                        <textarea name="communitydesc" class="form-control" placeholder="输入社区简介，提升人气" ></textarea>
                     </div>
                 </div>
             </div>
@@ -124,7 +122,7 @@
                         <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block">创建社区</button>
+                        <button id="createCommunity" class="btn btn-primary btn-lg btn-block">创建社区</button>
                     </li>
                 </div>
             </div>
@@ -132,10 +130,49 @@
     </div>
 </div>
 <script src="../lib/jquery-1.8.1.min.js "></script>
-{% include 'commons/upload.html' %}
-
-<!--<script src="../lib/js/search.js" ></script>-->
 <script type="text/javascript" >
+    var user_id =0;
+    getLoginInfo();
+    function getLoginInfo(){
+        {% if session.get('userinfo')%}
+            user_id = {{session.get('userinfo')['id']}};
+        {%endif%}
+    }
+    $('#createCommunity').click(function(){
+       var name=$("input[name='cummunityname']").val();
+       var desc=$('textarea[name="communitydesc"]').val();
+       if($.trim(desc)=="" || $.trim(desc)=="输入社区简介，提升人气" || desc.length==0){
+          alert('请输入社区简介');
+          return;
+       }
+       var head_img_url = $('#modal_new').find('a[href="#photo"]').find('img').attr('src');
+        var data={};
+        data['name'] =name;
+        data['describe'] = desc;
+        data['head_img_url'] = head_img_url;
+        data['type']='publish'
+        $.ajax({
+          type:'POST',
+          url:'/community_create',
+          data:data,
+          dataType:'json',
+          success:function(data){
+            if (data['code']==0){
+                community = data.community
+                window.location.href='/community?id='+community.id+'&type=query';
+            }else{
+                alert('创建失败！')
+            }
+            $("input[name='cummunityname']").val('');
+            $('textarea[name="communitydesc"]').val('');
+          },
+          error:function(xhr,type) {
+            alert('创建失败！');
+          }
+        });
+        return false;
+    })
+
   function to_log_out() {
     data={};
     $.ajax({
@@ -156,21 +193,33 @@
     });
     return false;
   }
+
+  function toCreate(){
+    var name = $('#search_input_community_post_person').val()
+    $("input[name='cummunityname']").val(name);
+  }
+
   function to_log_in() {
      var cur_url=this.location.href;
      window.location.href="/login?next_url="+cur_url;
   }
-//  $('#search_input_community_post_person').blur(function(){
-//      $('.suggest-container').addClass('hide');
-//  })
+  <!--$('#search_input_community_post_person').blur(function(){-->
+      <!--$('.suggest-container').addClass('hide');-->
+  <!--})-->
   var flag;
   $('#search_input_community_post_person').keyup(function(){
-        find_match_community();
+       find_match_community();
        $('.suggest-container').removeClass('hide');
+       clearTimeout(flag);
+       //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+       //只要有输入则不执行keyup事件
+       flag = setTimeout(function(){
+       //这里面就是调用的请求
+        find_match_community();
+       }, 500);
   })
 
   function find_match_community(){
-  console.log('find')
        var name = $('#search_input_community_post_person').val();
        if(name.trim()!=""){
            $.ajax({
@@ -190,7 +239,7 @@
                      }
                      $('ul.s-community').html(drop_menu_html);
                    } else {
-                      drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a href="#modal" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                      drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
                       $('ul.s-community').html(drop_menu_html);
                    }
                }
@@ -198,13 +247,4 @@
        }
   }
 
-  $('a[href="#photo"]').click(function(){
-    var upload_type =  $(this).find('input').val();
-    alert(upload_type)
-    $('div#photo').find('input[name="from"]').val(upload_type);
-    alert($('div#photo').find('input[name="from"]').val())
-
-
-
-  })
 </script>
