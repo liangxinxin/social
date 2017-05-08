@@ -48,7 +48,3 @@ def base64_hander(content,path_type):
     soup = str(soup).replace('</img>','')
     return soup
 
-
-'''  MAIN ENTRY  '''
-if __name__ == '__main__':
-    base64_hander("我还没玩过，想了解一下，大家都来说说啊",'post')
