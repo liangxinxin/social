@@ -111,5 +111,5 @@ def user_has_join_community(community_id):
     info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
     if info != None:
       has_join = True 
-  print "user:",user_id,"community:",community_id," join:",has_join
+    print "user:",user_id,"community:",community_id," join:",has_join
   return has_join
