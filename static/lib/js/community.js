@@ -147,32 +147,6 @@ $('#post_title').keyup(function(){
      temp.submit();
      return temp;
  }
-//function publish_post() {
-//    <!--find_match_post();-->
-//     var is_submit =  $('#submit').val()
-//     if(is_submit=='true'){
-//     //get title
-//       var title=document.getElementById("post_title").value;
-//       //get content
-//       var content=$('#editor').html();
-//       if (title==""){
-//          alert('标题不能为空');
-//          return;
-//       }
-//       if(content.trim()=="" || content==null || content.length==0){
-//          alert('内容不能为空');
-//          return;
-//       }
-//       var id=document.getElementById("community_id").value;
-//       //post request for save post
-//       if(user_id>0){
-//        post("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
-//       }else{
-//        alert('您需要登录后才能发帖哦！');
-//       }
-//     }
-// }
-
 
 function load_commend_community(){
     var data = {}
@@ -194,7 +168,7 @@ function load_commend_community(){
                 commend_wrap =commend_wrap+'<div class="community-block">\
                                        <div class="img"><img src="'+community.head_img_url+'"></div>\
                                        <div class="content">\
-                                           <h4><a href="#">'+community.name+'</a></h4>\
+                                           <h4><a href="community?id='+community.id+'&type=query"">'+community.name+'</a></h4>\
                                            <p>'+community.describe+'</p>\
                                        </div>\
                                        <div class="blk-1x"></div>\

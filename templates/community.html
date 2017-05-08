@@ -39,7 +39,7 @@
                         <span><em>帖子</em><b class="comm_post_num">{{community.post_num}}</b></span>
                         <span><em>成员</em><b class="comm_user_num">{{community.user_num}}</b></span>
                         {% if create_user %}
-                        <span><em>岛主</em><b class="comm_user_num"><a href="http://jinrongdao.com:6100/user_info_post?user_id={{create_user.id}}"> {{create_user.name}}</a></b></span>
+                        <span><em>岛主</em><b class="community_owner"><a href="http://jinrongdao.com:6100/user_info_post?user_id={{create_user.id}}"> {{create_user.name}}</a></b></span>
                         {% endif %}
                     </div>
                 </div>
