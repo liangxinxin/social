@@ -39,28 +39,28 @@
                 <li><a data-toggle="dropdown" href="#"><i class="icon-bell"></i></a>
                 {% endif %}
                     <ul class="dropdown-menu ">
-                        <li target="_blank"><a href="/message?type=message_all&message_type=4">
+                        <li target="_blank"><a href="/message?type=4">
                             {% if count_reply %}
                             <span class="badge">{{count_reply}}</span>
                             {% endif %}
                             <span>评论</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="/message?type=message_all&message_type=2">
+                        <li target="_blank"><a href="/message?type=2">
                             {% if count_do_good %}
                             <span class="badge">{{count_do_good}}</span>
                             {% endif %}
                             <span>赞</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="/message?type=message_all&message_type=3">
+                        <li target="_blank"><a href="/message?type=3">
                             {% if count_comment %}
                             <span class="badge">{{count_comment}}</span>
                             {% endif %}
                             <span>回复</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="message?type=message_all&message_type=1">
+                        <li target="_blank"><a href="message?type=1">
                             {% if count_guanzhu %}
                             <span class="badge">{{count_guanzhu}}</span>
                             {% endif %}

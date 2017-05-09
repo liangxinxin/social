@@ -37,7 +37,6 @@ def service(request):
         else:
             print "error request:", request
     elif request.method == 'GET':
-
         user_id = request.args.get("user_id", 0)
         if user_id != 0:
             return query_user_info(request)
@@ -351,13 +350,10 @@ def community_create(request):
 
 def update_user(request):
     result={}
-
     if session.get('userinfo')['id']:
         try:
             userid= int(session.get('userinfo')['id'])
             user = db_model_user.select_by_id(userid)
-            #type = param['type']
-            #if type=='name':
             username = request.form.get('user_name')
             user.name = username
             label = request.form.get('user_label')
@@ -376,5 +372,4 @@ def update_user(request):
         result['code'] = 1
         request['message'] = 'user not login'
 
-    #print 'type',type,'code',result['code'],'message',result['message']
     return result

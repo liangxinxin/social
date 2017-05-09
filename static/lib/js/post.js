@@ -321,7 +321,6 @@ function getReplyHtml(reply,comment_wrap,isBest){
     }
     if(isBest){
         is_best = '<div class="best-like"></div>';
-        console.log(is_update)
         is_update ='';
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item" >\
