@@ -39,37 +39,37 @@
                 <li><a data-toggle="dropdown" href="#"><i class="icon-bell"></i></a>
                 {% endif %}
                     <ul class="dropdown-menu ">
-                        <li target="_blank"><a href="/message?type=4">
-                            {% if count_reply %}
-                            <span class="badge">{{count_reply}}</span>
+                        <li target="_blank"><a href="/message?type=query&message_type=4">
+                            {% if mess_dict['reply'] %}
+                            <span class="badge">{{mess_dict['reply']}}</span>
                             {% endif %}
                             <span>评论</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="/message?type=2">
-                            {% if count_do_good %}
-                            <span class="badge">{{count_do_good}}</span>
+                        <li target="_blank"><a href="/message?type=query&message_type=2">
+                            {% if mess_dict['zan'] %}
+                            <span class="badge">{{mess_dict['zan']}}</span>
                             {% endif %}
                             <span>赞</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="/message?type=3">
-                            {% if count_comment %}
-                            <span class="badge">{{count_comment}}</span>
+                        <li target="_blank"><a href="/message?type=query&message_type=3">
+                            {% if mess_dict['comment'] %}
+                            <span class="badge">{{mess_dict['comment']}}</span>
                             {% endif %}
                             <span>回复</span>
                             </a>
                         </li>
-                        <li target="_blank"><a href="message?type=1">
-                            {% if count_guanzhu %}
-                            <span class="badge">{{count_guanzhu}}</span>
+                        <li target="_blank"><a href="message?type=query&message_type=1">
+                            {% if mess_dict['guanzhu'] %}
+                            <span class="badge">{{mess_dict['guanzhu']}}</span>
                             {% endif %}
                            <span>关注</span>
                            </a>
                         </li>
                         <li target="_blank"><a href="/private_message">
-                            {% if private_unread_count %}
-                            <span class="badge">{{private_unread_count}}</span>
+                            {% if mess_dict['sixin'] %}
+                            <span class="badge">{{mess_dict['sixin']}}</span>
                             {% endif %}
                            <span>私信</span>
                            </a>

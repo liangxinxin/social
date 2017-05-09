@@ -37,9 +37,7 @@ def service(request):
         else:
             print "error request:", request
     elif request.method == 'GET':
-        user_id = request.args.get("user_id", 0)
-        if user_id != 0:
-            return query_user_info(request)
+        return query_user_info(request)
 
 
 def create_user(request):
@@ -145,10 +143,15 @@ def check_user_name(request):
     return result
 
 def query_user_info(request):
-    print "now query user info from id"
-    user_id = request.args.get("user_id")
-    user_info = db_model_user.select_by_id(user_id)
-    return user_info
+    print "now query  user info "
+    user_info = None
+    if session.get('userinfo')['id']:
+        user_id = session.get('userinfo')['id']
+        #user_id = request.args.get("user_id")
+        user_info = db_model_user.select_by_id(user_id)
+        return user_info
+    else:
+        return user_info
 
 def get_user_post(request):
     user_id = request.args.get("user_id")

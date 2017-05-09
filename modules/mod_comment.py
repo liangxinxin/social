@@ -75,7 +75,7 @@ def publish_comment(request):
         data = db_model_comment.insert(content,create_user_id,reply_id,community_id,post_id,to_user_id,parent_id,floor,create_time,status,last_upate_time)
         db_model_reply.update_floor_num(reply_id, floor)
         if create_user_id != to_user_id:
-            db_model_message.insert_comment_message(data.id)
+            db_model_message.insert_comment_message(create_user_id,to_user_id,data.id)
 
         print "record action of create post"
         action_content={}
