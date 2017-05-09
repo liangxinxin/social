@@ -61,7 +61,7 @@ function getHistoryMessage(to_user_id){
     $(".friend-list>li").removeClass('active');
     $('.friend-list>li#u_'+to_user_id).addClass('active');
     $('#chatWith').val(to_user_id);
-    $('.friend-list>li#u_'+to_user_id).find('span.circle_sm').remove();
+    $('.friend-list>li#u_'+to_user_id).find('b.circle_sm').remove();
     var data = {}
     data['type']='history_message';
     data['to_user_id'] = to_user_id;

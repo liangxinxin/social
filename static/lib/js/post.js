@@ -321,6 +321,8 @@ function getReplyHtml(reply,comment_wrap,isBest){
     }
     if(isBest){
         is_best = '<div class="best-like"></div>';
+        console.log(is_update)
+        is_update ='';
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item" >\
             <input class="hide-reply-num" type="hidden" value ="'+reply.floor_num+'">\
@@ -333,7 +335,7 @@ function getReplyHtml(reply,comment_wrap,isBest){
                     <span><a href="user_info_post?type=1&user_id='+user.id+'">'+reply.user.name+'</a></span>\
                     <span>'+reply.last_update_time+'</span>\
                 </div>\
-                <p>'+reply.content+'</p>\
+                <div class="cp"><p>'+reply.content+'</p></div>\
                 <div class="block-bar action">\
                     <span class="reply-btn-span"><a onClick="doHuifuReply('+reply.id+')" href="javascript:void(0)">回复</a></span>'+comment_num+'\
                     '+is_delete+'\
@@ -351,11 +353,13 @@ function getReplyHtml(reply,comment_wrap,isBest){
         </div>';
     return reply_wrap;
 }
+console.log('2222');
 function toUpdate(reply_id){
     var content = $('#item_'+reply_id).find('div.content').find('p');
-    $(content).addClass('hide');
+    content.addClass('hide');
     $('.update-reply').removeClass('hide')
-    $(content).after($('.update-reply'));
+
+    $('#item_'+reply_id).find('div.cp').append($('.update-reply'));
     $('.update-reply').find('input#param').val(String(reply_id));
     $('div.update-reply').find('div#update').focus();
     $('div.update-reply').find('div#update').html($(content).html());
@@ -386,6 +390,7 @@ function doUpdate(){
         success: function(data) {
             if (data.result== 0) {
                 $('.post-list').before($('.update-reply').addClass('hide'));
+                $('#item_'+reply_id).find('.update-reply').remove();
                 $('#item_'+reply_id).find('div.content').find('p').html(content);
                 cancelUpdate();
             } else {

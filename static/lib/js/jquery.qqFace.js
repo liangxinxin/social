@@ -83,6 +83,37 @@ jQuery.fn.extend({
 		};
 		$(this).click(initSetCaret).select(initSetCaret).keyup(initSetCaret);
 	},
+	set_focus:function(id){
+	    console.log(id)
+        el=document.getElementById(id);
+        //el=el[0];  //jquery 对象转dom对象
+        el.focus();
+        if($.support.msie){
+            var range = document.selection.createRange();
+            this.last = range;
+            range.moveToElementText(el);
+            range.select();
+            document.selection.empty(); //取消选中
+        }
+        else{
+//            var range = document.createRange();
+//            range.selectNodeContents(el);
+//            range.collapse(false);
+//            console.log(range)
+//            var sel = window.getSelection();
+//            sel.removeAllRanges();
+//            sel.addRange(range);
+
+            var textbox = document.getElementById(id);
+            var sel = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(textbox);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+    },
 	insertAtCaret: function(textFeildValue){
 		var textObj = $(this).get(0);
 		textObj.value = textObj.innerHTML
@@ -104,9 +135,11 @@ jQuery.fn.extend({
 			textObj.value=textFeildValue;
 		}
 		var id = $(this).attr('id')
+		//$("#"+id).append($(img))
 		$("#"+id).focus();
-        document.execCommand('InsertImage', false, $(img).attr('src'));
-
+		$("#"+id).append($(img))
+        //document.execCommand('InsertImage', false, $(img).attr('src'));
+        $("#"+id).set_focus(id);
 	}
 
 });

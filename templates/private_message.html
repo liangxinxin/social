@@ -32,10 +32,11 @@
                         {% for i in range(user_num)%}
                         <li id="u_{{user_list[i].id}}" onclick="getHistoryMessage({{user_list[i].id}})">
                             <span><img src="{{user_list[i].head_img_url}}"></span>
-                            <span>{{user_list[i].name}}</span>
+                            <span>{{user_list[i].name}}
                             {%if unread_count_list[i] %}
-                            <span class="circle_sm">{{unread_count_list[i]}}</span>
+                            <b class="circle_sm">{{unread_count_list[i]}}</b>
                             {%endif%}
+                            </span>
                         </li>
                         {% endfor %}
                         {% endif%}

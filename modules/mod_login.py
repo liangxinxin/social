@@ -14,7 +14,10 @@ def service(request):
     new_param = []
     for item in param:
         if item[0]=='next_url':
-            new_param.append(item[1])
+            if item[1].find('private_message')==-1:
+                new_param.append(item[1])
+            else:
+                new_param.append('/index')
             continue
         new_param.append(item[0] + '=' + item[1])
     next_url = '&'.join(new_param)
