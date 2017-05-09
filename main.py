@@ -207,7 +207,16 @@ def community_create():
 # @interceptor(login_required=True)
 def community():
     community, has_join,create_user = mod_community.service(request)
-    return render_template('community.html',has_join=has_join,community=community,create_user=create_user)
+    private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+        request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    return render_template('community.html',has_join=has_join,community=community,create_user=create_user,\
+                           count_comment=count_comment, count_reply=count_reply,\
+                           count_guanzhu=count_guanzhu,messages_unread_num=messages_unread_num, \
+                           count_do_good=count_do_good, private_unread_count=private_unread_count)
 
 
 @app.route('/get_community_post', methods=['GET'])
@@ -268,10 +277,6 @@ def post_publish():
     if messages_unread != None:
         messages_unread_num=len(messages_unread)
     return redirect(url_for('community', id=community.id,type='query'))
-    # return render_template('community.html', paginate=model, post_num=post_num,\
-    #     object_list=model.items,user_list=user_list, community=community, has_join=has_join, \
-    #     private_unread_count=private_unread_count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,count_do_good=count_do_good, \
-    #     messages_unread=messages_unread,messages_unread_num=messages_unread_num)
 
 
 @app.route('/post', methods=['GET'])
@@ -280,7 +285,15 @@ def post():
     post =  mod_post.service(request)
     if post:
         has_join = mod_user_community.user_has_join_community(post.community_id)
-        return render_template('post.html',post=post,has_join=has_join)
+        private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+            request)
+        messages_unread = mod_user.get_unread_message_from_session()
+        messages_unread_num = 0
+        if messages_unread != None:
+            messages_unread_num = len(messages_unread)
+        return render_template('post.html',post=post,has_join=has_join,count_comment = count_comment, count_reply = count_reply,
+        count_guanzhu = count_guanzhu, messages_unread_num =messages_unread_num,\
+                        count_do_good = count_do_good, private_unread_count = private_unread_count)
     else:
         msg='页面找不到了'
         redirect(url_for('error',msg=''))
@@ -599,7 +612,14 @@ def forget_password():
 @app.route('/index', methods=['GET'])
 def index():
     count = mod_post.service(request)
-    return render_template('index.html',total=count)
+    private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+        request)
+    messages_unread = mod_user.get_unread_message_from_session()
+    messages_unread_num = 0
+    if messages_unread != None:
+        messages_unread_num = len(messages_unread)
+    return render_template('index.html',total=count,count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu,\
+                           count_do_good=count_do_good,private_unread_count=private_unread_count,messages_unread_num=messages_unread_num)
 
 @app.route('/get_hot_post', methods=['GET'])
 def good_post_list():
@@ -707,7 +727,18 @@ def private_message():
    to_user, user_list, unread_count_list, user_num= mod_private_message.select_recent_user(request)
    ISOTIMEFORMAT = '%Y-%m-%d'
    today = time.strftime(ISOTIMEFORMAT, time.localtime())
-   return render_template('private_message.html',today=today,to_user=to_user,user_list=user_list,unread_count_list=unread_count_list,user_num=user_num)
+
+   private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+       request)
+   messages_unread = mod_user.get_unread_message_from_session()
+   messages_unread_num = 0
+   if messages_unread != None:
+       messages_unread_num = len(messages_unread)
+
+   return render_template('private_message.html',today=today,to_user=to_user,user_list=user_list,unread_count_list=unread_count_list,user_num=user_num,
+                          count_comment=count_comment, count_reply=count_reply, \
+                          count_guanzhu=count_guanzhu, messages_unread_num=messages_unread_num,\
+           count_do_good = count_do_good, private_unread_count = private_unread_count)
 
 
 @app.route('/save_message',methods=['GET', 'POST'])
