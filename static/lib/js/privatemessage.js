@@ -76,7 +76,7 @@ function getHistoryMessage(to_user_id){
             var mess_list= data.result;
             if(mess_list.length>0){
                 for(var i =0;i<mess_list.length;i++){
-                        if(mess_list[i].create_user_id==user_id){
+                        if(mess_list[i].create_user_id==login_user_id){
                             new_message+=makeMineHtml(mess_list[i])
                         }else{
                             new_message+=makeChaterhtml(mess_list[i])
