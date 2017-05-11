@@ -13,7 +13,7 @@ function initPageData(pageNo,pageSize,totalCount,totalPages){
                         console.debug("current page number clicked, do nothing.");
                         return;
                     }
-                    var url = "/user_info_community_join?user_id=" + login_user_id + "&no=" + page + "&size=" + pageSize+"&type=joined";
+                    var url = "/user_info_community_join?user_id=" + view_user_id + "&no=" + page + "&size=" + pageSize+"&type=joined";
                     console.debug("pageurl:", url);
                     window.location.href = url;
                 }
@@ -23,7 +23,7 @@ function initPageData(pageNo,pageSize,totalCount,totalPages){
     function leftCommunity(community_id){
         var data = {};
         data['type'] = 'left';
-        data['user_id'] = login_user_id;
+        data['user_id'] = view_user_id;
         data['community_id'] = community_id;
         $.ajax({
             type: 'POST',
@@ -52,7 +52,7 @@ function initPageData(pageNo,pageSize,totalCount,totalPages){
     function loadJoinedCommunity(pageno){
         var data = {};
         data['type'] = 'joined';
-        data['user_id'] = login_user_id;
+        data['user_id'] = view_user_id;
         $.ajax({
             type: 'get',
             url: '/community_joined',
