@@ -73,9 +73,7 @@
     <script src="../lib/jquery.nicescroll.min.js "></script>
     <script src="../lib/js/privatemessage.js "></script>
     <script>
-
     var to_user_id =$('#chatWith').val();
-    var user_id = 0;
     $(function() {
         $(".container-scroll").niceScroll({
             cursorborder: "",
@@ -117,11 +115,6 @@
             return str;
 
     }//smile end
-    function getLoginInfo(){
-            {% if session.get('userinfo')%}
-                user_id = {{session.get('userinfo')['id']}};
-            {%endif%}
-    }
     initData();
     </script>
     <script type="text/javascript" src="lib/js/jquery.qqFace.js"></script>

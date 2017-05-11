@@ -97,18 +97,10 @@
 
 </html>
 <script type="text/javascript">
-    var user_id = 0;
     var post_id = {{post.id}}
     var community_id = {{post.community.id}}
     var num_perpage = 10;
     var page_no = 1;
     var total = {{post.floor_num}};
-    getLoginInfo();
     initData();
-    function getLoginInfo(){
-        {% if session.get('userinfo')%}
-            user_id = {{session.get('userinfo')['id']}};
-            $('#submmit-btn').removeClass('disabled');
-        {%endif%}
-    }
 </script>

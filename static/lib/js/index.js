@@ -3,7 +3,6 @@ var callbackPage = function(page_no){
    loadHotPost(page_no)
 }
 function initData(){
-    getLoginInfo();
     $("#page").initPage(num_perpage,total,page_no,callbackPage);
     loadHotCommunity();
 }
@@ -24,8 +23,8 @@ function loadHotPost(page_no){
             if(post_list.length>0){
                 var hot_post_wrap ='';
                 for(var i =0 ; i<post_list.length;i++){
-                    var user = post_list[i].user
-                    var community = post_list[i].community
+                    var user = post_list[i].user;
+                    var community = post_list[i].community;
                     hot_post_wrap+='<div class="item">\
                             <div class="photo">\
                                 <a href="/user_info_post?type=1&user_id='+user.id+'"><img src="'+user.head_img_url+'"></a>\
@@ -67,7 +66,7 @@ function loadHotCommunity(){
         timeout: 5000,
         async:false,
         success: function(data) {
-            commend_list = data.commend_list
+            commend_list = data.commend_list;
             var commend_wrap ='';
             for(var i=0;i<commend_list.length;i++){
                 community = commend_list[i]

@@ -77,9 +77,7 @@ def query_community(request):
     if index + 1 == len(community_name):
         community_name = community_name[:index]
     print community_name, name
-    paginate = None
     paginate = db_model_community.select_by_name_paging(community_name, page_no, num_perpage)
-
     # return select value
     return paginate, name, community_name
 
@@ -92,7 +90,7 @@ def get_community_info(request):
     if session.get('userinfo'):
         user_id = session.get('userinfo')['id']
         info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=id)
-        if info != None:
+        if info:
             has_join = True
     create_user = db_model_user.select_by_id(community.create_user_id)
     return community, has_join, create_user
@@ -115,7 +113,7 @@ def publish_community(request):
                                              head_img_url=head_img_url, create_user_id=create_user_id,owner_user_id=create_user_id,
                                              create_time=create_time)
             # select db
-            if data == None:
+            if data is None:
                 result['code'] = 1
                 result['message'] = 'fail'
                 result['data'] = ''
@@ -157,7 +155,7 @@ def get_default_communities(page_no, page_size):
 def get_hot_communities_total_num():
     max_number = 1000;
     data = db_model_community.select_all_paging(1, max_number)
-    if data == None:
+    if data is None:
         return 0
     else:
         return len(data.items)
@@ -168,7 +166,6 @@ def select_hot_commend_community(request):
     comm_ids = [current_community_id]
     page_no = request.args.get('page_no', default_page_no)
     num_page = request.args.get('num_page', hot_num_perage)
-    commend_list = []
     if session.get('userinfo') and current_community_id:  # commend_community
         user_id = session.get('userinfo')['id']
         # select join communty

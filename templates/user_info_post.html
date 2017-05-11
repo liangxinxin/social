@@ -64,11 +64,7 @@
     <script type="text/javascript" >
     function deletePost(postid) {
         if (confirm('你确定删除帖子吗？帖子的评论也将会删除。')) {
-            var data = {
-                data: JSON.stringify({
-                    "post_id": postid
-                })
-            }
+            var data = { 'post_id': postid }
             $.ajax({
                 url: '/delete_post',
                 type: 'POST',

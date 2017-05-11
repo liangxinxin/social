@@ -131,13 +131,25 @@
 </div>
 <script src="../lib/jquery-1.8.1.min.js "></script>
 <script type="text/javascript" >
-    var user_id =0;
+    var login_user_id =0;
     getLoginInfo();
     function getLoginInfo(){
         {% if session.get('userinfo')%}
-            user_id = {{session.get('userinfo')['id']}};
+            login_user_id = {{session.get('userinfo')['id']}};
         {%endif%}
     }
+
+    $("body").click(function(e){
+
+        e = e || window.event;
+        var obj =e.target || e.srcElement;
+
+        if($(obj).closest(".search-group").length <=0){
+            $(".suggest-container").addClass('hide');
+        }
+
+    });
+
     $('#createCommunity').click(function(){
        var name=$("input[name='cummunityname']").val();
        var desc=$('textarea[name="communitydesc"]').val();
@@ -158,8 +170,9 @@
           dataType:'json',
           success:function(data){
             if (data['code']==0){
-                community = data.community
-                window.location.href='/community?id='+community.id+'&type=query';
+                 $('button[data-dismiss="modal"]').trigger('click');
+                 community = data.community
+                 window.location.href='/community?id='+community.id+'&type=query';
             }else{
                 alert('创建失败！')
             }
@@ -182,7 +195,7 @@
       dataType:'json',
       success:function(data){
         if (data['succ']==0){
-          user_id =0;
+          login_user_id =0;
           document.getElementById("logined_memu").style.display="none";
           document.getElementById("a_login").style.display="none";
           document.getElementById("a_login_unlogined").style.display="block";
@@ -195,7 +208,7 @@
   }
 
   function toCreate(){
-    if(user_id>0){
+    if(login_user_id>0){
         var name = $('#search_input_community_post_person').val()
         $("input[name='cummunityname']").val(name);
     }else{
@@ -208,13 +221,12 @@
      var cur_url=this.location.href;
      window.location.href="/login?next_url="+cur_url;
   }
-  <!--$('#search_input_community_post_person').blur(function(){-->
-      <!--$('.suggest-container').addClass('hide');-->
-  <!--})-->
+  $('#search_input_community_post_person').focus(function(){
+      find_match_community();
+  })
   var flag;
   $('#search_input_community_post_person').keyup(function(){
        find_match_community();
-       $('.suggest-container').removeClass('hide');
        clearTimeout(flag);
        //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
        //只要有输入则不执行keyup事件
@@ -245,13 +257,14 @@
                      $('ul.s-community').html(drop_menu_html);
                    } else {
                         var drop_menu_html='';
-                      if(user_id>0){
+                      if(login_user_id>0){
                         drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
                       }else{
                          drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="javascript:void(0)" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
                       }
                       $('ul.s-community').html(drop_menu_html);
                    }
+                   $('.suggest-container').removeClass('hide');
                }
            })
        }

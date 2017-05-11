@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 from flask import Flask, request, render_template
 from flask import jsonify
 from flask import redirect, url_for
@@ -16,8 +18,6 @@ from modules import mod_reply
 from modules import mod_user
 from modules import mod_user_community
 from modules import mod_verify
-from modules import time_format
-import time
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -70,12 +70,9 @@ def community_create():
 def community():
     community, has_join, create_user = mod_community.service(request)
     mess_dict = mod_message.select_unread_num_by_type()
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    if messages_unread:
-        messages_unread_num = len(messages_unread)
+    messages_unread_num = mod_user.get_unread_message_from_session()
     return render_template('community.html', has_join=has_join, community=community, create_user=create_user,
-                           mess_dict=mess_dict,messages_unread_num=messages_unread_num)
+                           mess_dict=mess_dict, messages_unread_num=messages_unread_num)
 
 
 @app.route('/get_community_post', methods=['GET'])
@@ -117,10 +114,7 @@ def post():
     if post:
         has_join = mod_user_community.user_has_join_community(post.community_id)
         mess_dict = mod_message.select_unread_num_by_type()
-        messages_unread = mod_user.get_unread_message_from_session()
-        messages_unread_num = 0
-        if messages_unread != None:
-            messages_unread_num = len(messages_unread)
+        messages_unread_num = mod_user.get_unread_message_from_session()
         return render_template('post.html', post=post, has_join=has_join, messages_unread_num=messages_unread_num,
                                mess_dict=mess_dict)
     else:
@@ -130,7 +124,7 @@ def post():
 
 
 # show reply and best in post.html
-@app.route('/get_best_reply', methods=['GET'])
+@app.route('/get_reply', methods=['GET'])
 def get_best_reply():
     reply_list, best_reply, like_user_dict, page_no, num_perpage, total_page, total = mod_reply.service(request)
     return jsonify(reply_list=reply_list, best_reply=best_reply, like_user_dict=like_user_dict,
@@ -141,7 +135,7 @@ def get_best_reply():
 # @interceptor(login_required=True)
 def delete_post():
     result = mod_post.delete_post(request)
-    print 'delete commpelete'
+    print 'delete commpelete result:', result['code'],result['message']
     return jsonify(result=result['code'])
 
 
@@ -172,7 +166,7 @@ def reply_update():
 # @interceptor(login_required=True)
 def delete_reply():
     result = mod_reply.service(request)
-    return jsonify(result=result['code'])
+    return jsonify(code=result['code'],replycount = result['replycount'])
 
 
 @app.route('/reply_like_status_change', methods=['GET', 'POST'])
@@ -189,7 +183,7 @@ def login():
         return render_template('login.html')
     elif request.method == 'POST':
         model, next_url = mod_login.service(request)
-        if model['result'] == True:
+        if model['result']:
             return redirect(next_url)
         else:
             return render_template('login.html', msg='用户名或密码错误！')
@@ -238,35 +232,31 @@ def read_message():
     return jsonify(unread_message_num=unread_message_num)
 
 
-# user_info start
-@app.route('/user_info', methods=['GET', 'POST'])
-def user_info():
-    user_info = mod_user.service(request)
-    # friends, page_no, num_perpage, friends_total = mod_user.good_friends(request)
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
-        request)
-    if messages_unread != None:
-        messages_unread_num = len(messages_unread)
-    return render_template('user_info.html', user_info=user_info, \
-                           count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, \
-                           count_do_good=count_do_good, private_unread_count=private_unread_count, \
-                           messages_unread=messages_unread, messages_unread_num=messages_unread_num)
+# # user_info start
+# @app.route('/user_info', methods=['GET', 'POST'])
+# def user_info():
+#     user_info = mod_user.service(request)
+#     messages_unread = mod_user.get_unread_message_from_session()
+#     messages_unread_num = 0
+#     private_unread_count, count_comment, count_reply, count_guanzhu, count_do_good = mod_message.select_unread_num_by_type(
+#         request)
+#     if messages_unread:
+#         messages_unread_num = len(messages_unread)
+#     return render_template('user_info.html', user_info=user_info, \
+#                            count_comment=count_comment, count_reply=count_reply, count_guanzhu=count_guanzhu, \
+#                            count_do_good=count_do_good, private_unread_count=private_unread_count, \
+#                            messages_unread=messages_unread, messages_unread_num=messages_unread_num)
 
 
 @app.route('/user_info_post', methods=['GET', 'POST'])
 def user_info_post():
     print 'user_info_post start'
     post_list, page_no, num_perpage, total, view_user_info = mod_user.get_user_post(request)
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
+    messages_unread_num = mod_user.get_unread_message_from_session()
     mess_dict = mod_message.select_unread_num_by_type()
-    if messages_unread != None:
-        messages_unread_num = len(messages_unread)
     user_info_type = 'post'
     print 'user_info_type', user_info_type
-    return render_template('user_info_post.html', mess_dict=mess_dict,messages_unread=messages_unread,
+    return render_template('user_info_post.html', mess_dict=mess_dict,messages_unread=messages_unread_num,
                            messages_unread_num=messages_unread_num,post_list=post_list, no=page_no,size=num_perpage,
                            total_size=total,view_user_info=view_user_info, user_info_type=user_info_type)
 
@@ -274,48 +264,42 @@ def user_info_post():
 @app.route('/user_info_community_create', methods=['GET', 'POST'])
 def user_info_community_create():
     print 'user_info_community_owned start'
+    messages_unread_num = mod_user.get_unread_message_from_session()
     community_list, page_no, num_perpage, total, view_user_info = mod_user.community_create(request)
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
     mess_dict = mod_message.select_unread_num_by_type()
-    if messages_unread != None:
-        messages_unread_num = len(messages_unread)
     user_info_type = 'community_create'
-    return render_template('user_info_community_create.html', mess_dict=mess_dict, messages_unread=messages_unread,
-                           messages_unread_num=messages_unread_num,
-                           community_list=community_list, no=page_no, size=num_perpage, total_size=total,
-                           view_user_info=view_user_info, user_info_type=user_info_type)
+    return render_template('user_info_community_create.html', mess_dict=mess_dict, messages_unread=messages_unread_num,
+                           messages_unread_num=messages_unread_num,community_list=community_list, no=page_no,
+                           size=num_perpage, total_size=total,view_user_info=view_user_info,
+                           user_info_type=user_info_type)
 
 
-# community the user join
+# into the followed html
 @app.route('/user_info_community_join', methods=['GET'])
 def user_info_community_join():
     view_user_info = mod_user.service(request)
     user_info_type = 'community_join'
-    return render_template('user_community_followed.html', view_user_info=view_user_info, user_info_type=user_info_type)
+    messages_unread_num = mod_user.get_unread_message_from_session()
+    mess_dict = mod_message.select_unread_num_by_type()
+    return render_template('user_community_followed.html', view_user_info=view_user_info, user_info_type=user_info_type,
+                           mess_dict=mess_dict,messages_unread_num=messages_unread_num)
 
 
-# community the user join
+# load data:community the user join
 @app.route('/community_joined', methods=['GET'])
 def community_joined():
-    community_list, page_no, num_perpage, totalCount, totalPages = mod_user_community.service(request)
-    user_info_type = 'community_join'
-    return jsonify(community_list=community_list, user_info_type=user_info_type,
-                   no=page_no, size=num_perpage, totalCount=totalCount, totalPages=totalPages)
+    community_list, page_no, num_perpage, total_count, total_pages = mod_user_community.service(request)
+    return jsonify(community_list=community_list,no=page_no, size=num_perpage, totalCount=total_count, totalPages=total_pages)
 
 
 @app.route('/user_info_friend', methods=['GET', 'POST'])
 def user_info_friend():
     print 'user_info_friend start'
     friend_list, page_no, num_perpage, total, view_user_info = mod_user.good_friends(request)
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
     mess_dict = mod_message.select_unread_num_by_type()
-    if messages_unread:
-        messages_unread_num = len(messages_unread)
+    messages_unread_num = mod_user.get_unread_message_from_session()
     user_info_type = 'friend'
-    return render_template('user_info_friend.html',mess_dict = mess_dict,
-                           messages_unread=messages_unread, messages_unread_num=messages_unread_num,
+    return render_template('user_info_friend.html',mess_dict=mess_dict, messages_unread_num=messages_unread_num,
                            friend_list=friend_list, no=page_no, size=num_perpage, total_size=total,
                            view_user_info=view_user_info, user_info_type=user_info_type)
 
@@ -327,19 +311,6 @@ def get_community_owned():
     communities, page_no, num_perpage, communities_total = mod_user.community_owned(request)
     return jsonify(communities=communities, no=page_no, size=num_perpage, totalsize=communities_total)
 
-
-@app.route('/get_post_reply', methods=['GET'])
-def user_info_get_reply():
-    print 'user_info_friends start'
-    reply_list, page_no, num_perpage, total = mod_reply.get_reply_by_post(request)
-    return jsonify(reply_list=reply_list, no=page_no, size=num_perpage, totalsize=total)
-
-
-@app.route('/user_info_publish_reply', methods=['POST'])
-def user_info_publish_reply():
-    print 'user_info_pubreply start'
-    reply, floor_num = mod_reply.publish_reply_in_UserInfo(request)
-    return jsonify(reply=reply, floor_num=floor_num)
 
 
 @app.route('/good_friends', methods=['GET', 'post'])
@@ -358,7 +329,7 @@ def regist():
         return render_template('register.html')
     print "now begin verify"
     result = mod_verify.service(request)
-    print result['succ']
+    print 'check smscode result code:',result['code'],'message,',result['message']
     if result['succ'] == '0':
         print "verify pass! now begin insert db"
         result, user_info = mod_user.service(request)
@@ -403,10 +374,7 @@ def forget_password():
 def index():
     count = mod_post.service(request)
     mess_dict = mod_message.select_unread_num_by_type()
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    if messages_unread != None:
-        messages_unread_num = len(messages_unread)
+    messages_unread_num = mod_user.get_unread_message_from_session()
     return render_template('index.html', total=count, mess_dict=mess_dict, messages_unread_num=messages_unread_num)
 
 
@@ -463,7 +431,7 @@ def get_default_image():
     else:
         return jsonify(result=default_community_data)
 
-
+# more comment
 @app.route('/get_comment', methods=['get'])
 # @interceptor(login_required=True)
 def get_comment():
@@ -498,10 +466,7 @@ def get_message():
     if not login_flag:
         print 'user not login'
         return redirect('/index')
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    if messages_unread != None:
-        messages_unread_num = len(messages_unread)
+    messages_unread_num = mod_user.get_unread_message_from_session()
     read_list, unread_list, total, page_no, num_perpage, message_type = mod_message.service(request)
     mess_dict = mod_message.select_unread_num_by_type()
     view_user_info = mod_user.service(request)
@@ -518,10 +483,7 @@ def private_message():
     ISOTIMEFORMAT = '%Y-%m-%d'
     today = time.strftime(ISOTIMEFORMAT, time.localtime())
     mess_dict = mod_message.select_unread_num_by_type()
-    messages_unread = mod_user.get_unread_message_from_session()
-    messages_unread_num = 0
-    if messages_unread:
-        messages_unread_num = len(messages_unread)
+    messages_unread_num = mod_user.get_unread_message_from_session()
     return render_template('private_message.html', today=today, to_user=to_user, user_list=user_list,
                            unread_count_list=unread_count_list, user_num=user_num, mess_dict=mess_dict,
                            messages_unread_num=messages_unread_num)
@@ -529,14 +491,14 @@ def private_message():
 
 @app.route('/save_message', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
-def saveMessage():
+def save_essage():
     data = mod_private_message.save_private_message(request)
     return jsonify(result=data)
 
 
 @app.route('/get_new_message', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
-def newMessage():
+def new_essage():
     data = mod_private_message.service(request)
     return jsonify(result=data)
 
@@ -544,7 +506,7 @@ def newMessage():
 # to do  点击人后加载此用户聊天信息
 @app.route('/get_history_message', methods=['GET'])
 # @interceptor(login_required=True)
-def getHistoryMessage():
+def get_history_message():
     mess_list = mod_private_message.service(request)
     return jsonify(result=mess_list)
 

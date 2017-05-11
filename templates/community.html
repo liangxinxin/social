@@ -115,7 +115,7 @@
             <div class="modal-footer">
                 <div class="justified2-2">
                     <li>
-                        <button id="u-cancel" class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
+                        <button class="btn btn-default btn-lg btn-block" data-dismiss="modal">取消</button>
                     </li>
                     <li>
                         <button id="update" class="btn btn-primary btn-lg btn-block">确定</button>
@@ -132,28 +132,18 @@
 <script src="../lib/js/page/page.js"></script>
 <script src="../lib/js/community.js"></script>
 {%if community.create_user_id == session.get('userinfo')['id'] %}
-{% include 'commons/upload.html' %}
+{% include 'commons/upload_image.html' %}
 {%endif%}
 </body>
 
 </html>
 <script>
-    var user_id=0;
     var community_id = {{community.id}};
     var total = {{community.post_num}};
     var page_no = 1;
     var num_page = 5;
     var community_creator_id = {{community.create_user_id}};
     initData();
-    function getLoginInfo(){
-        {% if session.get('userinfo') %}
-         user_id={{session.get('userinfo')['id']}};
-          $('#submmit-btn').removeClass('disabled');
-         if (user_id == community_creator_id){
-            $('div.community-header').find('div.img').addClass('im');
-         }
-        {%endif%}
-    }
 </script>
 
 

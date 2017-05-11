@@ -1,7 +1,5 @@
 //初始化页面
 function initData(){
-   getLoginInfo();
-   //loadCommunityPost(1);
    load_commend_community();
    var callbackPage = function(page_no){
        loadCommunityPost(page_no)
@@ -40,7 +38,7 @@ $('#update').click(function(){
                     $('.content').find('p.pdesc').html(desc);
                     $('input[name=cname]').val(name)
                     $('textarea[name=cdesc]').val(desc)
-                    $('#u-cancel').click();
+                    $('button[data-dismiss="modal"]').trigger('click');
                }else{
                     alert('修改失败!')
                }
@@ -122,8 +120,8 @@ $('#post_title').keyup(function(){
        }
 
        //post request for save post
-       if(user_id>0){
-        postRequest("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":user_id,"community_id":community_id});
+       if(login_user_id>0){
+        postRequest("/post_publish",{"type":"publish","title":title,"content":content,"create_user_id":login_user_id,"community_id":community_id});
        }else{
         alert('您需要登录后才能发帖哦！');
        }
@@ -244,10 +242,10 @@ function loadCommunityPost(page_no){
 }
 // click left
 $('#left').click(function() {
-    if (user_id > 0) {
+    if (login_user_id > 0) {
         var data = {};
         data['type'] = 'left';
-        data['user_id'] = user_id;
+        data['user_id'] = login_user_id;
         data['community_id'] = community_id;
         $.ajax({
             type: 'POST',
@@ -272,10 +270,10 @@ $('#left').click(function() {
 })
 // click join
 $('#join').click(function() {
-    if (user_id > 0) {
+    if (login_user_id > 0) {
         var data = {};
         data['type'] = 'join';
-        data['user_id'] = user_id;
+        data['user_id'] = login_user_id;
         data['community_id'] = community_id;
         $.ajax({
             type: 'POST',

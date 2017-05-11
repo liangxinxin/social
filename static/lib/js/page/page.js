@@ -3,7 +3,7 @@
  */
 $.fn.extend({
     "initPage":function(pagelistcount,listCount,currentPage,fun){
-        if(listCount==0){
+        if(listCount==0 ){
             return;
         }
         var maxshowpageitem = $(this).attr("maxshowpageitem");
@@ -36,7 +36,8 @@ var  page = {
      */
     "initWithUl":function(listCount,currentPage){
         var pageCount = 1;
-        if(listCount>=0){
+        if(listCount>=0 ){
+
             var pageCount = listCount%page.pagelistcount>0?parseInt(listCount/page.pagelistcount)+1:parseInt(listCount/page.pagelistcount);
         }
         var appendStr = page.getPageListModel(pageCount,currentPage);
