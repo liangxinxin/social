@@ -37,9 +37,9 @@ def service(request):
         else:
             print "error request:", request
     elif request.method == 'GET':
-            user_id = request.form.get("user_id")
+            user_id = request.args.get("user_id")
             if user_id > 0:
-                query_user_info(user_id)
+                return query_user_info(user_id) ## 查询个人主页，
             else:
                 return query_login_user_info()
 
@@ -148,7 +148,7 @@ def query_user_info(user_id):
 
 def query_login_user_info():
     user_info = None
-    if session.get('userinfo')['id']:
+    if session.get('userinfo'):
         user_id = session.get('userinfo')['id']
         user_info = db_model_user.select_by_id(user_id)
         return user_info
