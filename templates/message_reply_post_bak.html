@@ -1,0 +1,64 @@
+{% extends 'commons/_proto.html' %}
+
+
+{% block body %}
+<!--<div id="navbar">-->
+  <!--{% include 'commons/navbar_toutiao.html' %}-->
+<!--</div>-->
+<input id="post_id" style="display:none" value={{post_data.id}}></input>
+<div id="all_backgroud" class="post-page-main">
+  <div id="post_wrapper" class="post_all_wraper">
+    <div id="post_info" class="post_info">
+      <div id="post_head" class="post_detail_title">
+        {{post_data.title}}
+      </div>
+      <div class="post_detail_body">
+        <div class="post_detail_author">
+          <div class="post_detail_user_face">
+            <a href="/user_info?user_id={{post_user.id}}">
+              <img class src="{{post_user.head_img_url}}">
+            </a>
+          </div>
+          <div class="post_detail_user_name_wraper">
+            <a class="post_detail_user_name">
+              {{post_user.name}}
+            </a>
+          </div>
+        </div>
+        <div class="post_detail_content_wrap">
+          <div class="post_detail_content_area">
+            <div class="post_detail_content">
+              <p class="post_detail_content_char">{{post_data.content}} <p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="reply_data_info" class="reply_data_info">
+      {% if reply_data and reply_user %}
+      <div class="reply_data_body">
+        <input type="hidden" value="{{reply_data.id|safe}}" name="reply_data-id-hidden" />
+        <div class="reply_data_author">
+          <div class="reply_user_face">
+            <a href="/user_info?user_id={{reply_user.id}}">
+              <img class src="{{reply_user.head_img_url}}">
+            </a>
+          </div>
+          <div class="reply_user_name_wraper">
+            <a class="reply_user_name">
+              {{reply_user.name}}
+            </a>
+          </div>
+        </div>
+        <div class="reply_data_content_wrap">
+          <div class="reply_data_content_area">
+            <div class="reply_data_content">
+              <a style="color:inherit" href="javascript:void"><p>{{reply_data.content|safe}}</p></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

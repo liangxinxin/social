@@ -53,21 +53,22 @@ def find_match_post(request):
     post_ids = []
     for word in words:
         data = db_model_inverted_index.select_by_word(word)
-        if data != None:
+        if data:
             post_ids = list(set(post_ids + str(data.post_id).split(',')))
     if post_ids:
         # lcs
         dict_post = {}
         for id in post_ids:
             post = db_model_post.select_by_id(id)
-            lcs_list, flag = mod_lcs.lcs(title, post.title)
-            lcs_title = []
-            lcs_title = mod_lcs.printLcs(flag, title, len(title), len(post.title), lcs_title)
-            lcs_title = ''.join(lcs_title)
-            # 匹配百分比
-            percent = len(lcs_title.strip()) / float(len(title.strip()))
-            dict_post[id] = percent  # dict:{'post_id':'percent',}
-            # print 'id', id, 'lcs_title', lcs_title, 'percent', '%.2f' % percent
+            if post:
+                lcs_list, flag = mod_lcs.lcs(title, post.title)
+                lcs_title = []
+                lcs_title = mod_lcs.printLcs(flag, title, len(title), len(post.title), lcs_title)
+                lcs_title = ''.join(lcs_title)
+                # 匹配百分比
+                percent = len(lcs_title.strip()) / float(len(title.strip()))
+                dict_post[id] = percent  # dict:{'post_id':'percent',}
+                # print 'id', id, 'lcs_title', lcs_title, 'percent', '%.2f' % percent
         # 按percent 由大到小排序
         dict_list = sorted(dict_post.items(), key=lambda e: e[1], reverse=True)
         # 从元组取值
@@ -96,30 +97,42 @@ def delete_post(request):
     post_id = request.form.get("post_id")
     post = db_model_post.select_by_id(post_id)
     result = {}
-    if post == None:
+    if post is None:
         result['code'] = 1
-        print 'delete fail,post is not find'
+        result['message'] ='delete fail,post is not find'
+        return result
     try:
         post.status = 1
         ISOTIMEFORMAT = '%Y-%m-%d %X'
         update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
         post.last_update_time = update_time
         db_model_post.update(post)
-        result['code'] = 0
+        # to do 删除分词的postid
+        inverted_index_list = db_model_inverted_index.select_by_post_id(post.id)
+        for item in inverted_index_list:
+            post_id_list = item.post_id.split(',')
+            post_id_list.remove(str(post.id))
+            item.post_id = ','.join(post_id_list)
+            item.last_update_time = update_time
+            db_model_inverted_index.update(item)
+        print 'delete inverted_index success!'
         community = db_model_community.select_by_id(post.community_id)
-        #update community post_num
+        # update community post_num
         community.post_num -= 1
         db_model_community.update(community)
-        #dele reply,comment
+        # dele reply,comment
         for reply in post.replys:
             reply.status =1
             for comment in reply.comments:
                 comment.status =1
                 db_model_comment.update_comment(comment)
             db_model_reply.update(reply)
+        result['code'] = 0
+        result['message'] = 'delete success !'
     except Exception, e:
         result['code'] = 1
-        print '删除失败'
+        result['message'] = 'delete Exception !'
+        print e
     print 'delete post ', post_id
 
     return result
@@ -146,14 +159,13 @@ def publish_post(request):
     print "now insert to db"
 
     print "record action of create post"
-    action_content = {}
-    action_content['post_id'] = insert.id
+    action_content = {'post_id': insert.id}
     db_model_action.insert(user_id=create_user_id, \
                            action_type_id=db_model_action_type.get_type_id('create_post'), \
                            action_detail_info=json.dumps(action_content, ensure_ascii=False), \
                            create_time=create_time)
 
-    login_user.post_num = login_user.post_num + 1
+    login_user.post_num += 1
     print "now update post_num to db", (login_user)
 
     # insert into inverted_index
@@ -163,7 +175,7 @@ def publish_post(request):
     print 'words length', len(words)
     for word in words:
         inverted_index = db_model_inverted_index.select_by_word(word)
-        if inverted_index != None:
+        if inverted_index :
             post_id_list = str(inverted_index.post_id).split(',')
             post_id_list.append(str(insert.id))
             inverted_index.post_id = ','.join(post_id_list)

@@ -48,9 +48,9 @@
                  timeout:5000,
                  success:function(data) {
                         if(data.result==0){
-                            $('.h_user_name').text(user_name);
-                            $('.p_user_label').text(user_label);
-                            window.location.reload();
+                            $('h4#h_user_name>span').text(user_name);
+                            $('#p_user_label').text(user_label);
+                            $('button[data-dismiss="modal"]').trigger('click');
                         }else{
                             alert('保存失败!');
                         }

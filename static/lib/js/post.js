@@ -3,10 +3,7 @@ var callbackPage = function(page_no){
        loadReply(page_no)
    }
 function initData(){
-   getLoginInfo();
-   //loadReply(1)
-
-    $("#page").initPage(num_perpage,total,page_no,callbackPage);
+   $("#page").initPage(num_perpage,total,page_no,callbackPage);
 }
 function post(URL, PARAMS) {
    var temp = document.createElement("form");
@@ -49,14 +46,15 @@ $('#post_del').click(function(){
 })
 $('#submmit-btn').click(function(){
        var content=$('#editor').html();
-       if(user_id>0){
+       var best = $('div.best-like').length==1;  //判断页面是否有最佳回帖
+       if(login_user_id>0){
             var data = {};
             data['type'] = 'publish';
             data['post_id'] = post_id;
             data['content'] = content;
             data['community_id'] = community_id;
             data['num_perpage'] = num_perpage;
-            data['has_best'] = true;
+            data['has_best'] = best;
             if($.trim(content)=="" || content==null || content.length==0){
                   alert('内容不能为空');
                   return;
@@ -70,7 +68,8 @@ $('#submmit-btn').click(function(){
                 success: function(data) {
                     if (data.reply !=null && data.total_page!=null){
                         total_page = data.total_page;
-                        $("#page").initPage(num_perpage,data.replycount,data.total_page,callbackPage);
+                        page_no = total_page;
+                        $("#page").initPage(num_perpage,data.replycount,page_no,callbackPage);
                         $('#editor').empty();
                     }else{
                         alert('回复失败!');
@@ -153,21 +152,17 @@ function summitHuifu(){
 
 }
 
-function set_focus()
-{
+function set_focus(){
     el=document.getElementById('input-content');
     //el=el[0];  //jquery 对象转dom对象
     el.focus();
-    if($.support.msie)
-    {
+    if($.support.msie){
         var range = document.selection.createRange();
         this.last = range;
         range.moveToElementText(el);
         range.select();
         document.selection.empty(); //取消选中
-    }
-    else
-    {
+    }else{
         var range = document.createRange();
         range.selectNodeContents(el);
         range.collapse(false);
@@ -178,7 +173,7 @@ function set_focus()
 }
 
 function doHuifu(reply_id,comment_id){
-    if(user_id>0){
+    if(login_user_id>0){
         var huifu_input = getHuifuHtml(reply_id,comment_id);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
@@ -194,7 +189,7 @@ function doHuifu(reply_id,comment_id){
 }
 function doHuifuReply(reply_id){
 
-    if(user_id>0){
+    if(login_user_id>0){
         var huifu_input = getHuifuHtml(reply_id,0);
         $('div.huifu').remove();
         $('#item_'+reply_id).append(huifu_input);
@@ -205,7 +200,6 @@ function doHuifuReply(reply_id){
 }
 function showComments(reply_id){
     $('#item_'+reply_id).find('div.comment-wrap').toggleClass('hide');
-    console.log($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide'))
     if($('#item_'+reply_id).find('div.comment-wrap').hasClass('hide')){
         $('#item_'+reply_id).find('a.reply-num').find('i').removeClass('icon-arrow-down').addClass('icon-arrow-up');
     }else{
@@ -222,7 +216,7 @@ function getCommentHtml(comment){
     }else{
         content = comment.content;
     }
-    if(user_id==comment.create_user_id){
+    if(login_user_id==comment.create_user_id){
         is_delete ='<span><a onClick="deleteComment('+comment.reply_id+','+comment.id+')" href="javascript:void(0)">删除</a></span>';
 
     }
@@ -314,14 +308,13 @@ function getReplyHtml(reply,comment_wrap,isBest){
                 <a class="like" onClick="doGood('+reply.id+')" href="javascript:void(0)"><i class="icon-like-o"></i></a>\
                 <span class="like-num">'+like_num+'</span>';
     }
-    if(user_id==reply.create_user_id){
+    if(login_user_id==reply.create_user_id){
         is_delete ='<span><a onClick="deleteReply('+reply.id+')" href="javascript:void(0)">删除</a></span>';
         is_update ='<span><a onClick="toUpdate('+reply.id+')" href="javascript:void(0)">修改</a></span>';
 
     }
     if(isBest){
         is_best = '<div class="best-like"></div>';
-        console.log(is_update)
         is_update ='';
     }
     reply_wrap = reply_wrap+'<div id="item_'+reply.id+'" class="item" >\
@@ -353,7 +346,6 @@ function getReplyHtml(reply,comment_wrap,isBest){
         </div>';
     return reply_wrap;
 }
-console.log('2222');
 function toUpdate(reply_id){
     var content = $('#item_'+reply_id).find('div.content').find('p');
     content.addClass('hide');
@@ -415,8 +407,13 @@ function deleteReply(reply_id){
             data:data,
             timeout:5000,
             success:function(data){
-                if(data.result==0){
+                if(data.code==0){
                     $('.post-list').find('#item_'+reply_id).remove();
+                    var length = $('.post-list').find('.item').length;
+                    if(length==0 && page_no>1){
+                        page_no = page_no -1;
+                        $("#page").initPage(num_perpage,data.replycount,page_no,callbackPage);
+                    }
                 }else{
                     alert('删除失败')
                 }
@@ -458,7 +455,7 @@ function deleteComment(reply_id,comment_id){
  }
 
 function doGood(reply_id){
-    if (user_id > 0) {
+    if (login_user_id > 0) {
         var mod_type = ''
         var is_like = $('#like-'+reply_id).val();
         if (is_like=='true'){
@@ -509,14 +506,14 @@ function doGood(reply_id){
 }
 function loadReply(page_no){
     var data = {};
-    data['type'] = 'query_best';
+    data['type'] = 'query';
     data['post_id'] = post_id;
     data['page_no'] = page_no;
     data['num_perpage'] = num_perpage;
     data['comment_num_perpage'] = num_perpage;
     $.ajax({
         type: 'get',
-        url: '/get_best_reply',
+        url: '/get_reply',
         data: data,
         dataType: 'json',
         timeout: 5000,
@@ -569,10 +566,10 @@ function loadReply(page_no){
 }
 // click left
 $('#left').click(function() {
-    if (user_id > 0) {
+    if (login_user_id > 0) {
         var data = {};
         data['type'] = 'left';
-        data['user_id'] = user_id;
+        data['user_id'] = login_user_id;
         data['community_id'] = community_id;
         $.ajax({
             type: 'POST',
@@ -597,10 +594,10 @@ $('#left').click(function() {
 })
 // click join
 $('#join').click(function() {
-    if (user_id > 0) {
+    if (login_user_id > 0) {
         var data = {};
         data['type'] = 'join';
-        data['user_id'] = user_id;
+        data['user_id'] = login_user_id;
         data['community_id'] = community_id;
         $.ajax({
             type: 'POST',

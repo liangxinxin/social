@@ -1,36 +1,51 @@
 <div id="my_header" class="my-header">
-    {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
-     <div class="img im">
-         <a href="#photo" data-toggle="modal">
-             <img alt="user" src="{{view_user_info.head_img_url}}">
-             <input name="from" type="hidden" value="user">
-         </a>
-     </div>
+    {% if view_user_info and session.get('userinfo') and session.get('userinfo')['id']==view_user_info.id %}
+    <div class="img im">
+        <a href="#photo" data-toggle="modal">
+            <img alt="user" src="{{view_user_info.head_img_url}}">
+            <input name="from" type="hidden" value="user">
+        </a>
+    </div>
     {% else %}
-     <div class="img">
-         <a href="#" data-toggle="modal"><img src="{{view_user_info.head_img_url}}"></a>
-     </div>
+    <div class="img">
+        <a href="#" data-toggle="modal"><img src="{{view_user_info.head_img_url}}"></a>
+    </div>
     {% endif %}
-     <div class="content">
-         {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
-         <h4 id="h_user_name">{{view_user_info.name}}<a href="#modal" data-toggle="modal"><i class="icon-pencil"></i></a></h4>
-         <p id="p_user_label">{{view_user_info.label}}</p>
-         {% else %}
-         <h4 id="h_user_name">{{view_user_info.name}}</h4>
-         <p id="p_user_label">{{view_user_info.label}}</p>
-         {% endif %}
-     </div>
-     {% if view_user_info and not session.get('userinfo')%}
-     <div  id="user_info_right_control" class="right-control"><a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat" style="display:none"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
-     {% endif %}
-     {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
-     <div id="user_info_right_control" class="right-control"><a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()"><i>+</i>关注</a><span class="offset-1x" id="span_chat"><a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a></span></div>
-     {% endif %}
- </div>
+    <div class="content">
+        {% if view_user_info and session.get('userinfo') and session.get('userinfo')['id']==view_user_info.id %}
+        <h4 id="h_user_name"><span>{{view_user_info.name}}</span><a href="#modal" data-toggle="modal"><i
+                class="icon-pencil"></i></a></h4>
+        <p id="p_user_label">{{view_user_info.label}}</p>
+        {% else %}
+        <h4 id="h_user_name">{{view_user_info.name}}</h4>
+        <p id="p_user_label">{{view_user_info.label}}</p>
+        {% endif %}
+    </div>
+    {% if view_user_info and not session.get('userinfo')%}
+        <div id="user_info_right_control" class="right-control">
+            <a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()">
+                <i>+</i>关注
+            </a>
+            <span class="offset-1x" id="span_chat" style="display:none;">
+                <a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a>
+            </span>
+        </div>
+    {% endif %}
+    {% if view_user_info and session.get('userinfo') and session.get('userinfo')['id']!=view_user_info.id %}
+        <div id="user_info_right_control" class="right-control">
+            <a id="a_follow" href="javascript:void()" class="btn btn-default" onclick="add_relation()">
+                <i>+</i>关注
+            </a>
+            <span class="offset-1x" id="span_chat">
+            <a id="chat" href="javascript:void(0)" class="btn btn-default">交流</a>
+            </span>
+        </div>
+    {% endif %}
+</div>
 {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']==view_user_info.id %}
-{% include 'commons/upload.html'%}
+{% include 'commons/upload_image.html'%}
 {%endif%}
-<script type="text/javascript" >
+<script type="text/javascript">
 var user_id =0;
 getLoginInfo();
 function getLoginInfo(){
@@ -45,44 +60,40 @@ $('#chat').click(function(){
         alert('登录后才能交流哦')
     }
 })
+
 </script>
 {% if view_user_info %}
-<script type="text/javascript" >
+<script type="text/javascript">
  $('a[href="#photo"]').click(function(){
     var upload_type =  $(this).find('input').val();
     $('div#photo').find('input[name="from"]').val(upload_type);
   })
     function add_relation(){
         {% if session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
-        $.ajax({
-             type:'POST',
-             url:'/add_relation',
-             data:{
-                 relation_user_id:{{view_user_info.id}},
-                 is_relation:0
-             },
-             dataType:'json',
-             success:function(data) {
-               // var a = '<a id="a_follow" href="#" class="btn btn-default" onclick="cancel_relation()" ><i>-</i>取消关注</a>';
-               // $('#a_follow').remove();
-               // $('#chat').before(a);
-                //document.getElementById("span_chat").style.display="block";
-                //document.getElementById("a_follow").innerHTML="取消关注";
-                //document.getElementById("a_follow").onclick=function(){cancel_relation()};
-                select_relation();
-             },
-             error:function(xhr,type){
-                 alert('操作失败!');
-             }
-         })
-         {% else %}
-         alert('登录后才能关注哦!');
-         {% endif %}
+            $.ajax({
+                 type:'POST',
+                 url:'/add_relation',
+                 data:{
+                     relation_user_id:{{view_user_info.id}},
+                     is_relation:0
+                 },
+                 dataType:'json',
+                 success:function(data) {
+                    select_relation();
+                 },
+                 error:function(xhr,type){
+                     alert('操作失败!');
+                 }
+            })
+     {% else %}
+        alert('登录后才能关注哦!');
+     {% endif %}
     }
+
 </script>
 {% endif %}
 {% if view_user_info and session.get('userinfo') and  session.get('userinfo')['id']!=view_user_info.id %}
-<script type="text/javascript" >
+<script type="text/javascript">
     function cancel_relation(){
         if({{session.get('userinfo')['id']}}>0){
             $.ajax({
@@ -141,9 +152,11 @@ $('#chat').click(function(){
         }
         return true;
     }
+
 </script>
-<script type="text/javascript" >
+<script type="text/javascript">
     //$('#chat').before(select_relation());
     select_relation();
+
 </script>
 {% endif %}

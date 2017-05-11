@@ -19,8 +19,8 @@ def timestampFormat(timestampParam):
     H = tm_date.tm_hour
     i = tm_date.tm_min
     s = tm_date.tm_sec
-    if i>=0 and i<10:
-        i='0'+str(i)
+    if i >= 0 and i < 10:
+        i = '0' + str(i)
     if timestampDiff < 60:  # 一分钟以内
         return "刚刚"
     elif timestampDiff < 3600:  # 一小时前之内

@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     {% include 'commons/body_top.html' %}
     <div class="divider solid "></div>
     <div id="body ">
@@ -49,14 +48,8 @@
 
 </html>
 <script type="text/javascript">
-    var user_id = 0;
     var page_no = 1;
     var num_perpage = 10;
     var total ={{total}};
-    function getLoginInfo(){
-        {% if session.get('userinfo')%}
-            user_id = {{session.get('userinfo')['id']}};
-        {%endif%}
-    }
     initData();
 </script>

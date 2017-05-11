@@ -70,13 +70,14 @@ def insert_default_value():
     db.session.add(insert13)
     db.session.commit()
 
+
 def get_type_id(action_name):
-    name_id_dict={'regist':1,'login':2,'create_post':3,'reply_post':4,'comment':5,\
-        'praise_reply':6,'praise_post':7,'create_private_message':8,'follow':9,\
-        'cancel_follow':10,'create_community':11,'join_community':12,'left_community':13} 
-    result=0
+    name_id_dict = {'regist' : 1, 'login': 2, 'create_post': 3,'reply_post': 4, 'comment': 5,'praise_reply': 6,
+                    'praise_post': 7, 'create_private_message': 8, 'follow': 9,'cancel_follow': 10,
+                    'create_community': 11, 'join_community': 12, 'left_community': 13}
+    result = 0
     try:
-      result=name_id_dict[action_name]
+        result=name_id_dict[action_name]
     except Exception,e:
-      print e
+        print e
     return result

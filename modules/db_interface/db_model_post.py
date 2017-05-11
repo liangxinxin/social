@@ -3,7 +3,7 @@
 from sqlalchemy import desc, func
 from db_connect import db
 import db_model_user
-import  db_model_community
+import db_model_community
 
 
 class Post(db.Model):
@@ -128,10 +128,11 @@ def select_post_by_floor_num(page_no, num_per_page):
     print paginate
     return paginate
 
+
 # return paginate
 def select_post_num():
     count = Post.query.filter(Post.status == 0).order_by(desc(Post.floor_num)).count();
-    print 'post count',count
+    print 'post count', count
     return count
 
 
@@ -153,7 +154,7 @@ def to_json(object):
             'content': object.content,
             'create_user_id': object.create_user_id,
             'user': db_model_user.to_json(object.user),
-            'community':db_model_community.to_json(object.community),
+            'community': db_model_community.to_json(object.community),
             'community_id': object.community_id,
             'floor_num': object.floor_num,
             'create_time': object.create_time,
