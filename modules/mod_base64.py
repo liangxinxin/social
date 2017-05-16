@@ -46,7 +46,7 @@ def base64_hander(content, path_type):
                     out.close()
                     trs[i].attrs["src"] = save_path
                 except Exception, e:
-                    print 'base64_hander exception !',e
-    soup = str(soup).replace('</img>','')
+                    print 'base64_hander exception !', e
+    soup = str(soup).replace('</img>', '')
     return soup
 
