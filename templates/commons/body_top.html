@@ -258,9 +258,9 @@
                    } else {
                         var drop_menu_html='';
                       if(login_user_id>0){
-                        drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                        drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛,赶紧<span class="offset-1x"><a onclick="toCreate()"  href="#modal_new" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a> 当岛主吧</span></li>';
                       }else{
-                         drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛<span class="offset-1x"><a onclick="toCreate()"  href="javascript:void(0)" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a></span></li>';
+                         drop_menu_html='<li>目前还没有<span class="text-primary">'+name+'</span>岛,赶紧<span class="offset-1x"><a onclick="toCreate()"  href="javascript:void(0)" data-toggle="modal"  class="btn btn-sm btn-default">去创建</a> 当岛主吧</span></li>';
                       }
                       $('ul.s-community').html(drop_menu_html);
                    }
