@@ -364,7 +364,7 @@
           }else if(this.fromType=='shequ'){
             $('div#community_header').find("a[href='#photo']").find('img').attr('src',data['data']);
           }
-          this.$avatarClose.click();
+          this.$container.find('#cancel').click();
           return ;
       }else if(data.code===1){
             alert('上传失败！')
@@ -476,7 +476,6 @@
                     if(tempfromType=='shequ'|| tempfromType=='createShequ'){
                         var imgs = [];
                         var res =data.result;
-                        console.log('leng:'+res.length)
                         for(var i=0;i<res.length;i++){
                             this.image= [
                                  '<span >',
