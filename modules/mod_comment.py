@@ -9,6 +9,7 @@ from db_interface import db_model_action_type
 from db_interface import db_model_comment
 from db_interface import db_model_message
 from db_interface import db_model_reply
+from Logger import *
 
 default_comment_id = 0
 default_reply_id = 0
@@ -19,7 +20,7 @@ default_num_perpage = 5
 def service(request):
     if request.method == 'POST':
         type = request.form.get("type")
-        print 'post'
+        Logger.infoLogger.info('post')
         if type == 'publish':
             return publish_comment(request)
         elif type == 'delete':
@@ -28,7 +29,7 @@ def service(request):
     elif request.method == 'GET':
         type = request.args.get("type")
         if type == 'query':
-            print " request is:", request
+            Logger.infoLogger.info('request is: %s', request)
             return query_by_reply_id(request)
 
 
@@ -46,7 +47,7 @@ def query_by_reply_id(request):
 
 
 def publish_comment(request):
-    print ' publish comment'
+    Logger.infoLogger.info('request is: %s', request)
     result = {}
     if session.get('userinfo'):
         create_user_id = (int)(session.get('userinfo')['id'])
@@ -56,7 +57,7 @@ def publish_comment(request):
         content = request.form.get('content')
         reply = db_model_reply.select_by_id(reply_id)
         if reply is None:
-            print 'reply is none'
+            Logger.infoLogger.info('reply is none, reply_id is %s', reply_id)
             result['code'] = 1
             result['message'] = 'reply is none'
             return result
@@ -79,7 +80,7 @@ def publish_comment(request):
         if create_user_id != to_user_id:
             db_model_message.insert_comment_message(create_user_id, to_user_id, data.id)
 
-        print "record action of create post"
+        Logger.infoLogger.info('record action of create post')
         action_content = {'comment_id':data.id}
         db_model_action.insert(user_id=create_user_id,
                                action_type_id=db_model_action_type.get_type_id('create_comment'),
@@ -90,13 +91,14 @@ def publish_comment(request):
         result['code'] = 0
         result['message'] = 'success'
         result['comment'] = data
+        Logger.infoLogger.info('result:%s', result)
         return result
 
 
 def delete_comment(request):
     result = {}
     comment_id = request.form.get('comment_id')
-    print 'do delete comment'
+    Logger.infoLogger.info('do delete comment')
     comment = db_model_comment.select_by_id(comment_id)
     if comment is None:
         result['code'] = 1
@@ -113,7 +115,8 @@ def delete_comment(request):
             reply.floor_num -= 1
         reply.last_update_time = last_update_time
         db_model_reply.update(reply)
-    except Exception,e:
+    except Exception, e:
         result['code'] = 1
-        print e
+        Logger.infoLogger.error('exception %s', e)
+    Logger.infoLogger.info('result: %s ', result)
     return result

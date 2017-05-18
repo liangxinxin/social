@@ -8,6 +8,7 @@ from flask import session
 from db_interface import db_default_image
 from db_interface import db_model_user
 from db_interface import db_model_community
+from Logger import *
 
 default_page_no = 1
 default_num_perpage = 20
@@ -22,7 +23,7 @@ default_path = 'http://jinrongdao.com:6100/images/'
 
 
 def service(request):
-    print "enter do user create service"
+    Logger.infoLogger.info('enter do user create service')
     if request.method == 'POST':
         return upload_head_image(request)
     elif request.method == 'GET':
@@ -32,14 +33,14 @@ def service(request):
 def upload_head_image(request):
     user_id = session.get('userinfo')['id']
     type = request.form.get("type")  # user/community
-    print os.getcwd()
+    Logger.infoLogger.info('cur_path:%s',os.getcwd())
     cur_path = os.getcwd()
     ori_file_name = request.form.get('filename').encode('utf-8')
     is_default = request.form.get('isDefault').encode('utf-8')
     community_id = request.form.get('community_id', 0)
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    print 'type',type
+    Logger.infoLogger.info('type:%s', type)
     result = {}
     if is_default=='true':
         savePath = default_path + type + '/' + ori_file_name
@@ -49,26 +50,22 @@ def upload_head_image(request):
             db_model_community.save_head_image(community_id, savePath,update_time)
         elif type == 'createShequ':
             savePath = default_path + 'shequ' + '/' + ori_file_name
-        print 'upload image type',type
         message = "success"
         result = {"message": message, "code": 0,"data":savePath}
     else:
-        print 'do upload_head_image'
+        Logger.infoLogger.info('do upload_head_image')
         upload_path = cur_path + '/static/images/upload/' + type + '/'
         header = "data:image"
         curTime = int(time.time())  # time.mktime(datetime.datetime.now().timetuple())
         fileType = ori_file_name[-4:]
         rand1 = random.randint(0, 900) + 100
         rand2 = random.randint(0, 90) + 10
-        print 'random',rand1, rand2
         file_name = '%s%s%s%s' % (curTime, rand1, rand2, fileType)
         save_path = default_path +'upload/'+ type + '/' + file_name
-        print 'savePath', save_path,
-        print 'uploadPath', upload_path
-        print' fileName', file_name
+        Logger.infoLogger.info('savePath:%s,uploadPath:%s,fileName:%s',save_path,upload_path,file_name)
         image = request.form.get('image').encode('utf-8')
         image_arr = image.split(",")
-        print 'imageArr[0]',image_arr[0]
+        Logger.infoLogger.info('imageArr[0]:%s',image_arr[0])
         if header in image_arr[0]:
             image = image_arr[1]
             message = "fail"
@@ -86,11 +83,11 @@ def upload_head_image(request):
                     db_model_community.save_head_image(community_id, save_path, update_time)
                 message = "success"
                 result = {"message": message, "code": 0,"data":save_path}
-                print("upload success")
+                Logger.infoLogger.info("upload success")
             except Exception, e:
-                result = {"message": message, "code": 1,"data":''}
-                print e
-
+                result = {"message": message, "code": 1, "data": ''}
+                Logger.infoLogger.error('Exception: %s', e)
+    Logger.infoLogger.info('result code: %s message:%s', result['code'], result['message'])
     return result
 
 

@@ -10,6 +10,7 @@ from db_interface import db_model_community
 from db_interface import db_model_post
 from db_interface import db_model_user_community
 from db_interface import db_model_user
+from Logger import *
 
 default_page_no = 1
 default_num_perpage = 20
@@ -19,9 +20,9 @@ default_community_id = 1
 
 def service(request):
     if request.method == 'POST':
-        print "post!"
+        Logger.infoLogger.info('post')
         service_type = request.form.get("type")
-        print service_type
+        Logger.infoLogger.info('service_type:%s',service_type)
         if service_type == "query":
             return query_community(request)
         elif service_type == "publish":
@@ -31,7 +32,7 @@ def service(request):
 
     elif request.method == 'GET':
         type = request.args.get("type")
-        print 'type', type
+        Logger.infoLogger.info('type %s', type)
         if type == 'commend_community':
             return select_hot_commend_community(request)
         elif type == 'query':
@@ -59,14 +60,15 @@ def update_community(request):
             result['code'] = 1
             result['message'] = 'community is null'
     except Exception, e:
-        print Exception, ":", e
+        Logger.infoLogger.error('Exception %s',e)
         result['code'] = 1
         result['message'] = 'fail'
+    Logger.infoLogger.info('result: code %s message %s ',result['code'], result['message'])
     return result
 
 
 def query_community(request):
-    print " now query community by name!"
+    Logger.infoLogger.info('now query community by name !')
     name = request.form.get("name", "")
     page_no = request.form.get("page_no", default_page_no)
     num_perpage = request.form.get("num_perpage", default_num_perpage)
@@ -76,14 +78,14 @@ def query_community(request):
     index = community_name.find('岛'.decode('utf8'))
     if index + 1 == len(community_name):
         community_name = community_name[:index]
-    print community_name, name
+    Logger.infoLogger.info('query name:%s,%s',community_name, name)
     paginate = db_model_community.select_by_name_paging(community_name, page_no, num_perpage)
     # return select value
     return paginate, name, community_name
 
 
 def get_community_info(request):
-    print " now query community info by id!"
+    Logger.infoLogger.info('now query community info by id')
     id = request.args.get("id", default_community_id)
     community = db_model_community.select_by_id(id)
     has_join = False
@@ -100,7 +102,7 @@ def publish_community(request):
     result = {}
     if session.get('userinfo'):
         create_user_id = session.get('userinfo')['id']
-        print "publish community request"
+        Logger.infoLogger.info('publish community request')
         # insert to db
         name = request.form.get("name", "default")
         describe = request.form.get("describe", "finance home")
@@ -108,7 +110,7 @@ def publish_community(request):
         try:
             ISOTIMEFORMAT = '%Y-%m-%d %X'
             create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-            print "now insert new community to db"
+            Logger.infoLogger.info('now insert new community to db')
             data = db_model_community.insert(name=name, user_num=1, post_num=0, describe=describe,
                                              head_img_url=head_img_url, create_user_id=create_user_id,owner_user_id=create_user_id,
                                              create_time=create_time)
@@ -121,33 +123,32 @@ def publish_community(request):
             else:
                 db_model_user_community.insert(create_user_id, data.id, create_time)
                 data = db_model_community.to_json(data)
-            print "community id:", data['id']
-            print "record action of create community"
-            action_content = {}
-            action_content['user_id'] = int(create_user_id)
-            action_content['community_id'] = int(data['id'])
-            db_model_action.insert(user_id=create_user_id, \
-                                   action_type_id=db_model_action_type.get_type_id('create_community'), \
-                                   action_detail_info=json.dumps(action_content, ensure_ascii=False), \
+            Logger.infoLogger.info('community id:%s',data['id'])
+            Logger.infoLogger.info('record action of create community')
+            action_content = {'user_id': int(create_user_id), 'community_id': int(create_user_id)}
+            db_model_action.insert(user_id=create_user_id,
+                                   action_type_id=db_model_action_type.get_type_id('create_community'),
+                                   action_detail_info=json.dumps(action_content, ensure_ascii=False),
                                    create_time=create_time)
             result['code'] = 0
             result['data'] = data
             result['message'] = 'success'
         except Exception, e:
-            print e
             result['code'] = 1
             result['message'] = 'fail'
             result['data'] = ''
+            Logger.infoLogger.error('exception: %s',e)
     else:
         result['code'] = 1
         result['message'] = 'fail'
         result['data'] = ''
-        print 'user is null'
+        Logger.infoLogger.error('user not login')
+    Logger.infoLogger.info('result code: %s message: %s',result['code'],result['message'])
     return result
 
 
 def get_default_communities(page_no, page_size):
-    print "get default communities:"
+    Logger.infoLogger.info('get default communities')
     paginate = db_model_community.select_all_paging(page_no, page_size)
     return paginate.items
 
@@ -191,7 +192,7 @@ def find_match_community(request):
     index = community_name.find('岛'.decode('utf8'))
     if index + 1 == len(community_name):
         community_name = community_name[:index]
-    print community_name, name
+    Logger.infoLogger.info('find name:%s,%s',(community_name, name))
     num_perpage = 10
     paginate = db_model_community.select_by_name_paging(community_name, default_page_no, num_perpage)
     comm_list = []

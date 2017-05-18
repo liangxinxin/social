@@ -6,6 +6,7 @@ from sqlalchemy import desc
 from db_connect import db
 import db_model_user
 import db_model_comment
+from modules.Logger import *
 
 
 class Reply(db.Model):
@@ -94,21 +95,21 @@ def delete(id):
 
 
 def select_paging_by_post_id(page_no, num_per_page, post_id):
-    print 'no:', page_no, 'num:', num_per_page, 'post id:', post_id
+    Logger.infoLogger.info('no:%s,num:%s,post id:%s',page_no,num_per_page,post_id)
     paginate = Reply.query.filter(Reply.post_id == post_id, Reply.status == 0).order_by(Reply.create_time).paginate(
         page_no, num_per_page, False)
     return paginate
 
 
 def select_except_best_id(page_no, num_per_page, post_id, best_reply_id):
-    print 'no:', page_no, 'num:', num_per_page, 'post id:', post_id
+    Logger.infoLogger.info('no:%s','num:%s,post id:%s',page_no,num_per_page,post_id)
     paginate = Reply.query.filter(Reply.post_id == post_id, Reply.status == 0, Reply.id != best_reply_id).order_by(
         Reply.create_time).paginate(page_no, num_per_page, False)
     return paginate
 
 
 def select_best_by_post_id(post_id):
-    print 'post id:', post_id
+    Logger.infoLogger.info('post id:%s', post_id)
     best_reply = Reply.query.filter(Reply.post_id == post_id, Reply.status == 0, Reply.like_num >= 3).order_by(
         desc(Reply.like_num)).first()
     return best_reply

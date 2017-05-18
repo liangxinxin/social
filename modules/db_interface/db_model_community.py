@@ -2,6 +2,7 @@
 from sqlalchemy import desc
 
 from db_connect import db
+from modules.Logger import *
 
 
 class Community(db.Model):
@@ -122,7 +123,7 @@ def save_head_image(id, imageUrl, update_time):
 
 # return paginate
 def select_by_user_num(page_no, num_per_page, id):
-    print 'no:', page_no, 'num:', num_per_page
+    Logger.infoLogger.info('no:%s,num:%s',page_no,num_per_page)
     if page_no < 1:
         page_no = 1
     paginate = Community.query.filter(Community.id != id).order_by(desc(Community.user_num)).paginate(page_no,

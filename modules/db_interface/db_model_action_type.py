@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from db_connect import db
+from modules.Logger import *
 
 
 class ActionType(db.Model):
@@ -80,4 +81,5 @@ def get_type_id(action_name):
         result=name_id_dict[action_name]
     except Exception,e:
         print e
+        Logger.infoLogger.error('Exception:%s',e)
     return result

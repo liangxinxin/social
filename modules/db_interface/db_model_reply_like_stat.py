@@ -4,6 +4,7 @@ import MySQLdb
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from db_connect import db
+from modules.Logger import *
 
 
 class ReplyLikeActivity(db.Model):
@@ -23,7 +24,7 @@ def create_table():
 
 
 def is_reply_liked_by_user(reply_id, user_id):
-    print "is_reply_liked_by_user:", reply_id, user_id
+    Logger.infoLogger.info('reply_id:%s,user_id:%s',reply_id, user_id)
     count = ReplyLikeActivity.query.filter_by(reply_id=reply_id, user_id=user_id).count()
     return count > 0
 

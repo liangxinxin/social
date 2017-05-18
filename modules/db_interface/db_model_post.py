@@ -4,6 +4,7 @@ from sqlalchemy import desc, func
 from db_connect import db
 import db_model_user
 import db_model_community
+from modules.Logger import *
 
 
 class Post(db.Model):
@@ -132,13 +133,14 @@ def select_post_by_floor_num(page_no, num_per_page):
 # return paginate
 def select_post_num():
     count = Post.query.filter(Post.status == 0).order_by(desc(Post.floor_num)).count();
-    print 'post count', count
+    Logger.infoLogger.info('post count:%s', count)
     return count
 
 
 # return paginate
 def select_all_by_user(page_no, num_per_page, user_id):
-    print 'no:', page_no, 'num:', num_per_page, 'user_id:', user_id
+    print
+    Logger.infoLogger.info('no::%s,num:%s,user_id:%s', page_no, num_per_page,   user_id)
     if page_no < 1:
         page_no = 1
     paginate = Post.query.filter(Post.create_user_id == user_id, Post.status == 0).order_by(

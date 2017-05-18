@@ -4,6 +4,7 @@ from flask import session
 from db_interface import db_model_user
 from db_interface import db_model_action
 from db_interface import db_model_action_type
+from Logger import *
 
 
 def service(request):
@@ -21,8 +22,8 @@ def service(request):
             continue
         new_param.append(item[0] + '=' + item[1])
     next_url = '&'.join(new_param)
-    print next_url
-    print "login:", name, password
+    Logger.infoLogger.info('next_url: %s',next_url)
+    Logger.infoLogger.info('login name: %s ,password:%s', name, password)
     user1 = db_model_user.select_by_name_and_password(name=name, password=password)
     user2 = db_model_user.select_by_mobile_and_password(mobile=name, password=password)
     if user1 is not None:

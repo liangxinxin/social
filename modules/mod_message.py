@@ -5,13 +5,13 @@ from db_interface import db_model_comment
 from db_interface import db_model_message
 from db_interface import db_model_private_message
 from db_interface import  db_model_message_type ##勿删除，否则加载不到 message_type
-
+from Logger import *
 default_page_no = 1
 default_num_perpage = 10
 
 
 def service(request):
-    print 'enter do db_model_message  service'
+    Logger.infoLogger.info('enter do db_model_message  service')
     if request.method == 'GET':
         type = request.args.get('type')
         if type == 'query':
@@ -42,7 +42,7 @@ def select_comment_message(request):
         else:
             for message in unread_list:
                 db_model_message.update_has_read(message.id, True)
-        print "query message type--------------:", message_type, " num:", len(read_list.items)
+        Logger.infoLogger.info('query message type : %s,num:%s',message_type,len(read_list.items))
         return read_list.items, unread_list, total, page_no, num_perpage, message_type
 
 

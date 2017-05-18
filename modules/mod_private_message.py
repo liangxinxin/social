@@ -8,6 +8,7 @@ from db_interface import db_model_action
 from db_interface import db_model_action_type
 from db_interface import db_model_private_message
 from db_interface import db_model_user
+from Logger import *
 
 default_page_no = 1
 default_num_perpage = 10
@@ -64,7 +65,7 @@ def select_mess_by_user(request):
 
 
 def select_new_message(request):
-    print 'into new mess'
+    Logger.infoLogger.info('into new mess')
     if session.get('userinfo'):
         to_user_id = int(session.get('userinfo')['id'])
         create_user_id = int(request.args.get('create_user_id'))
@@ -88,13 +89,16 @@ def save_private_message(request):
         result['code'] = 0
         result['message'] = 'success'
         result['data'] = message
-        print "record action of create private message"
+        Logger.infoLogger.info('record action of create private message')
         action_content = {'from_user_id': user_id, 'to_user_id': to_user_id, 'message_id': message['id']}
         db_model_action.insert(user_id=user_id, action_type_id=db_model_action_type.get_type_id('create_private'),
                                action_detail_info=json.dumps(action_content, ensure_ascii=False),
                                create_time=create_time)
+        Logger.infoLogger.info('result:%s', result)
     else:
         result['code'] = 1
         result['message'] = 'fail'
         result['data'] = ''
+        Logger.infoLogger.error('result:%s',result)
+
     return result

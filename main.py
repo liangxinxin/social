@@ -18,6 +18,7 @@ from modules import mod_reply
 from modules import mod_user
 from modules import mod_user_community
 from modules import mod_verify
+from modules.Logger import *
 
 '''  BASICAL FUNCTIONS BEGIN  '''
 
@@ -28,6 +29,7 @@ app.config.from_object('config')
 
 default_user_data = []
 default_community_data = []
+
 
 
 @app.route('/')
@@ -77,24 +79,23 @@ def community():
 
 @app.route('/get_community_post', methods=['GET'])
 def get_community_post():
-    print 'get_community_post'
     model, page_no, num_perpage = mod_post.service(request)
     total = model.total
-    print 'get_community_post rersult total', total
+    Logger.infoLogger.info('result total:%s', total)
     return jsonify(post_list=model.items, page_no=page_no, total=total)
 
 
 @app.route('/get_commend_community', methods=['GET'])
 def get_commend_community():
     page_no, num_page, commend_list = mod_community.select_hot_commend_community(request)
-    print 'get_commend_community', 'total', len(commend_list)
+    Logger.infoLogger.info('total:%s',len(commend_list))
     return jsonify(page_no=page_no, num_page=num_page, commend_list=commend_list)
 
 
 @app.route('/update_community', methods=['POST'])
 def update_community():
     result = mod_community.service(request)
-    print 'update_community result', result['code'], result['message']
+    Logger.infoLogger.info('result:%s',result)
     return jsonify(result=result['code'])
 
 
@@ -102,8 +103,6 @@ def update_community():
 # @interceptor(login_required=True)
 def post_publish():
     model, user_list, community, has_join = mod_post.service(request)
-    post_num = len(model.items)
-    print model
     return redirect(url_for('community', id=community.id, type='query'))
 
 
@@ -135,7 +134,7 @@ def get_best_reply():
 # @interceptor(login_required=True)
 def delete_post():
     result = mod_post.delete_post(request)
-    print 'delete commpelete result:', result['code'],result['message']
+    Logger.infoLogger.info('result:%s',result)
     return jsonify(result=result['code'])
 
 
@@ -156,9 +155,9 @@ def reply_publish():
 @app.route('/update_reply', methods=['POST'])
 # @interceptor(login_required=True)
 def reply_update():
-    print 'reply_update'
+    Logger.infoLogger.info('start')
     result = mod_reply.update_reply(request)
-    print 'reply_update result', result['code']
+    Logger.infoLogger.info('result：%s',result)
     return jsonify(result=result['code'])
 
 
@@ -191,7 +190,7 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    result = mod_logout.service(request)
+    result = mod_logout.service()
     return jsonify(succ=result['succ'], code=result['code'], message=result['message'])
 
 
@@ -199,7 +198,6 @@ def logout():
 def user_create():
     next_url = request.args.get('next_url')
     mobile = request.args.get('mobile')
-    print next_url
     return render_template('user_create.html', next_url=next_url, mobile=mobile)
 
 
@@ -250,12 +248,12 @@ def read_message():
 
 @app.route('/user_info_post', methods=['GET', 'POST'])
 def user_info_post():
-    print 'user_info_post start'
+    Logger.infoLogger.info('start')
     post_list, page_no, num_perpage, total, view_user_info = mod_user.get_user_post(request)
     messages_unread_num = mod_user.get_unread_message_from_session()
     mess_dict = mod_message.select_unread_num_by_type()
     user_info_type = 'post'
-    print 'user_info_type', user_info_type
+    Logger.infoLogger.info('user_info_type:%s', user_info_type)
     return render_template('user_info_post.html', mess_dict=mess_dict,messages_unread=messages_unread_num,
                            messages_unread_num=messages_unread_num,post_list=post_list, no=page_no,size=num_perpage,
                            total_size=total,view_user_info=view_user_info, user_info_type=user_info_type)
@@ -263,7 +261,7 @@ def user_info_post():
 
 @app.route('/user_info_community_create', methods=['GET', 'POST'])
 def user_info_community_create():
-    print 'user_info_community_owned start'
+    Logger.infoLogger.info('user_info_community_owned start')
     messages_unread_num = mod_user.get_unread_message_from_session()
     community_list, page_no, num_perpage, total, view_user_info = mod_user.community_create(request)
     mess_dict = mod_message.select_unread_num_by_type()
@@ -294,7 +292,7 @@ def community_joined():
 
 @app.route('/user_info_friend', methods=['GET', 'POST'])
 def user_info_friend():
-    print 'user_info_friend start'
+    Logger.infoLogger.info('user_info_friend start')
     friend_list, page_no, num_perpage, total, view_user_info = mod_user.good_friends(request)
     mess_dict = mod_message.select_unread_num_by_type()
     messages_unread_num = mod_user.get_unread_message_from_session()
@@ -307,7 +305,6 @@ def user_info_friend():
 @app.route('/community_owned', methods=['GET', 'post'])
 # @interceptor(login_required=True)
 def get_community_owned():
-    print 'get_community_owned'
     communities, page_no, num_perpage, communities_total = mod_user.community_owned(request)
     return jsonify(communities=communities, no=page_no, size=num_perpage, totalsize=communities_total)
 
@@ -316,7 +313,6 @@ def get_community_owned():
 @app.route('/good_friends', methods=['GET', 'post'])
 # @interceptor(login_required=True)
 def get_good_friends():
-    print 'get_good_friends'
     friends, page_no, num_perpage, friends_total = mod_user.good_friends(request)
     return jsonify(friends=friends, no=page_no, size=num_perpage, totalsize=friends_total)
 
@@ -327,35 +323,34 @@ def get_good_friends():
 def regist():
     if request.method == 'GET':
         return render_template('register.html')
-    print "now begin verify"
+    Logger.infoLogger.info('now begin verify')
     result = mod_verify.service(request)
-    print 'check smscode result code:',result['code'],'message,',result['message']
+    Logger.infoLogger.info('check smscode result:%s',result)
     if result['succ'] == '0':
-        print "verify pass! now begin insert db"
+        Logger.infoLogger.info('verify pass! now begin insert db')
         result, user_info = mod_user.service(request)
-    print "now begin return regist result"
+    Logger.infoLogger.info('now begin return regist result')
     return jsonify(succ=result['succ'], code=result['code'], message=result['message'])
 
 
 @app.route('/modify_user', methods=['GET', 'POST'])
 def modify_user():
-    print "enter url modify_user"
     result = mod_user.service(request)
-    print 'modify user result:', result
+    Logger.infoLogger.info('modify user result:%s', result)
     return jsonify(succ=result['succ'], code=result['code'], message=result['message'])
 
 
 @app.route('/check_mobile', methods=['GET', 'POST'])
 def check_mobile():
     result = mod_mobile.service(request)
-    print 'mobile check result:', result
+    Logger.infoLogger.info('mobile check result:%s', result)
     return jsonify(succ=result['succ'], code=result['code'], message=result['message'])
 
 
 @app.route('/check_mobile_exist', methods=['GET', 'POST'])
 def check_mobile_exist():
     result = mod_mobile.service(request)
-    print 'mobile check result:', result
+    Logger.infoLogger.info('mobile check result:%s', result)
     return jsonify(succ=result['succ'], code=result['code'], message=result['message'])
 
 
@@ -414,7 +409,7 @@ def select_relation():
 @app.route('/upload_head_image', methods=['POST'])
 # @interceptor(login_required=True)
 def upload_head_image():
-    print 'upload_head_image'
+    Logger.infoLogger.info('upload_head_image')
     result = mod_image.service(request)
     if result.get('code') == 0:
         return jsonify(code=0, result='succ', data=result['data'])
@@ -435,7 +430,7 @@ def get_default_image():
 @app.route('/get_comment', methods=['get'])
 # @interceptor(login_required=True)
 def get_comment():
-    print 'get_comment'
+    Logger.infoLogger.info('get_comment')
     paginate = mod_comment.service(request)
     return jsonify(comment_list=paginate.items, has_next=paginate.has_next)
 
@@ -443,28 +438,27 @@ def get_comment():
 @app.route('/publish_comment', methods=['post'])
 # @interceptor(login_required=True)
 def publish_comment():
-    print 'publish_comment'
     result = mod_comment.service(request)
-    print 'publish_comment result:code ', result['code'], ' message: ', result['message']
+    Logger.infoLogger.info('result:%s',result)
     return jsonify(code=result['code'], comment=result['comment'])
 
 
 @app.route('/delete_comment', methods=['post'])
 # @interceptor(login_required=True)
 def delete_comment():
-    print 'delete_comment'
+    Logger.infoLogger.info('delete_comment')
     result = mod_comment.service(request)
-    print 'delete_comment result:code ', result.get('code')
+    Logger.infoLogger.info('result:%s',result)
     return jsonify(result=result['code'])
 
 
 @app.route('/message', methods=['GET', 'POST'])
 # @interceptor(login_required=True)
 def get_message():
-    print 'get_message'
+    Logger.infoLogger.info('get_message')
     login_flag = mod_user.check_login()
     if not login_flag:
-        print 'user not login'
+        Logger.infoLogger.error('user not login')
         return redirect('/index')
     messages_unread_num = mod_user.get_unread_message_from_session()
     read_list, unread_list, total, page_no, num_perpage, message_type = mod_message.service(request)
