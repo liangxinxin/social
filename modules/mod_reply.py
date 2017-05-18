@@ -12,6 +12,7 @@ from db_interface import db_model_reply
 from db_interface import db_model_reply_like_stat
 from db_interface import db_model_user
 from db_interface import db_model_comment
+from Logger import *
 
 default_page_no = 1
 default_num_perpage = 10
@@ -27,17 +28,16 @@ def service(request):
         elif type == 'update':
             return update_reply(request)
         else:
-            print 'error request:', request
+            Logger.infoLogger.error('error request %s:', request)
     elif request.method == 'GET':
         type = request.args.get('type')
         if type == 'query':
             return get_reply_by_post(request)
-        print 'hehe,the request is:', request
 
 
 def reply_like_changed(request):
     if session.get('userinfo'):
-        print "'user's info-------\n'", session.get('userinfo')
+        Logger.infoLogger.error('userinfo :%s', session.get('userinfo'))
         user_id = session.get('userinfo')['id']
         reply_id = request.form.get('reply_id')
         mod_type = request.form.get('mod_type')
@@ -51,7 +51,7 @@ def reply_like_changed(request):
                 db_model_message.insert_zan_reply(user_id, reply_id)
                 reply.like_num += 1
                 db_model_reply.update_like_num(reply_id, reply.like_num, create_time)
-                print 'record action of like reply'
+                Logger.infoLogger.info('record action of like reply')
                 action_content = {'reply_id': reply.id}
                 db_model_action.insert(user_id=user_id,
                                        action_type_id=db_model_action_type.get_type_id('praise_reply'),
@@ -60,17 +60,18 @@ def reply_like_changed(request):
             else:
                 last_update_time = time.strftime(ISOTIMEFORMAT, time.localtime())
                 db_model_reply_like_stat.remove(reply_id, user_id)
-                print ' remove reply_like_stat id', reply_id, 'user_id', user_id
+                Logger.infoLogger.info('remove reply_like_stat id:%s,user_id:%s', reply_id,user_id)
                 reply.like_num -= 1
                 db_model_reply.update_like_num(reply_id, reply.like_num, last_update_time)
 
             result['code'] = 0
             result['message'] = 'success'
             result['like_num'] = reply.like_num
+            Logger.infoLogger.info('result:%s',result)
         else:
             result['code'] = 1
             result['message'] = 'reply is null'
-
+            Logger.infoLogger.error('reply is null,reply_id:%s', reply_id)
         return result
 
 
@@ -148,21 +149,21 @@ def publish_reply(request):
         last_update_time = create_time
         path_type = 'reply'
         content = mod_base64.base64_hander(content, path_type)
-        print 'create reply--- content:', content, 'user_id:', create_user_id, 'post_id:', post_id,'community_id',\
-            community_id
+        Logger.infoLogger.info('content:%s,user_id:%s,post_id:%s,community_id:%s',
+                               (content, create_user_id, post_id, community_id))
         # insert to db
         db_model_reply.insert(content, create_user_id, post_id, floor, floor_num, like_num, create_time, status,
                               last_update_time)
         reply = db_model_reply.select_by_create_user_and_post_and_floor(create_user_id, post_id, floor)
         if reply and (create_user_id != post_data.create_user_id):
             db_model_message.insert_reply_post(create_user_id, post_id, reply.id)
-            print 'record action of create reply'
+            Logger.infoLogger.info('record action of create reply')
             action_content = {'reply_id': reply.id}
             db_model_action.insert(user_id=create_user_id,
                                    action_type_id=db_model_action_type.get_type_id('create_reply'),
                                    action_detail_info=json.dumps(action_content, ensure_ascii=False),
                                    create_time=create_time)
-        print 'now insert to db'
+            Logger.infoLogger.info('now insert to db')
         reply.create_time = time_format.timestampFormat(reply.create_time)
         reply = db_model_reply.to_json(reply)
         replycount = post_data.floor_num
@@ -185,7 +186,7 @@ def update_reply(request):
     reply_id = request.form.get('reply_id')
     reply = db_model_reply.select_by_id(reply_id)
     if reply:
-        print 'reply is none', reply_id
+        Logger.infoLogger.error('reply is none,reply_id:%s', reply_id)
         result['code'] = 1
     reply.content = content
     ISOTIMEFORMAT = '%Y-%m-%d %X'
@@ -195,8 +196,8 @@ def update_reply(request):
         db_model_reply.update(reply)
     except Exception, e:
         result['code'] = 1
-        print e
-
+        Logger.infoLogger.error('Exception:%s', e)
+    Logger.infoLogger.info('result code:%s',result['code'])
     return result
 
 
@@ -205,7 +206,7 @@ def delete_reply(request):
     reply_id = long(request.form.get('reply_id'))
     reply = db_model_reply.select_by_id(reply_id)
     if reply is None:
-        print 'reply is none', reply_id
+        Logger.infoLogger.error('reply is none,reply_id:%s', reply_id)
         result['code'] = 1
         return result
     reply.status = 1
@@ -221,7 +222,8 @@ def delete_reply(request):
         result['replycount'] = post.floor_num
     except Exception, e:
         result['code'] = 1
-        print e
+        Logger.infoLogger.error('Exception:%s', e)
+    Logger.infoLogger.info('result code:%s',result['code'])
     return result
 
 

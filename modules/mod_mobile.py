@@ -1,6 +1,7 @@
 import re
 
 from db_interface import db_model_user
+from Logger import *
 
 
 def service(request):
@@ -33,4 +34,5 @@ def service(request):
         result['succ'] = '1'
         result['code'] = '1'
         result['message'] = ' not post method'
+    Logger.infoLogger.info('result code: %s,message %s',result['code'],result['message'])
     return result

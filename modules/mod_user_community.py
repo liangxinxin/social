@@ -5,6 +5,7 @@ from db_interface import db_model_community
 from db_interface import db_model_user_community
 from db_interface import db_model_action
 from db_interface import db_model_action_type
+from Logger import *
 
 default_page_no = 1
 default_num_perpage = 20
@@ -13,7 +14,7 @@ default_post_id = 0
 
 
 def service(request):
-    print "enter do user_community  service"
+    Logger.infoLogger.info('enter do user_community  service')
     if request.method == 'POST':
         type = request.form.get("type")
         if type == "join":
@@ -21,7 +22,7 @@ def service(request):
         elif type == "left":
             return user_left_community(request)
         else:
-            print "error request:", request
+            Logger.infoLogger.error('error request:%s', request)
     elif request.method == 'GET':
         type = request.args.get("type")
     if type == 'joined':
@@ -31,16 +32,16 @@ def service(request):
 
 
 def user_join_community(request):
-    print "now deal user join community!"
+    Logger.infoLogger.info('now deal user join community!')
     # insert to db
     user_id = int(request.form.get("user_id"))
     community_id = int(request.form.get("community_id"))
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    print 'uid:', user_id, 'cid:', community_id
-    print "now insert to db"
+    Logger.infoLogger.info('uid:%s,cid:%s',user_id, community_id)
+    Logger.infoLogger.info('now insert to db')
     db_model_user_community.insert(user_id=user_id, community_id=community_id, create_time=create_time)
-    print "record action of user join community"
+    Logger.infoLogger.info('record action of user join community')
     action_content = {'user_id': user_id,'community_id': community_id}
     db_model_action.insert(user_id=user_id,action_type_id=db_model_action_type.get_type_id('join_community'),
                            action_detail_info=json.dumps(action_content, ensure_ascii=False),create_time=create_time)
@@ -53,19 +54,19 @@ def user_join_community(request):
 
 
 def user_left_community(request):
-    print "now deal user join community!"
+    Logger.infoLogger.info('now deal user join community!')
     # insert to db
     user_id = request.form.get("user_id")
     community_id = request.form.get("community_id")
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
-    print 'uid:', user_id, 'cid:', community_id
-    print "now insert to db"
+    Logger.infoLogger.info('uid:%s,cid:%s',user_id,community_id)
+    Logger.infoLogger.info('now insert to db')
     info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
     if info:
         db_model_user_community.delete(info.id)
 
-    print "record action of user left community"
+    Logger.infoLogger.info('record action of user left community')
     action_content = {'user_id': user_id, 'community_id': community_id}
     db_model_action.insert(user_id=user_id,action_type_id=db_model_action_type.get_type_id('left_community'),
                            action_detail_info=json.dumps(action_content, ensure_ascii=False),create_time=create_time)
@@ -98,5 +99,5 @@ def user_has_join_community(community_id):
         info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
         if info:
             has_join = True
-        print "user:", user_id, "community:", community_id, " join:", has_join
+            Logger.infoLogger.info('user:%s,community:%s,join:%s',user_id,community_id, has_join)
     return has_join

@@ -18,7 +18,7 @@ from  db_interface import db_model_comment
 from modules import mod_base64
 from modules import mod_lcs
 from modules import time_format
-
+from Logger import *
 default_page_no = 1
 default_num_perpage = 10
 default_community_id = 0
@@ -32,7 +32,7 @@ def service(request):
         if type == "publish":
             return publish_post(request)
         else:
-            print "error request:", request
+            Logger.infoLogger.error('error request:%s',request)
     elif request.method == 'GET':
         type = request.args.get("type")
         if type =='getpost':
@@ -76,7 +76,7 @@ def find_match_post(request):
         value = dict_list[0][1]
         # 保留2位小数
         max_percent = round(value, 2)
-        print 'key', key, 'value', value
+        Logger.infoLogger.info('key: %s,value:%s', key, value)
         ids = []
         if max_percent > default_precent:
             for item in dict_list:  # 遍历元素是元组的集合
@@ -115,7 +115,7 @@ def delete_post(request):
             item.post_id = ','.join(post_id_list)
             item.last_update_time = update_time
             db_model_inverted_index.update(item)
-        print 'delete inverted_index success!'
+        Logger.infoLogger.info('delete inverted_index success!')
         community = db_model_community.select_by_id(post.community_id)
         # update community post_num
         community.post_num -= 1
@@ -132,14 +132,14 @@ def delete_post(request):
     except Exception, e:
         result['code'] = 1
         result['message'] = 'delete Exception !'
-        print e
-    print 'delete post ', post_id
+        Logger.infoLogger.error('Exception:%s',e)
+    Logger.infoLogger.info('delete post:%s', post_id)
 
     return result
 
 
 def publish_post(request):
-    print "now publish post request"
+    Logger.infoLogger.info('now publish post request')
     # insert to db
     title = request.form.get("title")
     content = request.form.get("content")
@@ -153,12 +153,11 @@ def publish_post(request):
     ISOTIMEFORMAT = '%Y-%m-%d %X'
     create_time = time.strftime(ISOTIMEFORMAT, time.localtime())
     last_update_time = create_time
-    print 'title:', title, 'content:', content, "user_id:", create_user_id, "community_id:", community_id
+    Logger.infoLogger.info('title:%s,content:%s,user_id:%s,community_id:%s',title,content,create_user_id,community_id)
     insert = db_model_post.insert(title, content, create_user_id, community_id, floor_num, create_time,
                                   last_update_time, status)
-    print "now insert to db"
-
-    print "record action of create post"
+    Logger.infoLogger.info('now insert to db')
+    Logger.infoLogger.info('record action of create post')
     action_content = {'post_id': insert.id}
     db_model_action.insert(user_id=create_user_id, \
                            action_type_id=db_model_action_type.get_type_id('create_post'), \
@@ -166,13 +165,13 @@ def publish_post(request):
                            create_time=create_time)
 
     login_user.post_num += 1
-    print "now update post_num to db", (login_user)
+    Logger.infoLogger.info('now update post_num to db %s',login_user)
 
     # insert into inverted_index
     last_update_time = create_time
     # fenci
     words = list(jieba.cut(title.strip(), cut_all=False))
-    print 'words length', len(words)
+    Logger.infoLogger.info('words length %s',len(words))
     for word in words:
         inverted_index = db_model_inverted_index.select_by_word(word)
         if inverted_index :
@@ -183,11 +182,10 @@ def publish_post(request):
             db_model_inverted_index.update(inverted_index)
         else:
             db_model_inverted_index.insert(word, insert.id, create_time, last_update_time)
-    print 'now insert into inverted_index'
+    Logger.infoLogger.info('now insert into inverted_index')
 
     # select db
     paginate = db_model_post.select_all_paging(default_page_no, default_num_perpage, community_id)
-    print "now data:", paginate.items
     user_list = []
     for post in paginate.items:
         user = db_model_user.select_by_id(post.create_user_id)
@@ -200,8 +198,8 @@ def publish_post(request):
     has_join = False
     if session.get('userinfo'):
         user_id = session.get('userinfo')['id']
-        info = db_model_user_community.select_by_user_id_and_community_id(user_id=id, community_id=community_id)
-        if info != None:
+        info = db_model_user_community.select_by_user_id_and_community_id(user_id=user_id, community_id=community_id)
+        if info:
             has_join = True
     # return select value
     return paginate, user_list, community, has_join
@@ -209,7 +207,7 @@ def publish_post(request):
 
 def query_post_in_community(request):
     community_id = request.args.get("community_id", default_community_id)
-    print " now query post in communit id:", community_id
+    Logger.infoLogger.info('now query post in communit id:%s',community_id)
     page_no = int(request.args.get("page_no", default_page_no))
     num_perpage = int(request.args.get("num_perpage", default_num_perpage))
     # select post indb
@@ -221,57 +219,10 @@ def query_post_in_community(request):
 
 def post_info(request):
     post_id = request.args.get("id", default_post_id)
-    #community_id = request.args.get("community_id", default_community_id)
-    #page_no = int(request.args.get("page_no", default_page_no))
-    #num_perpage = int(request.args.get("num_perpage", default_num_perpage))
-    #print " now query post info---- post_id:", post_id, " community_id: ", community_id, " page no:", page_no, " num_perpage:", num_perpage
-
     # select db
     post= db_model_post.select_by_id(post_id)
     if post:
         post.create_time = time_format.timestampFormat(post.create_time)
-
-    # best_reply = db_model_reply.select_best_by_post_id(post_id)
-    # like_user_dict = {}
-    # best_reply_id =0
-    # if best_reply != None:
-    #     # best_reply_user = db_model_user.select_by_id(reply.create_user_id)
-    #     like_user_dict[best_reply.id] = select_like_user(best_reply.id)
-    #     best_reply_id = best_reply.id
-    # reply_data = db_model_reply.select_paging_by_post_id(page_no, num_perpage, post_id,best_reply_id)
-    # total = reply_data.total
-    # total_page = reply_data.pages
-    # reply_list =[]
-    # for reply in reply_data.items:
-    #     # add by lxx,like user start 2017-04-17
-    #     like_user_dict[reply.id] = select_like_user(reply.id)
-    #     # add by lxx,like user end
-    #     #user = db_model_user.select_by_id(reply.create_user_id)
-    #     reply.last_update_time = time_format.timestampFormat(reply.last_update_time)
-    #    # reply['like_user']=select_like_user(reply.id)
-    #     reply_list.append(reply)
-    #     #reply_user_list.append(user)
-    # #community = db_model_community.select_by_id(community_id)
-    #
-    #
-    # # def get_reply_like_count(reply):
-    # #     reply_id = reply.id
-    # #     count = db_model_reply_like_stat.get_reply_like_count(reply_id)
-    # #     return (reply_id, count)
-    #
-    # def is_reply_liked(reply):
-    #     reply_id = reply.id
-    #     if session.get('userinfo'):
-    #         user_id = session.get('userinfo')['id']
-    #         is_liked = db_model_reply_like_stat.is_reply_liked_by_user(reply_id, user_id)
-    #         return (reply_id, is_liked)
-    #     else:
-    #         return (reply_id, False)
-
-    #liked_by_user = dict(map(is_reply_liked, reply_data.items))
-    #like_stats = dict(map(get_reply_like_count, reply_data.items))
-
-    # return select value
     return post
 
 
